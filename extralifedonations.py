@@ -23,17 +23,17 @@ while True:
     print (time.strftime("%H:%M:%S"))
 
     totalRaised=CurrencySymbol+str(participantJSON['totalRaisedAmount'])
-    f = open(textFolder+'totalRaised', 'w')
+    f = open(textFolder+'totalRaised.txt', 'w')
     f.write(totalRaised)
     f.close
 
     goal=CurrencySymbol+str(participantJSON['fundraisingGoal'])
-    f = open(textFolder+'goal', 'w')
+    f = open(textFolder+'goal.txt', 'w')
     f.write(goal)
     f.close
 
     LastDonorNameAmnt=str(donorJSON[0]['donorName'])+" - "+CurrencySymbol+str(donorJSON[0]['donationAmount'])
-    f = open(textFolder+'LastDonorNameAmnt', 'w')
+    f = open(textFolder+'LastDonorNameAmnt.txt', 'w')
     f.write(LastDonorNameAmnt)
     f.close
 
@@ -44,7 +44,7 @@ while True:
         if int(donorJSON[donor]['donationAmount'])>int(donorJSON[TopDonorIndex]['donationAmount']):
             TopDonorIndex=donor
         TopDonorNameAmnt=str(donorJSON[TopDonorIndex]['donorName'])+" - "+CurrencySymbol+str(donorJSON[TopDonorIndex]['donationAmount'])
-    f = open(textFolder+'TopDonorNameAmnt', 'w')
+    f = open(textFolder+'TopDonorNameAmnt.txt', 'w')
     f.write(TopDonorNameAmnt)
     f.close
 
@@ -54,7 +54,7 @@ while True:
         last5DonorNameAmts=last5DonorNameAmts+str(donorJSON[donor]['donorName'])+" - "+CurrencySymbol+str(donorJSON[donor]['donationAmount'])+"\n"
         if donor==4:
             break
-    f = open(textFolder+'last5DonorNameAmts', 'w')
+    f = open(textFolder+'last5DonorNameAmts.txt', 'w')
     f.write(last5DonorNameAmts)
     f.close
     
