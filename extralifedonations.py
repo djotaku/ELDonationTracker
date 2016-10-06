@@ -3,7 +3,7 @@ import urllib2
 import time
 
 #variables to change
-ExtraLifeID=146278
+ExtraLifeID=196184
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
 
@@ -41,7 +41,10 @@ while True:
     TopDonorIndex=0
     TopDonorNameAmnt=""
     for donor in range(0,len(donorJSON)):
-        if int(donorJSON[donor]['donationAmount'])>int(donorJSON[TopDonorIndex]['donationAmount']):
+        #need to deal with donations where they hid the donationAmount
+        if donorJSON[donor]['donationAmount'] == None:
+            print "skipping a null donation amount"
+        elif int(donorJSON[donor]['donationAmount'])>int(donorJSON[TopDonorIndex]['donationAmount']):
             TopDonorIndex=donor
         TopDonorNameAmnt=str(donorJSON[TopDonorIndex]['donorName'])+" - "+CurrencySymbol+str(donorJSON[TopDonorIndex]['donationAmount'])
     f = open(textFolder+'TopDonorNameAmnt.txt', 'w')
@@ -58,5 +61,5 @@ while True:
     f.write(last5DonorNameAmts)
     f.close
     
-    time.sleep(30)
+    time.sleep(120)
 #end loop
