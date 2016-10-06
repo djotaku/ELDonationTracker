@@ -6,10 +6,13 @@ import time
 ExtraLifeID=196184
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
+TeamID=27284
 
 #create URLs
 participant="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID="+str(ExtraLifeID)+"&format=json"
 donors="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID="+str(ExtraLifeID)+"&format=json"
+team="http://http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID="+str(TeamID)+"&format=json"
+teamroster="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.teamParticipants"+str(TeamID)+"&format=json"
 
 #this part needs to be in a loop
 while True:
