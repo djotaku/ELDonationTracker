@@ -6,7 +6,7 @@ import time
 ExtraLifeID=196184
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
-TeamID=27284 #change to TeamID=None if you aren't in a team
+TeamID=None#27284 #change to TeamID=None if you aren't in a team
 
 #create URLs
 participant="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID="+str(ExtraLifeID)+"&format=json"
