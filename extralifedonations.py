@@ -28,17 +28,17 @@ while True:
     #print str(donorJSON)+"\n\n"
     print (time.strftime("%H:%M:%S"))
 
-    totalRaised=CurrencySymbol+str(participantJSON['totalRaisedAmount'])
+    totalRaised=CurrencySymbol+'{:.2f}'.format(participantJSON['totalRaisedAmount'])
     f = open(textFolder+'totalRaised.txt', 'w')
     f.write(totalRaised)
     f.close
 
-    goal=CurrencySymbol+str(participantJSON['fundraisingGoal'])
+    goal=CurrencySymbol+'{:.2f}'.format(participantJSON['fundraisingGoal'])
     f = open(textFolder+'goal.txt', 'w')
     f.write(goal)
     f.close
 
-    LastDonorNameAmnt=str(donorJSON[0]['donorName'])+" - "+CurrencySymbol+str(donorJSON[0]['donationAmount'])
+    LastDonorNameAmnt=str(donorJSON[0]['donorName'])+" - "+CurrencySymbol+'{:.2f}'.format(donorJSON[0]['donationAmount'])
     f = open(textFolder+'LastDonorNameAmnt.txt', 'w')
     f.write(LastDonorNameAmnt)
     f.close
@@ -52,7 +52,7 @@ while True:
             print "skipping a null donation amount"
         elif int(donorJSON[donor]['donationAmount'])>int(donorJSON[TopDonorIndex]['donationAmount']):
             TopDonorIndex=donor
-        TopDonorNameAmnt=str(donorJSON[TopDonorIndex]['donorName'])+" - "+CurrencySymbol+str(donorJSON[TopDonorIndex]['donationAmount'])
+        TopDonorNameAmnt=str(donorJSON[TopDonorIndex]['donorName'])+" - "+CurrencySymbol+'{:.2f}'.format(donorJSON[TopDonorIndex]['donationAmount'])
     f = open(textFolder+'TopDonorNameAmnt.txt', 'w')
     f.write(TopDonorNameAmnt)
     f.close
@@ -60,7 +60,7 @@ while True:
 
     last5DonorNameAmts=""
     for donor in range(0, len(donorJSON)):
-        last5DonorNameAmts=last5DonorNameAmts+str(donorJSON[donor]['donorName'])+" - "+CurrencySymbol+str(donorJSON[donor]['donationAmount'])+"\n"
+        last5DonorNameAmts=last5DonorNameAmts+str(donorJSON[donor]['donorName'])+" - "+CurrencySymbol+str(donorJSON[donor]['donationAmount'])+"0\n"
         if donor==4:
             break
     f = open(textFolder+'last5DonorNameAmts.txt', 'w')
@@ -69,12 +69,12 @@ while True:
     
     #team stuff
     if TeamID != None:
-        TeamGoal=CurrencySymbol+str(teamJSON['fundraisingGoal'])
+        TeamGoal=CurrencySymbol+'{:.2f}'.format(teamJSON['fundraisingGoal'])
         f = open(textFolder+'TeamGoal.txt', 'w')
         f.write(TeamGoal)
         f.close
         
-        TeamTotalRaised=CurrencySymbol+str(teamJSON['totalRaisedAmount'])
+        TeamTotalRaised=CurrencySymbol+'{:.2f}'.format(teamJSON['totalRaisedAmount'])
         f = open(textFolder+'TeamTotalRaised.txt', 'w')
         f.write(TeamTotalRaised)
         f.close
