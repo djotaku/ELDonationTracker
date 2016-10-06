@@ -6,7 +6,7 @@ import time
 ExtraLifeID=196184
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
-TeamID=None#27284 #change to TeamID=None if you aren't in a team
+TeamID=27284 #change to TeamID=None if you aren't in a team
 
 #create URLs
 participant="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID="+str(ExtraLifeID)+"&format=json"
@@ -66,6 +66,18 @@ while True:
     f = open(textFolder+'last5DonorNameAmts.txt', 'w')
     f.write(last5DonorNameAmts)
     f.close
+    
+    #team stuff
+    if TeamID != None:
+        TeamGoal=CurrencySymbol+str(teamJSON['fundraisingGoal'])
+        f = open(textFolder+'TeamGoal.txt', 'w')
+        f.write(TeamGoal)
+        f.close
+        
+        TeamTotalRaised=CurrencySymbol+str(teamJSON['totalRaisedAmount'])
+        f = open(textFolder+'TeamTotalRaised.txt', 'w')
+        f.write(TeamTotalRaised)
+        f.close
     
     time.sleep(120)
 #end loop
