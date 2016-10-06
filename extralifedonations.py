@@ -6,19 +6,22 @@ import time
 ExtraLifeID=196184
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
-TeamID=27284
+TeamID=27284 #change to TeamID=None if you aren't in a team
 
 #create URLs
 participant="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID="+str(ExtraLifeID)+"&format=json"
 donors="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID="+str(ExtraLifeID)+"&format=json"
-team="http://http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID="+str(TeamID)+"&format=json"
-teamroster="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.teamParticipants"+str(TeamID)+"&format=json"
+team="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID="+str(TeamID)+"&format=json"
+teamroster="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.teamParticipants&teamID="+str(TeamID)+"&format=json"
 
 #this part needs to be in a loop
 while True:
     #Get the Info
     participantJSON=json.load(urllib2.urlopen(participant))
     donorJSON=json.load(urllib2.urlopen(donors))
+    if TeamID != None:
+        teamJSON=json.load(urllib2.urlopen(team))
+        teamrosterJSON=json.load(urllib2.urlopen(teamroster))
 
     #fordebug
     #print str(participantJSON)+"\n\n"
