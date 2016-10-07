@@ -1,0 +1,3 @@
+QT GUI
+GTK+3 GUI
+I will not create a Windows GUI, but I'm open to merging code if someone else wants to. Same for OSX.

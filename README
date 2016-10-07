@@ -1,1 +1,10 @@
-you need to change the variables in #variables to change. Should then work just fine. Right now I just did the ones I use. Need to add more of them. Willing to accept help.
+To run:
+
+python extralifedonations.py
+
+First you should edit the variables in the section called "variables to change".
+
+Take note that TeamID should be set to None (no quotation marks) if you've not on a team.
+
+If you want support for other configurations, please open an issue.
+
