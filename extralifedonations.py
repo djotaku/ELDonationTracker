@@ -4,7 +4,7 @@ import time
 
 #variables to change
 ExtraLifeID=297674
-textFolder="/home/ermesa/Dropbox/ELtracker"
+textFolder="/home/ermesa/Dropbox/ELtracker/"
 #textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
 TeamID=None #change to TeamID=None if you aren't in a team
