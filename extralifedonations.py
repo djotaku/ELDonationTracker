@@ -4,7 +4,8 @@ import time
 
 #variables to change
 ExtraLifeID=297674
-textFolder="/home/ermesa/Streaming Overlays/donations/"
+textFolder="/home/ermesa/Dropbox/ELtracker"
+#textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
 TeamID=None #change to TeamID=None if you aren't in a team
 
@@ -87,4 +88,4 @@ if __name__=="__main__":
             TheTeamGoal(teamJSON)
             TheTeamTotalRaised(teamJSON)
         
-        time.sleep(120)
+        time.sleep(30)
