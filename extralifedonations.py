@@ -6,13 +6,16 @@ import time
 ExtraLifeID=196184
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
-TeamID=27284 #change to TeamID=None if you aren't in a team
+TeamID=None #change to TeamID=None if you aren't in a team
 
 #create URLs
-participant="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID="+str(ExtraLifeID)+"&format=json"
-donors="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID="+str(ExtraLifeID)+"&format=json"
-team="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID="+str(TeamID)+"&format=json"
-teamroster="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.teamParticipants&teamID="+str(TeamID)+"&format=json"
+participant="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)
+donors="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)+"/donations"
+team="http://www.extra-life.org/api/teams/"+str(TeamID)
+#I'll get back to this one
+#teamroster="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.teamParticipants&teamID="+str(TeamID)+"&format=json"
+
+#api info at https://github.com/DonorDrive/PublicAPI
 
 def writetofile(info,filename):
     "Handles all the file writes"
@@ -22,7 +25,7 @@ def writetofile(info,filename):
 
 
 def ParticpantTotalRaised(JSON):
-    totalRaised=CurrencySymbol+'{:.2f}'.format(JSON['totalRaisedAmount'])
+    totalRaised=CurrencySymbol+'{:.2f}'.format(JSON['sumDonations'])
     writetofile(totalRaised,"totalRaised.txt")
 
 def ParticipantGoal(JSON):
@@ -30,7 +33,7 @@ def ParticipantGoal(JSON):
     writetofile(goal,"goal.txt")
     
 def ParticipantLastDonorNameAmnt(JSON):
-    LastDonorNameAmnt=str(JSON[0]['donorName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[0]['donationAmount'])
+    LastDonorNameAmnt=str(JSON[0]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[0]['amount'])
     writetofile(LastDonorNameAmnt,"LastDonorNameAmnt.txt")
 
 def ParticipantTopDonor(JSON):
@@ -38,17 +41,17 @@ def ParticipantTopDonor(JSON):
     TopDonorNameAmnt=""
     for donor in range(0,len(JSON)):
         #need to deal with donations where they hid the donationAmount
-        if JSON[donor]['donationAmount'] == None:
+        if JSON[donor]['amount'] == None:
             print "skipping a null donation amount"
-        elif int(JSON[donor]['donationAmount'])>int(JSON[TopDonorIndex]['donationAmount']):
+        elif int(JSON[donor]['amount'])>int(JSON[TopDonorIndex]['amount']):
             TopDonorIndex=donor
-        TopDonorNameAmnt=str(JSON[TopDonorIndex]['donorName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[TopDonorIndex]['donationAmount'])
+        TopDonorNameAmnt=str(JSON[TopDonorIndex]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[TopDonorIndex]['amount'])
     writetofile(TopDonorNameAmnt,"TopDonorNameAmnt.txt")
 
 def Participantlast5DonorNameAmts(JSON):
     last5DonorNameAmts=""
     for donor in range(0, len(JSON)):
-        last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['donorName'])+" - "+CurrencySymbol+str(JSON[donor]['donationAmount'])+"0\n"
+        last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+"0\n"
         if donor==4:
             break
     writetofile(last5DonorNameAmts,"last5DonorNameAmts.txt")
@@ -58,7 +61,7 @@ def TheTeamGoal(JSON):
     writetofile(TeamGoal,"TeamGoal.txt")
     
 def TheTeamTotalRaised(JSON):
-    TeamTotalRaised=CurrencySymbol+'{:.2f}'.format(JSON['totalRaisedAmount'])
+    TeamTotalRaised=CurrencySymbol+'{:.2f}'.format(JSON['sumDonations'])
     writetofile(TeamTotalRaised,"TeamTotalRaised.txt")
 #this part needs to be in a loop
 
