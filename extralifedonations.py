@@ -3,7 +3,7 @@ import urllib2
 import time
 
 #variables to change
-ExtraLifeID=196184
+ExtraLifeID=297674
 textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
 TeamID=None #change to TeamID=None if you aren't in a team
