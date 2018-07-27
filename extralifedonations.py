@@ -18,6 +18,9 @@ team="http://www.extra-life.org/api/teams/"+str(TeamID)
 
 #api info at https://github.com/DonorDrive/PublicAPI
 
+NumberofDonations = 0
+NewNumberofDonations = 0
+
 def writetofile(info,filename):
     "Handles all the file writes"
     f = open(textFolder+filename, 'w')
@@ -64,28 +67,42 @@ def TheTeamGoal(JSON):
 def TheTeamTotalRaised(JSON):
     TeamTotalRaised=CurrencySymbol+'{:.2f}'.format(JSON['sumDonations'])
     writetofile(TeamTotalRaised,"TeamTotalRaised.txt")
-#this part needs to be in a loop
+    
+def CountDonors(JSON):
+    return int(JSON['numDonations'])
+
+def ParticipantLoop():
+    ParticpantTotalRaised(participantJSON)
+    ParticipantGoal(participantJSON)
+    ParticipantLastDonorNameAmnt(donorJSON)
+    ParticipantTopDonor(donorJSON)
+    Participantlast5DonorNameAmts(donorJSON)
+
+def TeamLoop():
+    if TeamID != None:
+        teamJSON=json.load(urllib2.urlopen(team))
+        teamrosterJSON=json.load(urllib2.urlopen(teamroster))
+        TheTeamGoal(teamJSON)
+        TheTeamTotalRaised(teamJSON)
 
 if __name__=="__main__":
     print "It's GO TIME!"
+    participantJSON=json.load(urllib2.urlopen(participant))
+    donorJSON=json.load(urllib2.urlopen(donors))
+    print (time.strftime("%H:%M:%S"))
+    ParticipantLoop()
+    TeamLoop()
+    NumberofDonations = CountDonors(participantJSON)
+    NewNumberofDonations = NumberofDonations
+    
     while True:
-        
-        #participant stuff
-        participantJSON=json.load(urllib2.urlopen(participant))
-        donorJSON=json.load(urllib2.urlopen(donors))
-
         print (time.strftime("%H:%M:%S"))
-        
-        ParticpantTotalRaised(participantJSON)
-        ParticipantGoal(participantJSON)
-        ParticipantLastDonorNameAmnt(donorJSON)
-        ParticipantTopDonor(donorJSON)
-        Participantlast5DonorNameAmts(donorJSON)
-        
-        if TeamID != None:
-            teamJSON=json.load(urllib2.urlopen(team))
-            teamrosterJSON=json.load(urllib2.urlopen(teamroster))
-            TheTeamGoal(teamJSON)
-            TheTeamTotalRaised(teamJSON)
-        
+        participantJSON=json.load(urllib2.urlopen(participant))
+        NewNumberofDonations = CountDonors(participantJSON)
+        if NewNumberofDonations > NumberofDonations:
+            #for debugging
+            print "We got a new donor!"
+            donorJSON=json.load(urllib2.urlopen(donors))
+            ParticipantLoop()
+            TeamLoop()
         time.sleep(30)
