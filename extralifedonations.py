@@ -61,7 +61,8 @@ def Participantlast5DonorNameAmts(JSON):
 def Participantlast5DonorNameAmtsMessage(JSON):
     last5DonorNameAmts=""
     for donor in range(0, len(JSON)):
-        last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+" - "#+str(JSON[donor]['message'])+"  |  "
+        last5DonorNameAmts="%s - %s%.2f \n" % (last5DonorNameAmts+str(JSON[donor]['displayName']), CurrencySymbol,(JSON[donor]['amount']))#+str(JSON[donor]['message'])+"  |  "
+        #last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+" - "#+str(JSON[donor]['message'])+"  |  "
         if donor==4:
             break
         writetofile(last5DonorNameAmts,"last5DonorNameAmtsMessage.txt")
