@@ -1,6 +1,7 @@
 import json
 import urllib2
 import time
+import unicodedata
 
 #variables to change
 ExtraLifeID=297674
@@ -61,8 +62,7 @@ def Participantlast5DonorNameAmts(JSON):
 def Participantlast5DonorNameAmtsMessage(JSON):
     last5DonorNameAmts=""
     for donor in range(0, len(JSON)):
-        last5DonorNameAmts="%s%s - %s%.2f - \n" % (last5DonorNameAmts, str(JSON[donor]['displayName']), CurrencySymbol,(JSON[donor]['amount']))#+str(JSON[donor]['message'])+"  |  "
-        #last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+" - "#+str(JSON[donor]['message'])+"  |  "
+        last5DonorNameAmts="%s%s - %s%.2f - %s\n" % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],unicodedata.normalize('NFKD',JSON[donor]['message']).encode('ascii','ignore'))
         if donor==4:
             break
         writetofile(last5DonorNameAmts,"last5DonorNameAmtsMessage.txt")
@@ -71,7 +71,7 @@ def  Participantlast5DonorNameAmtsMessageHorizontal(JSON):
     # This is for a scrolling type update in OBS or XSplit
     last5DonorNameAmts=""
     for donor in range(0, len(JSON)):
-        last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+" - "#+str(JSON[donor]['message'])+"  |  "
+        last5DonorNameAmts="%s%s - %s%.2f - %s | " % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],unicodedata.normalize('NFKD',JSON[donor]['message']).encode('ascii','ignore'))
         if donor==4:
             break
     writetofile(last5DonorNameAmts,"last5DonorNameAmtsMessageHorizontal.txt")
