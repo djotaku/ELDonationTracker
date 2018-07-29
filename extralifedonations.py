@@ -13,8 +13,6 @@ TeamID=None #change to TeamID=None if you aren't in a team
 participant="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)
 donors="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)+"/donations"
 team="http://www.extra-life.org/api/teams/"+str(TeamID)
-#I'll get back to this one
-#teamroster="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.teamParticipants&teamID="+str(TeamID)+"&format=json"
 
 #api info at https://github.com/DonorDrive/PublicAPI
 
@@ -81,7 +79,6 @@ def ParticipantLoop():
 def TeamLoop():
     if TeamID != None:
         teamJSON=json.load(urllib2.urlopen(team))
-        teamrosterJSON=json.load(urllib2.urlopen(teamroster))
         TheTeamGoal(teamJSON)
         TheTeamTotalRaised(teamJSON)
 
