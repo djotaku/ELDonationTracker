@@ -107,7 +107,7 @@ def TeamLoop():
         TheTeamGoal(teamJSON)
         TheTeamTotalRaised(teamJSON)
 
-if __name__=="__main__":
+def main():
     print "It's GO TIME!"
     participantJSON=json.load(urllib2.urlopen(participant))
     donorJSON=json.load(urllib2.urlopen(donors))
@@ -128,3 +128,7 @@ if __name__=="__main__":
             ParticipantLoop()
             TeamLoop()
         time.sleep(30)
+
+
+if __name__=="__main__":
+    main()
