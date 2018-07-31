@@ -1,48 +1,65 @@
-import extralifedonations
 
-def writetofile(info,filename):
-    "Handles all the file writes"
-    f = open(extralifedonations.textFolder+filename, 'w')
-    f.write(info)
-    f.close
+class tracker:
     
+    def writetofile(self,info,filename):
+        "Handles all the file writes"
+        f = open(self.textFolder+filename, 'w')
+        f.write(info)
+        f.close
+        
+    def readfromfile(self,filename):
+        f = open(self.textFolder+filename, 'r')
+        if f.mode == 'r':
+            return f.read()
+        f.close   
 
-def readfromfile(filename):
-    f = open(extralifedonations.textFolder+filename, 'r')
-    if f.mode == 'r':
-        return f.read()
-    f.close
-    
-class tracker():
-    def __init__(self):
+    def __init__(self, textFolder):
+        self.textFolder=textFolder
         page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY></BODY></HTML>"
-        writetofile(page, "tracker.html")
+        self.writetofile(page, "tracker.html")
+
+
 
     def updatetrackerwithdonation(self):
-        page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY><h1>New donation from %s</h1> </BODY></HTML>" % readfromfile("LastDonorNameAmnt.txt")
-        writetofile(page, "tracker.html")
+        page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY><h1>New donation from %s</h1> </BODY></HTML>" % self.readfromfile("LastDonorNameAmnt.txt")
+        self.writetofile(page, "tracker.html")
 
 
     def updatetrackerafterdonation(self):
         page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY></BODY></HTML>"
-        writetofile(page, "tracker.html")
+        self.writetofile(page, "tracker.html")
 
-class MainPage():
-    def __init__(self):
+class MainPage:
+    
+    def writetofile(self,info,filename):
+        "Handles all the file writes"
+        f = open(self.textFolder+filename, 'w')
+        f.write(info)
+        f.close
+        
+    def readfromfile(self,filename):
+        f = open(self.textFolder+filename, 'r')
+        if f.mode == 'r':
+            return f.read()
+        f.close   
+    
+    
+    def __init__(self, textFolder):
+        self.textFolder=textFolder
         page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY></BODY></HTML>"
-        writetofile(page, "mainpage.html")
+        self.writetofile(page, "mainpage.html")
     
     def updatemainpage(self):
-        LastDonation = readfromfile("LastDonorNameAmnt.txt")
-        TopDonation = readfromfile("TopDonorNameAmnt.txt")
-        TotalRaised = readfromfile("totalRaised.txt")
-        Goal = readfromfile("goal.txt")
-        TotNumDonations = extralifedonations.CountDonors(extralifedonations.participantJSON)
+        LastDonation = self.readfromfile("LastDonorNameAmnt.txt")
+        TopDonation = self.readfromfile("TopDonorNameAmnt.txt")
+        TotalRaised = self.readfromfile("totalRaised.txt")
+        Goal = self.readfromfile("goal.txt")
+        TotNumDonations = " "
         AvgDonation = " "
         TeamTotal = " "
         TeamGoal = " "
         TopTeamParticipant = " "
-        RecentDonations = readfromfile("last5DonorNameAmts.txt")
+        RecentDonations = self.readfromfile("last5DonorNameAmts.txt")
         Top5TeamParticipants  = " "
         page = """<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY>
         
@@ -59,9 +76,10 @@ class MainPage():
         <br>Top 5 Team Participants: %s
         
         </BODY></HTML>""" % (LastDonation, TopDonation, TotalRaised, Goal, TotNumDonations, AvgDonation, TeamTotal, TeamGoal, TopTeamParticipant, RecentDonations, Top5TeamParticipants)
-        writetofile(page, "mainpage.html")
+        self.writetofile(page, "mainpage.html")
     
     
 if __name__=="__main__":
-    tracker1 = tracker()
-    mainpage = MainPage()
+    tracker1 = tracker("/home/ermesa/Dropbox/ELtracker/")
+    mainpage = MainPage("/home/ermesa/Dropbox/ELtracker/")
+
