@@ -16,6 +16,9 @@ donors="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)+"/donation
 team="http://www.extra-life.org/api/teams/"+str(TeamID)
 
 #api info at https://github.com/DonorDrive/PublicAPI
+participantJSON=json.load(urllib2.urlopen(participant))
+donorJSON=json.load(urllib2.urlopen(donors))
+
 
 NumberofDonations = 0
 NewNumberofDonations = 0
@@ -127,6 +130,7 @@ def main():
             donorJSON=json.load(urllib2.urlopen(donors))
             ParticipantLoop()
             TeamLoop()
+            NumberofDonations = NewNumberofDonations
         time.sleep(30)
 
 

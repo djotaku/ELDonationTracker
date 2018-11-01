@@ -1,4 +1,3 @@
-
 class tracker:
     
     def writetofile(self,info,filename):
