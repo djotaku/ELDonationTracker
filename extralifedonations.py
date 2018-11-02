@@ -16,8 +16,8 @@ donors="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)+"/donation
 team="http://www.extra-life.org/api/teams/"+str(TeamID)
 
 #api info at https://github.com/DonorDrive/PublicAPI
-participantJSON=json.load(urllib2.urlopen(participant))
-donorJSON=json.load(urllib2.urlopen(donors))
+#participantJSON=json.load(urllib2.urlopen(participant))
+#donorJSON=json.load(urllib2.urlopen(donors))
 
 
 NumberofDonations = 0
@@ -102,6 +102,8 @@ def CountDonors(JSON):
 #***** LOOPS ******* 
 
 def ParticipantLoop():
+    participantJSON=json.load(urllib2.urlopen(participant))
+    donorJSON=json.load(urllib2.urlopen(donors))
     ParticpantTotalRaised(participantJSON)
     ParticipantGoal(participantJSON)
     ParticipantLastDonorNameAmnt(donorJSON)
@@ -118,11 +120,10 @@ def TeamLoop():
 
 def main():
     print "It's GO TIME!"
-    participantJSON=json.load(urllib2.urlopen(participant))
-    donorJSON=json.load(urllib2.urlopen(donors))
     print (time.strftime("%H:%M:%S"))
     ParticipantLoop()
     TeamLoop()
+    participantJSON=json.load(urllib2.urlopen(participant))    
     NumberofDonations = CountDonors(participantJSON)
     NewNumberofDonations = NumberofDonations
     
@@ -133,10 +134,9 @@ def main():
         if NewNumberofDonations > NumberofDonations:
             #for debugging
             print "We got a new donor!"
-            donorJSON=json.load(urllib2.urlopen(donors))
+            NumberofDonations = NewNumberofDonations
             ParticipantLoop()
             TeamLoop()
-            NumberofDonations = NewNumberofDonations
         time.sleep(30)
 
 
