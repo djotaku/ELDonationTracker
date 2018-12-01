@@ -29,18 +29,24 @@ def writetofile(info,filename):
     f.write(info)
     f.close
 
+def writetofiletuple(tuple):
+    "Handles all the file writes"
+    f = open(textFolder+tuple[1], 'w')
+    f.write(tuple[0])
+    f.close
+
 #****** Participant INFO *******
 def ParticpantTotalRaised(JSON):
     totalRaised=CurrencySymbol+'{:.2f}'.format(JSON['sumDonations'])
-    writetofile(totalRaised,"totalRaised.txt")
+    return(totalRaised,"totalRaised.txt")
 
 def ParticipantGoal(JSON):
     goal=CurrencySymbol+'{:.2f}'.format(JSON['fundraisingGoal'])
-    writetofile(goal,"goal.txt")
+    return(goal,"goal.txt")
     
 def ParticipantLastDonorNameAmnt(JSON):
     LastDonorNameAmnt=str(JSON[0]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[0]['amount'])
-    writetofile(LastDonorNameAmnt,"LastDonorNameAmnt.txt")
+    return(LastDonorNameAmnt,"LastDonorNameAmnt.txt")
 
 def ParticipantTopDonor(JSON):
     TopDonorIndex=0
@@ -104,9 +110,9 @@ def CountDonors(JSON):
 def ParticipantLoop():
     participantJSON=json.load(urllib.request.urlopen(participant))
     donorJSON=json.load(urllib.request.urlopen(donors))
-    ParticpantTotalRaised(participantJSON)
-    ParticipantGoal(participantJSON)
-    ParticipantLastDonorNameAmnt(donorJSON)
+    writetofiletuple(ParticpantTotalRaised(participantJSON))
+    writetofiletuple(ParticipantGoal(participantJSON))
+    writetofiletuple(ParticipantLastDonorNameAmnt(donorJSON))
     ParticipantTopDonor(donorJSON)
     Participantlast5DonorNameAmts(donorJSON)
     Participantlast5DonorNameAmtsMessage(donorJSON)
