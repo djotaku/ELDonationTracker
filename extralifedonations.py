@@ -1,5 +1,5 @@
 import json
-import urllib2
+import urllib.request
 import time
 import unicodedata
 
@@ -16,8 +16,6 @@ donors="http://www.extra-life.org/api/participants/"+str(ExtraLifeID)+"/donation
 team="http://www.extra-life.org/api/teams/"+str(TeamID)
 
 #api info at https://github.com/DonorDrive/PublicAPI
-#participantJSON=json.load(urllib2.urlopen(participant))
-#donorJSON=json.load(urllib2.urlopen(donors))
 
 
 NumberofDonations = 0
@@ -48,7 +46,7 @@ def ParticipantTopDonor(JSON):
     for donor in range(0,len(JSON)):
         #need to deal with donations where they hid the donationAmount
         if JSON[donor]['amount'] == None:
-            print "skipping a null donation amount"
+            print("skipping a null donation amount")
         elif int(JSON[donor]['amount'])>int(JSON[TopDonorIndex]['amount']):
             TopDonorIndex=donor
         TopDonorNameAmnt=str(JSON[TopDonorIndex]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[TopDonorIndex]['amount'])
@@ -102,8 +100,8 @@ def CountDonors(JSON):
 #***** LOOPS ******* 
 
 def ParticipantLoop():
-    participantJSON=json.load(urllib2.urlopen(participant))
-    donorJSON=json.load(urllib2.urlopen(donors))
+    participantJSON=json.load(urllib.request.urlopen(participant))
+    donorJSON=json.load(urllib.request.urlopen(donors))
     ParticpantTotalRaised(participantJSON)
     ParticipantGoal(participantJSON)
     ParticipantLastDonorNameAmnt(donorJSON)
@@ -114,26 +112,26 @@ def ParticipantLoop():
 
 def TeamLoop():
     if TeamID != None:
-        teamJSON=json.load(urllib2.urlopen(team))
+        teamJSON=json.load(urllib.request.urlopen(team))
         TheTeamGoal(teamJSON)
         TheTeamTotalRaised(teamJSON)
 
 def main():
-    print "It's GO TIME!"
+    print ("It's GO TIME!")
     print (time.strftime("%H:%M:%S"))
     ParticipantLoop()
     TeamLoop()
-    participantJSON=json.load(urllib2.urlopen(participant))    
+    participantJSON=json.load(urllib.request.urlopen(participant))    
     NumberofDonations = CountDonors(participantJSON)
     NewNumberofDonations = NumberofDonations
     
     while True:
         print (time.strftime("%H:%M:%S"))
-        participantJSON=json.load(urllib2.urlopen(participant))
+        participantJSON=json.load(urllib.request.urlopen(participant))
         NewNumberofDonations = CountDonors(participantJSON)
         if NewNumberofDonations > NumberofDonations:
             #for debugging
-            print "We got a new donor!"
+            print("We got a new donor!")
             NumberofDonations = NewNumberofDonations
             ParticipantLoop()
             TeamLoop()
