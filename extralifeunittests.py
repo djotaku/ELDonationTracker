@@ -24,9 +24,39 @@ class regressionTestCase(unittest.TestCase):
     def test_ParticipantLastDonorNameAmnt(self):
         self.assertEqual(extralifedonations.ParticipantLastDonorNameAmnt(self.donationsJSON)[0],"Eric Mesa - $2.00")
     
+    def test_ParticipantTopDonor(self):
+        self.assertEqual(extralifedonations.ParticipantTopDonor(self.donationsJSON)[0], "Katie and Dan - $126.00")
+        
+    def test_Participantlast5DonorNameAmts(self):
+        self.assertEqual(extralifedonations.Participantlast5DonorNameAmts(self.donationsJSON)[0],'''Eric Mesa - $2.00\nEric Mesa - $50.00\nDavid Mesa - $2.00\nKatie and Dan - $126.00\nDavid Mesa - $100.00\n''')
+        
+    def test_Participantlast5DonorNameAmtsMessage(self):
+        self.maxDiff = None
+        print(extralifedonations.Participantlast5DonorNameAmtsMessage(self.donationsJSON))
+        self.assertEqual(extralifedonations.Participantlast5DonorNameAmtsMessage(self.donationsJSON)[0],'''Eric Mesa - $2.00 - b'"trying to fix a bug in my code"'\nEric Mesa - $50.00 - b'"Matching for $50 of Dave\\\'s $100"'\nDavid Mesa - $2.00 - b"It's not pretty, but I'll admit it.  I'm a one-upper."\nKatie and Dan - $126.00 - \nDavid Mesa - $100.00 - \n''')
+    
+    def test_Participantlast5DonorNameAmtsMessageHorizontal(self):
+        self.maxDiff = None
+        self.assertEqual(extralifedonations.Participantlast5DonorNameAmtsMessageHorizontal(self.donationsJSON)[0],'''Eric Mesa - $2.00 - b'"trying to fix a bug in my code"' | Eric Mesa - $50.00 - b'"Matching for $50 of Dave\\\'s $100"' | David Mesa - $2.00 - b"It's not pretty, but I'll admit it.  I'm a one-upper." | Katie and Dan - $126.00 -  | David Mesa - $100.00 -  | ''')
+    
     def tearDown(self):
         print("tearing up")
     
+
+class emptyfieldsTestCase(unittest.TestCase):
+    #this will use custom JSONs to test various cases where a field is empty - names, donation amounts, or donation messages
+    print('test case')
+    
+    
+class specialcharactersTestCase(unittest.TestCase):
+    #this will test special characters in names or donation messages. Should test: spanish punctuation, asian characters, emojis
+    print('test case')
+
+class sortingTestCase(unittest.TestCase):
+    #this will test that the largest donation can be found. Should test the basic case of integers as well as testing when the difference is in the decimals
+    print('test case')
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
 
@@ -34,3 +64,5 @@ if __name__ == '__main__':
 #for ParticipantLastDonorNameAmnt and any function that reads in names - can the names have characters outside ascii? what about emojis?
 #for ParticipantLastDonorNameAmnt and any functions that deal with donations amounts - can they deal with a hidden donation amount? (it will be None in the JSON)
 #in any of the functions that print messages - can they deal with emojis and characters outside ascii?
+
+#for generic tests, same as above; does it order the names correctly if the difference is in the decimal places; dealing with lots of donations

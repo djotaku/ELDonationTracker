@@ -58,7 +58,7 @@ def ParticipantTopDonor(JSON):
         elif int(JSON[donor]['amount'])>int(JSON[TopDonorIndex]['amount']):
             TopDonorIndex=donor
         TopDonorNameAmnt=str(JSON[TopDonorIndex]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[TopDonorIndex]['amount'])
-    writetofile(TopDonorNameAmnt,"TopDonorNameAmnt.txt")
+    return(TopDonorNameAmnt,"TopDonorNameAmnt.txt")
 
 def Participantlast5DonorNameAmts(JSON):
     last5DonorNameAmts=""
@@ -66,7 +66,7 @@ def Participantlast5DonorNameAmts(JSON):
         last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+"0\n"
         if donor==4:
             break
-    writetofile(last5DonorNameAmts,"last5DonorNameAmts.txt")
+    return(last5DonorNameAmts,"last5DonorNameAmts.txt")
 
 def Participantlast5DonorNameAmtsMessage(JSON):
     last5DonorNameAmts=""
@@ -77,7 +77,7 @@ def Participantlast5DonorNameAmtsMessage(JSON):
             last5DonorNameAmts="%s%s - %s%.2f - %s\n" % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],"")
         if donor==4:
             break
-        writetofile(last5DonorNameAmts,"last5DonorNameAmtsMessage.txt")
+    return(last5DonorNameAmts,"last5DonorNameAmtsMessage.txt")
         
 def  Participantlast5DonorNameAmtsMessageHorizontal(JSON):   
     # This is for a scrolling type update in OBS or XSplit
@@ -89,7 +89,7 @@ def  Participantlast5DonorNameAmtsMessageHorizontal(JSON):
             last5DonorNameAmts="%s%s - %s%.2f - %s | " % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],"")
         if donor==4:
             break
-    writetofile(last5DonorNameAmts,"last5DonorNameAmtsMessageHorizontal.txt")
+    return(last5DonorNameAmts,"last5DonorNameAmtsMessageHorizontal.txt")
 
 #****** Team Info *******
 
@@ -113,10 +113,10 @@ def ParticipantLoop():
     writetofiletuple(ParticpantTotalRaised(participantJSON))
     writetofiletuple(ParticipantGoal(participantJSON))
     writetofiletuple(ParticipantLastDonorNameAmnt(donorJSON))
-    ParticipantTopDonor(donorJSON)
-    Participantlast5DonorNameAmts(donorJSON)
-    Participantlast5DonorNameAmtsMessage(donorJSON)
-    Participantlast5DonorNameAmtsMessageHorizontal(donorJSON)
+    writetofiletuple(ParticipantTopDonor(donorJSON))
+    writetofiletuple(Participantlast5DonorNameAmts(donorJSON))
+    writetofiletuple(Participantlast5DonorNameAmtsMessage(donorJSON))
+    writetofiletuple(Participantlast5DonorNameAmtsMessageHorizontal(donorJSON))
 
 def TeamLoop():
     if TeamID != None:
