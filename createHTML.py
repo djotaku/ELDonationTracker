@@ -45,19 +45,15 @@ class MainPage:
     
     def __init__(self, textFolder):
         self.textFolder=textFolder
-        page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY></BODY></HTML>"
-        self.writetofile(page, "mainpage.html")
-    
-    def updatemainpage(self):
         LastDonation = self.readfromfile("LastDonorNameAmnt.txt")
         TopDonation = self.readfromfile("TopDonorNameAmnt.txt")
         TotalRaised = self.readfromfile("totalRaised.txt")
         Goal = self.readfromfile("goal.txt")
-        TotNumDonations = " "
-        AvgDonation = " "
-        TeamTotal = " "
-        TeamGoal = " "
-        TopTeamParticipant = " "
+        TotNumDonations = "Needs a function in extralifedonations to write to a file"
+        AvgDonation = "Needs a function in extralifedonations to write to a file"
+        TeamTotal = "Needs a function in extralifedonations to write to a file"
+        TeamGoal = "Needs a function in extralifedonations to write to a file"
+        TopTeamParticipant = "Needs a function in extralifedonations to write to a file"
         RecentDonations = self.readfromfile("last5DonorNameAmts.txt")
         Top5TeamParticipants  = " "
         page = """<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY>
@@ -81,4 +77,3 @@ class MainPage:
 if __name__=="__main__":
     tracker1 = tracker("/home/ermesa/Dropbox/ELtracker/")
     mainpage = MainPage("/home/ermesa/Dropbox/ELtracker/")
-
