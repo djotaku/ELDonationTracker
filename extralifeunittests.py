@@ -32,7 +32,6 @@ class regressionTestCase(unittest.TestCase):
         
     def test_Participantlast5DonorNameAmtsMessage(self):
         self.maxDiff = None
-        print(extralifedonations.Participantlast5DonorNameAmtsMessage(self.donationsJSON))
         self.assertEqual(extralifedonations.Participantlast5DonorNameAmtsMessage(self.donationsJSON)[0],'''Eric Mesa - $2.00 - b'"trying to fix a bug in my code"'\nEric Mesa - $50.00 - b'"Matching for $50 of Dave\\\'s $100"'\nDavid Mesa - $2.00 - b"It's not pretty, but I'll admit it.  I'm a one-upper."\nKatie and Dan - $126.00 - \nDavid Mesa - $100.00 - \n''')
     
     def test_Participantlast5DonorNameAmtsMessageHorizontal(self):
@@ -45,7 +44,25 @@ class regressionTestCase(unittest.TestCase):
 
 class emptyfieldsTestCase(unittest.TestCase):
     #this will use custom JSONs to test various cases where a field is empty - names, donation amounts, or donation messages
-    print('test case')
+    def setUp(self):
+        f = open('/home/ermesa/bin/python/extralife/testJSON/donations_noname1.json')
+        self.donationsJSON_noname = json.load(f)
+        f.closed
+        
+        self.donationJSON_noamount = None
+        self.donationJSON_nomsg = None
+    
+    def test_NoName_ParticipantLastDonorNameAmnt(self):
+        self.assertEqual(extralifedonations.ParticipantLastDonorNameAmnt(self.donationsJSON_noname)[0],"None - $2.00")
+        
+    def test_NoName_ParticipantTopDonor(self):
+        self.assertEqual(extralifedonations.ParticipantTopDonor(self.donationsJSON_noname)[0],"None - $2.00")
+    
+    def test_NoName_Participantlast5DonorNameAmts(self):
+        self.assertEqual(extralifedonations.Participantlast5DonorNameAmts(self.donationsJSON_noname)[0],"None - $2.00\n")
+        
+    def test_NoName_Participantlast5DonorNameAmtsMessage(self):
+        self.assertEqual(extralifedonations.Participantlast5DonorNameAmtsMessage(self.donationsJSON_noname)[0],'''None - $2.00 - b\'"trying to fix a bug in my code"\'\n''')
     
     
 class specialcharactersTestCase(unittest.TestCase):
