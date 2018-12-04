@@ -8,7 +8,15 @@ First you should edit the variables in the section called "variables to change".
 
 Take note that TeamID should be set to None (no quotation marks) if you're not on a team.
 
-(Currently web page creation is still python 3)
+If you want a webpage you can use as a GUI to do a sanity check on what should be in the donation files, first change the folder at the end in the __main__ section (this should be the same folder you're using for the text files). Then run
+
+python createHTML.py 
+
+Then open mainpage.html at the folder you told it to use. It should update every 15 seconds.
+
+(Currently web page creation is still python 2)
+
+tracker.html part still needs a little work.
 
 If you want support for other configurations, please open an issue.
 
