@@ -1,10 +1,14 @@
 To run:
 
-python extralifedonations.py
+On Linux you should be able to either do ./extrlifedonations.py (although you may need to change the path in the #! line) or 
+
+python3 extralifedonations.py
 
 First you should edit the variables in the section called "variables to change".
 
-Take note that TeamID should be set to None (no quotation marks) if you've not on a team.
+Take note that TeamID should be set to None (no quotation marks) if you're not on a team.
+
+(Currently web page creation is still python 3)
 
 If you want support for other configurations, please open an issue.
 
