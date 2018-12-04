@@ -17,12 +17,9 @@ class tracker:
         page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY></BODY></HTML>"
         self.writetofile(page, "tracker.html")
 
-
-
     def updatetrackerwithdonation(self):
         page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY><h1>New donation from %s</h1> </BODY></HTML>" % self.readfromfile("LastDonorNameAmnt.txt")
         self.writetofile(page, "tracker.html")
-
 
     def updatetrackerafterdonation(self):
         page = "<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY></BODY></HTML>"
@@ -54,7 +51,7 @@ class MainPage:
         TeamTotal = "Needs a function in extralifedonations to write to a file"
         TeamGoal = "Needs a function in extralifedonations to write to a file"
         TopTeamParticipant = "Needs a function in extralifedonations to write to a file"
-        RecentDonations = self.readfromfile("last5DonorNameAmts.txt")
+        RecentDonations = self.readfromfile("last5DonorNameAmtsMessageHorizontal.txt")
         Top5TeamParticipants  = " "
         page = """<HTML><HEAD><meta http-equiv='refresh' content='15'></HEAD><BODY>
         
