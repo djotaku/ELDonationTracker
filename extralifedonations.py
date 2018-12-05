@@ -43,6 +43,10 @@ def ParticpantTotalRaised(JSON):
 def ParticipantNumDonations(JSON):
     return(str(JSON['numDonations']), "numDonations.txt")
 
+def ParticipantAvgDonation(JSON):
+    average = CurrencySymbol+'{:.2f}'.format(JSON['sumDonations']/JSON['numDonations'])
+    return(average,"averageDonation.txt")
+
 def ParticipantGoal(JSON):
     goal=CurrencySymbol+'{:.2f}'.format(JSON['fundraisingGoal'])
     return(goal,"goal.txt")
@@ -116,6 +120,7 @@ def ParticipantLoop():
     writetofiletuple(ParticpantTotalRaised(participantJSON))
     writetofiletuple(ParticipantGoal(participantJSON))
     writetofiletuple(ParticipantNumDonations(participantJSON))
+    writetofiletuple(ParticipantAvgDonation(participantJSON))
     writetofiletuple(ParticipantLastDonorNameAmnt(donorJSON))
     writetofiletuple(ParticipantTopDonor(donorJSON))
     writetofiletuple(Participantlast5DonorNameAmts(donorJSON))

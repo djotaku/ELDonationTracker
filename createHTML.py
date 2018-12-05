@@ -47,7 +47,7 @@ class MainPage:
         TotalRaised = self.readfromfile("totalRaised.txt")
         Goal = self.readfromfile("goal.txt")
         TotNumDonations = self.readfromfile("numDonations.txt")
-        AvgDonation = "Needs a function in extralifedonations to write to a file"
+        AvgDonation = self.readfromfile("averageDonation.txt")
         TeamTotal = "Needs a function in extralifedonations to write to a file"
         TeamGoal = "Needs a function in extralifedonations to write to a file"
         TopTeamParticipant = "Needs a function in extralifedonations to write to a file"
