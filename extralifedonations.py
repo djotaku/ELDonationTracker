@@ -117,12 +117,12 @@ def CountDonors(JSON):
 def ParticipantLoop():
     try:
         participantJSON=json.load(urllib.request.urlopen(participant))
-    except HTTPError:
-        print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")
+    except urllib.error.HTTPError:
+        print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable. (participant loop)")
     try:
         donorJSON=json.load(urllib.request.urlopen(donors))
-    except HTTPError:
-        print("Couldn't get to donor URL. Check ExtraLifeID. Or server may be unavailable.")
+    except urllib.error.HTTPError:
+        print("Couldn't get to donor URL. Check ExtraLifeID. Or server may be unavailable. (participant loop)")
     writetofiletuple(ParticpantTotalRaised(participantJSON))
     writetofiletuple(ParticipantGoal(participantJSON))
     writetofiletuple(ParticipantNumDonations(participantJSON))
@@ -146,7 +146,7 @@ def main():
     TeamLoop()
     try:
         participantJSON=json.load(urllib.request.urlopen(participant))
-    except HTTPError:
+    except urllib.error.HTTPError:
         print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")    
     NumberofDonations = CountDonors(participantJSON)
     NewNumberofDonations = NumberofDonations
@@ -155,7 +155,7 @@ def main():
         print (time.strftime("%H:%M:%S"))
         try:
             participantJSON=json.load(urllib.request.urlopen(participant))
-        except HTTPError:
+        except urllib.error.HTTPError:
             print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")
         NewNumberofDonations = CountDonors(participantJSON)
         if NewNumberofDonations > NumberofDonations:
