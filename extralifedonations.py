@@ -40,6 +40,9 @@ def ParticpantTotalRaised(JSON):
     totalRaised=CurrencySymbol+'{:.2f}'.format(JSON['sumDonations'])
     return(totalRaised,"totalRaised.txt")
 
+def ParticipantNumDonations(JSON):
+    return(str(JSON['numDonations']), "numDonations.txt")
+
 def ParticipantGoal(JSON):
     goal=CurrencySymbol+'{:.2f}'.format(JSON['fundraisingGoal'])
     return(goal,"goal.txt")
@@ -112,6 +115,7 @@ def ParticipantLoop():
     donorJSON=json.load(urllib.request.urlopen(donors))
     writetofiletuple(ParticpantTotalRaised(participantJSON))
     writetofiletuple(ParticipantGoal(participantJSON))
+    writetofiletuple(ParticipantNumDonations(participantJSON))
     writetofiletuple(ParticipantLastDonorNameAmnt(donorJSON))
     writetofiletuple(ParticipantTopDonor(donorJSON))
     writetofiletuple(Participantlast5DonorNameAmts(donorJSON))
