@@ -10,10 +10,10 @@ class regressionTestCase(unittest.TestCase):
     def setUp(self):
         f = open('/home/ermesa/bin/python/extralife/testJSON/endof2018_participant.json')
         self.participantJSON = json.load(f)
-        f.closed
+        f.close()
         f = open('/home/ermesa/bin/python/extralife/testJSON/endof2018_donations.json')
         self.donationsJSON = json.load(f)
-        f.closed
+        f.close()
     
     def test_totalraised(self):
         self.assertEqual(extralifedonations.ParticpantTotalRaised(self.participantJSON)[0],'$380.00')
@@ -47,7 +47,7 @@ class emptyfieldsTestCase(unittest.TestCase):
     def setUp(self):
         f = open('/home/ermesa/bin/python/extralife/testJSON/donations_noname1.json')
         self.donationsJSON_noname = json.load(f)
-        f.closed
+        f.close()
         
         self.donationJSON_noamount = None
         self.donationJSON_nomsg = None
