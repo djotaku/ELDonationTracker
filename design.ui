@@ -52,11 +52,14 @@
       <height>192</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="documentTitle">
      <string/>
     </property>
     <property name="placeholderText">
-     <string>Needs text</string>
+     <string>Recent Donations</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
