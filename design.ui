@@ -14,12 +14,12 @@
    <string>Extra Life Donation Tracker</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="SettingsButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>10</x>
       <y>10</y>
-      <width>241</width>
+      <width>191</width>
       <height>41</height>
      </rect>
     </property>
@@ -27,13 +27,22 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change folders, Extra Life ID, etc&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string>Options</string>
+     <string>Settings</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="TrackerButton">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>210</x>
       <y>10</y>
       <width>261</width>
       <height>41</height>
@@ -43,36 +52,285 @@
      <string>Tracker</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser">
+   <widget class="QGroupBox" name="ParticipantInfo">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>90</y>
-      <width>501</width>
-      <height>192</height>
+      <x>10</x>
+      <y>60</y>
+      <width>301</width>
+      <height>271</height>
      </rect>
     </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
+    <property name="title">
+     <string>Participant Info</string>
     </property>
-    <property name="documentTitle">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string>Recent Donations</string>
-    </property>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Total Raised</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>30</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Total # of Donations</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>56</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Goal</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>130</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Average Donation</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="TotalRaised">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="TotalNumDonations">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>60</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="Goal">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>150</y>
+       <width>71</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="AvgDonation">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>150</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QGroupBox" name="DonationInfo">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>70</y>
-      <width>121</width>
-      <height>16</height>
+      <x>330</x>
+      <y>60</y>
+      <width>451</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Participant Donation Info</string>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>140</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Recent Donations</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="RecentDonations">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>431</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="documentTitle">
+      <string/>
+     </property>
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
+     <property name="placeholderText">
+      <string>Recent Donations</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="LastDonation">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>431</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="placeholderText">
+      <string>Last Donation</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Last Donation</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Top Donation</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="TopDonation">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>431</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="placeholderText">
+      <string>Top Donation</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="ProgressBarButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Recent Donations</string>
+     <string>Progress Bar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RefreshButton">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>10</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Force Refresh</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="TestAlertButton">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>10</y>
+      <width>84</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test Alert</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>340</y>
+      <width>771</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Team Info</string>
     </property>
    </widget>
   </widget>

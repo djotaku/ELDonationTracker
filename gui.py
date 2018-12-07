@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 import design, sys
 
@@ -12,11 +12,44 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
         self.setupUi(self)  # This is defined in design.py file automatically
                             # It sets up layout and widgets that are defined
         self.getsomeText()
+        
+        self.SettingsButton.clicked.connect(self.deadbuton)
+        self.TrackerButton.clicked.connect(self.deadbuton)
+        self.ProgressBarButton.clicked.connect(self.deadbuton)
+        self.RefreshButton.clicked.connect(self.getsomeText)
+        self.TestAlertButton.clicked.connect(self.deadbuton)
 
+    def deadbuton(self):
+        print("button not yet working")
+    
     def getsomeText(self):
-        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmtsMessage.txt', 'r')
+        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmts.txt', 'r')
         text=f.read()
-        self.textBrowser.setPlainText(text)
+        self.RecentDonations.setPlainText(text)
+        f.close()
+        f = open('/home/ermesa/Dropbox/ELtracker/LastDonorNameAmnt.txt','r')
+        text=f.read()
+        self.LastDonation.setPlainText(text)
+        f.close()
+        f = open('/home/ermesa/Dropbox/ELtracker/TopDonorNameAmnt.txt','r')
+        text=f.read()
+        self.TopDonation.setPlainText(text)
+        f.close()
+        f = open('/home/ermesa/Dropbox/ELtracker/totalRaised.txt','r')
+        text=f.read()
+        self.TotalRaised.setPlainText(text)
+        f.close()
+        f = open('/home/ermesa/Dropbox/ELtracker/numDonations.txt','r')
+        text=f.read()
+        self.TotalNumDonations.setPlainText(text)
+        f.close()
+        f = open('/home/ermesa/Dropbox/ELtracker/goal.txt','r')
+        text=f.read()
+        self.Goal.setPlainText(text)
+        f.close()
+        f = open('/home/ermesa/Dropbox/ELtracker/averageDonation.txt','r')
+        text=f.read()
+        self.AvgDonation.setPlainText(text)
         f.close()
 
 def main():
