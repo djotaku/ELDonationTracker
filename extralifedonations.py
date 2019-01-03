@@ -6,7 +6,7 @@ import time
 import unicodedata
 
 #variables to change
-ExtraLifeID=297674
+ExtraLifeID=348774
 textFolder="/home/ermesa/Dropbox/ELtracker/"
 #textFolder="/home/ermesa/Streaming Overlays/donations/"
 CurrencySymbol="$"
