@@ -44,7 +44,10 @@ def ParticipantNumDonations(JSON):
     return(str(JSON['numDonations']), "numDonations.txt")
 
 def ParticipantAvgDonation(JSON):
-    average = CurrencySymbol+'{:.2f}'.format(JSON['sumDonations']/JSON['numDonations'])
+    try: 
+        average = CurrencySymbol+'{:.2f}'.format(JSON['sumDonations']/JSON['numDonations'])
+    except ZeroDivisionError:
+        average = CurrencySymbol+'0.00'
     return(average,"averageDonation.txt")
 
 def ParticipantGoal(JSON):
@@ -52,7 +55,10 @@ def ParticipantGoal(JSON):
     return(goal,"goal.txt")
     
 def ParticipantLastDonorNameAmnt(JSON):
-    LastDonorNameAmnt=str(JSON[0]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[0]['amount'])
+    try: 
+        LastDonorNameAmnt=str(JSON[0]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[0]['amount'])
+    except: 
+        LastDonorNameAmnt="No donors yet"
     return(LastDonorNameAmnt,"LastDonorNameAmnt.txt")
 
 def ParticipantTopDonor(JSON):
