@@ -1,14 +1,17 @@
 If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this each year to point to my latest campaign.
 
-To run:
+# Setup
+First you should edit the variables in the section called "variables to change".
+
+Take note that TeamID should be set to None (no quotation marks) if you're not on a team.
+
+# To run
 
 On Linux you should be able to either do ./extrlifedonations.py (although you may need to change the path in the #! line) or 
 
 python3 extralifedonations.py
 
-First you should edit the variables in the section called "variables to change".
-
-Take note that TeamID should be set to None (no quotation marks) if you're not on a team.
+# Web GUI
 
 If you want a webpage you can use as a GUI to do a sanity check on what should be in the donation files, first change the folder at the end in the __main__ section (this should be the same folder you're using for the text files). Then run
 
@@ -19,6 +22,8 @@ Then open mainpage.html at the folder you told it to use. It should update every
 (Currently web page creation is still python 2)
 
 tracker.html part still needs a little work.
+
+# Support
 
 If you want support for other configurations, please open an issue.
 
