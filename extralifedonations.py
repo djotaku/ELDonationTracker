@@ -146,7 +146,7 @@ def TeamLoop():
         TheTeamTotalRaised(teamJSON)
 
 def main():
-    print ("It's GO TIME!")
+    print ("It's GO TIME!!")
     print (time.strftime("%H:%M:%S"))
     ParticipantLoop()
     TeamLoop()
