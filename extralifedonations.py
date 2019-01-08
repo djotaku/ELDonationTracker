@@ -5,6 +5,24 @@ import urllib.request
 import time
 import unicodedata
 
+############## OOP ##############################
+
+#### Current Thinking ###########################
+# Participant is a class that owns all the attributes under the participant API point; Also owns the results of the methods. Can have an attribute of the highest donation so that when a new donation comes in you just compare it to that one rather than running through the whole list.
+#
+#Donors are a class that own the things associated with them in the JSON
+#Donors can have an attribute where the donation is already converted to number type as well as a text type that already has the $ appended.
+#An attribute of their position in the donation JSON
+#
+#Should the list of Donors be an extension of the list class? Does having it have methods like avg buy me anything vs an avg method?
+#################################################
+
+
+
+
+
+
+########### OLD Non-Class Way ######################
 #variables to change
 ExtraLifeID=348774
 textFolder="/home/ermesa/Dropbox/ELtracker/"
