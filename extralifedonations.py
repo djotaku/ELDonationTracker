@@ -17,9 +17,50 @@ import unicodedata
 #Should the list of Donors be an extension of the list class? Does having it have methods like avg buy me anything vs an avg method?
 #################################################
 
+class Donor:
+    "This class exists to provide attributes for a donor based on what comes in from the JSON so that it doesn't have to be traversed each time a donor action needs to be taken"
+    pass
 
-
-
+class Participant:
+    "Participant is a class that owns all the attributes under the participant API point; Also owns the results of any calculated data."
+    
+    def __init__(self):
+        "Loads in config from participant.conf and creates the URLs."
+        with open('participant.conf') as file:
+            self.participantconf = json.load(file)
+        (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = (self.participantconf['ExtraLifeID'],self.participantconf['textFolder'], self.participantconf['CurrencySymbol'], self.participantconf['TeamID'])
+        self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
+        self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
+        self.teamURL = f"http://www.extra-life.org/api/teams/{self.TeamID}"
+        
+    
+    def getParticipantJSON(self):
+        """Connects to the server and grabs the participant JSON and populates info.
+        
+        Some values that I will want to track as numbers will go as class attributes, but all of them will go into the dictionary participantinfo in the way they'll be written to files."""
+        try:
+            self.participantJSON=json.load(urllib.request.urlopen(self.participantURL))
+        except urllib.error.HTTPError:
+            print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")
+            
+        self.ParticipantTotalRaised = self.participantJSON['sumDonations']
+        self.ParticipantNumDonations = self.participantJSON['numDonations']
+        try:
+            self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
+        except ZeroDivisionError:
+            self.averagedonation = 0
+        self.participantgoal = self.participantJSON['fundraisingGoal']
+        
+        #the dictionary:
+        self.participantinfo = {'totalRaised':self.CurrencySymbol+'{:.2f}'.format(self.participantJSON['sumDonations']), "numDonations":str(self.participantJSON['numDonations']),"averageDonation":self.CurrencySymbol+'{:.2f}'.format(self.averagedonation), "goal":self.CurrencySymbol+'{:.2f}'.format(self.participantgoal)}
+    
+    
+    def getDonors(self):
+        try:
+            self.donorJSON=json.load(urllib.request.urlopen(self.donorURL))
+        except urllib.error.HTTPError:
+            print("Couldn't get to donor URL. Check ExtraLifeID. Or server may be unavailable.")
+        #number of donors (a simple len or whatever on the list) that will be set to self.NumberofDonations goes in here
 
 
 ########### OLD Non-Class Way ######################
@@ -192,4 +233,8 @@ def main():
 
 
 if __name__=="__main__":
-    main()
+#    main()
+    p = Participant()
+    print(p.donorURL)
+    p.getParticipantJSON()
+    p.getDonors()
