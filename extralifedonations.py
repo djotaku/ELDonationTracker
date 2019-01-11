@@ -19,7 +19,10 @@ import unicodedata
 
 class Donor:
     "This class exists to provide attributes for a donor based on what comes in from the JSON so that it doesn't have to be traversed each time a donor action needs to be taken"
-    pass
+    def __init__(self, name, message, amount):
+        self.name = name
+        self.message = message
+        self.ammount = amount
 
 class Participant:
     "Participant is a class that owns all the attributes under the participant API point; Also owns the results of any calculated data."
@@ -31,10 +34,12 @@ class Participant:
         (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = (self.participantconf['ExtraLifeID'],self.participantconf['textFolder'], self.participantconf['CurrencySymbol'], self.participantconf['TeamID'])
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
+        #if need to test with donations until write unit tests: 
+        #self.donorURL = f"http://www.extra-life.org/api/participants/297674/donations"
         self.teamURL = f"http://www.extra-life.org/api/teams/{self.TeamID}"
         
     
-    def getParticipantJSON(self):
+    def get_participant_JSON(self):
         """Connects to the server and grabs the participant JSON and populates info.
         
         Some values that I will want to track as numbers will go as class attributes, but all of them will go into the dictionary participantinfo in the way they'll be written to files."""
@@ -55,12 +60,28 @@ class Participant:
         self.participantinfo = {'totalRaised':self.CurrencySymbol+'{:.2f}'.format(self.participantJSON['sumDonations']), "numDonations":str(self.participantJSON['numDonations']),"averageDonation":self.CurrencySymbol+'{:.2f}'.format(self.averagedonation), "goal":self.CurrencySymbol+'{:.2f}'.format(self.participantgoal)}
     
     
-    def getDonors(self):
+    def get_donors(self):
+        "Gets the donors from the JSON and creates the donor objects."
+        self.donorlist = []
         try:
             self.donorJSON=json.load(urllib.request.urlopen(self.donorURL))
         except urllib.error.HTTPError:
             print("Couldn't get to donor URL. Check ExtraLifeID. Or server may be unavailable.")
-        #number of donors (a simple len or whatever on the list) that will be set to self.NumberofDonations goes in here
+        if not self.donorJSON:
+            print("No donors!")
+        else:
+            self.donorlist = [Donor(self.donorJSON[donor]['displayName'],self.donorJSON[donor]['message'],self.donorJSON[donor]['amount']) for donor in range(0,len(self.donorJSON))]
+    
+    def _donor_calculations(self):
+        pass
+    
+    def write_text_files(self):
+        pass
+    
+    def run(self):
+        "This should run getParticipantJSON, getDonors, the calculations methnods, and the methods to write to text files"
+        pass
+                
 
 
 ########### OLD Non-Class Way ######################
@@ -236,5 +257,5 @@ if __name__=="__main__":
 #    main()
     p = Participant()
     print(p.donorURL)
-    p.getParticipantJSON()
-    p.getDonors()
+    p.get_participant_JSON()
+    p.get_donors()
