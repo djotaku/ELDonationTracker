@@ -11,6 +11,9 @@ class Donor:
         self.name = name
         self.message = message
         self.ammount = amount
+        
+    def __lt__(self,object):
+        return self.amount < object.amount
 
 class Participant:
     "Participant is a class that owns all the attributes under the participant API point; Also owns the results of any calculated data."
@@ -91,9 +94,7 @@ class Participant:
     def _donor_calculations(self):
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0],False)
-        ######################################################################################
-        #need to implement top donor by defining __lt__ method in donor class
-        ######################################################################################
+        self.donorcalcs['TopDonorNameAmnt'] = self._donor_formatting(sorted(self.donorlist,reverse=True),False)
         self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist,False,False)
         self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist,True,False)
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist,True,True)
