@@ -5,18 +5,6 @@ import urllib.request
 import time
 import unicodedata
 
-############## OOP ##############################
-
-#### Current Thinking ###########################
-# Participant is a class that owns all the attributes under the participant API point; Also owns the results of the methods. Can have an attribute of the highest donation so that when a new donation comes in you just compare it to that one rather than running through the whole list.
-#
-#Donors are a class that own the things associated with them in the JSON
-#Donors can have an attribute where the donation is already converted to number type as well as a text type that already has the $ appended.
-#An attribute of their position in the donation JSON
-#
-#Should the list of Donors be an extension of the list class? Does having it have methods like avg buy me anything vs an avg method?
-#################################################
-
 class Donor:
     "This class exists to provide attributes for a donor based on what comes in from the JSON so that it doesn't have to be traversed each time a donor action needs to be taken"
     def __init__(self, name, message, amount):
@@ -72,15 +60,41 @@ class Participant:
         else:
             self.donorlist = [Donor(self.donorJSON[donor]['displayName'],self.donorJSON[donor]['message'],self.donorJSON[donor]['amount']) for donor in range(0,len(self.donorJSON))]
     
+    def _donor_formatting(self, donor, message): 
+        if message:
+            return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f} - {donor.message}"
+        else:
+            return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
+    
+    def _last5donors(self,donors, message):
+        if message:
+            #for loop that builds the text file by calling the _donor_formatting method
+    
+    
     def _donor_calculations(self):
-        pass
+        self.donorcalcs = {}
+        self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0],False)
+        #need to implement top donor by defining __lt__ method in donor class
+        self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist,False)
     
     def write_text_files(self):
         pass
     
     def run(self):
         "This should run getParticipantJSON, getDonors, the calculations methnods, and the methods to write to text files"
-        pass
+        self.get_participant_JSON()
+        NumberofDonors = self.ParticipantNumDonations
+        self.get_donors()
+        if self.donorlist:
+            self._donor_calculations()
+        while True:
+            self.get_participant_JSON
+            if self.ParticipantNumDonations > NumberofDonors:
+                print("A new donor!")
+                NumberofDonors = self.ParticipantNumDonations
+                self.get_donors()
+                self._donor_calculations()
+            time.sleep(30)
                 
 
 
@@ -257,5 +271,4 @@ if __name__=="__main__":
 #    main()
     p = Participant()
     print(p.donorURL)
-    p.get_participant_JSON()
-    p.get_donors()
+    p.run()
