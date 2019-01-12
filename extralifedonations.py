@@ -66,16 +66,37 @@ class Participant:
         else:
             return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
     
-    def _last5donors(self,donors, message):
-        if message:
-            #for loop that builds the text file by calling the _donor_formatting method
+    def _last5donors(self,donors, message,horizontal):
+        text = ""
+        if message and not horizontal:
+            for donor in range(0,len(donor)):
+                text = text+self._donor_formatting(donor,message)+"\n"
+                if donor==4:
+                    break
+            return text
+        elif message and horizontal:
+            for donor in range(0,len(donor)):
+                text = text+self._donor_formatting(donor,message)+" | "
+                if donor==4:
+                    break
+            return text
+        elif not message:
+            for donor in range(0,len(donor)):
+                text = text+self._donor_formatting(donor,message)+" | "
+                if donor==4:
+                    break
+            return text
     
     
     def _donor_calculations(self):
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0],False)
+        ######################################################################################
         #need to implement top donor by defining __lt__ method in donor class
-        self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist,False)
+        ######################################################################################
+        self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist,False,False)
+        self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist,True,False)
+        self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist,True,True)
     
     def write_text_files(self):
         pass
@@ -129,32 +150,6 @@ def writetofiletuple(tuple):
     f.write(tuple[0])
     f.close
 
-#****** Participant INFO *******
-def ParticpantTotalRaised(JSON):
-    totalRaised=CurrencySymbol+'{:.2f}'.format(JSON['sumDonations'])
-    return(totalRaised,"totalRaised.txt")
-
-def ParticipantNumDonations(JSON):
-    return(str(JSON['numDonations']), "numDonations.txt")
-
-def ParticipantAvgDonation(JSON):
-    try: 
-        average = CurrencySymbol+'{:.2f}'.format(JSON['sumDonations']/JSON['numDonations'])
-    except ZeroDivisionError:
-        average = CurrencySymbol+'0.00'
-    return(average,"averageDonation.txt")
-
-def ParticipantGoal(JSON):
-    goal=CurrencySymbol+'{:.2f}'.format(JSON['fundraisingGoal'])
-    return(goal,"goal.txt")
-    
-def ParticipantLastDonorNameAmnt(JSON):
-    try: 
-        LastDonorNameAmnt=str(JSON[0]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[0]['amount'])
-    except: 
-        LastDonorNameAmnt="No donors yet"
-    return(LastDonorNameAmnt,"LastDonorNameAmnt.txt")
-
 def ParticipantTopDonor(JSON):
     TopDonorIndex=0
     TopDonorNameAmnt=""
@@ -167,36 +162,6 @@ def ParticipantTopDonor(JSON):
         TopDonorNameAmnt=str(JSON[TopDonorIndex]['displayName'])+" - "+CurrencySymbol+'{:.2f}'.format(JSON[TopDonorIndex]['amount'])
     return(TopDonorNameAmnt,"TopDonorNameAmnt.txt")
 
-def Participantlast5DonorNameAmts(JSON):
-    last5DonorNameAmts=""
-    for donor in range(0, len(JSON)):
-        last5DonorNameAmts=last5DonorNameAmts+str(JSON[donor]['displayName'])+" - "+CurrencySymbol+str(JSON[donor]['amount'])+"0\n"
-        if donor==4:
-            break
-    return(last5DonorNameAmts,"last5DonorNameAmts.txt")
-
-def Participantlast5DonorNameAmtsMessage(JSON):
-    last5DonorNameAmts=""
-    for donor in range(0, len(JSON)):
-        if JSON[donor]['message'] != None: 
-            last5DonorNameAmts="%s%s - %s%.2f - %s\n" % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],unicodedata.normalize('NFKD',JSON[donor]['message']).encode('ascii','ignore'))
-        else:
-            last5DonorNameAmts="%s%s - %s%.2f - %s\n" % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],"")
-        if donor==4:
-            break
-    return(last5DonorNameAmts,"last5DonorNameAmtsMessage.txt")
-        
-def  Participantlast5DonorNameAmtsMessageHorizontal(JSON):   
-    # This is for a scrolling type update in OBS or XSplit
-    last5DonorNameAmts=""
-    for donor in range(0, len(JSON)):
-        if JSON[donor]['message'] != None:
-            last5DonorNameAmts="%s%s - %s%.2f - %s | " % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],unicodedata.normalize('NFKD',JSON[donor]['message']).encode('ascii','ignore'))
-        else:
-            last5DonorNameAmts="%s%s - %s%.2f - %s | " % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],"")
-        if donor==4:
-            break
-    return(last5DonorNameAmts,"last5DonorNameAmtsMessageHorizontal.txt")
 
 #****** Team Info *******
 
