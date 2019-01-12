@@ -99,6 +99,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist,True,True)
     
     def write_text_files(self):
+        #in order to make this work best, probably need to instantiate the donor and participant dictionaries (will need to redo syntax on participant dictionary) to be able to write blanks to the text files in the loop and thus create the files even if there are no donors. For donorcalcs maybe instead of blanks, prepopulate with "No donors yet"
         pass
     
     def run(self):
