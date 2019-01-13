@@ -112,7 +112,9 @@ class Participant:
     def write_text_files(self,dictionary):
         """description"""
         for filename, text in dictionary.items():
-            print (filename,text)
+            f = open(self.textFolder+filename+".txt", 'w')
+            f.write(text)
+            f.close
     
     def run(self):
         "This should run getParticipantJSON, getDonors, the calculations methnods, and the methods to write to text files"
