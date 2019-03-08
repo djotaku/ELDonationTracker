@@ -84,7 +84,7 @@ def Participantlast5DonorNameAmts(JSON):
 def Participantlast5DonorNameAmtsMessage(JSON):
     last5DonorNameAmts=""
     for donor in range(0, len(JSON)):
-        if JSON[donor]['message'] != None: 
+        if JSON[donor].get('message') is not None: 
             last5DonorNameAmts="%s%s - %s%.2f - %s\n" % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],unicodedata.normalize('NFKD',JSON[donor]['message']).encode('ascii','ignore'))
         else:
             last5DonorNameAmts="%s%s - %s%.2f - %s\n" % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],"")
@@ -96,7 +96,7 @@ def  Participantlast5DonorNameAmtsMessageHorizontal(JSON):
     # This is for a scrolling type update in OBS or XSplit
     last5DonorNameAmts=""
     for donor in range(0, len(JSON)):
-        if JSON[donor]['message'] != None:
+        if JSON[donor].get('message') is not None:
             last5DonorNameAmts="%s%s - %s%.2f - %s | " % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],unicodedata.normalize('NFKD',JSON[donor]['message']).encode('ascii','ignore'))
         else:
             last5DonorNameAmts="%s%s - %s%.2f - %s | " % (last5DonorNameAmts, JSON[donor]['displayName'], CurrencySymbol,JSON[donor]['amount'],"")
