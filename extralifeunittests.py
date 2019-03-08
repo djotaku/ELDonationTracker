@@ -5,6 +5,7 @@
 #import urllib.request
 import extralifedonations
 
+#run with command: py.test-3 extralifeunittests.py
 
 def test_answer():
     assert 3 == 5
