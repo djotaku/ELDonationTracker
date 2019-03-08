@@ -12,7 +12,7 @@ class Donor:
     def __init__(self, name, message, amount):
         self.name = name
         self.message = message
-        self.ammount = amount
+        self.amount = amount
         
     def __lt__(self,object):
         return self.amount < object.amount
@@ -72,7 +72,7 @@ class Participant:
         if not self.donorJSON:
             print("No donors!")
         else:
-            self.donorlist = [Donor(self.donorJSON[donor]['displayName'],self.donorJSON[donor]['message'],self.donorJSON[donor]['amount']) for donor in range(0,len(self.donorJSON))]
+            self.donorlist = [Donor(self.donorJSON[donor]['displayName'],self.donorJSON[donor].get('message'),self.donorJSON[donor]['amount']) for donor in range(0,len(self.donorJSON))]
     
     def _donor_formatting(self, donor, message): 
         if message:
@@ -80,23 +80,23 @@ class Participant:
         else:
             return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
     
-    def _last5donors(self,donors, message,horizontal):
+    def _last5donors(self,donors,message,horizontal):
         text = ""
         if message and not horizontal:
-            for donor in range(0,len(donor)):
-                text = text+self._donor_formatting(donor,message)+"\n"
+            for donor in range(0,len(donors)):
+                text = text+self._donor_formatting(donors[donor],message)+"\n"
                 if donor==4:
                     break
             return text
         elif message and horizontal:
-            for donor in range(0,len(donor)):
-                text = text+self._donor_formatting(donor,message)+" | "
+            for donor in range(0,len(donors)):
+                text = text+self._donor_formatting(donors[donor],message)+" | "
                 if donor==4:
                     break
             return text
         elif not message:
-            for donor in range(0,len(donor)):
-                text = text+self._donor_formatting(donor,message)+" | "
+            for donor in range(0,len(donors)):
+                text = text+self._donor_formatting(donors[donor],message)
                 if donor==4:
                     break
             return text
