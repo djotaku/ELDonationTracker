@@ -1,13 +1,19 @@
 If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this each year to point to my latest campaign.
 
+
+Note these videos are up to date for the master branch, not the devel branch. See the text instructions below
+
 To watch a video of how to use this program on Linux: https://youtu.be/ari6nFtViFw otherwise read below
 
 To watch a video of how to use this program on Windows: https://youtu.be/jh9M6Fv7SRk otherwise read below
 
 # Setup
-First you should edit the variables in the section called "variables to change".
+First you should edit the values in participant.conf
 
-Take note that TeamID should be set to None (no quotation marks) if you're not on a team.
+Note:
+
+-The values to the right of the : should be in quotation marks.
+-if you're not in a team, the TeamID should be set to null without quotation marks.
 
 # To run
 

@@ -170,6 +170,8 @@ def TeamLoop():
         TheTeamGoal(teamJSON)
         TheTeamTotalRaised(teamJSON)
 
+########### OLD Non-Class Way ######################
+
 if __name__=="__main__":
 #    main()
     p = Participant()
