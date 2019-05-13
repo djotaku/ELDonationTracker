@@ -91,14 +91,12 @@ class Participant:
         elif message and horizontal:
             for donor in range(0,len(donors)):
                 text = text+self._donor_formatting(donors[donor],message)+" | "
-        if JSON[donor].get('message') is not None: 
                 if donor==4:
                     break
             return text
         elif not message:
             for donor in range(0,len(donors)):
                 text = text+self._donor_formatting(donors[donor],message)
-        if JSON[donor].get('message') is not None:
                 if donor==4:
                     break
             return text
