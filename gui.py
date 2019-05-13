@@ -1,3 +1,5 @@
+#should change from line edits to labels
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 import design, sys
