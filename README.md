@@ -12,8 +12,8 @@ First you should edit the values in participant.conf
 
 Note:
 
--The values to the right of the : should be in quotation marks.
--if you're not in a team, the TeamID should be set to null without quotation marks.
+- The values to the right of the : should be in quotation marks.
+- if you're not in a team, the TeamID should be set to null without quotation marks.
 
 # To run
 
