@@ -1,0 +1,15 @@
+pipeline {
+    agent none 
+    stages {
+        stage('Build') { 
+            agent {
+                docker {
+                    image 'python:alpine' 
+                }
+            }
+            steps {
+                sh 'python -m py_compile extralifedonations.py' 
+            }
+        }
+    }
+}
