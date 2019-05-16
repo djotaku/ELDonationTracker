@@ -1,6 +1,6 @@
 import sys
 import json
-from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
 from settings import *
 
 class MyForm(QDialog):
@@ -17,6 +17,7 @@ class MyForm(QDialog):
         self.ui.lineEditTeamID.setText(self.TeamID)
         self.ui.pushButtonRevert.clicked.connect(self.revert)
         self.ui.pushButtonSave.clicked.connect(self.save)
+        self.ui.pushButtonSelectFolder.clicked.connect(self.selectfolder)
         self.show()
         
     def revert(self):
@@ -37,6 +38,9 @@ class MyForm(QDialog):
         with open('participant.conf','w') as outfile:
             json.dump(config,outfile)
         
+    def selectfolder(self):
+        directory = QFileDialog.getExistingDirectory(self, "Get Folder")
+        self.ui.labelTextFolder.setText(directory)
 
 def main():
     w = MyForm()
