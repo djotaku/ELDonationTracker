@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 import design, sys
 
-import call_tracker
+import call_tracker, call_settings
 
 class ExampleApp(QMainWindow, design.Ui_MainWindow):
     def __init__(self):
@@ -14,7 +14,7 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
                             # It sets up layout and widgets that are defined
         self.getsomeText()
         
-        self.SettingsButton.clicked.connect(self.deadbuton)
+        self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
@@ -22,6 +22,9 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
     
     def callTracker(self):
         call_tracker.main()
+        
+    def callSettings(self):
+        call_settings.main()
     
     def deadbuton(self):
         print("button not yet working")
