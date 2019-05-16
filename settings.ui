@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>418</width>
+    <width>612</width>
     <height>279</height>
    </rect>
   </property>
@@ -65,7 +65,7 @@
     <string>Team ID</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="lineEditParticipantID">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -75,7 +75,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="lineEditCurrencySymbol">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -85,20 +85,20 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLineEdit" name="lineEditTeamID">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>190</y>
+     <y>180</y>
      <width>113</width>
      <height>29</height>
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="pushButtonSelectFolder">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>450</x>
      <y>80</y>
      <width>84</width>
      <height>31</height>
@@ -108,12 +108,12 @@
     <string>select Folder</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLabel" name="labelTextFolder">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>90</y>
-     <width>121</width>
+     <width>271</width>
      <height>16</height>
     </rect>
    </property>
@@ -121,10 +121,10 @@
     <string>No Folder Selected</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="pushButtonRevert">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>410</x>
      <y>240</y>
      <width>84</width>
      <height>31</height>
@@ -134,10 +134,10 @@
     <string>Revert</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="pushButtonSave">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>510</x>
      <y>240</y>
      <width>84</width>
      <height>31</height>

@@ -1,4 +1,5 @@
 import sys
+import json
 from PyQt5.QtWidgets import QDialog, QApplication
 from settings import *
 
@@ -7,7 +8,35 @@ class MyForm(QDialog):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        with open('participant.conf') as file:
+            self.participantconf = json.load(file)
+        (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = (self.participantconf['ExtraLifeID'],self.participantconf['textFolder'], self.participantconf['CurrencySymbol'], self.participantconf['TeamID'])
+        self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
+        self.ui.labelTextFolder.setText(self.textFolder)
+        self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
+        self.ui.lineEditTeamID.setText(self.TeamID)
+        self.ui.pushButtonRevert.clicked.connect(self.revert)
+        self.ui.pushButtonSave.clicked.connect(self.save)
         self.show()
+        
+    def revert(self):
+        self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
+        self.ui.labelTextFolder.setText(self.textFolder)
+        self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
+        self.ui.lineEditTeamID.setText(self.TeamID)
+        
+    def save(self):
+        participantID = self.ui.lineEditParticipantID.text()
+        textfolder = self.ui.labelTextFolder.text()
+        currencysymbol = self.ui.lineEditCurrencySymbol.text()
+        if self.ui.lineEditTeamID.text() == "":
+            teamID = None
+        else:
+            teamID = self.ui.lineEditTeamID.text()
+        config= {'ExtraLifeID':participantID, 'textFolder':textfolder,'CurrencySymbol':currencysymbol,'TeamID':teamID}
+        with open('participant.conf','w') as outfile:
+            json.dump(config,outfile)
+        
 
 def main():
     w = MyForm()
