@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 import design, sys
 
+import call_tracker
+
 class ExampleApp(QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         # Super allows us to access variables, methods etc in the design.py file
@@ -13,11 +15,14 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
         self.getsomeText()
         
         self.SettingsButton.clicked.connect(self.deadbuton)
-        self.TrackerButton.clicked.connect(self.deadbuton)
+        self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
         self.TestAlertButton.clicked.connect(self.deadbuton)
-
+    
+    def callTracker(self):
+        call_tracker.main()
+    
     def deadbuton(self):
         print("button not yet working")
     
