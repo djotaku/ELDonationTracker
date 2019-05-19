@@ -36,7 +36,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'env'
+                sh 'docker run -v "$(BUILD_URL):/src/" cdrx/pyinstaller-linux'
             }
             post {
                 success {
