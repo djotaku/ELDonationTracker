@@ -12,6 +12,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(985, 137)
+        self.graphicsView = QtWidgets.QGraphicsView(Dialog)
+        self.graphicsView.setGeometry(QtCore.QRect(10, 0, 211, 131))
+        self.graphicsView.setObjectName("graphicsView")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)

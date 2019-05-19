@@ -13,6 +13,16 @@
   <property name="windowTitle">
    <string>Tracker</string>
   </property>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>211</width>
+     <height>131</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

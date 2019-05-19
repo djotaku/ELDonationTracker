@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from tracker import *
 
 class MyForm(QDialog):
@@ -7,6 +7,12 @@ class MyForm(QDialog):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        self.scene = QGraphicsScene(self)
+        pixmap = QtGui.QPixmap()
+        pixmap.load("Engineer.png")
+        item=QGraphicsPixmapItem(pixmap)
+        self.scene.addItem(item)
+        self.ui.graphicsView.setScene(self.scene)
         self.show()
 
 def main():
