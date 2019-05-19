@@ -33,10 +33,11 @@ pipeline {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python3'
+                    args ''
                 }
             }
             steps {
-                sh 'docker run -v "$(BUILD_URL):/src/" cdrx/pyinstaller-linux'
+                sh 'pyinstaller --onefile extralifedonations.py'
             }
             post {
                 success {
