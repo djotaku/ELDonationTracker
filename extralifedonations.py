@@ -126,7 +126,7 @@ class Participant:
             self._donor_calculations()
             self.write_text_files(self.donorcalcs)
         while True:
-            self.get_participant_JSON
+            self.get_participant_JSON()
             self.write_text_files(self.participantinfo)
             if self.ParticipantNumDonations > NumberofDonors:
                 print("A new donor!")
