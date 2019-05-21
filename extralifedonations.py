@@ -96,7 +96,7 @@ class Participant:
             return text
         elif not message:
             for donor in range(0,len(donors)):
-                text = text+self._donor_formatting(donors[donor],message)
+                text = text+self._donor_formatting(donors[donor],message)+"\n"
                 if donor==4:
                     break
             return text
