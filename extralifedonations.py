@@ -37,6 +37,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmtsMessage'] = "No Donors Yet"
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
+        self.loop = True
     
     def get_participant_JSON(self):
         """Connects to the server and grabs the participant JSON and populates info.
@@ -125,7 +126,7 @@ class Participant:
         if self.donorlist:
             self._donor_calculations()
             self.write_text_files(self.donorcalcs)
-        while True:
+        while self.loop:
             self.get_participant_JSON()
             self.write_text_files(self.participantinfo)
             if self.ParticipantNumDonations > NumberofDonors:
@@ -136,6 +137,10 @@ class Participant:
                 self.write_text_files(self.donorcalcs)
             print (time.strftime("%H:%M:%S"))
             time.sleep(30)
+    
+    def stop(self):
+        print("stopping now...")
+        self.loop = False
                 
 
 
