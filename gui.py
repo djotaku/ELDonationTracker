@@ -1,6 +1,12 @@
+#should change from line edits to labels
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
-import design, sys
+import design, sys, threading
+
+import extralifedonations
+
+import call_tracker, call_settings
 
 class ExampleApp(QMainWindow, design.Ui_MainWindow):
     def __init__(self):
@@ -8,19 +14,28 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
         super(self.__class__, self).__init__()
         self.setupUi(self)  # This is defined in design.py file automatically
                             # It sets up layout and widgets that are defined
-        self.getsomeText()
         
-        self.SettingsButton.clicked.connect(self.deadbuton)
-        self.TrackerButton.clicked.connect(self.deadbuton)
+        self.getsomeText() #this needs some work to not execute right away or at least try/catch
+        
+        self.SettingsButton.clicked.connect(self.callSettings)
+        self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
         self.TestAlertButton.clicked.connect(self.deadbuton)
-
+        self.pushButtonRun.clicked.connect(self.runbutton)
+        self.pushButtonStop.clicked.connect(self.stopbutton)
+    
+    def callTracker(self):
+        call_tracker.main()
+        
+    def callSettings(self):
+        call_settings.main()
+    
     def deadbuton(self):
         print("button not yet working")
     
     def getsomeText(self):
-        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmts.txt', 'r')
+        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmts.txt', 'r') #these paths need to be changed to read from the config file. Actually - should be an action in init that creates a variable that can be put in all of these. 
         text=f.read()
         self.RecentDonations.setPlainText(text)
         f.close()
@@ -48,12 +63,34 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
         text=f.read()
         self.AvgDonation.setPlainText(text)
         f.close()
+    
+    def runbutton(self):
+        print("run button")
+        #need to add some code to keep it from starting more than one thread. 
+        self.thread1=myThread()
+        self.thread1.start()
+        
+    def stopbutton(self):
+        self.thread1.stop() 
+
+class myThread (threading.Thread):
+    counter = 0
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.counter=0
+    def run(self):
+        print("Staring " + self.name)
+        self.p = extralifedonations.Participant()
+        self.p.run()
+    def stop(self):
+        self.p.stop()
 
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
     form = ExampleApp()                 # We set the form to be our ExampleApp (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
+
 
 
 if __name__ == '__main__':              # if we're running file directly and not importing it

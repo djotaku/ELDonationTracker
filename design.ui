@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>658</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -331,6 +331,32 @@
     </property>
     <property name="title">
      <string>Team Info</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonRun">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>600</y>
+      <width>84</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Run</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonStop">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>600</y>
+      <width>84</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
     </property>
    </widget>
   </widget>

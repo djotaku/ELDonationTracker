@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'design.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 658)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.SettingsButton = QtWidgets.QPushButton(self.centralwidget)
@@ -94,6 +94,12 @@ class Ui_MainWindow(object):
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(10, 340, 771, 241))
         self.groupBox.setObjectName("groupBox")
+        self.pushButtonRun = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButtonRun.setGeometry(QtCore.QRect(570, 600, 84, 31))
+        self.pushButtonRun.setObjectName("pushButtonRun")
+        self.pushButtonStop = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButtonStop.setGeometry(QtCore.QRect(670, 600, 84, 31))
+        self.pushButtonStop.setObjectName("pushButtonStop")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -124,4 +130,6 @@ class Ui_MainWindow(object):
         self.RefreshButton.setText(_translate("MainWindow", "Force Refresh"))
         self.TestAlertButton.setText(_translate("MainWindow", "Test Alert"))
         self.groupBox.setTitle(_translate("MainWindow", "Team Info"))
+        self.pushButtonRun.setText(_translate("MainWindow", "Run"))
+        self.pushButtonStop.setText(_translate("MainWindow", "Stop"))
 
