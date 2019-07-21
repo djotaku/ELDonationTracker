@@ -5,7 +5,7 @@ Note these videos are up to date for the master branch, not the devel branch. Se
 
 To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQeJw otherwise read below
 
-To watch a video of how to use this program on Windows: https://youtu.be/jh9M6Fv7SRk otherwise read below
+To watch a video of how to use this program on Windows: https://youtu.be/hN94aPcEFng 
 
 # Setup
 First you should edit the values in participant.conf
