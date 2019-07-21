@@ -21,6 +21,8 @@ On Linux you should be able to either do ./extrlifedonations.py (although you ma
 
 python3 extralifedonations.py
 
+On Windows, see the video above for how to run it.
+
 # Web GUI
 
 If you want a webpage you can use as a GUI to do a sanity check on what should be in the donation files, first change the folder at the end in the __main__ section (this should be the same folder you're using for the text files). Then run
@@ -36,4 +38,3 @@ tracker.html part still needs a little work.
 # Support
 
 If you want support for other configurations, please open an issue.
-
