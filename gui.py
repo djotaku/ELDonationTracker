@@ -79,7 +79,7 @@ class myThread (threading.Thread):
         threading.Thread.__init__(self)
         self.counter=0
     def run(self):
-        print("Staring " + self.name)
+        print("Starting " + self.name)
         self.p = extralifedonations.Participant()
         self.p.run()
     def stop(self):
