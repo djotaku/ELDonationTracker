@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 from PyQt5 import QtCore
 
+from PyQt5.QtCore import Qt, pyqtSignal #need Qt?
+
 import design, sys, threading
 
 import extralifedonations
@@ -11,6 +13,9 @@ import extralifedonations
 import call_tracker, call_settings
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
+    
+    test = pyqtSignal(bool)
+    
     def __init__(self):
         # Super allows us to access variables, methods etc in the design.py file
         super(self.__class__, self).__init__()
@@ -29,18 +34,21 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TestAlertButton.clicked.connect(self.deadbuton)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
+        
+        #self.test.emit(True)
     
     def callTracker(self):
         call_tracker.main()
+        call_tracker.connect(self.test)
         
     def callSettings(self):
         call_settings.main()
     
     def deadbuton(self):
-        print("button not yet working")
+        print("not working yet")
     
     def getsomeText(self):
-        # *** FOr GUI RELEASE:
+        # *** For GUI RELEASE:
         # - these paths need to be changed to read from the config file via an action in init 
         #that creates a variable that can be put in all of these. 
         # - needs to use try/catch to make sure these files are there. They won't be there 

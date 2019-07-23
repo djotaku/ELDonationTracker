@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from tracker import *
+from PyQt5.QtCore import pyqtSlot
 
 # *** For GUI release, need to use QTimer and a function to check whether there's been a donation
 # and update this window
@@ -12,12 +13,19 @@ class MyForm(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.scene = QGraphicsScene(self)
-        pixmap = QtGui.QPixmap()
-        pixmap.load("Engineer.png")
-        item=QGraphicsPixmapItem(pixmap.scaledToHeight(131))
+        self.pixmap = QtGui.QPixmap()
+        self.pixmap.load("Engineer.png")
+        item=QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
         self.scene.addItem(item)
         self.ui.graphicsView.setScene(self.scene)
         self.show()
+        
+    @pyqtSlot(bool)    
+    def loadElements(self):
+        extralifedonations.test.connect(self.deadbuton)
+        pass
+
+
 
 def main():
     w = MyForm()
