@@ -2,6 +2,8 @@
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
+from PyQt5 import QtCore
+
 import design, sys, threading
 
 import extralifedonations
@@ -14,8 +16,11 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         super(self.__class__, self).__init__()
         self.setupUi(self)  # This is defined in design.py file automatically
                             # It sets up layout and widgets that are defined
-        
-        self.getsomeText() #this needs some work to not execute right away or at least try/catch
+        self.timer = QtCore.QTimer(self)
+        self.timer.setSingleShot(False)
+        self.timer.setInterval(5000) #milliseconds
+        self.timer.timeout.connect(self.getsomeText) #this needs some work to not execute right away or at least try/catch
+        self.timer.start()
         
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
@@ -68,9 +73,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         print("run button")
         #need to add some code to keep it from starting more than one thread. 
         self.thread1=donationGrabber()
-        self.thread2=updateText(self)
         self.thread1.start()
-        self.thread2.start()
         
     def stopbutton(self):
         self.thread1.stop() 
@@ -83,19 +86,6 @@ class donationGrabber (threading.Thread):
     def run(self):
         print("Starting " + self.name)
         self.p = extralifedonations.Participant()
-        self.p.run()
-    def stop(self):
-        self.p.stop()
-
-class updateText (threading.Thread):
-    counter = 0
-    def __init__(self,parent):
-        threading.Thread.__init__(self)
-        self.counter=0
-        self.parent=parent
-    def run(self):
-        print("Starting " + self.name)
-        self.p = self.parent.getsomeText()
         self.p.run()
     def stop(self):
         self.p.stop()
