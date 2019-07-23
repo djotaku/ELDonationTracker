@@ -19,7 +19,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(5000) #milliseconds
-        self.timer.timeout.connect(self.getsomeText) #this needs some work to not execute right away or at least try/catch
+        self.timer.timeout.connect(self.getsomeText) 
         self.timer.start()
         
         self.SettingsButton.clicked.connect(self.callSettings)
@@ -40,7 +40,13 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         print("button not yet working")
     
     def getsomeText(self):
-        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmts.txt', 'r') #these paths need to be changed to read from the config file. Actually - should be an action in init that creates a variable that can be put in all of these. 
+        # *** FOr GUI RELEASE:
+        # - these paths need to be changed to read from the config file via an action in init 
+        #that creates a variable that can be put in all of these. 
+        # - needs to use try/catch to make sure these files are there. They won't be there 
+        # until at least the first time the code is run
+        
+        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmts.txt', 'r') 
         text=f.read()
         self.RecentDonations.setPlainText(text)
         f.close()

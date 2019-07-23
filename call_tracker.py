@@ -2,6 +2,10 @@ import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from tracker import *
 
+# *** For GUI release, need to use QTimer and a function to check whether there's been a donation
+# and update this window
+#to remove the item call scene.removeItem()
+
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
@@ -10,7 +14,7 @@ class MyForm(QDialog):
         self.scene = QGraphicsScene(self)
         pixmap = QtGui.QPixmap()
         pixmap.load("Engineer.png")
-        item=QGraphicsPixmapItem(pixmap)
+        item=QGraphicsPixmapItem(pixmap.scaledToHeight(131))
         self.scene.addItem(item)
         self.ui.graphicsView.setScene(self.scene)
         self.show()
