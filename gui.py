@@ -8,7 +8,7 @@ import extralifedonations
 
 import call_tracker, call_settings
 
-class ExampleApp(QMainWindow, design.Ui_MainWindow):
+class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         # Super allows us to access variables, methods etc in the design.py file
         super(self.__class__, self).__init__()
@@ -67,13 +67,15 @@ class ExampleApp(QMainWindow, design.Ui_MainWindow):
     def runbutton(self):
         print("run button")
         #need to add some code to keep it from starting more than one thread. 
-        self.thread1=myThread()
+        self.thread1=donationGrabber()
+        self.thread2=updateText(self)
         self.thread1.start()
+        self.thread2.start()
         
     def stopbutton(self):
         self.thread1.stop() 
 
-class myThread (threading.Thread):
+class donationGrabber (threading.Thread):
     counter = 0
     def __init__(self):
         threading.Thread.__init__(self)
@@ -85,12 +87,24 @@ class myThread (threading.Thread):
     def stop(self):
         self.p.stop()
 
+class updateText (threading.Thread):
+    counter = 0
+    def __init__(self,parent):
+        threading.Thread.__init__(self)
+        self.counter=0
+        self.parent=parent
+    def run(self):
+        print("Starting " + self.name)
+        self.p = self.parent.getsomeText()
+        self.p.run()
+    def stop(self):
+        self.p.stop()
+
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
-    form = ExampleApp()                 # We set the form to be our ExampleApp (design)
+    form = ELDonationGUI()                 # We set the form to be our ELDonationGUI (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
-
 
 
 if __name__ == '__main__':              # if we're running file directly and not importing it
