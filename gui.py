@@ -68,9 +68,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         print("run button")
         #need to add some code to keep it from starting more than one thread. 
         self.thread1=donationGrabber()
-        #self.thread2=updateText(self)
+        self.thread2=updateText(self)
         self.thread1.start()
-        #self.thread2.start()
+        self.thread2.start()
         
     def stopbutton(self):
         self.thread1.stop() 
@@ -104,7 +104,6 @@ def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
     form = ELDonationGUI()                 # We set the form to be our ELDonationGUI (design)
     form.show()                         # Show the form
-    self.thread2=updateText(app)
     app.exec_()                         # and execute the app
 
 
