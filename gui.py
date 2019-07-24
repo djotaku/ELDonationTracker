@@ -19,24 +19,28 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         super(self.__class__, self).__init__()
         self.setupUi(self)  # This is defined in design.py file automatically
                             # It sets up layout and widgets that are defined
+        
+        #timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(5000) #milliseconds
         self.timer.timeout.connect(self.getsomeText) 
         self.timer.start()
         
+        #implement a tracker so we can send signals
+        self.tracker = call_tracker.MyForm()
+        
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
-        self.TestAlertButton.clicked.connect(call_tracker.w.loadElements())
+        self.TestAlertButton.clicked.connect(self.tracker.loadElements)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
         
-        #self.test.emit(True)
     
     def callTracker(self):
-        call_tracker.main()
+        self.tracker.show()
         
     def callSettings(self):
         call_settings.main()
