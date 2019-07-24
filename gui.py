@@ -14,8 +14,6 @@ import call_tracker, call_settings
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     
-    test = pyqtSignal(bool)
-    
     def __init__(self):
         # Super allows us to access variables, methods etc in the design.py file
         super(self.__class__, self).__init__()
@@ -31,7 +29,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
-        self.TestAlertButton.clicked.connect(self.deadbuton)
+        self.TestAlertButton.clicked.connect(call_tracker.w.loadElements())
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
         
@@ -39,7 +37,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     
     def callTracker(self):
         call_tracker.main()
-        call_tracker.connect(self.test)
         
     def callSettings(self):
         call_settings.main()

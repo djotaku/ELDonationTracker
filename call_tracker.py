@@ -22,8 +22,7 @@ class MyForm(QDialog):
         
     @pyqtSlot(bool)    
     def loadElements(self):
-        extralifedonations.test.connect(self.deadbuton)
-        pass
+        print("load")
 
 
 
