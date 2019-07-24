@@ -14,7 +14,7 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
-        self.pixmap.load("Engineer.png")
+        #self.pixmap.load("Engineer.png")
         item=QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
         self.scene.addItem(item)
         self.ui.graphicsView.setScene(self.scene)
@@ -22,6 +22,7 @@ class MyForm(QDialog):
     @pyqtSlot(bool)    
     def loadElements(self):
         print("load")
+        self.pixmap.load("Engineer.png")
 
 
 
