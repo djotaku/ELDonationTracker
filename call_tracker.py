@@ -18,7 +18,6 @@ class MyForm(QDialog):
         item=QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
         self.scene.addItem(item)
         self.ui.graphicsView.setScene(self.scene)
-        #self.show()
         
     @pyqtSlot(bool)    
     def loadElements(self):
