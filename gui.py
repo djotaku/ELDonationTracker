@@ -8,9 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal #need Qt?
 
 import design, sys, threading
 
-import extralifedonations
-
-import call_tracker, call_settings
+import extralifedonations, call_tracker, call_settings, readparticipantconf
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     
@@ -27,9 +25,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer.timeout.connect(self.getsomeText) 
         self.timer.start()
         
-        #implement a tracker so we can send signals
+        #instantiate the tracker so we can send signals
         self.tracker = call_tracker.MyForm()
         
+        #Connecting all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
@@ -45,6 +44,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def callSettings(self):
         call_settings.main()
     
+    #this is used for buttons that I haven't yet implemented
     def deadbuton(self):
         print("not working yet")
     
@@ -54,32 +54,33 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         #that creates a variable that can be put in all of these. 
         # - needs to use try/catch to make sure these files are there. They won't be there 
         # until at least the first time the code is run
+        folders = readparticipantconf.textfolderOnly()
         
-        f = open('/home/ermesa/Dropbox/ELtracker/last5DonorNameAmts.txt', 'r') 
+        f = open(f'{folders}/last5DonorNameAmts.txt', 'r') 
         text=f.read()
         self.RecentDonations.setPlainText(text)
         f.close()
-        f = open('/home/ermesa/Dropbox/ELtracker/LastDonorNameAmnt.txt','r')
+        f = open(f'{folders}/LastDonorNameAmnt.txt','r')
         text=f.read()
         self.LastDonation.setPlainText(text)
         f.close()
-        f = open('/home/ermesa/Dropbox/ELtracker/TopDonorNameAmnt.txt','r')
+        f = open(f'{folders}/TopDonorNameAmnt.txt','r')
         text=f.read()
         self.TopDonation.setPlainText(text)
         f.close()
-        f = open('/home/ermesa/Dropbox/ELtracker/totalRaised.txt','r')
+        f = open(f'{folders}/totalRaised.txt','r')
         text=f.read()
         self.TotalRaised.setPlainText(text)
         f.close()
-        f = open('/home/ermesa/Dropbox/ELtracker/numDonations.txt','r')
+        f = open(f'{folders}/numDonations.txt','r')
         text=f.read()
         self.TotalNumDonations.setPlainText(text)
         f.close()
-        f = open('/home/ermesa/Dropbox/ELtracker/goal.txt','r')
+        f = open(f'{folders}/goal.txt','r')
         text=f.read()
         self.Goal.setPlainText(text)
         f.close()
-        f = open('/home/ermesa/Dropbox/ELtracker/averageDonation.txt','r')
+        f = open(f'{folders}/averageDonation.txt','r')
         text=f.read()
         self.AvgDonation.setPlainText(text)
         f.close()

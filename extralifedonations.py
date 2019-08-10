@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 
-import json
-import urllib.request
-import time
-import unicodedata
+import json, urllib.request, time, unicodedata
+
+import readparticipantconf
 
 #api info at https://github.com/DonorDrive/PublicAPI
 
@@ -22,9 +21,7 @@ class Participant:
     
     def __init__(self):
         "Loads in config from participant.conf and creates the URLs."
-        with open('participant.conf') as file:
-            self.participantconf = json.load(file)
-        (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = (self.participantconf['ExtraLifeID'],self.participantconf['textFolder'], self.participantconf['CurrencySymbol'], self.participantconf['TeamID'])
+        (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = readparticipantconf.CLIvalues()
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         #if need to test with donations until write unit tests: 
