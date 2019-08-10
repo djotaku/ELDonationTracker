@@ -50,10 +50,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     
     def getsomeText(self):
         # *** For GUI RELEASE:
-        # - these paths need to be changed to read from the config file via an action in init 
-        #that creates a variable that can be put in all of these. 
         # - needs to use try/catch to make sure these files are there. They won't be there 
         # until at least the first time the code is run
+        # - since it's the same thing over and over - shoudl be moved to a function
         folders = readparticipantconf.textfolderOnly()
         
         f = open(f'{folders}/last5DonorNameAmts.txt', 'r') 
