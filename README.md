@@ -1,13 +1,24 @@
-If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this each year to point to my latest campaign.
+Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
 
+![Updates while in-game](https://github.com/djotaku/ELDonationTracker/blob/devel/screenshots/IngameUpdates.png)
+
+![Updates while the webcam is the main focus](https://github.com/djotaku/ELDonationTracker/blob/devel/screenshots/RecentDonations.png)
+
+Read ahead to find out how!
+
+If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this link each year to point to my latest campaign.
+
+# How To - videos
 
 Note these videos are up to date for the master branch, not the devel branch. See the text instructions below
 
-To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQeJw otherwise read below
+To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQeJw
 
 To watch a video of how to use this program on Windows: https://youtu.be/hN94aPcEFng 
 
-# Setup
+# How To - Text
+
+## Setup
 First you should edit the values in participant.conf
 
 Note:
@@ -15,7 +26,7 @@ Note:
 - The values to the right of the : should be in quotation marks.
 - if you're not in a team, the TeamID should be set to null without quotation marks.
 
-# To run
+## To run
 
 On Linux you should be able to either do ./extrlifedonations.py (although you may need to change the path in the #! line) or 
 
