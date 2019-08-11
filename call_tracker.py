@@ -15,12 +15,35 @@ class MyForm(QDialog):
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
         self.pixmap.load("Engineer.png")
-        item=QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
-        self.scene.addItem(item)
+        self.item=QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
         self.ui.graphicsView.setScene(self.scene)
         
+        #timer to update the main text
+        self.timer = QtCore.QTimer(self)
+        self.timer.setSingleShot(False)
+        self.timer.setInterval(10000) #milliseconds
+        self.timer.timeout.connect(self.loadAndUnload) 
+        self.timer.start()
+        
+    def loadAndUnload(self):
+        self.loadElements()
+        unloadtimer = QtCore.QTimer(self)
+        unloadtimer.setSingleShot(True)
+        unloadtimer.setInterval(5000) #milliseconds
+        unloadtimer.timeout.connect(self.unloadElements)
+        unloadtimer.start()
+    
     def loadElements(self):
         print("load")
+        self.scene.addItem(self.item)
+        self.ui.Donation_label.setText("hi there!")
+        
+    def unloadElements(self):
+        print('unload')
+        self.scene.removeItem(self.item)
+        self.ui.Donation_label.setText("")
+
+        
 
 def main():
     w = MyForm()

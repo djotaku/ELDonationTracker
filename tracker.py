@@ -31,17 +31,17 @@ class Ui_Dialog(object):
         self.graphicsView.setInteractive(False)
         self.graphicsView.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.graphicsView.setObjectName("graphicsView")
-        self.Donation = QtWidgets.QLabel(Dialog)
-        self.Donation.setGeometry(QtCore.QRect(170, 0, 811, 121))
+        self.Donation_label = QtWidgets.QLabel(Dialog)
+        self.Donation_label.setGeometry(QtCore.QRect(170, 0, 811, 121))
         font = QtGui.QFont()
         font.setPointSize(43)
         font.setBold(True)
         font.setWeight(75)
         font.setKerning(True)
-        self.Donation.setFont(font)
-        self.Donation.setTextFormat(QtCore.Qt.PlainText)
-        self.Donation.setScaledContents(False)
-        self.Donation.setObjectName("Donation")
+        self.Donation_label.setFont(font)
+        self.Donation_label.setTextFormat(QtCore.Qt.PlainText)
+        self.Donation_label.setScaledContents(False)
+        self.Donation_label.setObjectName("Donation_label")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -49,5 +49,5 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Tracker"))
-        self.Donation.setText(_translate("Dialog", "Change me to blank once code is in call_tracker.py"))
+        self.Donation_label.setText(_translate("Dialog", "Change me to blank once code is in call_tracker.py"))
 
