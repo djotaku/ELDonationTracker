@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixm
 from tracker import *
 from PyQt5.QtCore import pyqtSlot
 
-import readparticipantconf
+import readparticipantconf, IPC
 
 # *** For GUI release, need to use QTimer and a function to check whether there's been a donation
 # and update this window
@@ -23,7 +23,7 @@ class MyForm(QDialog):
         #timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(10000) #milliseconds
+        self.timer.setInterval(20000) #milliseconds
         self.timer.timeout.connect(self.loadAndUnload) 
         self.timer.start()
         
@@ -33,9 +33,8 @@ class MyForm(QDialog):
             IPC = file.read(1)
             print(f'IPC is {IPC}')
             file.close()
-        print(IPC)
-        if IPC == "1": #don't know why this isn't doing what it's supposed to!!!
-            print("it was true")
+        if IPC == "1": 
+            print("Donation changed IPC value!")
             self.loadElements()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
@@ -57,6 +56,7 @@ class MyForm(QDialog):
         print('unload')
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
+        IPC.writeIPC("0")
 
         
 

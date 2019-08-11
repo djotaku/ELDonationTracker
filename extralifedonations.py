@@ -2,7 +2,7 @@
 
 import json, urllib.request, time, unicodedata
 
-import readparticipantconf
+import readparticipantconf, IPC
 
 #api info at https://github.com/DonorDrive/PublicAPI
 
@@ -132,6 +132,7 @@ class Participant:
                 self.get_donors()
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
+                IPC.writeIPC("1")
             print (time.strftime("%H:%M:%S"))
             time.sleep(30)
     
