@@ -89,7 +89,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Change me to blank once code is in call_tracker.py</string>
+    <string/>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>

@@ -39,6 +39,7 @@ class Ui_Dialog(object):
         font.setWeight(75)
         font.setKerning(True)
         self.Donation_label.setFont(font)
+        self.Donation_label.setText("")
         self.Donation_label.setTextFormat(QtCore.Qt.PlainText)
         self.Donation_label.setScaledContents(False)
         self.Donation_label.setObjectName("Donation_label")
@@ -49,5 +50,4 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Tracker"))
-        self.Donation_label.setText(_translate("Dialog", "Change me to blank once code is in call_tracker.py"))
 
