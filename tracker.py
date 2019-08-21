@@ -42,6 +42,7 @@ class Ui_Dialog(object):
         self.Donation_label.setText("")
         self.Donation_label.setTextFormat(QtCore.Qt.PlainText)
         self.Donation_label.setScaledContents(False)
+        self.Donation_label.setWordWrap(True)
         self.Donation_label.setObjectName("Donation_label")
 
         self.retranslateUi(Dialog)

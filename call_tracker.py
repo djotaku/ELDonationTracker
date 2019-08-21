@@ -26,7 +26,15 @@ class MyForm(QDialog):
         self.timer.setInterval(20000) #milliseconds
         self.timer.timeout.connect(self.loadAndUnload) 
         self.timer.start()
-        
+    
+    def loadAndUnloadTest(self):
+        self.loadElements()
+        unloadtimer = QtCore.QTimer(self)
+        unloadtimer.setSingleShot(True)
+        unloadtimer.setInterval(5000) #milliseconds
+        unloadtimer.timeout.connect(self.unloadElements)
+        unloadtimer.start()
+    
     def loadAndUnload(self):
         folders = readparticipantconf.textfolderOnly()
         with open(f'{folders}/trackerIPC.txt') as file:

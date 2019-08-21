@@ -36,10 +36,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
-        self.TestAlertButton.clicked.connect(self.tracker.loadAndUnload)
+        self.TestAlertButton.clicked.connect(self.testAlert)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
         
+    def testAlert(self):
+        self.tracker.loadAndUnloadTest()
     
     def callTracker(self):
         self.tracker.show()
