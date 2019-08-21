@@ -110,7 +110,7 @@ class Participant:
     def write_text_files(self,dictionary):
         """description"""
         for filename, text in dictionary.items():
-            f = open(f'{self.textFolder}/{filename}.txt", 'w')
+            f = open(f'{self.textFolder}/{filename}.txt', 'w')
             f.write(text)
             f.close
     
