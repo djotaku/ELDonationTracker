@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal #need Qt?
 
 import design, sys, threading
 
-import extralifedonations, call_tracker, call_settings, readparticipantconf
+import extralifedonations, call_tracker, call_settings, readparticipantconf, IPC
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     
@@ -27,6 +27,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         
         #instantiate the tracker so we can send signals
         self.tracker = call_tracker.MyForm()
+        
+        #want to make sure file exists on new run
+        IPC.writeIPC("0")
         
         #Connecting all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
