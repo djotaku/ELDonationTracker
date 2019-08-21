@@ -35,6 +35,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
         self.loop = True
+        IPC.writeIPC("0")
     
     def get_participant_JSON(self):
         """Connects to the server and grabs the participant JSON and populates info.
