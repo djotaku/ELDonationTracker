@@ -37,6 +37,7 @@ class MyForm(QDialog):
     
     def loadAndUnload(self):
         folders = readparticipantconf.textfolderOnly()
+        #this needs to be moved to a try/except
         with open(f'{folders}/trackerIPC.txt') as file:
             IPC = file.read(1)
             print(f'IPC is {IPC}')
@@ -55,6 +56,7 @@ class MyForm(QDialog):
         self.scene.addItem(self.item)
         #want to also play a sound
         folders = readparticipantconf.textfolderOnly()
+        #this needs to be moved to a try/except
         with open(f'{folders}/LastDonorNameAmnt.txt') as file:
             donorAndAmt = file.read()
             file.close
