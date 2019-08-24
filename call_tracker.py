@@ -38,10 +38,13 @@ class MyForm(QDialog):
     def loadAndUnload(self):
         folders = readparticipantconf.textfolderOnly()
         #this needs to be moved to a try/except
-        with open(f'{folders}/trackerIPC.txt') as file:
-            IPC = file.read(1)
-            print(f'IPC is {IPC}')
-            file.close()
+        try:
+            with open(f'{folders}/trackerIPC.txt') as file:
+                IPC = file.read(1)
+                print(f'IPC is {IPC}')
+                file.close()
+        except:
+            print("This shouldn't be happpening!")
         if IPC == "1": 
             print("Donation changed IPC value!")
             self.loadElements()
@@ -57,10 +60,13 @@ class MyForm(QDialog):
         #want to also play a sound
         folders = readparticipantconf.textfolderOnly()
         #this needs to be moved to a try/except
-        with open(f'{folders}/LastDonorNameAmnt.txt') as file:
-            donorAndAmt = file.read()
-            file.close
-        self.ui.Donation_label.setText(donorAndAmt)
+        try:
+            with open(f'{folders}/LastDonorNameAmnt.txt') as file:
+                donorAndAmt = file.read()
+                file.close
+            self.ui.Donation_label.setText(donorAndAmt)
+        except:
+            self.ui.Donation_label.setText("TEST 1...2...3...")
         
     def unloadElements(self):
         print('unload')
