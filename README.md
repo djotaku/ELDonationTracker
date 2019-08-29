@@ -8,13 +8,18 @@ Read ahead to find out how!
 
 If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this link each year to point to my latest campaign.
 
-# How To - videos
+# How To use on the commandline - videos instructions
 
-Note these videos are up to date for the master branch, not the devel branch. See the text instructions below
+Note these videos are up to date for the master branch, not the devel branch. If you prefer to read instructions rather than watch a video, see the text instructions below.
 
 To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQeJw
 
 To watch a video of how to use this program on Windows: https://youtu.be/hN94aPcEFng 
+
+# How To use with the GUI - videos instructions
+Note these videos are up to date for the master branch, not the devel branch. If you prefer to read instructions rather than watch a video, see the text instructions below.
+
+To watch a video of how to use this program with the GUI on Linux: https://youtu.be/Zg1UlHu6dI8
 
 # How To - Text
 
@@ -34,7 +39,7 @@ python3 extralifedonations.py
 
 On Windows, see the video above for how to run it.
 
-# GUI - Alpha Stage
+# How To - GUI (Currently in Beta)
 
 Eventually I will create binaries with the releases to bundle in all the package dependencies. Until then, follow the instructions below:
 
@@ -66,7 +71,7 @@ Use the settings window to enter your settings and then hit save to save them.
 
 To run the program, hit run. You should get the same output on the commandline as when just running the commandline utility. 
 
-# Web GUI
+# Web GUI - currently unmaintained
 
 If you want a webpage you can use as a GUI to do a sanity check on what should be in the donation files, first change the folder at the end in the __main__ section (this should be the same folder you're using for the text files). Then run
 
