@@ -2,7 +2,7 @@
 
 import json, urllib.request, time, unicodedata
 
-import readparticipantconf
+import readparticipantconf, IPC
 
 #api info at https://github.com/DonorDrive/PublicAPI
 
@@ -35,6 +35,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
         self.loop = True
+        IPC.writeIPC("0")
     
     def get_participant_JSON(self):
         """Connects to the server and grabs the participant JSON and populates info.
@@ -110,7 +111,7 @@ class Participant:
     def write_text_files(self,dictionary):
         """description"""
         for filename, text in dictionary.items():
-            f = open(self.textFolder+filename+".txt", 'w')
+            f = open(f'{self.textFolder}/{filename}.txt', 'w')
             f.write(text)
             f.close
     
@@ -132,6 +133,7 @@ class Participant:
                 self.get_donors()
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
+                IPC.writeIPC("1")
             print (time.strftime("%H:%M:%S"))
             time.sleep(30)
     

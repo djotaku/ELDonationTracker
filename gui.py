@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal #need Qt?
 
 import design, sys, threading
 
-import extralifedonations, call_tracker, call_settings, readparticipantconf
+import extralifedonations, call_tracker, call_settings, readparticipantconf, IPC
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     
@@ -28,15 +28,20 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         #instantiate the tracker so we can send signals
         self.tracker = call_tracker.MyForm()
         
+        #want to make sure file exists on new run
+        IPC.writeIPC("0")
+        
         #Connecting all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
         self.RefreshButton.clicked.connect(self.getsomeText)
-        self.TestAlertButton.clicked.connect(self.tracker.loadAndUnload)
+        self.TestAlertButton.clicked.connect(self.testAlert)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
         
+    def testAlert(self):
+        self.tracker.loadAndUnloadTest()
     
     def callTracker(self):
         self.tracker.show()
@@ -48,41 +53,26 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def deadbuton(self):
         print("not working yet")
     
+    def readFiles(self, folders, files):
+        try:
+            f = open(f'{folders}/{files}', 'r') 
+            text=f.read()
+            f.close()
+            return text
+        except:
+            print("file does not exist. Did you update the settings?")
+    
     def getsomeText(self):
-        # *** For GUI RELEASE:
-        # - needs to use try/catch to make sure these files are there. They won't be there 
-        # until at least the first time the code is run
-        # - since it's the same thing over and over - shoudl be moved to a function
+        # For next refactoring, will use dict to make this just work as a loop
         folders = readparticipantconf.textfolderOnly()
         
-        f = open(f'{folders}/last5DonorNameAmts.txt', 'r') 
-        text=f.read()
-        self.RecentDonations.setPlainText(text)
-        f.close()
-        f = open(f'{folders}/LastDonorNameAmnt.txt','r')
-        text=f.read()
-        self.LastDonation.setPlainText(text)
-        f.close()
-        f = open(f'{folders}/TopDonorNameAmnt.txt','r')
-        text=f.read()
-        self.TopDonation.setPlainText(text)
-        f.close()
-        f = open(f'{folders}/totalRaised.txt','r')
-        text=f.read()
-        self.TotalRaised.setPlainText(text)
-        f.close()
-        f = open(f'{folders}/numDonations.txt','r')
-        text=f.read()
-        self.TotalNumDonations.setPlainText(text)
-        f.close()
-        f = open(f'{folders}/goal.txt','r')
-        text=f.read()
-        self.Goal.setPlainText(text)
-        f.close()
-        f = open(f'{folders}/averageDonation.txt','r')
-        text=f.read()
-        self.AvgDonation.setPlainText(text)
-        f.close()
+        self.RecentDonations.setPlainText(self.readFiles(folders,'last5DonorNameAmts.txt'))
+        self.LastDonation.setPlainText(self.readFiles(folders,'LastDonorNameAmnt.txt'))
+        self.TopDonation.setPlainText(self.readFiles(folders,'TopDonorNameAmnt.txt'))
+        self.TotalRaised.setPlainText(self.readFiles(folders,'totalRaised.txt'))
+        self.TotalNumDonations.setPlainText(self.readFiles(folders,'numDonations.txt'))
+        self.Goal.setPlainText(self.readFiles(folders,'goal.txt'))
+        self.AvgDonation.setPlainText(self.readFiles(folders,'averageDonation.txt'))
     
     def runbutton(self):
         print("run button")

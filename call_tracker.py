@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixm
 from tracker import *
 from PyQt5.QtCore import pyqtSlot
 
-import readparticipantconf
+import readparticipantconf, IPC
 
 # *** For GUI release, need to use QTimer and a function to check whether there's been a donation
 # and update this window
@@ -23,19 +23,30 @@ class MyForm(QDialog):
         #timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(10000) #milliseconds
+        self.timer.setInterval(20000) #milliseconds
         self.timer.timeout.connect(self.loadAndUnload) 
         self.timer.start()
-        
+    
+    def loadAndUnloadTest(self):
+        self.loadElements()
+        unloadtimer = QtCore.QTimer(self)
+        unloadtimer.setSingleShot(True)
+        unloadtimer.setInterval(5000) #milliseconds
+        unloadtimer.timeout.connect(self.unloadElements)
+        unloadtimer.start()
+    
     def loadAndUnload(self):
         folders = readparticipantconf.textfolderOnly()
-        with open(f'{folders}/trackerIPC.txt') as file:
-            IPC = file.read(1)
-            print(f'IPC is {IPC}')
-            file.close()
-        print(IPC)
-        if IPC == "1": #don't know why this isn't doing what it's supposed to!!!
-            print("it was true")
+        #this needs to be moved to a try/except
+        try:
+            with open(f'{folders}/trackerIPC.txt') as file:
+                IPC = file.read(1)
+                print(f'IPC is {IPC}')
+                file.close()
+        except:
+            print("This shouldn't be happpening!")
+        if IPC == "1": 
+            print("Donation changed IPC value!")
             self.loadElements()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
@@ -48,15 +59,20 @@ class MyForm(QDialog):
         self.scene.addItem(self.item)
         #want to also play a sound
         folders = readparticipantconf.textfolderOnly()
-        with open(f'{folders}/LastDonorNameAmnt.txt') as file:
-            donorAndAmt = file.read()
-            file.close
-        self.ui.Donation_label.setText(donorAndAmt)
+        #this needs to be moved to a try/except
+        try:
+            with open(f'{folders}/LastDonorNameAmnt.txt') as file:
+                donorAndAmt = file.read()
+                file.close
+            self.ui.Donation_label.setText(donorAndAmt)
+        except:
+            self.ui.Donation_label.setText("TEST 1...2...3...")
         
     def unloadElements(self):
         print('unload')
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
+        IPC.writeIPC("0")
 
         
 
