@@ -21,6 +21,7 @@ Note these videos are up to date for the master branch, not the devel branch. If
 
 To watch a video of how to use this program with the GUI on Linux: https://youtu.be/Zg1UlHu6dI8
 
+To watch a video of how to use this program with the GUI on Windows: https://youtu.be/aAgwdMwusB0
 # How To - Text
 
 ## Setup
