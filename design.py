@@ -100,6 +100,9 @@ class Ui_MainWindow(object):
         self.pushButtonStop = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonStop.setGeometry(QtCore.QRect(670, 600, 84, 31))
         self.pushButtonStop.setObjectName("pushButtonStop")
+        self.label_8 = QtWidgets.QLabel(self.centralwidget)
+        self.label_8.setGeometry(QtCore.QRect(30, 610, 481, 31))
+        self.label_8.setObjectName("label_8")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -132,4 +135,5 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(_translate("MainWindow", "Team Info"))
         self.pushButtonRun.setText(_translate("MainWindow", "Run"))
         self.pushButtonStop.setText(_translate("MainWindow", "Stop"))
+        self.label_8.setText(_translate("MainWindow", "(C) 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com"))
 
