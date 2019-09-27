@@ -62,7 +62,7 @@ class Participant:
 
     def get_participant_JSON(self):
         """Grab participant JSON from server.
-        
+
         Connects to the server and grabs the participant JSON and
         populates info.Some values that I will want to track as
         numbers will go as class attributes, but all of them will
