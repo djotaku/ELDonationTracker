@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+"""Grabs donor JSON data and outputs to files."""
 
 import json
 import urllib.request
@@ -12,34 +12,42 @@ import IPC
 
 
 class Donor:
-
-    """Donor Attributes
+    """Donor Attributes.
 
     Class exists to provide attributes for a donor based on what comes in from
     the JSON so that it doesn't have to be traversed each time a donor action
-    needs to be taken"""
+    needs to be taken.
+    """
+
     def __init__(self, name, message, amount):
+        """Load in values from class initialization."""
         self.name = name
         self.message = message
         self.amount = amount
 
     def __lt__(self, object):
+        """Donor less than comparison.
+
+        Returns True if this Donor has a donation
+        amount less than comparision.
+        """
         return self.amount < object.amount
 
 
 class Participant:
     """Owns all the attributes under the participant API.
 
-    Also owns the results of any calculated data."""
+    Also owns the results of any calculated data.
+    """
 
     def __init__(self):
-        "Loads in config from participant.conf and creates the URLs."
+        """Load in config from participant.conf and creates the URLs."""
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol,
          self.TeamID) = readparticipantconf.CLIvalues()
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
-        # if need to test with donations until write unit tests: 
+        # if need to test with donations until write unit tests:
         # self.donorURL = f"http://www.extra-life.org/api/participants/297674/donations"
         self.teamURL = f"http://www.extra-life.org/api/teams/{self.TeamID}"
         self.donorcalcs = {}
@@ -53,14 +61,19 @@ class Participant:
         IPC.writeIPC("0")
 
     def get_participant_JSON(self):
-        """Connects to the server and grabs the participant JSON and populates info.
-    
-        Some values that I will want to track as numbers will go as class attributes, but all of them will go into the dictionary participantinfo in the way they'll be written to files."""
+        """Grab participant JSON from server.
+        
+        Connects to the server and grabs the participant JSON and
+        populates info.Some values that I will want to track as
+        numbers will go as class attributes, but all of them will
+        go into the dictionary participantinfo in the way they'll
+        be written to files.
+        """
         try:
             self.participantJSON = json.load(urllib.request.urlopen(self.participantURL))
         except urllib.error.HTTPError:
             print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")
-        
+
         self.ParticipantTotalRaised = self.participantJSON['sumDonations']
         self.ParticipantNumDonations = self.participantJSON['numDonations']
         try:
@@ -68,7 +81,7 @@ class Participant:
         except ZeroDivisionError:
             self.averagedonation = 0
         self.participantgoal = self.participantJSON['fundraisingGoal']
-    
+
         # the dictionary:
         self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(self.participantJSON['sumDonations'])
         self.participantinfo["numDonations"] = str(self.participantJSON['numDonations'])
@@ -76,7 +89,7 @@ class Participant:
         self.participantinfo["goal"] = self.CurrencySymbol+'{:.2f}'.format(self.participantgoal)
 
     def get_donors(self):
-        "Gets the donors from the JSON and creates the donor objects."
+        """Get the donors from the JSON and creates the donor objects."""
         self.donorlist = []
         try:
             self.donorJSON = json.load(urllib.request.urlopen(self.donorURL))
@@ -86,13 +99,13 @@ class Participant:
             print("No donors!")
         else:
             self.donorlist = [Donor(self.donorJSON[donor]['displayName'], self.donorJSON[donor].get('message'), self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
-    
-    def _donor_formatting(self, donor, message): 
+
+    def _donor_formatting(self, donor, message):
         if message:
             return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f} - {donor.message}"
         else:
             return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
-    
+
     def _last5donors(self, donors, message, horizontal):
         text = ""
         if message and not horizontal:
@@ -118,18 +131,23 @@ class Participant:
         self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0], False)
         self.donorcalcs['TopDonorNameAmnt'] = self._donor_formatting(sorted(self.donorlist, reverse=True)[0], False)
         self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist, False, False)
-        self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist,True, False)
+        self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist, True, False)
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist, True, True)
-    
+
     def write_text_files(self, dictionary):
-        """description"""
+        """Write info to text files."""
         for filename, text in dictionary.items():
             f = open(f'{self.textFolder}/{filename}.txt', 'w')
             f.write(text)
             f.close
-    
+
     def run(self):
-        "This should run getParticipantJSON, getDonors, the calculations methnods, and the methods to write to text files"
+        """Run things.
+
+        This should run getParticipantJSON, getDonors,
+        the calculations methnods, and the methods to
+        write to text files.
+        """
         self.get_participant_JSON()
         NumberofDonors = self.ParticipantNumDonations
         self.write_text_files(self.participantinfo)
@@ -147,14 +165,15 @@ class Participant:
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
                 IPC.writeIPC("1")
-            print (time.strftime("%H:%M:%S"))
+            print(time.strftime("%H:%M:%S"))
             time.sleep(30)
 
     def stop(self):
+        """Stop the loop."""
         print("stopping now...")
         self.loop = False
 
-if __name__=="__main__":
-#    main()
+
+if __name__ == "__main__":
     p = Participant()
     p.run()
