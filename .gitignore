@@ -1,0 +1,10 @@
+.kdev4
+.pytest_cache
+backup_participant.conf
+bin
+*.pyc
+how-branch
+lib/
+lib64
+oldteamstuff
+pyvenv.cfg
