@@ -32,7 +32,7 @@ jobs:
       run: |
         pip install pyinstaller
         pyinstaller gui.py
-        tar.exe -cf gui.zip  dist/gui/
+        tar.exe -c dist/gui/
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with: 
