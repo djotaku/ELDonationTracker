@@ -32,9 +32,11 @@ jobs:
       run: |
         pip install pyinstaller
         pyinstaller gui.py
-        tar.exe -cf gui.zip  dist/gui/
+        cp participant.conf dist/gui/
+        cp Engineer.png dist/gui
+        cp dist/gui/Qt5Core.dll dist/gui/PyQt5/Qt/bin
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with: 
         name: Windows-Build
-        path: gui.zip
+        path: dist/gui
