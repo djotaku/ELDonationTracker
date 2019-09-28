@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixm
 from tracker import *
 from PyQt5.QtCore import pyqtSlot
 
-import readparticipantconf, IPC
+import readparticipantconf
+import IPC
 
 # *** For GUI release, need to use QTimer and a function to check whether there's been a donation
 # and update this window
@@ -36,6 +37,7 @@ class MyForm(QDialog):
         unloadtimer.start()
     
     def loadAndUnload(self):
+        IPC = "0"
         folders = readparticipantconf.textfolderOnly()
         #this needs to be moved to a try/except
         try:
@@ -59,7 +61,6 @@ class MyForm(QDialog):
         self.scene.addItem(self.item)
         #want to also play a sound
         folders = readparticipantconf.textfolderOnly()
-        #this needs to be moved to a try/except
         try:
             with open(f'{folders}/LastDonorNameAmnt.txt') as file:
                 donorAndAmt = file.read()
