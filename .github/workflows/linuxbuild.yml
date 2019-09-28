@@ -32,6 +32,8 @@ jobs:
       run: |
         pip install pyinstaller
         pyinstaller gui.py
+        cp participant.conf dist/gui/
+        cp Engineer.png dist/gui
         tar fcvz gui.tar.gz  dist/gui/
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
