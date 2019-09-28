@@ -11,6 +11,9 @@ import readparticipantconf
 def writeIPC(value):
     """Write to the IPC file."""
     folders = readparticipantconf.textfolderOnly()
-    f = open(f'{folders}/trackerIPC.txt', 'w')
-    f.write(value)
-    f.close
+    try:
+        with open(f'{folders}/trackerIPC.txt', 'w') as file:
+            file.write(value)
+            file.close
+    except:
+        print("No trackerIPC.txt found.")

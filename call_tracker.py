@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixm
 from tracker import *
 from PyQt5.QtCore import pyqtSlot
 
-import readparticipantconf, IPC
+import readparticipantconf
+import IPC
 
 # *** For GUI release, need to use QTimer and a function to check whether there's been a donation
 # and update this window
