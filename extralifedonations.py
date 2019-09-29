@@ -7,6 +7,7 @@ import unicodedata
 
 import readparticipantconf
 import IPC
+import team
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
@@ -49,7 +50,6 @@ class Participant:
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         # if need to test with donations until write unit tests:
         # self.donorURL = f"http://www.extra-life.org/api/participants/297674/donations"
-        self.teamURL = f"http://www.extra-life.org/api/teams/{self.TeamID}"
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
         self.donorcalcs['TopDonorNameAmnt'] = "No Donors Yet"
