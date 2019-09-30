@@ -33,13 +33,21 @@ class Team:
         # debug - print statement below
         # print(self.team_info)
 
-    def get_participants(self):
+    def get_participants(self, offset):
         """Get team participants."""
+        offset_url = f"&offset={offset}"
         self.participant_list = []
+        get_results = ""
         try:
-            self.team_participant_json = json.load(urllib.request.urlopen(self.team_participant_url))
+            get_results = urllib.request.urlopen(self.team_participant_url+offset_url)
+            url_info = get_results.info()
+            self.number_of_participants = int(url_info.get("Num-Records"))
         except urllib.error.HTTPError:
             print("Couldn't get to team participant URL.")
+        try:
+            self.team_participant_json = json.load(get_results)
+        except:
+            print("Couldn't load JSON")
         if not self.team_participant_json:
             print("No team participants!")
         else:
@@ -79,7 +87,9 @@ class Team:
         self.write_text_files(self.team_info)
 
     def participant_run(self):
-        self.get_participants()
+        self.get_participants(1)
+        if self.number_of_participants > 100:
+            self.get_participants(100)
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
 
@@ -99,7 +109,9 @@ if __name__ == "__main__":
     folder = "/home/ermesa/programming/donationtxt/"
     myteam = Team(44013, folder)
     myteam.get_team_json()
-    myteam.get_participants()
+    myteam.get_participants(1)
+    if myteam.number_of_participants > 100:
+            myteam.get_participants(100)
     myteam._participant_calculations()
     myteam.write_text_files(myteam.team_info)
     myteam.write_text_files(myteam.participant_calculation_dict)
