@@ -59,6 +59,7 @@ class Participant:
         self.participantinfo = {}
         self.loop = True
         IPC.writeIPC("0")
+        self.myteam = team.Team(self.TeamID, self.textFolder)
 
     def get_participant_JSON(self):
         """Grab participant JSON from server.
@@ -155,9 +156,11 @@ class Participant:
         if self.donorlist:
             self._donor_calculations()
             self.write_text_files(self.donorcalcs)
+        self.myteam.team_run()
         while self.loop:
             self.get_participant_JSON()
             self.write_text_files(self.participantinfo)
+            self.myteam.participant_run()
             if self.ParticipantNumDonations > NumberofDonors:
                 print("A new donor!")
                 NumberofDonors = self.ParticipantNumDonations
@@ -165,6 +168,7 @@ class Participant:
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
                 IPC.writeIPC("1")
+            self.myteam.team_run()
             print(time.strftime("%H:%M:%S"))
             time.sleep(30)
 

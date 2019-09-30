@@ -28,7 +28,7 @@ class Team:
         self.team_info["Team_totalRaised"] = f"{self.total_raised:,.2f}"
         self.team_info["Team_numDonations"] = f"{self.num_donations}"
         # debug - print statement below
-        print(self.team_info)
+        #print(self.team_info)
     def get_participants(self):
         """Get team participants."""
         self.participant_list = []
@@ -42,14 +42,37 @@ class Team:
             self.participant_list = [TeamParticipant(self.team_participant_json[participant]['displayName'], float(self.team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.team_participant_json))]
     def _participant_calculations(self):
         self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = f"{sorted(self.participant_list, reverse=True)[0].name} - ${sorted(self.participant_list, reverse=True)[0].donation_totals:,.2f}"
+        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = self._top_5_participants(sorted(self.participant_list, reverse=True), True)
+        self.participant_calculation_dict['Team_Top5Participants'] = self._top_5_participants(sorted(self.participant_list, reverse=True), False)
         # debug next line
-        print(self.participant_calculation_dict['Team_TopParticipantNameAmnt'])
+        #print(self.participant_calculation_dict['Team_TopParticipantNameAmnt'])
+    def _top_5_participants(self, participants, horizontal):
+        text = ""
+        if horizontal:
+            for participant in range(0, len(participants)):
+                text = text + f"{participants[participant].name} - {participants[participant].donation_totals} | "
+                if participant == 4:
+                    break
+            return text
+        elif not horizontal:
+            for participant in range(0, len(participants)):
+                text = text + f"{participants[participant].name} - {participants[participant].donation_totals} \n"
+                if participant == 4:
+                    break
+            return text
     def write_text_files(self, dictionary):
         """Write info to text files."""
         for filename, text in dictionary.items():
             f = open(f'{self.output_folder}/{filename}.txt', 'w')
             f.write(text)
             f.close
+    def team_run(self):
+        self.get_team_json()
+        self.write_text_files(self.team_info)
+    def participant_run(self):
+        self.get_participants()
+        self._participant_calculations()
+        self.write_text_files(self.participant_calculation_dict)
 
 class TeamParticipant:
     """Participant Attributes."""
