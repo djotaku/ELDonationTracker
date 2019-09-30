@@ -22,7 +22,8 @@ Note these videos are up to date for the master branch, not the devel branch. If
 To watch a video of how to use this program with the GUI on Linux: https://youtu.be/Zg1UlHu6dI8
 
 To watch a video of how to use this program with the GUI on Windows: https://youtu.be/aAgwdMwusB0
-# How To - Text
+
+# How To - Text instructions
 
 ## Setup
 First you should edit the values in participant.conf
@@ -30,11 +31,11 @@ First you should edit the values in participant.conf
 Note:
 
 - The values to the right of the : should be in quotation marks.
-- if you're not in a team, the TeamID should be set to null without quotation marks.
+- if you're not in a team, the TeamID should be set to 'null' without quotation marks.
 
 ## To run
 
-On Linux you should be able to either do ./extrlifedonations.py (although you may need to change the path in the #! line) or 
+On Linux you should type:
 
 python3 extralifedonations.py
 
@@ -42,13 +43,31 @@ On Windows, see the video above for how to run it.
 
 # How To - GUI (Currently in Beta)
 
-Eventually I will create binaries with the releases to bundle in all the package dependencies. Until then, follow the instructions below:
+I am now creating executables with each release. Download the executable that goes with your operating system. After you unzip or untar the file:
+
+On Windows launch gui.exe.
+
+On Linux launch gui - you may first need to chmod 775 to make it executable.
+
+If you prefer to run from a git clone or from downloading one of the source downloads, follow the instructions below:
 
 ## Linux
 
-You will need the PyQt5 packages. Search your distro's repo to install them.
+If you wish to work in a virtual environment (and leave your suystem's Python packages alone), then type:
 
-type python3 gui.py 
+python3 -m venv .
+
+source ./bin/activate 
+
+(when you're done, you can type deactivate)
+
+to grab the requirements:
+
+pip install -r requirements.txt
+
+Finally, to run type:
+
+python3 gui.py 
 
 Once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered
 

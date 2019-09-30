@@ -73,7 +73,9 @@ class Participant:
         try:
             self.participantJSON = json.load(urllib.request.urlopen(self.participantURL))
         except urllib.error.HTTPError:
-            print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")
+            print("""Couldn't get to participant URL.
+                Check ExtraLifeID.
+                Or server may be unavailable.""")
 
         self.ParticipantTotalRaised = self.participantJSON['sumDonations']
         self.ParticipantNumDonations = self.participantJSON['numDonations']
@@ -95,7 +97,9 @@ class Participant:
         try:
             self.donorJSON = json.load(urllib.request.urlopen(self.donorURL))
         except urllib.error.HTTPError:
-            print("Couldn't get to donor URL. Check ExtraLifeID. Or server may be unavailable.")
+            print("""Couldn't get to donor URL.
+                Check ExtraLifeID.
+                Or server may be unavailable.""")
         if not self.donorJSON:
             print("No donors!")
         else:

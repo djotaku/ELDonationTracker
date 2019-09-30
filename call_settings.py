@@ -10,7 +10,7 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         with open('participant.conf') as file:
             self.participantconf = json.load(file)
-        (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = (self.participantconf['ExtraLifeID'],self.participantconf['textFolder'], self.participantconf['CurrencySymbol'], self.participantconf['TeamID'])
+        (self.ExtraLifeID,self.textFolder,self.CurrencySymbol, self.TeamID) = (self.participantconf['ExtraLifeID'], self.participantconf['textFolder'], self.participantconf['CurrencySymbol'], self.participantconf['TeamID'])
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
         self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
@@ -35,8 +35,8 @@ class MyForm(QDialog):
         else:
             teamID = self.ui.lineEditTeamID.text()
         config= {'ExtraLifeID':participantID, 'textFolder':textfolder,'CurrencySymbol':currencysymbol,'TeamID':teamID}
-        with open('participant.conf','w') as outfile:
-            json.dump(config,outfile)
+        with open('participant.conf', 'w') as outfile:
+            json.dump(config, outfile)
         
     def selectfolder(self):
         directory = QFileDialog.getExistingDirectory(self, "Get Folder")
@@ -47,7 +47,7 @@ def main():
     w.exec()
         
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = MyForm()
     w.show()
