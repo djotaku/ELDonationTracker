@@ -6,10 +6,6 @@ from PyQt5.QtCore import pyqtSlot
 import readparticipantconf
 import IPC
 
-# *** For GUI release, need to use QTimer and a function to check whether there's been a donation
-# and update this window
-#to remove the item call scene.removeItem()
-
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
@@ -18,7 +14,7 @@ class MyForm(QDialog):
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
         self.pixmap.load("Engineer.png")
-        self.item=QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
+        self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
         self.ui.graphicsView.setScene(self.scene)
         
         #timer to update the main text
@@ -32,32 +28,30 @@ class MyForm(QDialog):
         self.loadElements()
         unloadtimer = QtCore.QTimer(self)
         unloadtimer.setSingleShot(True)
-        unloadtimer.setInterval(5000) #milliseconds
+        unloadtimer.setInterval(5000)  # milliseconds
         unloadtimer.timeout.connect(self.unloadElements)
         unloadtimer.start()
     
     def loadAndUnload(self):
         IPC = "0"
         folders = readparticipantconf.textfolderOnly()
-        #this needs to be moved to a try/except
         try:
             with open(f'{folders}/trackerIPC.txt') as file:
                 IPC = file.read(1)
-                print(f'IPC is {IPC}')
                 file.close()
         except:
-            print("This shouldn't be happpening!")
-        if IPC == "1": 
-            print("Donation changed IPC value!")
+            print("""tackerIPC.txt not found.
+                Have you updated the settings?
+                Have you hit the 'run' button?""")
+        if IPC == "1":
             self.loadElements()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
             unloadtimer.setInterval(5000) #milliseconds
             unloadtimer.timeout.connect(self.unloadElements)
             unloadtimer.start()
-    
+
     def loadElements(self):
-        print("load")
         self.scene.addItem(self.item)
         #want to also play a sound
         folders = readparticipantconf.textfolderOnly()
@@ -68,21 +62,19 @@ class MyForm(QDialog):
             self.ui.Donation_label.setText(donorAndAmt)
         except:
             self.ui.Donation_label.setText("TEST 1...2...3...")
-        
+
     def unloadElements(self):
-        print('unload')
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
         IPC.writeIPC("0")
 
-        
+
 
 def main():
     w = MyForm()
-    w.exec()
-        
+    w.exec()       
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = MyForm()
     w.show()

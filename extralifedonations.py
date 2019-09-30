@@ -7,6 +7,7 @@ import unicodedata
 
 import readparticipantconf
 import IPC
+import team
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
@@ -49,7 +50,6 @@ class Participant:
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         # if need to test with donations until write unit tests:
         # self.donorURL = f"http://www.extra-life.org/api/participants/297674/donations"
-        self.teamURL = f"http://www.extra-life.org/api/teams/{self.TeamID}"
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
         self.donorcalcs['TopDonorNameAmnt'] = "No Donors Yet"
@@ -59,6 +59,7 @@ class Participant:
         self.participantinfo = {}
         self.loop = True
         IPC.writeIPC("0")
+        self.myteam = team.Team(self.TeamID, self.textFolder)
 
     def get_participant_JSON(self):
         """Grab participant JSON from server.
@@ -72,7 +73,9 @@ class Participant:
         try:
             self.participantJSON = json.load(urllib.request.urlopen(self.participantURL))
         except urllib.error.HTTPError:
-            print("Couldn't get to participant URL. Check ExtraLifeID. Or server may be unavailable.")
+            print("""Couldn't get to participant URL.
+                Check ExtraLifeID.
+                Or server may be unavailable.""")
 
         self.ParticipantTotalRaised = self.participantJSON['sumDonations']
         self.ParticipantNumDonations = self.participantJSON['numDonations']
@@ -94,7 +97,9 @@ class Participant:
         try:
             self.donorJSON = json.load(urllib.request.urlopen(self.donorURL))
         except urllib.error.HTTPError:
-            print("Couldn't get to donor URL. Check ExtraLifeID. Or server may be unavailable.")
+            print("""Couldn't get to donor URL.
+                Check ExtraLifeID.
+                Or server may be unavailable.""")
         if not self.donorJSON:
             print("No donors!")
         else:
@@ -155,9 +160,13 @@ class Participant:
         if self.donorlist:
             self._donor_calculations()
             self.write_text_files(self.donorcalcs)
+        if self.TeamID:
+            self.myteam.team_run()
         while self.loop:
             self.get_participant_JSON()
             self.write_text_files(self.participantinfo)
+            if self.TeamID:
+                self.myteam.participant_run()
             if self.ParticipantNumDonations > NumberofDonors:
                 print("A new donor!")
                 NumberofDonors = self.ParticipantNumDonations
@@ -165,6 +174,8 @@ class Participant:
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
                 IPC.writeIPC("1")
+            if self.TeamID:
+                self.myteam.team_run()
             print(time.strftime("%H:%M:%S"))
             time.sleep(30)
 

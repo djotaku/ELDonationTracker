@@ -16,4 +16,6 @@ def writeIPC(value):
             file.write(value)
             file.close
     except:
-        print("No trackerIPC.txt found.")
+        print("""No trackerIPC.txt found.
+            Have you updated the settings?
+            Have you hit the 'run' button?""")
