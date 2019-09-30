@@ -60,7 +60,11 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             f.close()
             return text
         except:
-            print("file does not exist. Did you update the settings?")
+            print("""GUI Error:
+                File does not exist.
+                Did you update the settings?
+                Did you hit the 'run' button?
+                """)
     
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
