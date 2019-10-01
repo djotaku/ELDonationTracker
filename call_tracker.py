@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSlot
 import readparticipantconf
 import IPC
 
+
 class MyForm(QDialog):
     def __init__(self):
         super().__init__()
@@ -17,10 +18,10 @@ class MyForm(QDialog):
         self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
         self.ui.graphicsView.setScene(self.scene)
         
-        #timer to update the main text
+        # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(20000) #milliseconds
+        self.timer.setInterval(20000)  # milliseconds
         self.timer.timeout.connect(self.loadAndUnload) 
         self.timer.start()
     
@@ -47,13 +48,13 @@ class MyForm(QDialog):
             self.loadElements()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
-            unloadtimer.setInterval(5000) #milliseconds
+            unloadtimer.setInterval(5000)  # milliseconds
             unloadtimer.timeout.connect(self.unloadElements)
             unloadtimer.start()
 
     def loadElements(self):
         self.scene.addItem(self.item)
-        #want to also play a sound
+        # want to also play a sound
         folders = readparticipantconf.textfolderOnly()
         try:
             with open(f'{folders}/LastDonorNameAmnt.txt') as file:
@@ -67,7 +68,6 @@ class MyForm(QDialog):
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
         IPC.writeIPC("0")
-
 
 
 def main():

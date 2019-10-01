@@ -3,6 +3,7 @@
 import json
 import urllib.request
 
+
 class Team:
     """Hold Team Data."""
     def __init__(self, team_ID, folder, currency_symbol):
@@ -100,6 +101,7 @@ class TeamParticipant:
     def __init__(self, name, donation_totals):
         self.name = name
         self.donation_totals = donation_totals
+
     def __lt__(self, object):
         """Participant less-than comparison"""
         return self.donation_totals < object.donation_totals
