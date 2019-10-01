@@ -5,10 +5,11 @@ import urllib.request
 
 class Team:
     """Hold Team Data."""
-    def __init__(self, team_ID, folder):
+    def __init__(self, team_ID, folder, currency_symbol):
         self.team_url = f"http://www.extra-life.org/api/teams/{team_ID}"
         self.team_participant_url = f"https://extra-life.org/api/teams/{team_ID}/participants"
         self.output_folder = folder
+        self.currency_symbol = currency_symbol
         self.team_info = {}
         self.participant_calculation_dict = {}
         self.number_of_participants = 0
@@ -26,9 +27,9 @@ class Team:
         self.total_raised = self.team_json["sumDonations"]
         self.num_donations = self.team_json["numDonations"]
         # dictionary
-        self.team_info["Team_goal"] = f"{self.team_goal:,.2f}"
+        self.team_info["Team_goal"] = f"{self.currency_symbol}{self.team_goal:,.2f}"
         self.team_info["Team_captain"] = f"{self.team_captain}"
-        self.team_info["Team_totalRaised"] = f"{self.total_raised:,.2f}"
+        self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
         self.team_info["Team_numDonations"] = f"{self.num_donations}"
         # debug - print statement below
         # print(self.team_info)
@@ -54,7 +55,7 @@ class Team:
             self.participant_list = [TeamParticipant(self.team_participant_json[participant]['displayName'], float(self.team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.team_participant_json))]
 
     def _participant_calculations(self):
-        self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = f"{sorted(self.participant_list, reverse=True)[0].name} - ${sorted(self.participant_list, reverse=True)[0].donation_totals:,.2f}"
+        self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = f"{sorted(self.participant_list, reverse=True)[0].name} - {self.currency_symbol}{sorted(self.participant_list, reverse=True)[0].donation_totals:,.2f}"
         self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = self._top_5_participants(sorted(self.participant_list, reverse=True), True)
         self.participant_calculation_dict['Team_Top5Participants'] = self._top_5_participants(sorted(self.participant_list, reverse=True), False)
         # debug next line
@@ -64,13 +65,13 @@ class Team:
         text = ""
         if horizontal:
             for participant in range(0, len(participants)):
-                text = text + f"{participants[participant].name} - {participants[participant].donation_totals} | "
+                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals} | "
                 if participant == 4:
                     break
             return text
         elif not horizontal:
             for participant in range(0, len(participants)):
-                text = text + f"{participants[participant].name} - {participants[participant].donation_totals} \n"
+                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals} \n"
                 if participant == 4:
                     break
             return text
@@ -107,7 +108,7 @@ class TeamParticipant:
 if __name__ == "__main__":
     # debug next line
     folder = "/home/ermesa/programming/donationtxt/"
-    myteam = Team(44013, folder)
+    myteam = Team(44013, folder, "$")
     myteam.get_team_json()
     myteam.get_participants(1)
     if myteam.number_of_participants > 100:

@@ -28,7 +28,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(5000) # milliseconds
+        self.timer.setInterval(15000)  # milliseconds
         self.timer.timeout.connect(self.getsomeText) 
         self.timer.start()
 
