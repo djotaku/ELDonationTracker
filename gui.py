@@ -4,34 +4,41 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 from PyQt5 import QtCore
 
-from PyQt5.QtCore import Qt, pyqtSignal #need Qt?
+from PyQt5.QtCore import Qt, pyqtSignal # need Qt?
 
-import design, sys, threading
+import design
+import sys
+import threading
 
-import extralifedonations, call_tracker, call_settings, readparticipantconf, IPC
+import extralifedonations
+import call_tracker
+import call_settings
+import readparticipantconf
+import IPC
+
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
-    
+
     def __init__(self):
         # Super allows us to access variables, methods etc in the design.py file
         super(self.__class__, self).__init__()
         self.setupUi(self)  # This is defined in design.py file automatically
                             # It sets up layout and widgets that are defined
-        
-        #timer to update the main text
+
+        # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(5000) #milliseconds
+        self.timer.setInterval(15000)  # milliseconds
         self.timer.timeout.connect(self.getsomeText) 
         self.timer.start()
-        
-        #instantiate the tracker so we can send signals
+
+        # instantiate the tracker so we can send signals
         self.tracker = call_tracker.MyForm()
-        
-        #want to make sure file exists on new run
+
+        # want to make sure file exists on new run
         IPC.writeIPC("0")
-        
-        #Connecting all the buttons to methods
+
+        # Connecting all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
@@ -49,7 +56,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def callSettings(self):
         call_settings.main()
     
-    #this is used for buttons that I haven't yet implemented
+    # this is used for buttons that I haven't yet implemented
     def deadbuton(self):
         print("not working yet")
     
@@ -60,24 +67,34 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             f.close()
             return text
         except:
-            print("file does not exist. Did you update the settings?")
-    
+            print("""GUI Error:
+                File does not exist.
+                Did you update the settings?
+                Did you hit the 'run' button?
+                """)
+
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
         folders = readparticipantconf.textfolderOnly()
-        
+
         self.RecentDonations.setPlainText(self.readFiles(folders,'last5DonorNameAmts.txt'))
-        self.LastDonation.setPlainText(self.readFiles(folders,'LastDonorNameAmnt.txt'))
-        self.TopDonation.setPlainText(self.readFiles(folders,'TopDonorNameAmnt.txt'))
-        self.TotalRaised.setPlainText(self.readFiles(folders,'totalRaised.txt'))
-        self.TotalNumDonations.setPlainText(self.readFiles(folders,'numDonations.txt'))
-        self.Goal.setPlainText(self.readFiles(folders,'goal.txt'))
-        self.AvgDonation.setPlainText(self.readFiles(folders,'averageDonation.txt'))
-    
+        self.LastDonation.setPlainText(self.readFiles(folders, 'LastDonorNameAmnt.txt'))
+        self.TopDonation.setPlainText(self.readFiles(folders, 'TopDonorNameAmnt.txt'))
+        self.TotalRaised.setPlainText(self.readFiles(folders, 'totalRaised.txt'))
+        self.TotalNumDonations.setPlainText(self.readFiles(folders, 'numDonations.txt'))
+        self.Goal.setPlainText(self.readFiles(folders, 'goal.txt'))
+        self.AvgDonation.setPlainText(self.readFiles(folders, 'averageDonation.txt'))
+        self.label_TeamCaptain.setText(self.readFiles(folders, 'Team_captain.txt'))
+        self.label_TeamGoal.setText(self.readFiles(folders, 'Team_goal.txt'))
+        self.label_TeamNumDonations.setText(self.readFiles(folders, 'Team_numDonations.txt'))
+        self.label_TeamTotalRaised.setText(self.readFiles(folders, 'Team_totalRaised.txt'))
+        self.label_TopTeamParticipant.setText(self.readFiles(folders, 'Team_TopParticipantNameAmnt.txt'))
+        self.textBrowser_TeamTop5.setPlainText(self.readFiles(folders, 'Team_Top5Participants.txt'))
+
     def runbutton(self):
         print("run button")
-        #need to add some code to keep it from starting more than one thread. 
-        self.thread1=donationGrabber()
+        # need to add some code to keep it from starting more than one thread. 
+        self.thread1 = donationGrabber()
         self.thread1.start()
         
     def stopbutton(self):

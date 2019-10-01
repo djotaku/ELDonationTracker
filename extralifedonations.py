@@ -59,7 +59,7 @@ class Participant:
         self.participantinfo = {}
         self.loop = True
         IPC.writeIPC("0")
-        self.myteam = team.Team(self.TeamID, self.textFolder)
+        self.myteam = team.Team(self.TeamID, self.textFolder, self.CurrencySymbol)
 
     def get_participant_JSON(self):
         """Grab participant JSON from server.
