@@ -14,25 +14,30 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
-        self.pixmap.load("Engineer.png")
-        self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
+        self.loadimage()
         self.ui.graphicsView.setScene(self.scene)
-        
+
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(20000)  # milliseconds
         self.timer.timeout.connect(self.loadAndUnload) 
         self.timer.start()
-    
+
+    def loadimage(self):
+        self.tracker_image = readparticipantconf.trackerimage()
+        self.pixmap.load(self.tracker_image)
+        self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
+
     def loadAndUnloadTest(self):
+        self.loadimage()
         self.loadElements()
         unloadtimer = QtCore.QTimer(self)
         unloadtimer.setSingleShot(True)
         unloadtimer.setInterval(5000)  # milliseconds
         unloadtimer.timeout.connect(self.unloadElements)
         unloadtimer.start()
-    
+
     def loadAndUnload(self):
         IPC = "0"
         folders = readparticipantconf.textfolderOnly()
@@ -45,6 +50,7 @@ class MyForm(QDialog):
                 Have you updated the settings?
                 Have you hit the 'run' button?""")
         if IPC == "1":
+            self.loadimage()
             self.loadElements()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)

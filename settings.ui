@@ -23,18 +23,8 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Participant ID</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEditParticipantID"/>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEditCurrencySymbol"/>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_2">
@@ -46,6 +36,9 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEditParticipantID"/>
+    </item>
     <item row="1" column="1" colspan="2">
      <widget class="QLabel" name="labelTextFolder">
       <property name="text">
@@ -56,13 +49,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3" colspan="2">
-     <widget class="QPushButton" name="pushButtonSelectFolder">
-      <property name="text">
-       <string>select Folder</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
@@ -70,8 +56,22 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEditCurrencySymbol"/>
+    <item row="1" column="3" colspan="2">
+     <widget class="QPushButton" name="pushButtonSelectFolder">
+      <property name="text">
+       <string>select Folder</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Participant ID</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
@@ -86,17 +86,41 @@
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEditTeamID"/>
     </item>
-    <item row="4" column="2" colspan="2">
+    <item row="5" column="2" colspan="2">
      <widget class="QPushButton" name="pushButtonRevert">
       <property name="text">
        <string>Revert</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="4">
+    <item row="5" column="4">
      <widget class="QPushButton" name="pushButtonSave">
       <property name="text">
        <string>Save</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Tracker Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="label_tracker_image">
+      <property name="text">
+       <string>No Image Selected</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3" colspan="2">
+     <widget class="QPushButton" name="pushButton_tracker_image">
+      <property name="text">
+       <string>select Image</string>
       </property>
      </widget>
     </item>
