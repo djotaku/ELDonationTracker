@@ -23,3 +23,19 @@ def textfolderOnly():
     """Only load in value of textFolder."""
     participantconf = loadJSON()
     return participantconf['textFolder']
+
+
+def GUIvalues():
+    """Load in values needed by call_settings.py."""
+    participantconf = loadJSON()
+    return (participantconf['ExtraLifeID'],
+            participantconf['textFolder'],
+            participantconf['CurrencySymbol'],
+            participantconf['TeamID'],
+            participantconf['TrackerImage'])
+
+
+def trackerimage():
+    """Load in tracker image file."""
+    participantconf = loadJSON()
+    return participantconf['TrackerImage']
