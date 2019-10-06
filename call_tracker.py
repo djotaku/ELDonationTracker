@@ -1,7 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from tracker import *
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QUrl
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
 import readparticipantconf
 import IPC
@@ -16,7 +17,8 @@ class MyForm(QDialog):
         self.pixmap = QtGui.QPixmap()
         self.loadimage()
         self.ui.graphicsView.setScene(self.scene)
-
+        self.donation_player = QMediaPlayer()
+        self.loadsound()
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
@@ -29,9 +31,16 @@ class MyForm(QDialog):
         self.pixmap.load(self.tracker_image)
         self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
 
+    def loadsound(self):
+        sound_to_play = readparticipantconf.trackersound()
+        self.donation_sound= QMediaContent(QUrl.fromLocalFile(sound_to_play))
+        self.donation_player.setMedia(self.donation_sound)
+
     def loadAndUnloadTest(self):
         self.loadimage()
         self.loadElements()
+        self.loadsound()
+        self.donation_player.play()
         unloadtimer = QtCore.QTimer(self)
         unloadtimer.setSingleShot(True)
         unloadtimer.setInterval(5000)  # milliseconds
@@ -52,6 +61,8 @@ class MyForm(QDialog):
         if IPC == "1":
             self.loadimage()
             self.loadElements()
+            self.loadsound()
+            self.donation_player.play()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
             unloadtimer.setInterval(5000)  # milliseconds

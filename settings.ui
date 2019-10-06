@@ -36,6 +36,16 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="label_tracker_image">
+      <property name="text">
+       <string>No Image Selected</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="lineEditParticipantID"/>
     </item>
@@ -73,6 +83,13 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Tracker Image</string>
+      </property>
+     </widget>
+    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
@@ -86,34 +103,17 @@
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEditTeamID"/>
     </item>
-    <item row="5" column="2" colspan="2">
+    <item row="6" column="2" colspan="2">
      <widget class="QPushButton" name="pushButtonRevert">
       <property name="text">
        <string>Revert</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="4">
+    <item row="6" column="4">
      <widget class="QPushButton" name="pushButtonSave">
       <property name="text">
        <string>Save</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Tracker Image</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLabel" name="label_tracker_image">
-      <property name="text">
-       <string>No Image Selected</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -121,6 +121,30 @@
      <widget class="QPushButton" name="pushButton_tracker_image">
       <property name="text">
        <string>select Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Donation Sound</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLabel" name="label_sound">
+      <property name="text">
+       <string>No Sound Selected</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="3" colspan="2">
+     <widget class="QPushButton" name="pushButton_sound">
+      <property name="text">
+       <string>select Sound</string>
       </property>
      </widget>
     </item>

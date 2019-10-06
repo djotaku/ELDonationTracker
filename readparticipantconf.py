@@ -32,10 +32,17 @@ def GUIvalues():
             participantconf['textFolder'],
             participantconf['CurrencySymbol'],
             participantconf['TeamID'],
-            participantconf['TrackerImage'])
+            participantconf['TrackerImage'],
+            participantconf['DonationSound'])
 
 
 def trackerimage():
     """Load in tracker image file."""
     participantconf = loadJSON()
     return participantconf['TrackerImage']
+
+
+def trackersound():
+    """Load in tracker sound file."""
+    participantconf = loadJSON()
+    return participantconf['DonationSound']
