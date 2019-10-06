@@ -18,9 +18,7 @@ class MyForm(QDialog):
         self.loadimage()
         self.ui.graphicsView.setScene(self.scene)
         self.donation_player = QMediaPlayer()
-        self.donation_sound= QMediaContent(QUrl.fromLocalFile("/home/ermesa/Music/Lana_Del_Rey/Serial_Killer/Lana Del Rey - Serial Killer.mp3"))
-        self.donation_player.setMedia(self.donation_sound)
-
+        self.loadsound()
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
@@ -33,9 +31,15 @@ class MyForm(QDialog):
         self.pixmap.load(self.tracker_image)
         self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
 
+    def loadsound(self):
+        sound_to_play = readparticipantconf.trackersound()
+        self.donation_sound= QMediaContent(QUrl.fromLocalFile(sound_to_play))
+        self.donation_player.setMedia(self.donation_sound)
+
     def loadAndUnloadTest(self):
         self.loadimage()
         self.loadElements()
+        self.loadsound()
         self.donation_player.play()
         unloadtimer = QtCore.QTimer(self)
         unloadtimer.setSingleShot(True)
@@ -57,6 +61,7 @@ class MyForm(QDialog):
         if IPC == "1":
             self.loadimage()
             self.loadElements()
+            self.loadsound()
             self.donation_player.play()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
