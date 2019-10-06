@@ -17,7 +17,7 @@ class MyForm(QDialog):
         self.pixmap = QtGui.QPixmap()
         self.loadimage()
         self.ui.graphicsView.setScene(self.scene)
-        QSound donation("/home/ermesa/Music/Lana_Del_Rey/Serial_Killer/Lana Del Rey - Serial Killer.mp3")
+        self.donation_sound = QSound("/home/ermesa/Music/Vol 19/george-ans-machine.wav")
 
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
@@ -34,6 +34,7 @@ class MyForm(QDialog):
     def loadAndUnloadTest(self):
         self.loadimage()
         self.loadElements()
+        self.donation_sound.play()
         unloadtimer = QtCore.QTimer(self)
         unloadtimer.setSingleShot(True)
         unloadtimer.setInterval(5000)  # milliseconds
