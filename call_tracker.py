@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from tracker import *
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtMultimedia import QSound
+from PyQt5.QtCore import pyqtSlot, QUrl
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
 import readparticipantconf
 import IPC
@@ -17,7 +17,9 @@ class MyForm(QDialog):
         self.pixmap = QtGui.QPixmap()
         self.loadimage()
         self.ui.graphicsView.setScene(self.scene)
-        self.donation_sound = QSound("/home/ermesa/Music/Vol 19/george-ans-machine.wav")
+        self.donation_player = QMediaPlayer()
+        self.donation_sound= QMediaContent(QUrl.fromLocalFile("/home/ermesa/Music/Lana_Del_Rey/Serial_Killer/Lana Del Rey - Serial Killer.mp3"))
+        self.donation_player.setMedia(self.donation_sound)
 
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
@@ -34,7 +36,7 @@ class MyForm(QDialog):
     def loadAndUnloadTest(self):
         self.loadimage()
         self.loadElements()
-        self.donation_sound.play()
+        self.donation_player.play()
         unloadtimer = QtCore.QTimer(self)
         unloadtimer.setSingleShot(True)
         unloadtimer.setInterval(5000)  # milliseconds
@@ -55,6 +57,7 @@ class MyForm(QDialog):
         if IPC == "1":
             self.loadimage()
             self.loadElements()
+            self.donation_player.play()
             unloadtimer = QtCore.QTimer(self)
             unloadtimer.setSingleShot(True)
             unloadtimer.setInterval(5000)  # milliseconds
