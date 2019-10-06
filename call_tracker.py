@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from tracker import *
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtMultimedia import QSound
 
 import readparticipantconf
 import IPC
@@ -16,6 +17,7 @@ class MyForm(QDialog):
         self.pixmap = QtGui.QPixmap()
         self.loadimage()
         self.ui.graphicsView.setScene(self.scene)
+        QSound donation("/home/ermesa/Music/Lana_Del_Rey/Serial_Killer/Lana Del Rey - Serial Killer.mp3")
 
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
