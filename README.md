@@ -8,22 +8,37 @@ Read ahead to find out how!
 
 If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this link each year to point to my latest Extra Life campaign.
 
-# How To use on the commandline - videos instructions
+# How To use with a GUI
 
-Note these videos are up to date for the master branch, not the devel branch. If you prefer to read instructions rather than watch a video, see the text instructions below.
+Watch one of these videos (click on the image):
+
+*Linux:*
+
+<a href="https://youtu.be/Zg1UlHu6dI8" target="_blank"><img src="http://img.youtube.com/vi/Zg1UlHu6dI8/0.jpg" 
+alt="Link to Linux instruction video"/></a>
+
+*Windows:*
+
+<a href="https://youtu.be/aAgwdMwusB0" target="_blank"><img src="http://img.youtube.com/vi/aAgwdMwusB0/0.jpg" 
+alt="Link to Linux instruction video"/></a>
+
+or follow the instructions below:
+
+I am now creating executables with each release. Download the executable that goes with your operating system. After you unzip or untar the file:
+
+On Windows launch gui.exe.
+
+On Linux launch gui - you may first need to chmod 775 to make it executable.
+
+Then click on the Settings button to fill in the fields there. Click save and exit the settings Window. In the main GUI hit Run to grab your data for the first time. From there, use the text files it generates in OBS or XSplit.
+
+# How To use without a GUI
 
 To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQeJw
 
 To watch a video of how to use this program on Windows: https://youtu.be/hN94aPcEFng 
 
-# How To use with the GUI - videos instructions
-Note these videos are up to date for the master branch, not the devel branch. If you prefer to read instructions rather than watch a video, see the text instructions below.
-
-To watch a video of how to use this program with the GUI on Linux: https://youtu.be/Zg1UlHu6dI8
-
-To watch a video of how to use this program with the GUI on Windows: https://youtu.be/aAgwdMwusB0
-
-# How To - Text instructions
+Or follow the instructions below: 
 
 ## Setup
 First you should edit the values in participant.conf
@@ -39,21 +54,15 @@ On Linux you should type:
 
 python3 extralifedonations.py
 
-On Windows, see the video above for how to run it.
+On Windows it's easiest to open extralifedonations.py in IDLE and then run the script from there. (This avoids any issues with python being in your path)
 
-# How To - GUI (Currently in Beta)
-
-I am now creating executables with each release. Download the executable that goes with your operating system. After you unzip or untar the file:
-
-On Windows launch gui.exe.
-
-On Linux launch gui - you may first need to chmod 775 to make it executable.
+# How To for developers
 
 If you prefer to run from a git clone or from downloading one of the source downloads, follow the instructions below:
 
 ## Linux
 
-If you wish to work in a virtual environment (and leave your suystem's Python packages alone), then type:
+If you wish to work in a virtual environment (and leave your system's Python packages alone), then type:
 
 python3 -m venv .
 
