@@ -16,14 +16,25 @@ To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQe
 
 To watch a video of how to use this program on Windows: https://youtu.be/hN94aPcEFng 
 
-# How To use with the GUI - videos instructions
-Note these videos are up to date for the master branch, not the devel branch. If you prefer to read instructions rather than watch a video, see the text instructions below.
+# How To - GUI
 
-To watch a video of how to use this program with the GUI on Linux: https://youtu.be/Zg1UlHu6dI8
+Watch one of these videos:
 
-To watch a video of how to use this program with the GUI on Windows: https://youtu.be/aAgwdMwusB0
+Linux: 
+<a href="https://youtu.be/Zg1UlHu6dI8" target="_blank"><img src="http://img.youtube.com/vi/Zg1UlHu6dI8/0.jpg" 
+alt="Link to Linux instruction video" width="240" height="180" border="10" /></a>
 
-# How To - Text instructions
+Windows: https://youtu.be/aAgwdMwusB0
+
+or follow the instructions below:
+
+I am now creating executables with each release. Download the executable that goes with your operating system. After you unzip or untar the file:
+
+On Windows launch gui.exe.
+
+On Linux launch gui - you may first need to chmod 775 to make it executable.
+
+Then 
 
 ## Setup
 First you should edit the values in participant.conf
@@ -41,19 +52,12 @@ python3 extralifedonations.py
 
 On Windows, see the video above for how to run it.
 
-# How To - GUI (Currently in Beta)
-
-I am now creating executables with each release. Download the executable that goes with your operating system. After you unzip or untar the file:
-
-On Windows launch gui.exe.
-
-On Linux launch gui - you may first need to chmod 775 to make it executable.
-
+# How To - GUI
 If you prefer to run from a git clone or from downloading one of the source downloads, follow the instructions below:
 
 ## Linux
 
-If you wish to work in a virtual environment (and leave your suystem's Python packages alone), then type:
+If you wish to work in a virtual environment (and leave your system's Python packages alone), then type:
 
 python3 -m venv .
 
