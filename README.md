@@ -10,14 +10,14 @@ If you find this useful, please consider donating to my Extra Life campagin: htt
 
 # How To use with a GUI
 
-Watch one of these videos:
+Watch one of these videos (click on the image):
 
-Linux: 
+*Linux:*
 
 <a href="https://youtu.be/Zg1UlHu6dI8" target="_blank"><img src="http://img.youtube.com/vi/Zg1UlHu6dI8/0.jpg" 
 alt="Link to Linux instruction video"/></a>
 
-Windows: 
+*Windows:*
 
 <a href="https://youtu.be/aAgwdMwusB0" target="_blank"><img src="http://img.youtube.com/vi/aAgwdMwusB0/0.jpg" 
 alt="Link to Linux instruction video"/></a>
