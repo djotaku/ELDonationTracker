@@ -22,7 +22,7 @@ Watch one of these videos:
 
 Linux: 
 <a href="https://youtu.be/Zg1UlHu6dI8" target="_blank"><img src="http://img.youtube.com/vi/Zg1UlHu6dI8/0.jpg" 
-alt="Link to Linux instruction video" width="240" height="180" border="10" /></a>
+alt="Link to Linux instruction video"/></a>
 
 Windows: https://youtu.be/aAgwdMwusB0
 
