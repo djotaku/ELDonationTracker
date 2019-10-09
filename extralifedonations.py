@@ -48,8 +48,7 @@ class Participant:
          self.TeamID) = readparticipantconf.CLIvalues()
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
-        # if need to test with donations until write unit tests:
-        # self.donorURL = f"http://www.extra-life.org/api/participants/297674/donations"
+        self.participant_donor_URL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
         self.donorcalcs['TopDonorNameAmnt'] = "No Donors Yet"
@@ -132,9 +131,19 @@ class Participant:
                     break
             return text
 
+    def _top_donor(self):
+        """Grab Top Donor from server."""
+        try:
+            self.participant_donor_JSON = json.load(urllib.request.urlopen(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC"))
+        except urllib.error.HTTPError:
+            print("""Couldn't get to participant donor URL.
+                Check ExtraLifeID.
+                Or server may be unavailable.""")
+        return f"{self.participant_donor_JSON[0]['displayName']} - {self.CurrencySymbol}{self.participant_donor_JSON[0]['sumDonations']:,.2f}"
+
     def _donor_calculations(self):
         self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0], False)
-        self.donorcalcs['TopDonorNameAmnt'] = self._donor_formatting(sorted(self.donorlist, reverse=True)[0], False)
+        self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
         self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist, False, False)
         self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist, True, False)
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist, True, True)
