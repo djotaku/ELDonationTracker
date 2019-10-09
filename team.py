@@ -51,6 +51,23 @@ class Team:
         else:
             self.participant_list = [TeamParticipant(self.team_participant_json[participant]['displayName'], float(self.team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.team_participant_json))]
 
+    def get_top_5_participants(self):
+        """Get team participants."""
+        self.top_5_participant_list = []
+        get_results = ""
+        try:
+            get_results = urllib.request.urlopen(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
+        except urllib.error.HTTPError:
+            print("Couldn't get to team participant URL.")
+        try:
+            self.top5_team_participant_json = json.load(get_results)
+        except:
+            print("Couldn't load JSON")
+        if not self.top5_team_participant_json:
+            print("No team participants!")
+        else:
+            self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]['displayName'], float(self.top5_team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.top5_team_participant_json))]
+
     def _top_participant(self):
         try:
             get_results = urllib.request.urlopen(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
@@ -67,10 +84,8 @@ class Team:
 
     def _participant_calculations(self):
         self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
-        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = self._top_5_participants(sorted(self.participant_list, reverse=True), True)
-        self.participant_calculation_dict['Team_Top5Participants'] = self._top_5_participants(sorted(self.participant_list, reverse=True), False)
-        # debug next line
-        # print(self.participant_calculation_dict['Team_TopParticipantNameAmnt'])
+        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = self._top_5_participants(self.top_5_participant_list, True)
+        self.participant_calculation_dict['Team_Top5Participants'] = self._top_5_participants(self.top_5_participant_list, False)
 
     def _top_5_participants(self, participants, horizontal):
         text = ""
@@ -100,6 +115,7 @@ class Team:
 
     def participant_run(self):
         self.get_participants()
+        self.get_top_5_participants()
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
 
