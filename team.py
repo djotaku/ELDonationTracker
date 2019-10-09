@@ -13,7 +13,6 @@ class Team:
         self.currency_symbol = currency_symbol
         self.team_info = {}
         self.participant_calculation_dict = {}
-        self.number_of_participants = 0
 
     def get_team_json(self):
         """Get team info from JSON api."""
@@ -35,15 +34,12 @@ class Team:
         # debug - print statement below
         # print(self.team_info)
 
-    def get_participants(self, offset):
+    def get_participants(self):
         """Get team participants."""
-        offset_url = f"&offset={offset}"
         self.participant_list = []
         get_results = ""
         try:
-            get_results = urllib.request.urlopen(self.team_participant_url+offset_url)
-            url_info = get_results.info()
-            self.number_of_participants = int(url_info.get("Num-Records"))
+            get_results = urllib.request.urlopen(self.team_participant_url)
         except urllib.error.HTTPError:
             print("Couldn't get to team participant URL.")
         try:
@@ -55,8 +51,22 @@ class Team:
         else:
             self.participant_list = [TeamParticipant(self.team_participant_json[participant]['displayName'], float(self.team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.team_participant_json))]
 
+    def _top_participant(self):
+        try:
+            get_results = urllib.request.urlopen(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
+        except urllib.error.HTTPError:
+            print("Couldn't get to team participant URL.")
+        try:
+            self.top_team_participant_json = json.load(get_results)
+        except:
+            print("Couldn't load JSON")
+        if not self.top_team_participant_json:
+            print("No team participants!")
+        else:
+            return f"{self.top_team_participant_json[0]['displayName']} - ${self.top_team_participant_json[0]['sumDonations']:,.2f}"
+
     def _participant_calculations(self):
-        self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = f"{sorted(self.participant_list, reverse=True)[0].name} - {self.currency_symbol}{sorted(self.participant_list, reverse=True)[0].donation_totals:,.2f}"
+        self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
         self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = self._top_5_participants(sorted(self.participant_list, reverse=True), True)
         self.participant_calculation_dict['Team_Top5Participants'] = self._top_5_participants(sorted(self.participant_list, reverse=True), False)
         # debug next line
@@ -89,9 +99,7 @@ class Team:
         self.write_text_files(self.team_info)
 
     def participant_run(self):
-        self.get_participants(1)
-        if self.number_of_participants > 100:
-            self.get_participants(100)
+        self.get_participants()
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
 
@@ -112,9 +120,7 @@ if __name__ == "__main__":
     folder = "/home/ermesa/programming/donationtxt/"
     myteam = Team(44013, folder, "$")
     myteam.get_team_json()
-    myteam.get_participants(1)
-    if myteam.number_of_participants > 100:
-            myteam.get_participants(100)
+    myteam.get_participants()
     myteam._participant_calculations()
     myteam.write_text_files(myteam.team_info)
     myteam.write_text_files(myteam.participant_calculation_dict)
