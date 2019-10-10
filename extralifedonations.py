@@ -22,7 +22,10 @@ class Donor:
 
     def __init__(self, name, message, amount):
         """Load in values from class initialization."""
-        self.name = name
+        if name is not None:
+            self.name = name
+        else:
+            self.name = "Anonymous"
         self.message = message
         self.amount = amount
 
