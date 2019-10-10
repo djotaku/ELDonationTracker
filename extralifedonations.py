@@ -22,7 +22,10 @@ class Donor:
 
     def __init__(self, name, message, amount):
         """Load in values from class initialization."""
-        self.name = name
+        if name is not None:
+            self.name = name
+        else:
+            self.name = "Anonymous"
         self.message = message
         self.amount = amount
 
@@ -102,7 +105,7 @@ class Participant:
         if not self.donorJSON:
             print("No donors!")
         else:
-            self.donorlist = [Donor(self.donorJSON[donor]['displayName'], self.donorJSON[donor].get('message'), self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
+            self.donorlist = [Donor(self.donorJSON[donor].get('displayName'), self.donorJSON[donor].get('message'), self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
 
     def _donor_formatting(self, donor, message):
         if message:
