@@ -19,7 +19,7 @@ alt="Link to Linux instruction video"/></a>
 
 *Windows:*
 
-<a href="https://youtu.be/aAgwdMwusB0" target="_blank"><img src="http://img.youtube.com/vi/aAgwdMwusB0/0.jpg" 
+<a href="https://youtu.be/YwvxuauPzhM" target="_blank"><img src="http://img.youtube.com/vi/YwvxuauPzhM/0.jpg" 
 alt="Link to Linux instruction video"/></a>
 
 or follow the instructions below:
