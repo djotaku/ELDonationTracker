@@ -14,12 +14,12 @@ Watch one of these videos (click on the image):
 
 *Linux:*
 
-<a href="https://youtu.be/Zg1UlHu6dI8" target="_blank"><img src="http://img.youtube.com/vi/Zg1UlHu6dI8/0.jpg" 
+<a href="https://youtu.be/oEZJXh3jaec" target="_blank"><img src="http://img.youtube.com/vi/oEZJXh3jaec/0.jpg" 
 alt="Link to Linux instruction video"/></a>
 
 *Windows:*
 
-<a href="https://youtu.be/aAgwdMwusB0" target="_blank"><img src="http://img.youtube.com/vi/aAgwdMwusB0/0.jpg" 
+<a href="https://youtu.be/YwvxuauPzhM" target="_blank"><img src="http://img.youtube.com/vi/YwvxuauPzhM/0.jpg" 
 alt="Link to Linux instruction video"/></a>
 
 or follow the instructions below:
