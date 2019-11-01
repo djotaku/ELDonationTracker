@@ -154,7 +154,7 @@ class Participant:
     def write_text_files(self, dictionary):
         """Write info to text files."""
         for filename, text in dictionary.items():
-            f = open(f'{self.textFolder}/{filename}.txt', 'w')
+            f = open(f'{self.textFolder}/{filename}.txt', 'w', encoding='utf-8')
             f.write(text)
             f.close
 
