@@ -7,8 +7,11 @@ import urllib.request
 class Team:
     """Hold Team Data."""
     def __init__(self, team_ID, folder, currency_symbol):
+        # urls
         self.team_url = f"http://www.extra-life.org/api/teams/{team_ID}"
         self.team_participant_url = f"http://extra-life.org/api/teams/{team_ID}/participants"
+        self.header = {'User-Agent': 'Extra Life Donation Tracker'}
+        # misc
         self.output_folder = folder
         self.currency_symbol = currency_symbol
         self.team_info = {}
@@ -17,7 +20,9 @@ class Team:
     def get_team_json(self):
         """Get team info from JSON api."""
         try:
-            self.team_json = json.load(urllib.request.urlopen(self.team_url))
+            request = urllib.request.Request(url=self.team_url,
+                                             headers=self.header)
+            self.team_json = json.load(urllib.request.urlopen(request))
         except urllib.error.HTTPError:
             print("""Couldn't get to team URL.
                 Check team ID.
@@ -39,7 +44,9 @@ class Team:
         self.participant_list = []
         get_results = ""
         try:
-            get_results = urllib.request.urlopen(self.team_participant_url)
+            request = urllib.request.Request(url=self.team_participant_url,
+                                             headers=self.header)
+            get_results = urllib.request.urlopen(request)
         except urllib.error.HTTPError:
             print("Couldn't get to team participant URL.")
         try:
@@ -56,7 +63,9 @@ class Team:
         self.top_5_participant_list = []
         get_results = ""
         try:
-            get_results = urllib.request.urlopen(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
+            request = urllib.request.Request(url=f"{self.team_participant_url}?orderBy=sumDonations%20DESC",
+                                             headers=self.header)
+            get_results = urllib.request.urlopen(request)
         except urllib.error.HTTPError:
             print("Couldn't get to team participant URL.")
         try:
@@ -70,7 +79,9 @@ class Team:
 
     def _top_participant(self):
         try:
-            get_results = urllib.request.urlopen(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
+            request = urllib.request.Request(url=f"{self.team_participant_url}?orderBy=sumDonations%20DESC",
+                                             headers=self.header)
+            get_results = urllib.request.urlopen(request)
         except urllib.error.HTTPError:
             print("Couldn't get to team participant URL.")
         try:
