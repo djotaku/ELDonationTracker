@@ -62,7 +62,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmtsMessage'] = "No Donors Yet"
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
-        
+
         # misc
         self.loop = True
         IPC.writeIPC("0")
