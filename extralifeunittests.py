@@ -136,5 +136,15 @@ def test_write_text_files_emoji():
         fileinput = file.read()
     assert fileinput == "😀😇😈😝😳😴😸😻🙀🙃"
 
-# for the file writing don't forget to test donor names and messages with
-# characters like ñ and ô and emojis.
+
+# Tests for Class Team
+# skipping JSON for now since I'm going to refactor that output
+# in fact, nearly everything here is a variant of participant
+# and will get refactored out.
+
+# Tests for IPC.py
+# Don't see a need to test anything here as it's the most
+# basic of functions.
+
+# Tests for readparticipantconf.py
+# right now not sure what tests I need here
