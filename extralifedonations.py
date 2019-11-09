@@ -61,6 +61,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmts'] = "No Donors Yet"
         self.donorcalcs['last5DonorNameAmtsMessage'] = "No Donors Yet"
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
+        self.donorcalcs['last5DonorNameAmtsHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
         
         # misc
@@ -138,6 +139,12 @@ class Participant:
                 if donor == 4:
                     break
             return text
+        elif not message and horizontal:
+            for donor in range(0, len(donors)):
+                text = text+self._donor_formatting(donors[donor], message)+" | "
+                if donor == 4:
+                    break
+            return text
         elif not message:
             for donor in range(0, len(donors)):
                 text = text+self._donor_formatting(donors[donor], message)+"\n"
@@ -163,6 +170,7 @@ class Participant:
         self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist, False, False)
         self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist, True, False)
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist, True, True)
+        self.donorcalcs['last5DonorNameAmtsHorizontal'] = self._last5donors(self.donorlist, False, True)
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
