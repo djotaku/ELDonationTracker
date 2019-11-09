@@ -84,9 +84,12 @@ class Participant:
                                              headers=self.header)
             self.participantJSON = json.load(urllib.request.urlopen(request))
         except urllib.error.HTTPError:
-            print("""Couldn't get to participant URL.
+            print(f"""Couldn't get to {self.participantURL}.
                 Check ExtraLifeID.
-                Or server may be unavailable.""")
+                Or server may be unavailable.
+                If you can reach that URL from your browser
+                please open an issue at:
+                https://github.com/djotaku/ELDonationTracker""")
 
         self.ParticipantTotalRaised = self.participantJSON['sumDonations']
         self.ParticipantNumDonations = self.participantJSON['numDonations']
@@ -110,7 +113,7 @@ class Participant:
                                              headers=self.header)
             self.donorJSON = json.load(urllib.request.urlopen(request))
         except urllib.error.HTTPError:
-            print("""Couldn't get to donor URL.
+            print(f"""Couldn't get to {self.donorURL}.
                 Check ExtraLifeID.
                 Or server may be unavailable.""")
         if not self.donorJSON:
