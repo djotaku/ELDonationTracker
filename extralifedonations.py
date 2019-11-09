@@ -49,9 +49,12 @@ class Participant:
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol,
          self.TeamID) = readparticipantconf.CLIvalues()
+        # urls
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         self.participant_donor_URL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
+        self.header = {'User-Agent': 'Extra Life Donation Tracker'}
+        # donor calculations
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
         self.donorcalcs['TopDonorNameAmnt'] = "No Donors Yet"
@@ -59,9 +62,13 @@ class Participant:
         self.donorcalcs['last5DonorNameAmtsMessage'] = "No Donors Yet"
         self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
+        
+        # misc
         self.loop = True
         IPC.writeIPC("0")
-        self.myteam = team.Team(self.TeamID, self.textFolder, self.CurrencySymbol)
+        self.myteam = team.Team(self.TeamID,
+                                self.textFolder,
+                                self.CurrencySymbol)
 
     def get_participant_JSON(self):
         """Grab participant JSON from server.
@@ -73,7 +80,9 @@ class Participant:
         be written to files.
         """
         try:
-            self.participantJSON = json.load(urllib.request.urlopen(self.participantURL))
+            request = urllib.request.Request(url=self.participantURL,
+                                             headers=self.header)
+            self.participantJSON = json.load(urllib.request.urlopen(request))
         except urllib.error.HTTPError:
             print("""Couldn't get to participant URL.
                 Check ExtraLifeID.
@@ -97,7 +106,9 @@ class Participant:
         """Get the donors from the JSON and creates the donor objects."""
         self.donorlist = []
         try:
-            self.donorJSON = json.load(urllib.request.urlopen(self.donorURL))
+            request = urllib.request.Request(url=self.donorURL,
+                                             headers=self.header)
+            self.donorJSON = json.load(urllib.request.urlopen(request))
         except urllib.error.HTTPError:
             print("""Couldn't get to donor URL.
                 Check ExtraLifeID.
@@ -137,7 +148,9 @@ class Participant:
     def _top_donor(self):
         """Grab Top Donor from server."""
         try:
-            self.participant_donor_JSON = json.load(urllib.request.urlopen(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC"))
+            request = urllib.request.Request(url=f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC",
+                                             headers=self.header)
+            self.participant_donor_JSON = json.load(urllib.request.urlopen(request))
         except urllib.error.HTTPError:
             print("""Couldn't get to participant donor URL.
                 Check ExtraLifeID.
