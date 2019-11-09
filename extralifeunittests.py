@@ -94,5 +94,11 @@ def test_last5donors_Message_Vertical():
     p = extralifedonations.Participant()
     text = p._last5donors(donor_list, True, False)
     assert text == "donor1 - $10.00 - message1\ndonor2 - $20.00 - message2\ndonor3 - $30.00 - message3\ndonor4 - $40.00 - message4\ndonor5 - $50.00 - message5\n"
+
+
+def test_donor_calculations():
+    """ Since _donor_calculations is just using the two methods I tested above I'm going to assume it is correct unless someone points out why it still needs a unit test."""
+    pass
+
 # for the file writing don't forget to test donor names and messages with
 # characters like ñ and ô and emojis.
