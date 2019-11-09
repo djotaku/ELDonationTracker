@@ -30,3 +30,6 @@ def test_donor_formatting_message_false():
     donor1 = extralifedonations.Donor("donor1", "message", 45)
     formatted_message = p._donor_formatting(donor1, False)
     assert formatted_message == "donor1 - $45.00"
+
+# for the file writing don't forget to test donor names and messages with
+# characters like ñ and ô and emojis.
