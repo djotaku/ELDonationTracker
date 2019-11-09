@@ -3,7 +3,6 @@
 import json
 import urllib.request
 import time
-import unicodedata
 
 import readparticipantconf
 import IPC

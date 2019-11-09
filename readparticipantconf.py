@@ -1,7 +1,6 @@
 """Provide various files with the ability to load in the config file."""
 
 import json
-import unicodedata
 
 
 def loadJSON():

@@ -4,7 +4,6 @@ This is used to allow the tracker to know that new data needs to be read
 in because a new donation has ocurred.
 """
 
-import sys
 import readparticipantconf
 
 
