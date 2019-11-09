@@ -100,5 +100,41 @@ def test_donor_calculations():
     """ Since _donor_calculations is just using the two methods I tested above I'm going to assume it is correct unless someone points out why it still needs a unit test."""
     pass
 
+
+def test_write_text_files():
+    """ Test that data gets written to the text files correctly. """
+    fileinput = ""
+    dictionary = {"testfilename": "test output"}
+    p = extralifedonations.Participant()
+    p.textFolder = "testOutput"
+    p.write_text_files(dictionary)
+    with open(f"testOutput/testfilename.txt") as file:
+        fileinput = file.read()
+    assert fileinput == "test output"
+
+
+def test_write_text_files_unicode():
+    """ Test that data gets written to the text files correctly. """
+    fileinput = ""
+    dictionary = {"testfilename": "áêíòúñ"}
+    p = extralifedonations.Participant()
+    p.textFolder = "testOutput"
+    p.write_text_files(dictionary)
+    with open(f"testOutput/testfilename.txt") as file:
+        fileinput = file.read()
+    assert fileinput == "áêíòúñ"
+
+
+def test_write_text_files_emoji():
+    """ Test that data gets written to the text files correctly. """
+    fileinput = ""
+    dictionary = {"testfilename": "😀😇😈😝😳😴😸😻🙀🙃"}
+    p = extralifedonations.Participant()
+    p.textFolder = "testOutput"
+    p.write_text_files(dictionary)
+    with open(f"testOutput/testfilename.txt") as file:
+        fileinput = file.read()
+    assert fileinput == "😀😇😈😝😳😴😸😻🙀🙃"
+
 # for the file writing don't forget to test donor names and messages with
 # characters like ñ and ô and emojis.
