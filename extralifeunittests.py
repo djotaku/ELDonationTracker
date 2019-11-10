@@ -122,7 +122,7 @@ def test_write_text_files_unicode():
     p = extralifedonations.Participant()
     p.textFolder = "testOutput"
     p.write_text_files(dictionary)
-    with open(f"testOutput/testfilename.txt") as file:
+    with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "áéíóúñ"
 
@@ -134,7 +134,7 @@ def test_write_text_files_emoji():
     p = extralifedonations.Participant()
     p.textFolder = "testOutput"
     p.write_text_files(dictionary)
-    with open(f"testOutput/testfilename.txt") as file:
+    with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
 
