@@ -14,7 +14,7 @@ def writeIPC(value):
         with open(f'{folders}/trackerIPC.txt', 'w') as file:
             file.write(value)
             file.close
-    except:
+    except IOError:
         print("""No trackerIPC.txt found.
             Have you updated the settings?
             Have you hit the 'run' button?""")

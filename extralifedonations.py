@@ -129,25 +129,13 @@ class Participant:
 
     def _last5donors(self, donors, message, horizontal):
         text = ""
-        if message and not horizontal:
-            for donor in range(0, len(donors)):
-                text = text+self._donor_formatting(donors[donor], message)+"\n"
-                if donor == 4:
-                    break
-            return text
-        elif message and horizontal:
+        if horizontal:
             for donor in range(0, len(donors)):
                 text = text+self._donor_formatting(donors[donor], message)+" | "
                 if donor == 4:
                     break
             return text
-        elif not message and horizontal:
-            for donor in range(0, len(donors)):
-                text = text+self._donor_formatting(donors[donor], message)+" | "
-                if donor == 4:
-                    break
-            return text
-        elif not message:
+        else:
             for donor in range(0, len(donors)):
                 text = text+self._donor_formatting(donors[donor], message)+"\n"
                 if donor == 4:
@@ -177,7 +165,7 @@ class Participant:
     def write_text_files(self, dictionary):
         """Write info to text files."""
         for filename, text in dictionary.items():
-            f = open(f'{self.textFolder}/{filename}.txt', 'w', encoding='utf-8')
+            f = open(f'{self.textFolder}/{filename}.txt', 'w', encoding='utf8')
             f.write(text)
             f.close
 
