@@ -1,3 +1,5 @@
+# This unitest test uses the following encoding: utf-8
+
 import extralifedonations
 
 # run with command: py.test-3 extralifeunittests.py
