@@ -116,25 +116,25 @@ def test_write_text_files():
 def test_write_text_files_unicode():
     """ Test that unicode gets written to the text files correctly. """
     fileinput = ""
-    dictionary = {"testfilename": u"áéíóúñ"}
+    dictionary = {"testfilename": "áéíóúñ"}
     p = extralifedonations.Participant()
     p.textFolder = "testOutput"
     p.write_text_files(dictionary)
     with open(f"testOutput/testfilename.txt") as file:
         fileinput = file.read()
-    assert fileinput == u"áéíóúñ"
+    assert fileinput == "áéíóúñ"
 
 
 def test_write_text_files_emoji():
     """ Test that emojis get written to the text files correctly. """
     fileinput = ""
-    dictionary = {"testfilename": u"😁😂🧐🙏🚣🌸🦞🏰💌"}
+    dictionary = {"testfilename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
     p = extralifedonations.Participant()
     p.textFolder = "testOutput"
     p.write_text_files(dictionary)
     with open(f"testOutput/testfilename.txt") as file:
         fileinput = file.read()
-    assert fileinput == u"😁😂🧐🙏🚣🌸🦞🏰💌"
+    assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
 
 
 # Tests for Class Team
