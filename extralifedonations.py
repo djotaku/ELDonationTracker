@@ -102,40 +102,20 @@ class Participant:
                                     self.donorJSON[donor].get('message'),
                                     self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
 
-    def _donor_formatting(self, donor, message):
-        if message:
-            return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f} - {donor.message}"
-        else:
-            return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
-
-    def _last5donors(self, donors, message, horizontal):
-        text = ""
-        if horizontal:
-            for donor in range(0, len(donors)):
-                text = text+self._donor_formatting(donors[donor], message)+" | "
-                if donor == 4:
-                    break
-            return text
-        else:
-            for donor in range(0, len(donors)):
-                text = text+self._donor_formatting(donors[donor], message)+"\n"
-                if donor == 4:
-                    break
-            return text
-
     def _top_donor(self):
         """Grab Top Donor from server."""
         top_donor_JSON = extralife_IO.get_JSON(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC")
         top_donor = Donor(top_donor_JSON[0]['displayName'], "", top_donor_JSON[0]['sumDonations'])
-        return self._donor_formatting(top_donor, False)
+        return extralife_IO.single_format(top_donor, False,
+                                          self.CurrencySymbol)
 
     def _donor_calculations(self):
-        self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0], False)
+        self.donorcalcs['LastDonorNameAmnt'] = extralife_IO.single_format(self.donorlist[0], False, self.CurrencySymbol)
         self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
-        self.donorcalcs['last5DonorNameAmts'] = self._last5donors(self.donorlist, False, False)
-        self.donorcalcs['last5DonorNameAmtsMessage'] = self._last5donors(self.donorlist, True, False)
-        self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = self._last5donors(self.donorlist, True, True)
-        self.donorcalcs['last5DonorNameAmtsHorizontal'] = self._last5donors(self.donorlist, False, True)
+        self.donorcalcs['last5DonorNameAmts'] = extralife_IO.multiple_format(self.donorlist, False, False, self.CurrencySymbol, 5)
+        self.donorcalcs['last5DonorNameAmtsMessage'] = extralife_IO.multiple_format(self.donorlist, True, False, self.CurrencySymbol, 5)
+        self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donorlist, True, True, self.CurrencySymbol, 5)
+        self.donorcalcs['last5DonorNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donorlist, False, True, self.CurrencySymbol, 5)
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
