@@ -1,7 +1,5 @@
 """ Contains classes pertaining to teams."""
-
-import json
-import urllib.request
+import extralife_IO
 
 
 class Team:
@@ -10,7 +8,6 @@ class Team:
         # urls
         self.team_url = f"http://www.extra-life.org/api/teams/{team_ID}"
         self.team_participant_url = f"http://extra-life.org/api/teams/{team_ID}/participants"
-        self.header = {'User-Agent': 'Extra Life Donation Tracker'}
         # misc
         self.output_folder = folder
         self.currency_symbol = currency_symbol
@@ -19,14 +16,7 @@ class Team:
 
     def get_team_json(self):
         """Get team info from JSON api."""
-        try:
-            request = urllib.request.Request(url=self.team_url,
-                                             headers=self.header)
-            self.team_json = json.load(urllib.request.urlopen(request))
-        except urllib.error.HTTPError:
-            print("""Couldn't get to team URL.
-                Check team ID.
-                Or server may be unavailable.""")
+        self.team_json = extralife_IO.get_JSON(self.team_url)
         self.team_goal = self.team_json["fundraisingGoal"]
         self.team_captain = self.team_json["captainDisplayName"]
         self.total_raised = self.team_json["sumDonations"]
@@ -36,23 +26,12 @@ class Team:
         self.team_info["Team_captain"] = f"{self.team_captain}"
         self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
         self.team_info["Team_numDonations"] = f"{self.num_donations}"
-        # debug - print statement below
-        # print(self.team_info)
 
     def get_participants(self):
         """Get team participants."""
         self.participant_list = []
         get_results = ""
-        try:
-            request = urllib.request.Request(url=self.team_participant_url,
-                                             headers=self.header)
-            get_results = urllib.request.urlopen(request)
-        except urllib.error.HTTPError:
-            print("Couldn't get to team participant URL.")
-        try:
-            self.team_participant_json = json.load(get_results)
-        except:
-            print("Couldn't load JSON")
+        self.team_participant_json = extralife_IO.get_JSON(self.team_participant_url)
         if not self.team_participant_json:
             print("No team participants!")
         else:
@@ -61,33 +40,15 @@ class Team:
     def get_top_5_participants(self):
         """Get team participants."""
         self.top_5_participant_list = []
-        get_results = ""
-        try:
-            request = urllib.request.Request(url=f"{self.team_participant_url}?orderBy=sumDonations%20DESC",
-                                             headers=self.header)
-            get_results = urllib.request.urlopen(request)
-        except urllib.error.HTTPError:
-            print("Couldn't get to team participant URL.")
-        try:
-            self.top5_team_participant_json = json.load(get_results)
-        except:
-            print("Couldn't load JSON")
+        self.top5_team_participant_json = extralife_IO.get_JSON(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
         if not self.top5_team_participant_json:
             print("No team participants!")
         else:
             self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]['displayName'], float(self.top5_team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.top5_team_participant_json))]
 
     def _top_participant(self):
-        try:
-            request = urllib.request.Request(url=f"{self.team_participant_url}?orderBy=sumDonations%20DESC",
-                                             headers=self.header)
-            get_results = urllib.request.urlopen(request)
-        except urllib.error.HTTPError:
-            print("Couldn't get to team participant URL.")
-        try:
-            self.top_team_participant_json = json.load(get_results)
-        except:
-            print("Couldn't load JSON")
+        """ Get Top Team Participant. """
+        self.top_team_participant_json = extralife_IO.get_JSON(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
         if not self.top_team_participant_json:
             print("No team participants!")
         else:

@@ -1,7 +1,5 @@
 """Grabs donor JSON data and outputs to files."""
 
-import json
-import urllib.request
 import time
 
 import readparticipantconf
@@ -100,7 +98,9 @@ class Participant:
         if not self.donorJSON:
             print("No donors!")
         else:
-            self.donorlist = [Donor(self.donorJSON[donor].get('displayName'), self.donorJSON[donor].get('message'), self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
+            self.donorlist = [Donor(self.donorJSON[donor].get('displayName'),
+                                    self.donorJSON[donor].get('message'),
+                                    self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
 
     def _donor_formatting(self, donor, message):
         if message:
