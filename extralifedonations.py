@@ -7,6 +7,7 @@ import time
 import readparticipantconf
 import IPC
 import team
+import extralife_IO
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
@@ -52,7 +53,6 @@ class Participant:
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         self.participant_donor_URL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
-        self.header = {'User-Agent': 'Extra Life Donation Tracker'}
         # donor calculations
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
@@ -71,26 +71,14 @@ class Participant:
                                 self.CurrencySymbol)
 
     def get_participant_JSON(self):
-        """Grab participant JSON from server.
+        """Get JSON data for participant information.
 
-        Connects to the server and grabs the participant JSON and
-        populates info.Some values that I will want to track as
+        Some values that I will want to track as
         numbers will go as class attributes, but all of them will
         go into the dictionary participantinfo in the way they'll
         be written to files.
         """
-        try:
-            request = urllib.request.Request(url=self.participantURL,
-                                             headers=self.header)
-            self.participantJSON = json.load(urllib.request.urlopen(request))
-        except urllib.error.HTTPError:
-            print(f"""Couldn't get to {self.participantURL}.
-                Check ExtraLifeID.
-                Or server may be unavailable.
-                If you can reach that URL from your browser
-                please open an issue at:
-                https://github.com/djotaku/ELDonationTracker""")
-
+        self.participantJSON = extralife_IO.get_JSON(self.participantURL)
         self.ParticipantTotalRaised = self.participantJSON['sumDonations']
         self.ParticipantNumDonations = self.participantJSON['numDonations']
         try:
@@ -108,14 +96,7 @@ class Participant:
     def get_donors(self):
         """Get the donors from the JSON and creates the donor objects."""
         self.donorlist = []
-        try:
-            request = urllib.request.Request(url=self.donorURL,
-                                             headers=self.header)
-            self.donorJSON = json.load(urllib.request.urlopen(request))
-        except urllib.error.HTTPError:
-            print(f"""Couldn't get to {self.donorURL}.
-                Check ExtraLifeID.
-                Or server may be unavailable.""")
+        self.donorJSON = extralife_IO.get_JSON(self.donorURL)
         if not self.donorJSON:
             print("No donors!")
         else:
@@ -144,14 +125,7 @@ class Participant:
 
     def _top_donor(self):
         """Grab Top Donor from server."""
-        try:
-            request = urllib.request.Request(url=f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC",
-                                             headers=self.header)
-            self.participant_donor_JSON = json.load(urllib.request.urlopen(request))
-        except urllib.error.HTTPError:
-            print("""Couldn't get to participant donor URL.
-                Check ExtraLifeID.
-                Or server may be unavailable.""")
+        self.participant_donor_JSON = extralife_IO.get_JSON(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC")
         return f"{self.participant_donor_JSON[0]['displayName']} - {self.CurrencySymbol}{self.participant_donor_JSON[0]['sumDonations']:,.2f}"
 
     def _donor_calculations(self):
