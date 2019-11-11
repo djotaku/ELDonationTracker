@@ -104,6 +104,12 @@ def test_donor_calculations():
     pass
 
 
+# Tests for Class Team
+# skipping JSON for now since I'm going to refactor that output
+# in fact, nearly everything here is a variant of participant
+# and will get refactored out.
+
+# Tests for extralife_IO.py
 def test_write_text_files():
     """ Test that data gets written to the text files correctly. """
     fileinput = ""
@@ -138,12 +144,6 @@ def test_write_text_files_emoji():
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
-
-
-# Tests for Class Team
-# skipping JSON for now since I'm going to refactor that output
-# in fact, nearly everything here is a variant of participant
-# and will get refactored out.
 
 # Tests for IPC.py
 # Don't see a need to test anything here as it's the most

@@ -95,7 +95,7 @@ class Participant:
         """Get the donors from the JSON and creates the donor objects."""
         self.donorlist = []
         self.donorJSON = extralife_IO.get_JSON(self.donorURL)
-        if not self.donorJSON:
+        if len(self.donorJSON) == 0:
             print("No donors!")
         else:
             self.donorlist = [Donor(self.donorJSON[donor].get('displayName'),
