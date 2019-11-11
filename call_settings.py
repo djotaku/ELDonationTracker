@@ -25,7 +25,7 @@ class MyForm(QDialog):
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self.selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self.selectfile("sound"))
         self.show()
-        
+
     def revert(self):
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
@@ -33,7 +33,7 @@ class MyForm(QDialog):
         self.ui.lineEditTeamID.setText(self.TeamID)
         self.ui.label_tracker_image.setText(self.TrackerImage)
         self.ui.label_sound.setText(self.DonationSound)
-        
+
     def save(self):
         participantID = self.ui.lineEditParticipantID.text()
         textfolder = self.ui.labelTextFolder.text()
@@ -44,12 +44,13 @@ class MyForm(QDialog):
             teamID = None
         else:
             teamID = self.ui.lineEditTeamID.text()
-        config= {'ExtraLifeID': participantID, 'textFolder': textfolder,
-                 'CurrencySymbol': currencysymbol, 'TeamID': teamID,
-                 'TrackerImage': trackerimage, 'DonationSound': sound}
+        config = {'Version': "1.0", 'ExtraLifeID': participantID,
+                  'textFolder': textfolder, 'CurrencySymbol': currencysymbol,
+                  'TeamID': teamID,'TrackerImage': trackerimage,
+                  'DonationSound': sound}
         with open('participant.conf', 'w') as outfile:
             json.dump(config, outfile)
-        
+
     def selectfolder(self):
         directory = QFileDialog.getExistingDirectory(self, "Get Folder")
         self.ui.labelTextFolder.setText(directory)
@@ -64,7 +65,7 @@ class MyForm(QDialog):
 def main():
     w = MyForm()
     w.exec()
-        
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
