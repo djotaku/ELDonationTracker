@@ -32,7 +32,7 @@ class Team:
         self.participant_list = []
         get_results = ""
         self.team_participant_json = extralife_IO.get_JSON(self.team_participant_url)
-        if not self.team_participant_json:
+        if len(self.team_participant_json) == 0:
             print("No team participants!")
         else:
             self.participant_list = [TeamParticipant(self.team_participant_json[participant]['displayName'], float(self.team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.team_participant_json))]
@@ -41,7 +41,7 @@ class Team:
         """Get team participants."""
         self.top_5_participant_list = []
         self.top5_team_participant_json = extralife_IO.get_JSON(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
-        if not self.top5_team_participant_json:
+        if len(self.top5_team_participant_json) == 0:
             print("No team participants!")
         else:
             self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]['displayName'], float(self.top5_team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.top5_team_participant_json))]
@@ -49,7 +49,7 @@ class Team:
     def _top_participant(self):
         """ Get Top Team Participant. """
         self.top_team_participant_json = extralife_IO.get_JSON(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
-        if not self.top_team_participant_json:
+        if len(self.top_team_participant_json) == 0:
             print("No team participants!")
         else:
             return f"{self.top_team_participant_json[0]['displayName']} - ${self.top_team_participant_json[0]['sumDonations']:,.2f}"
@@ -63,13 +63,13 @@ class Team:
         text = ""
         if horizontal:
             for participant in range(0, len(participants)):
-                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals} | "
+                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals:,.2f} | "
                 if participant == 4:
                     break
             return text
         elif not horizontal:
             for participant in range(0, len(participants)):
-                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals} \n"
+                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals:,.2f} \n"
                 if participant == 4:
                     break
             return text
