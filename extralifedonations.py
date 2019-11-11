@@ -44,9 +44,9 @@ class Participant:
 
     def __init__(self):
         """Load in config from participant.conf and creates the URLs."""
-        (self.ExtraLifeID, self.textFolder,
-         self.CurrencySymbol,
-         self.TeamID) = readparticipantconf.CLIvalues()
+        participant_conf = extralife_IO.ParticipantConf()
+        (self.ExtraLifeID, self.textFolder, self.CurrencySymbol,
+         self.TeamID) = participant_conf.get_CLI_values()
         # urls
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"

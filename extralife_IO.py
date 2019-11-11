@@ -39,13 +39,14 @@ class ParticipantConf:
     def __init__(self):
         """ Load in participant conf and check version. """
         self.participantconf = self.load_JSON()
-        if self.participantconf['Version'] != participant_conf_version:
-            print(f"You are using an old version of participant.conf."
-                  f" Your version is: {self.participantconf['Version']}"
-                  f"  Current Version is {participant_conf_version}."
-                  f" If you are on the commandline, check to see what"
+        if self.participantconf['Version'] != self.participant_conf_version:
+            print(f"You are using an old version of participant.conf.\n"
+                  f"Your version is: {self.participantconf['Version']}\n"
+                  f"Current Version is {self.participant_conf_version}.\n"
+                  f"If you are on the commandline, check to see what"
                   f" has changed and add it to your configuration file."
-                  f" If you are in the GUI, it should prompt you to"
+                  f" You will likely have an error later because of this.\n"
+                  f"If you are in the GUI, it should prompt you to"
                   f" Migrate or start fresh.")
         self.update_fields()
 
