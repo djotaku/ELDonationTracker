@@ -104,7 +104,8 @@ class Participant:
 
     def _top_donor(self):
         """Grab Top Donor from server."""
-        top_donor_JSON = extralife_IO.get_JSON(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC")
+        top_donor_JSON = extralife_IO.get_JSON(self.participant_donor_URL,
+                                               True)
         top_donor = Donor(top_donor_JSON[0]['displayName'], "", top_donor_JSON[0]['sumDonations'])
         return extralife_IO.single_format(top_donor, False,
                                           self.CurrencySymbol)
@@ -129,7 +130,7 @@ class Participant:
         write to text files.
         """
         self.get_participant_JSON()
-        NumberofDonors = self.ParticipantNumDonations
+        number_of_dononations = self.ParticipantNumDonations
         self.write_text_files(self.participantinfo)
         self.get_donors()
         if self.donorlist:
@@ -142,9 +143,9 @@ class Participant:
             self.write_text_files(self.participantinfo)
             if self.TeamID:
                 self.myteam.participant_run()
-            if self.ParticipantNumDonations > NumberofDonors:
+            if self.ParticipantNumDonations > number_of_dononations:
                 print("A new donor!")
-                NumberofDonors = self.ParticipantNumDonations
+                number_of_dononations = self.ParticipantNumDonations
                 self.get_donors()
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)

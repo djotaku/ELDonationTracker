@@ -1,16 +1,18 @@
 """ Holds all the file and internet input and output. """
 
 import json
-from urllib.request import Request, urlopen, HTTPError
+from urllib.request import Request, urlopen, HTTPError, URLError
 
 
 # JSON/URL
-def get_JSON(url):
+def get_JSON(url, order_by_donations=False):
     """ Grab JSON from server.
 
     Connects to server and grabs JSON data from the specified URL.
     """
     header = {'User-Agent': 'Extra Life Donation Tracker'}
+    if order_by_donations is True:
+        url = url+"?orderBy=sumDonations%20DESC"
     try:
         request = Request(url=url, headers=header)
         return json.load(urlopen(request))
@@ -21,6 +23,8 @@ def get_JSON(url):
                 If you can reach that URL from your browser
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
+    except URLError:
+        print(f""" Maybe have timed out. """)
 
 # File Input and Output
 # input

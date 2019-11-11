@@ -13,6 +13,7 @@ class Team:
         self.currency_symbol = currency_symbol
         self.team_info = {}
         self.participant_calculation_dict = {}
+        self.top_5_participant_list = []
 
     def get_team_json(self):
         """Get team info from JSON api."""
@@ -30,7 +31,6 @@ class Team:
     def get_participants(self):
         """Get team participants."""
         self.participant_list = []
-        get_results = ""
         self.team_participant_json = extralife_IO.get_JSON(self.team_participant_url)
         if len(self.team_participant_json) == 0:
             print("No team participants!")
@@ -39,20 +39,19 @@ class Team:
 
     def get_top_5_participants(self):
         """Get team participants."""
-        self.top_5_participant_list = []
-        self.top5_team_participant_json = extralife_IO.get_JSON(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
+        self.top5_team_participant_json = extralife_IO.get_JSON(self.team_participant_url, True)
         if len(self.top5_team_participant_json) == 0:
             print("No team participants!")
         else:
             self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]['displayName'], float(self.top5_team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.top5_team_participant_json))]
 
     def _top_participant(self):
-        """ Get Top Team Participant. """
-        self.top_team_participant_json = extralife_IO.get_JSON(f"{self.team_participant_url}?orderBy=sumDonations%20DESC")
-        if len(self.top_team_participant_json) == 0:
-            print("No team participants!")
+        """ Get Top Team Participant. This should just grab element 0 from above instead of hitting API twice"""
+        if len(self.top_5_participant_list) == "0":
+            print("No participants")
         else:
-            return f"{self.top_team_participant_json[0]['displayName']} - ${self.top_team_participant_json[0]['sumDonations']:,.2f}"
+            return (f"{self.top_5_participant_list[0].name} - $",
+                    f"{self.top_5_participant_list.donation_totals:,.2f}")
 
     def _participant_calculations(self):
         self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
