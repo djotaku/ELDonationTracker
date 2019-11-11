@@ -51,27 +51,12 @@ class Team:
             print("No participants")
         else:
             return (f"{self.top_5_participant_list[0].name} - $",
-                    f"{self.top_5_participant_list.donation_totals:,.2f}")
+                    f"{self.top_5_participant_list.amount:,.2f}")
 
     def _participant_calculations(self):
         self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
-        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = self._top_5_participants(self.top_5_participant_list, True)
-        self.participant_calculation_dict['Team_Top5Participants'] = self._top_5_participants(self.top_5_participant_list, False)
-
-    def _top_5_participants(self, participants, horizontal):
-        text = ""
-        if horizontal:
-            for participant in range(0, len(participants)):
-                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals:,.2f} | "
-                if participant == 4:
-                    break
-            return text
-        elif not horizontal:
-            for participant in range(0, len(participants)):
-                text = text + f"{participants[participant].name} - {self.currency_symbol}{participants[participant].donation_totals:,.2f} \n"
-                if participant == 4:
-                    break
-            return text
+        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = extralife_IO.multiple_format(self.top_5_participant_list, False, True, self.currency_symbol, 5)
+        self.participant_calculation_dict['Team_Top5Participants'] = extralife_IO.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
@@ -92,11 +77,11 @@ class TeamParticipant:
     """Participant Attributes."""
     def __init__(self, name, donation_totals):
         self.name = name
-        self.donation_totals = donation_totals
+        self.amount = donation_totals
 
     def __lt__(self, object):
         """Participant less-than comparison"""
-        return self.donation_totals < object.donation_totals
+        return self.amount < object.amount
 
 
 if __name__ == "__main__":
