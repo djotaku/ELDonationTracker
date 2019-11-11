@@ -13,6 +13,8 @@ def get_JSON(url, order_by_donations=False):
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations is True:
         url = url+"?orderBy=sumDonations%20DESC"
+    # debug for 20191111 where having issues with API
+    print(f"Trying to access URL: {url}")
     try:
         request = Request(url=url, headers=header)
         return json.load(urlopen(request))
@@ -24,7 +26,7 @@ def get_JSON(url, order_by_donations=False):
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
     except URLError:
-        print(f""" Maybe have timed out. """)
+        print(f""" Maybe have timed out while getting JSON. """)
 
 # File Input and Output
 # input
