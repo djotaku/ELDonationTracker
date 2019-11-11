@@ -114,9 +114,8 @@ def test_write_text_files():
     """ Test that data gets written to the text files correctly. """
     fileinput = ""
     dictionary = {"testfilename": "test output"}
-    p = extralifedonations.Participant()
-    p.textFolder = "testOutput"
-    p.write_text_files(dictionary)
+    text_folder = "testOutput"
+    extralife_IO.write_text_files(dictionary, text_folder)
     with open(f"testOutput/testfilename.txt") as file:
         fileinput = file.read()
     assert fileinput == "test output"
@@ -126,9 +125,8 @@ def test_write_text_files_unicode():
     """ Test that unicode gets written to the text files correctly. """
     fileinput = ""
     dictionary = {"testfilename": "áéíóúñ"}
-    p = extralifedonations.Participant()
-    p.textFolder = "testOutput"
-    p.write_text_files(dictionary)
+    text_folder = "testOutput"
+    extralife_IO.write_text_files(dictionary, text_folder)
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "áéíóúñ"
@@ -138,9 +136,8 @@ def test_write_text_files_emoji():
     """ Test that emojis get written to the text files correctly. """
     fileinput = ""
     dictionary = {"testfilename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
-    p = extralifedonations.Participant()
-    p.textFolder = "testOutput"
-    p.write_text_files(dictionary)
+    text_folder = "testOutput"
+    extralife_IO.write_text_files(dictionary, text_folder)
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"

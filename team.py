@@ -76,11 +76,7 @@ class Team:
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
-        for filename, text in dictionary.items():
-            f = open(f'{self.output_folder}/{filename}.txt', 'w',
-                     encoding='utf-8')
-            f.write(text)
-            f.close
+        extralife_IO.write_text_files(dictionary, self.output_folder)
 
     def team_run(self):
         self.get_team_json()

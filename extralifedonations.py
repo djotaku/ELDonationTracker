@@ -138,10 +138,7 @@ class Participant:
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
-        for filename, text in dictionary.items():
-            f = open(f'{self.textFolder}/{filename}.txt', 'w', encoding='utf8')
-            f.write(text)
-            f.close
+        extralife_IO.write_text_files(dictionary, self.textFolder)
 
     def run(self):
         """Run things.
