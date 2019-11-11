@@ -27,25 +27,29 @@ def get_JSON(url):
 
 
 # Formatting
-def single_format(donor, message):
+def single_format(donor, message, currency_symbol):
     if message:
-        return (f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
-                f"- {donor.message}")
+        return (f"{donor.name} - {currency_symbol}{donor.amount:.2f}"
+                f" - {donor.message}")
     else:
-        return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
+        return f"{donor.name} - {currency_symbol}{donor.amount:.2f}"
 
 
-def multiple_format(donors, message, horizontal, how_many):
+def multiple_format(donors, message, horizontal, currency_symbol, how_many):
     text = ""
     if horizontal:
         for donor in range(0, len(donors)):
-            text = text+single_format(donors[donor], message)+" | "
+            text = text+single_format(donors[donor],
+                                      message,
+                                      currency_symbol)+" | "
             if donor == how_many - 1:
                 break
         return text
     else:
         for donor in range(0, len(donors)):
-            text = text+single_format(donors[donor], message)+"\n"
+            text = text+single_format(donors[donor],
+                                      message,
+                                      currency_symbol)+"\n"
             if donor == how_many - 1:
                 break
         return text
