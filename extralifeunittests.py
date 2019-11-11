@@ -1,6 +1,7 @@
 # This unitest test uses the following encoding: utf-8
 
 import extralifedonations
+import extralife_IO
 
 # run with command: py.test-3 extralifeunittests.py
 # or if in venv, just pytest extralifeunittests.py (works better)
