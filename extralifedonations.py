@@ -125,8 +125,9 @@ class Participant:
 
     def _top_donor(self):
         """Grab Top Donor from server."""
-        self.participant_donor_JSON = extralife_IO.get_JSON(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC")
-        return f"{self.participant_donor_JSON[0]['displayName']} - {self.CurrencySymbol}{self.participant_donor_JSON[0]['sumDonations']:,.2f}"
+        top_donor_JSON = extralife_IO.get_JSON(f"{self.participant_donor_URL}?orderBy=sumDonations%20DESC")
+        top_donor = Donor(top_donor_JSON[0]['displayName'], "", top_donor_JSON[0]['sumDonations'])
+        return self._donor_formatting(top_donor, False)
 
     def _donor_calculations(self):
         self.donorcalcs['LastDonorNameAmnt'] = self._donor_formatting(self.donorlist[0], False)

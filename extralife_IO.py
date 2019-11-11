@@ -26,6 +26,31 @@ def get_JSON(url):
 # input
 
 
+# Formatting
+def single_format(donor, message):
+    if message:
+        return (f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
+                f"- {donor.message}")
+    else:
+        return f"{donor.name} - {self.CurrencySymbol}{donor.amount:.2f}"
+
+
+def multiple_format(donors, message, horizontal, how_many):
+    text = ""
+    if horizontal:
+        for donor in range(0, len(donors)):
+            text = text+single_format(donors[donor], message)+" | "
+            if donor == how_many - 1:
+                break
+        return text
+    else:
+        for donor in range(0, len(donors)):
+            text = text+single_format(donors[donor], message)+"\n"
+            if donor == how_many - 1:
+                break
+        return text
+
+
 # Output
 def write_text_files(dictionary, text_folder):
     """Write info to text files."""
