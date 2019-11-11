@@ -26,10 +26,62 @@ def get_JSON(url, order_by_donations=False):
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
     except URLError:
-        print(f""" Maybe have timed out while getting JSON. """)
+        print(f""" Timed out while getting JSON. """)
 
 # File Input and Output
 # input
+
+
+class ParticipantConf:
+    """ Holds Participant Configuaration info."""
+    participant_conf_version = "1.0"
+
+    def __init__(self):
+        """ Load in participant conf and check version. """
+        self.participantconf = self.load_JSON()
+        if self.participantconf['Version'] != participant_conf_version:
+            print(f"You are using an old version of participant.conf."
+                  f" Your version is: {self.participantconf['Version']}"
+                  f"  Current Version is {participant_conf_version}."
+                  f" If you are on the commandline, check to see what"
+                  f" has changed and add it to your configuration file."
+                  f" If you are in the GUI, it should prompt you to"
+                  f" Migrate or start fresh.")
+        self.update_fields()
+
+    def load_JSON(self):
+        """Load in the config file."""
+        with open('participant.conf') as file:
+            return json.load(file)
+
+    def update_fields(self):
+        self.extralife_id = self.participantconf['ExtraLifeID']
+        self.text_folder = self.participantconf['textFolder']
+        self.currency_symbol = self.participantconf['CurrencySymbol']
+        self.team_id = self.participantconf['TeamID']
+        self.tracker_image = self.participantconf['TrackerImage']
+        self.donation_sound = self.participantconf['DonationSound']
+
+    def reload_JSON(self):
+        self.load_JSON()
+        self.update_fields()
+
+    def get_CLI_values(self):
+        return (self.extralife_id, self.text_folder, self.currency_symbol,
+                self.team_id)
+
+    def get_text_folder_only(self):
+        return self.text_folder
+
+    def get_GUI_values(self):
+        return (self.extralife_id, self.text_folder, self.currency_symbol,
+                self.team_id, self.tracker_image, self.donation_sound)
+
+    def get_tracker_image(self):
+        return self.tracker_image
+
+    def get_tracker_sound(self):
+        return self.donation_sound
 
 
 # Formatting
