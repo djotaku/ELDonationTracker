@@ -65,6 +65,6 @@ def multiple_format(donors, message, horizontal, currency_symbol, how_many):
 def write_text_files(dictionary, text_folder):
     """Write info to text files."""
     for filename, text in dictionary.items():
-            f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
-            f.write(text)
-            f.close
+        f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
+        f.write(text)
+        f.close

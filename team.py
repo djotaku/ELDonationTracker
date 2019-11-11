@@ -50,8 +50,8 @@ class Team:
         if len(self.top_5_participant_list) == "0":
             print("No participants")
         else:
-            return (f"{self.top_5_participant_list[0].name} - $",
-                    f"{self.top_5_participant_list.amount:,.2f}")
+            return (f"{self.top_5_participant_list[0].name} - $"
+                    f"{self.top_5_participant_list[0].amount:,.2f}")
 
     def _participant_calculations(self):
         self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
@@ -86,7 +86,7 @@ class TeamParticipant:
 
 if __name__ == "__main__":
     # debug next line
-    folder = "/home/ermesa/programming/donationtxt/"
+    folder = "/home/ermesa/Programming Projects/python/extralife/testOutput"
     myteam = Team(44013, folder, "$")
     myteam.get_team_json()
     myteam.get_participants()
