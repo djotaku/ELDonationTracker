@@ -61,7 +61,7 @@ class Participant:
 
         # misc
         self.loop = True
-        IPC.writeIPC("0")
+        IPC.writeIPC(self.textFolder, "0")
         self.myteam = team.Team(self.TeamID,
                                 self.textFolder,
                                 self.CurrencySymbol)
@@ -147,7 +147,7 @@ class Participant:
                 self.get_donors()
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
-                IPC.writeIPC("1")
+                IPC.writeIPC(self.textFolder, "1")
             if self.TeamID:
                 self.myteam.team_run()
             print(time.strftime("%H:%M:%S"))

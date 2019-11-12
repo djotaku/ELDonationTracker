@@ -4,12 +4,10 @@ This is used to allow the tracker to know that new data needs to be read
 in because a new donation has ocurred.
 """
 
-import readparticipantconf
 
-
-def writeIPC(value):
+def writeIPC(folder, value):
     """Write to the IPC file."""
-    folders = readparticipantconf.textfolderOnly()
+    folders = folder
     try:
         with open(f'{folders}/trackerIPC.txt', 'w') as file:
             file.write(value)

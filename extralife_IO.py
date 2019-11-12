@@ -78,7 +78,8 @@ class ParticipantConf:
 
     def get_GUI_values(self):
         return (self.extralife_id, self.text_folder, self.currency_symbol,
-                self.team_id, self.tracker_image, self.donation_sound)
+                self.team_id, self.tracker_image, self.donation_sound,
+                self.version_mismatch)
 
     def get_tracker_image(self):
         return self.tracker_image

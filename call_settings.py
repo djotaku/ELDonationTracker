@@ -11,8 +11,9 @@ class MyForm(QDialog):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        (self.ExtraLifeID, self.textFolder, self.CurrencySymbol, self.TeamID,
-         self.TrackerImage, self.DonationSound) = participant_conf.get_GUI_values()
+        (self.ExtraLifeID, self.textFolder,
+         self.CurrencySymbol, self.TeamID, self.TrackerImage,
+         self.DonationSound, self.version) = participant_conf.get_GUI_values()
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
         self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)

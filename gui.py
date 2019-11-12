@@ -32,14 +32,15 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
-        self.timer.timeout.connect(self.getsomeText) 
+        self.timer.timeout.connect(self.getsomeText)
         self.timer.start()
 
         # instantiate the tracker so we can send signals
-        self.tracker = call_tracker.MyForm()
+        self.tracker = call_tracker.MyForm(participant_conf)
 
         # want to make sure file exists on new run
-        IPC.writeIPC("0")
+        self.folders = participant_conf.get_text_folder_only()
+        IPC.writeIPC(self.folders, "0")
 
         # Connecting all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
@@ -66,7 +67,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def readFiles(self, folders, files):
         try:
             f = open(f'{folders}/{files}', 'r') 
-            text=f.read()
+            text = f.read()
             f.close()
             return text
         except:
@@ -78,21 +79,28 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
-        folders = participant_conf.get_text_folder_only()
-
-        self.RecentDonations.setPlainText(self.readFiles(folders,'last5DonorNameAmts.txt'))
-        self.LastDonation.setPlainText(self.readFiles(folders, 'LastDonorNameAmnt.txt'))
-        self.TopDonation.setPlainText(self.readFiles(folders, 'TopDonorNameAmnt.txt'))
-        self.TotalRaised.setPlainText(self.readFiles(folders, 'totalRaised.txt'))
-        self.TotalNumDonations.setPlainText(self.readFiles(folders, 'numDonations.txt'))
-        self.Goal.setPlainText(self.readFiles(folders, 'goal.txt'))
-        self.AvgDonation.setPlainText(self.readFiles(folders, 'averageDonation.txt'))
-        self.label_TeamCaptain.setText(self.readFiles(folders, 'Team_captain.txt'))
-        self.label_TeamGoal.setText(self.readFiles(folders, 'Team_goal.txt'))
-        self.label_TeamNumDonations.setText(self.readFiles(folders, 'Team_numDonations.txt'))
-        self.label_TeamTotalRaised.setText(self.readFiles(folders, 'Team_totalRaised.txt'))
-        self.label_TopTeamParticipant.setText(self.readFiles(folders, 'Team_TopParticipantNameAmnt.txt'))
-        self.textBrowser_TeamTop5.setPlainText(self.readFiles(folders, 'Team_Top5Participants.txt'))
+        self.RecentDonations.setPlainText(self.readFiles(self.folders,
+                                                         'last5DonorNameAmts.txt'))
+        self.LastDonation.setPlainText(self.readFiles(self.folders,
+                                                      'LastDonorNameAmnt.txt'))
+        self.TopDonation.setPlainText(self.readFiles(self.folders,
+                                                     'TopDonorNameAmnt.txt'))
+        self.TotalRaised.setPlainText(self.readFiles(self.folders,
+                                                     'totalRaised.txt'))
+        self.TotalNumDonations.setPlainText(self.readFiles(self.folders,
+                                                           'numDonations.txt'))
+        self.Goal.setPlainText(self.readFiles(self.folders, 'goal.txt'))
+        self.AvgDonation.setPlainText(self.readFiles(self.folders,
+                                                     'averageDonation.txt'))
+        self.label_TeamCaptain.setText(self.readFiles(self.folders,
+                                                      'Team_captain.txt'))
+        self.label_TeamGoal.setText(self.readFiles(self.folders, 'Team_goal.txt'))
+        self.label_TeamNumDonations.setText(self.readFiles(self.folders,
+                                                           'Team_numDonations.txt'))
+        self.label_TeamTotalRaised.setText(self.readFiles(self.folders,
+                                                          'Team_totalRaised.txt'))
+        self.label_TopTeamParticipant.setText(self.readFiles(self.folders, 'Team_TopParticipantNameAmnt.txt'))
+        self.textBrowser_TeamTop5.setPlainText(self.readFiles(self.folders, 'Team_Top5Participants.txt'))
 
     def runbutton(self):
         print("run button")
