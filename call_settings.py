@@ -3,16 +3,16 @@ import json
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
 from settings import *
 
-import readparticipantconf
+import extralife_IO
 
 
 class MyForm(QDialog):
-    def __init__(self):
+    def __init__(self, participant_conf):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         (self.ExtraLifeID, self.textFolder, self.CurrencySymbol, self.TeamID,
-         self.TrackerImage, self.DonationSound) = readparticipantconf.GUIvalues()
+         self.TrackerImage, self.DonationSound) = participant_conf.get_GUI_values()
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
         self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
@@ -62,8 +62,9 @@ class MyForm(QDialog):
         if whichfile == "sound":
             self.ui.label_sound.setText(the_file[0])
 
-def main():
-    w = MyForm()
+
+def main(participant_conf):
+    w = MyForm(participant_conf)
     w.exec()
 
 

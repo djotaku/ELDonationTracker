@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 
 from PyQt5 import QtCore
 
-from PyQt5.QtCore import Qt, pyqtSignal # need Qt?
+from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
 
 import design
 import sys
@@ -13,8 +13,11 @@ import threading
 import extralifedonations
 import call_tracker
 import call_settings
-import readparticipantconf
+import extralife_IO
 import IPC
+
+# setup config file
+participant_conf = extralife_IO.ParticipantConf()
 
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
@@ -54,7 +57,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.tracker.show()
         
     def callSettings(self):
-        call_settings.main()
+        call_settings.main(participant_conf)
     
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):
@@ -75,7 +78,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
-        folders = readparticipantconf.textfolderOnly()
+        folders = participant_conf.get_text_folder_only()
 
         self.RecentDonations.setPlainText(self.readFiles(folders,'last5DonorNameAmts.txt'))
         self.LastDonation.setPlainText(self.readFiles(folders, 'LastDonorNameAmnt.txt'))
@@ -96,21 +99,27 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         # need to add some code to keep it from starting more than one thread. 
         self.thread1 = donationGrabber()
         self.thread1.start()
-        
+
     def stopbutton(self):
         self.thread1.stop() 
 
+
 class donationGrabber (threading.Thread):
     counter = 0
+
     def __init__(self):
         threading.Thread.__init__(self)
-        self.counter=0
+        self.counter = 0
+
     def run(self):
-        print("Starting " + self.name)
-        self.p = extralifedonations.Participant()
+        print(f"Starting {self.name}. But first, reloading config file.")
+        participant_conf.reload_JSON()
+        self.p = extralifedonations.Participant(participant_conf)
         self.p.run()
+
     def stop(self):
         self.p.stop()
+
 
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication

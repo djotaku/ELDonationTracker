@@ -35,6 +35,7 @@ def get_JSON(url, order_by_donations=False):
 class ParticipantConf:
     """ Holds Participant Configuaration info."""
     participant_conf_version = "1.0"
+    version_mismatch = False
 
     def __init__(self):
         """ Load in participant conf and check version. """
@@ -48,6 +49,7 @@ class ParticipantConf:
                   f" You will likely have an error later because of this.\n"
                   f"If you are in the GUI, it should prompt you to"
                   f" Migrate or start fresh.")
+            self.version_mismatch = True
         self.update_fields()
 
     def load_JSON(self):

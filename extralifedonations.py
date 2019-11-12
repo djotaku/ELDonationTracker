@@ -2,7 +2,6 @@
 
 import time
 
-import readparticipantconf
 import IPC
 import team
 import extralife_IO
@@ -42,9 +41,8 @@ class Participant:
     Also owns the results of any calculated data.
     """
 
-    def __init__(self):
+    def __init__(self, participant_conf):
         """Load in config from participant.conf and creates the URLs."""
-        participant_conf = extralife_IO.ParticipantConf()
         (self.ExtraLifeID, self.textFolder, self.CurrencySymbol,
          self.TeamID) = participant_conf.get_CLI_values()
         # urls
@@ -162,5 +160,6 @@ class Participant:
 
 
 if __name__ == "__main__":
-    p = Participant()
+    participant_conf = extralife_IO.ParticipantConf()
+    p = Participant(participant_conf)
     p.run()
