@@ -77,8 +77,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                     shutil.copy("backup_participant.conf", "participant.conf")
                     print("Settings have been replaced with the repo defaults.")
                     participant_conf.reload_JSON()
-                # if choice == "Try to update": this is the hard one
-                # I think both the methods called should live in ParticipantConf class
+                if choice == "Try to update":
+                    print("When you save the settings, you will be up to date")
         else:
             print("Version is correct")
 

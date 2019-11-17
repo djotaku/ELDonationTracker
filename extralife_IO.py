@@ -34,11 +34,18 @@ def get_JSON(url, order_by_donations=False):
 
 class ParticipantConf:
     """ Holds Participant Configuaration info."""
-    participant_conf_version = "2.0"
+    participant_conf_version = "1.0"
     version_mismatch = False
+    fields = {"extralife_id": None, "text_folder": None,
+              "currency_symbol": None, "team_id": None,
+              "tracker_image": None,
+              "donation_sound": None,
+              "donors_to_display": None }
 
     def __init__(self):
         """ Load in participant conf and check version. """
+        # fields = [self.extralife_id, self.text_folder, self.currency_symbol,
+        #          self.team_id, self.tracker_image, self.donation_sound]
         self.participantconf = self.load_JSON()
         if self.participantconf['Version'] != self.participant_conf_version:
             print(f"You are using an old version of participant.conf.\n"
@@ -60,36 +67,39 @@ class ParticipantConf:
             return config
 
     def update_fields(self):
-        self.extralife_id = self.participantconf['ExtraLifeID']
-        self.text_folder = self.participantconf['textFolder']
-        self.currency_symbol = self.participantconf['CurrencySymbol']
-        self.team_id = self.participantconf['TeamID']
-        self.tracker_image = self.participantconf['TrackerImage']
-        self.donation_sound = self.participantconf['DonationSound']
+        for field in self.fields:
+            self.fields[field] = self.participantconf.get(f'{field}')
+            print(f"{field}:{self.fields[field]}")
+
+    def get_version(self):
+        return self.participant_conf_version
 
     def reload_JSON(self):
         self.participantconf = self.load_JSON()
         self.update_fields()
 
     def get_CLI_values(self):
-        return (self.extralife_id, self.text_folder, self.currency_symbol,
-                self.team_id)
+        return (self.fields["extralife_id"], self.fields["text_folder"],
+                self.fields["currency_symbol"],
+                self.fields["team_id"])
 
     def get_text_folder_only(self):
-        return self.text_folder
+        return self.fields["text_folder"]
 
     def get_GUI_values(self):
-        return (self.extralife_id, self.text_folder, self.currency_symbol,
-                self.team_id, self.tracker_image, self.donation_sound)
+        return (self.fields["extralife_id"], self.fields["text_folder"],
+                self.fields["currency_symbol"], self.fields["team_id"],
+                self.fields["tracker_image"], self.fields["donation_sound"],
+                self.fields["donors_to_display"])
 
     def get_version_mismatch(self):
         return self.version_mismatch
 
     def get_tracker_image(self):
-        return self.tracker_image
+        return self.fields["tracker_image"]
 
     def get_tracker_sound(self):
-        return self.donation_sound
+        return self.fields["donation_sound"]
 
 
 # Formatting
