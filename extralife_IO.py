@@ -81,7 +81,7 @@ class ParticipantConf:
     def get_CLI_values(self):
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"],
-                self.fields["team_id"])
+                self.fields["team_id"], self.fields["donors_to_display"])
 
     def get_text_folder_only(self):
         return self.fields["text_folder"]

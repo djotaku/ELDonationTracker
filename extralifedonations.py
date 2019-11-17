@@ -43,8 +43,9 @@ class Participant:
 
     def __init__(self, participant_conf):
         """Load in config from participant.conf and creates the URLs."""
-        (self.ExtraLifeID, self.textFolder, self.CurrencySymbol,
-         self.TeamID) = participant_conf.get_CLI_values()
+        (self.ExtraLifeID, self.textFolder,
+         self.CurrencySymbol, self.TeamID,
+         self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
         self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
@@ -53,10 +54,10 @@ class Participant:
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
         self.donorcalcs['TopDonorNameAmnt'] = "No Donors Yet"
-        self.donorcalcs['last5DonorNameAmts'] = "No Donors Yet"
-        self.donorcalcs['last5DonorNameAmtsMessage'] = "No Donors Yet"
-        self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = "No Donors Yet"
-        self.donorcalcs['last5DonorNameAmtsHorizontal'] = "No Donors Yet"
+        self.donorcalcs['lastNDonorNameAmts'] = "No Donors Yet"
+        self.donorcalcs['lastNDonorNameAmtsMessage'] = "No Donors Yet"
+        self.donorcalcs['lastNDonorNameAmtsMessageHorizontal'] = "No Donors Yet"
+        self.donorcalcs['lastNDonorNameAmtsHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
 
         # misc
@@ -111,10 +112,10 @@ class Participant:
     def _donor_calculations(self):
         self.donorcalcs['LastDonorNameAmnt'] = extralife_IO.single_format(self.donorlist[0], False, self.CurrencySymbol)
         self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
-        self.donorcalcs['last5DonorNameAmts'] = extralife_IO.multiple_format(self.donorlist, False, False, self.CurrencySymbol, 5)
-        self.donorcalcs['last5DonorNameAmtsMessage'] = extralife_IO.multiple_format(self.donorlist, True, False, self.CurrencySymbol, 5)
-        self.donorcalcs['last5DonorNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donorlist, True, True, self.CurrencySymbol, 5)
-        self.donorcalcs['last5DonorNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donorlist, False, True, self.CurrencySymbol, 5)
+        self.donorcalcs['lastNDonorNameAmts'] = extralife_IO.multiple_format(self.donorlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonorNameAmtsMessage'] = extralife_IO.multiple_format(self.donorlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonorNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donorlist, True, True, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonorNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donorlist, False, True, self.CurrencySymbol, int(self.donors_to_display))
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
