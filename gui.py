@@ -44,8 +44,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         # instantiate the tracker so we can send signals
         self.tracker = call_tracker.MyForm(participant_conf)
 
-        # want to make sure file exists on new run
+        # instantiate the settings?
+        self.call_settings = call_settings.MyForm(participant_conf)
+
         self.folders = participant_conf.get_text_folder_only()
+
+        # want to make sure file exists on new run
         IPC.writeIPC(self.folders, "0")
 
         # Connecting *almost* all the buttons to methods
@@ -85,7 +89,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.tracker.show()
 
     def callSettings(self):
-        call_settings.main(participant_conf)
+        self.call_settings.reload_config()
+        self.call_settings.show()
+        #call_settings.main(participant_conf)
 
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):

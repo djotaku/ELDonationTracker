@@ -55,7 +55,9 @@ class ParticipantConf:
     def load_JSON(self):
         """Load in the config file."""
         with open('participant.conf') as file:
-            return json.load(file)
+            config = json.load(file)
+            file.close()
+            return config
 
     def update_fields(self):
         self.extralife_id = self.participantconf['ExtraLifeID']
@@ -66,7 +68,7 @@ class ParticipantConf:
         self.donation_sound = self.participantconf['DonationSound']
 
     def reload_JSON(self):
-        self.load_JSON()
+        self.participantconf = self.load_JSON()
         self.update_fields()
 
     def get_CLI_values(self):

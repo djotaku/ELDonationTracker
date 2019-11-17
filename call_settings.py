@@ -11,6 +11,7 @@ class MyForm(QDialog):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        self.participant_conf = participant_conf
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID, self.TrackerImage,
          self.DonationSound) = participant_conf.get_GUI_values()
@@ -25,7 +26,11 @@ class MyForm(QDialog):
         self.ui.pushButtonSelectFolder.clicked.connect(self.selectfolder)
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self.selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self.selectfile("sound"))
-        self.show()
+
+    def reload_config(self):
+        (self.ExtraLifeID, self.textFolder,
+         self.CurrencySymbol, self.TeamID, self.TrackerImage,
+         self.DonationSound) = self.participant_conf.get_GUI_values()
 
     def revert(self):
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
