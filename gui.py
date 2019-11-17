@@ -65,9 +65,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         print("Participant.conf version check!")
         if self.version_mismatch is True:
             print("There is a version mismatch")
-            choices = ("Replace with Defaults", "Try to update")
+            choices = ("Replace with Defaults", "Update on Save")
             choice, ok = QInputDialog.getItem(self, "Input Dialog",
-                                              "You are using an old version of the configuration file.\n Choose what you would like to do", choices, 0,
+                                              "You are using an old version of the configuration file.\n Choose what you would like to do.\n If you choose Update on Save, please click on teh settings button, review the new options, and hit save.", choices, 0,
                                               False)
             if ok and choice:
                 print(f"You have chosen {choice}")
@@ -77,7 +77,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                     shutil.copy("backup_participant.conf", "participant.conf")
                     print("Settings have been replaced with the repo defaults.")
                     participant_conf.reload_JSON()
-                if choice == "Try to update":
+                if choice == "Update on Save":
                     print("When you save the settings, you will be up to date")
         else:
             print("Version is correct")
