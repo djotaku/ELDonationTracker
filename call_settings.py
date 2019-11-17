@@ -1,6 +1,6 @@
 import sys
 import json
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QInputDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
 from settings import *
 
 import extralife_IO
@@ -13,7 +13,7 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID, self.TrackerImage,
-         self.DonationSound, self.version_mismatch) = participant_conf.get_GUI_values()
+         self.DonationSound) = participant_conf.get_GUI_values()
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
         self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
@@ -26,26 +26,6 @@ class MyForm(QDialog):
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self.selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self.selectfile("sound"))
         self.show()
-        self.version_check()
-
-    # unsure if this should live in here or in gui.py
-    # right now I'm leaning towards GUI.py so the user
-    # doesn't hit "run" with a bad config.
-    def version_check(self):
-        print("Participant.conf version check!")
-        if self.version_mismatch is True:
-            print("There is a version mismatch")
-            choices = ("Replace with Defaults", "Try to update")
-            choice, ok = QInputDialog.getItem(self, "Input Dialog",
-                                              "You are using an old version of the configuration file.\n Choose what you would like to do", choices, 0,
-                                              False)
-            if ok and choice:
-                print(f"You have chosen {choice}")
-                # if choice == "Replace with Defaults": this is the easy one
-                # if choice == "Try to update": this is the hard one
-                # I think both the methods called should live in ParticipantConf class
-        else:
-            print("Version is correct")
 
     def revert(self):
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)

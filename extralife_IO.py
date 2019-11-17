@@ -34,7 +34,7 @@ def get_JSON(url, order_by_donations=False):
 
 class ParticipantConf:
     """ Holds Participant Configuaration info."""
-    participant_conf_version = "1.0"
+    participant_conf_version = "2.0"
     version_mismatch = False
 
     def __init__(self):
@@ -78,8 +78,10 @@ class ParticipantConf:
 
     def get_GUI_values(self):
         return (self.extralife_id, self.text_folder, self.currency_symbol,
-                self.team_id, self.tracker_image, self.donation_sound,
-                self.version_mismatch)
+                self.team_id, self.tracker_image, self.donation_sound)
+
+    def get_version_mismatch(self):
+        return self.version_mismatch
 
     def get_tracker_image(self):
         return self.tracker_image

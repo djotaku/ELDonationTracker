@@ -1,6 +1,6 @@
 #should change from line edits to labels
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 
 from PyQt5 import QtCore
 
@@ -9,6 +9,7 @@ from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
 import design
 import sys
 import threading
+import shutil
 
 import extralifedonations
 import call_tracker
@@ -25,6 +26,11 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         # Super allows us to access variables, methods etc in the design.py file
         super(self.__class__, self).__init__()
+
+        # deal with version mismatch
+        self.version_mismatch = participant_conf.get_version_mismatch()
+        self.version_check()
+
         self.setupUi(self)  # This is defined in design.py file automatically
                             # It sets up layout and widgets that are defined
 
@@ -42,7 +48,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.folders = participant_conf.get_text_folder_only()
         IPC.writeIPC(self.folders, "0")
 
-        # Connecting all the buttons to methods
+        # Connecting *almost* all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
         self.ProgressBarButton.clicked.connect(self.deadbuton)
@@ -50,20 +56,41 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TestAlertButton.clicked.connect(self.testAlert)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
-        
+
+    def version_check(self):
+        print("Participant.conf version check!")
+        if self.version_mismatch is True:
+            print("There is a version mismatch")
+            choices = ("Replace with Defaults", "Try to update")
+            choice, ok = QInputDialog.getItem(self, "Input Dialog",
+                                              "You are using an old version of the configuration file.\n Choose what you would like to do", choices, 0,
+                                              False)
+            if ok and choice:
+                print(f"You have chosen {choice}")
+                if choice == "Replace with Defaults":
+                    shutil.move("participant.conf", "participant.conf.bak")
+                    print("Your settings were backed up to participant.conf.bak")
+                    shutil.copy("backup_participant.conf", "participant.conf")
+                    print("Settings have been replaced with the repo defaults.")
+                    participant_conf.reload_JSON()
+                # if choice == "Try to update": this is the hard one
+                # I think both the methods called should live in ParticipantConf class
+        else:
+            print("Version is correct")
+
     def testAlert(self):
         self.tracker.loadAndUnloadTest()
-    
+
     def callTracker(self):
         self.tracker.show()
-        
+
     def callSettings(self):
         call_settings.main(participant_conf)
-    
+
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):
         print("not working yet")
-    
+
     def readFiles(self, folders, files):
         try:
             f = open(f'{folders}/{files}', 'r') 
