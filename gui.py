@@ -131,7 +131,7 @@ class donationGrabber (threading.Thread):
 
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
-    form = ELDonationGUI()                 # We set the form to be our ELDonationGUI (design)
+    form = ELDonationGUI()   # We set the form to be our ELDonationGUI (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
 
