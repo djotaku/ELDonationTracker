@@ -47,9 +47,9 @@ class Participant:
          self.CurrencySymbol, self.TeamID,
          self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
-        self.participantURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}"
-        self.donorURL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
-        self.participant_donor_URL = f"http://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
+        self.participantURL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}"
+        self.donorURL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
+        self.participant_donor_URL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
         # donor calculations
         self.donorcalcs = {}
         self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"

@@ -2,7 +2,7 @@
 
 import json
 from urllib.request import Request, urlopen, HTTPError, URLError
-
+import ssl
 
 # JSON/URL
 def get_JSON(url, order_by_donations=False):
@@ -11,6 +11,8 @@ def get_JSON(url, order_by_donations=False):
     Connects to server and grabs JSON data from the specified URL.
     """
     payload = ""
+    #context = ssl._create_default_https_context()
+    context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations is True:
         url = url+"?orderBy=sumDonations%20DESC"
@@ -18,7 +20,8 @@ def get_JSON(url, order_by_donations=False):
     print(f"Trying to access URL: {url}")
     try:
         request = Request(url=url, headers=header)
-        payload = urlopen(request, timeout=5)
+        payload = urlopen(request, timeout=5, context=context)
+        print(f"HTTP code: {payload.getcode()}")
     except HTTPError:
         print(f"""Couldn't get to {url}.
                 Check ExtraLifeID.
@@ -27,6 +30,7 @@ def get_JSON(url, order_by_donations=False):
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
     except URLError:
+        print(f"HTTP code: {payload.getcode()}")
         print(f""" Timed out while getting JSON. """)
     return json.load(payload)
 
