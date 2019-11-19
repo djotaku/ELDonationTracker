@@ -1,4 +1,4 @@
-""" Holds all the file and internet input and output. """
+"""Holds all the file and internet input and output."""
 
 import json
 from urllib.request import Request, urlopen, HTTPError, URLError
@@ -6,7 +6,7 @@ from urllib.request import Request, urlopen, HTTPError, URLError
 
 # JSON/URL
 def get_JSON(url, order_by_donations=False):
-    """ Grab JSON from server.
+    """Grab JSON from server.
 
     Connects to server and grabs JSON data from the specified URL.
     """
@@ -33,7 +33,8 @@ def get_JSON(url, order_by_donations=False):
 
 
 class ParticipantConf:
-    """ Holds Participant Configuaration info."""
+    """Holds Participant Configuaration info."""
+
     participant_conf_version = "1.0"
     version_mismatch = False
     fields = {"extralife_id": None, "text_folder": None,
@@ -43,7 +44,7 @@ class ParticipantConf:
               "donors_to_display": None }
 
     def __init__(self):
-        """ Load in participant conf and check version. """
+        """Load in participant conf and check version."""
         # fields = [self.extralife_id, self.text_folder, self.currency_symbol,
         #          self.team_id, self.tracker_image, self.donation_sound]
         self.participantconf = self.load_JSON()
@@ -67,43 +68,53 @@ class ParticipantConf:
             return config
 
     def update_fields(self):
+        """Update fields with data from JSON."""
         for field in self.fields:
             self.fields[field] = self.participantconf.get(f'{field}')
             print(f"{field}:{self.fields[field]}")
 
     def get_version(self):
+        """Return version."""
         return self.participant_conf_version
 
     def reload_JSON(self):
+        """Reload JSON and update the fields."""
         self.participantconf = self.load_JSON()
         self.update_fields()
 
     def get_CLI_values(self):
+        """Return data required for a CLI-only run."""
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"],
                 self.fields["team_id"], self.fields["donors_to_display"])
 
     def get_text_folder_only(self):
+        """Return text folder data."""
         return self.fields["text_folder"]
 
     def get_GUI_values(self):
+        """Return values needed for the GUI."""
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"], self.fields["team_id"],
                 self.fields["tracker_image"], self.fields["donation_sound"],
                 self.fields["donors_to_display"])
 
     def get_version_mismatch(self):
+        """Return bool of whether there is a version mismatch."""
         return self.version_mismatch
 
     def get_tracker_image(self):
+        """Return the tracker image location on disk."""
         return self.fields["tracker_image"]
 
     def get_tracker_sound(self):
+        """Return the donation sound image location on disk."""
         return self.fields["donation_sound"]
 
 
 # Formatting
 def single_format(donor, message, currency_symbol):
+    """Take donor, bool of whether it has a message, and a currency symbol. Then return formatted text for creating the output files."""
     if message:
         return (f"{donor.name} - {currency_symbol}{donor.amount:.2f}"
                 f" - {donor.message}")
@@ -112,6 +123,7 @@ def single_format(donor, message, currency_symbol):
 
 
 def multiple_format(donors, message, horizontal, currency_symbol, how_many):
+    """Create text for multi-donor output files."""
     text = ""
     if horizontal:
         for donor in range(0, len(donors)):
