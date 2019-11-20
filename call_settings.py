@@ -50,7 +50,7 @@ class MyForm(QDialog):
         else:
             self.ui.spinBox_DonorsToDisplay.setValue(int(self.donors_to_display))
 
-    def save(self):
+    def _elements_to_save(self):
         participantID = self.ui.lineEditParticipantID.text()
         textfolder = self.ui.labelTextFolder.text()
         currencysymbol = self.ui.lineEditCurrencySymbol.text()
@@ -68,9 +68,15 @@ class MyForm(QDialog):
                   'team_id': teamID, 'tracker_image': trackerimage,
                   'donation_sound': sound,
                   "donors_to_display": donors_to_display}
-        with open('participant.conf', 'w') as outfile:
-            json.dump(config, outfile)
-        self.participant_conf.reload_JSON()
+        return config
+
+    def save(self):
+        config = self._elements_to_save()
+        self.participant_conf.write_config(config, True)
+
+    def persistent_save(self):
+        config = self._elements_to_save()
+        self.participant_conf.write_config(config, False)
 
     def selectfolder(self):
         directory = QFileDialog.getExistingDirectory(self, "Get Folder")

@@ -103,7 +103,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             text = f.read()
             f.close()
             return text
-        except:
+        except FileNotFoundError:
             print("""GUI Error:
                 File does not exist.
                 Did you update the settings?
@@ -113,9 +113,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
         self.RecentDonations.setPlainText(self.readFiles(self.folders,
-                                                         'last5DonorNameAmts.txt'))
+                                                         'lastNDonationNameAmts.txt'))
         self.LastDonation.setPlainText(self.readFiles(self.folders,
-                                                      'LastDonorNameAmnt.txt'))
+                                                      'LastDonationNameAmnt.txt'))
         self.TopDonation.setPlainText(self.readFiles(self.folders,
                                                      'TopDonorNameAmnt.txt'))
         self.TotalRaised.setPlainText(self.readFiles(self.folders,

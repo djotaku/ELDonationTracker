@@ -56,6 +56,7 @@ class ParticipantConf:
         """Load in participant conf and check version."""
         # fields = [self.extralife_id, self.text_folder, self.currency_symbol,
         #          self.team_id, self.tracker_image, self.donation_sound]
+        self.xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
         self.participantconf = self.load_JSON()
         if self.participantconf['Version'] != self.participant_conf_version:
             print(f"You are using an old version of participant.conf.\n"
@@ -72,11 +73,10 @@ class ParticipantConf:
     def load_JSON(self):
         """Load in the config file."""
         # by using pedantic, it'll create the directory if it's not there
-        xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
-        print(xdg.XDG_CONFIG_HOME)
+        
         try:
-            print("Looking for persistent settings...")
-            with open(f'{xdg.XDG_CONFIG_HOME}/participant.conf') as file:
+            print(f"Looking for persistent settings at {self.xdg.XDG_CONFIG_HOME}")
+            with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
                 config = json.load(file)
                 file.close()
                 print("Persistent settings found.")
@@ -94,6 +94,19 @@ class ParticipantConf:
             self.fields[field] = self.participantconf.get(f'{field}')
             # debug
             # print(f"{field}:{self.fields[field]}")
+
+    def write_config(self, config, default):
+        """Write config to file.
+
+        At this point, only called from GUI. Commandline
+        user is expected to edit file manually."""
+        if default:
+            with open('participant.conf', 'w') as outfile:
+                json.dump(config, outfile)
+        else:
+            with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf', 'w') as outfile:
+                json.dump(config, outfile)
+        self.reload_JSON()
 
     def get_version(self):
         """Return version."""
