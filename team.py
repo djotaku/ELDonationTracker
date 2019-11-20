@@ -1,6 +1,6 @@
 """ Contains classes pertaining to teams."""
 import extralife_IO
-import extralifedonations
+import donor
 
 
 class Team:
@@ -74,7 +74,7 @@ class Team:
         self.write_text_files(self.participant_calculation_dict)
 
 
-class TeamParticipant(extralifedonations.Donor):
+class TeamParticipant(donor.Donor):
     """Participant Attributes."""
     def json_to_attributes(self, json):
         """Convert JSON to Team Participant attributes."""
@@ -82,7 +82,7 @@ class TeamParticipant(extralifedonations.Donor):
             self.name = json.get('displayName')
         else:
             self.name = "Anonymous"
-        self.amount = json.get("sumDonations")
+        self.amount = float(json.get("sumDonations"))
         self.number_of_donations = json.get('numDonations')
         self.image_url = json.get('avatarImageURL')
 
