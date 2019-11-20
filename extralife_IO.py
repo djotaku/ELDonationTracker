@@ -3,6 +3,8 @@
 import json
 from urllib.request import Request, urlopen, HTTPError, URLError
 import ssl
+import xdgenvpy
+
 
 # JSON/URL
 def get_JSON(url, order_by_donations=False):
@@ -11,17 +13,18 @@ def get_JSON(url, order_by_donations=False):
     Connects to server and grabs JSON data from the specified URL.
     """
     payload = ""
-    #context = ssl._create_default_https_context()
+    # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations is True:
         url = url+"?orderBy=sumDonations%20DESC"
-    # debug for 20191111 where having issues with API
-    print(f"Trying to access URL: {url}")
+    # debug when having issues with API
+    # print(f"Trying to access URL: {url}")
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
-        print(f"HTTP code: {payload.getcode()}")
+        # debug if having connection issues
+        # print(f"HTTP code: {payload.getcode()}")
     except HTTPError:
         print(f"""Couldn't get to {url}.
                 Check ExtraLifeID.
@@ -47,7 +50,7 @@ class ParticipantConf:
               "currency_symbol": None, "team_id": None,
               "tracker_image": None,
               "donation_sound": None,
-              "donors_to_display": None }
+              "donors_to_display": None}
 
     def __init__(self):
         """Load in participant conf and check version."""
@@ -68,16 +71,29 @@ class ParticipantConf:
 
     def load_JSON(self):
         """Load in the config file."""
-        with open('participant.conf') as file:
-            config = json.load(file)
-            file.close()
+        # by using pedantic, it'll create the directory if it's not there
+        xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
+        print(xdg.XDG_CONFIG_HOME)
+        try:
+            print("Looking for persistent settings...")
+            with open(f'{xdg.XDG_CONFIG_HOME}/participant.conf') as file:
+                config = json.load(file)
+                file.close()
+                print("Persistent settings found.")
+            return config
+        except FileNotFoundError:
+            print("Persistent settings not found. Using defaults...")
+            with open('participant.conf') as file:
+                config = json.load(file)
+                file.close()
             return config
 
     def update_fields(self):
         """Update fields with data from JSON."""
         for field in self.fields:
             self.fields[field] = self.participantconf.get(f'{field}')
-            print(f"{field}:{self.fields[field]}")
+            # debug
+            # print(f"{field}:{self.fields[field]}")
 
     def get_version(self):
         """Return version."""
