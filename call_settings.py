@@ -24,6 +24,7 @@ class MyForm(QDialog):
         self.ui.label_sound.setText(self.DonationSound)
         self.ui.pushButtonRevert.clicked.connect(self.revert)
         self.ui.pushButtonSave.clicked.connect(self.save)
+        self.ui.pushButton_persistentsave.clicked.connect(self.persistent_save)
         self.ui.pushButtonSelectFolder.clicked.connect(self.selectfolder)
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self.selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self.selectfile("sound"))
