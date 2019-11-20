@@ -1,5 +1,6 @@
 """ Contains classes pertaining to teams."""
 import extralife_IO
+import extralifedonations
 
 
 class Team:
@@ -35,7 +36,7 @@ class Team:
         if len(self.team_participant_json) == 0:
             print("No team participants!")
         else:
-            self.participant_list = [TeamParticipant(self.team_participant_json[participant]['displayName'], float(self.team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.team_participant_json))]
+            self.participant_list = [TeamParticipant(self.team_participant_json[participant]) for participant in range(0, len(self.team_participant_json))]
 
     def get_top_5_participants(self):
         """Get team participants."""
@@ -43,7 +44,7 @@ class Team:
         if len(self.top5_team_participant_json) == 0:
             print("No team participants!")
         else:
-            self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]['displayName'], float(self.top5_team_participant_json[participant]['sumDonations'])) for participant in range(0, len(self.top5_team_participant_json))]
+            self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]) for participant in range(0, len(self.top5_team_participant_json))]
 
     def _top_participant(self):
         """ Get Top Team Participant. This should just grab element 0 from above instead of hitting API twice"""
@@ -73,15 +74,17 @@ class Team:
         self.write_text_files(self.participant_calculation_dict)
 
 
-class TeamParticipant:
+class TeamParticipant(extralifedonations.Donor):
     """Participant Attributes."""
-    def __init__(self, name, donation_totals):
-        self.name = name
-        self.amount = donation_totals
-
-    def __lt__(self, object):
-        """Participant less-than comparison"""
-        return self.amount < object.amount
+    def json_to_attributes(self, json):
+        """Convert JSON to Team Participant attributes."""
+        if json.get('displayName') is not None:
+            self.name = json.get('displayName')
+        else:
+            self.name = "Anonymous"
+        self.amount = json.get("sumDonations")
+        self.number_of_donations = json.get('numDonations')
+        self.image_url = json.get('avatarImageURL')
 
 
 if __name__ == "__main__":

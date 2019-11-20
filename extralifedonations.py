@@ -85,12 +85,12 @@ class Participant:
         self.participant_donor_URL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
         # donor calculations
         self.donorcalcs = {}
-        self.donorcalcs['LastDonorNameAmnt'] = "No Donors Yet"
+        self.donorcalcs['LastDonationNameAmnt'] = "No Donors Yet"
         self.donorcalcs['TopDonorNameAmnt'] = "No Donors Yet"
-        self.donorcalcs['lastNDonorNameAmts'] = "No Donors Yet"
-        self.donorcalcs['lastNDonorNameAmtsMessage'] = "No Donors Yet"
-        self.donorcalcs['lastNDonorNameAmtsMessageHorizontal'] = "No Donors Yet"
-        self.donorcalcs['lastNDonorNameAmtsHorizontal'] = "No Donors Yet"
+        self.donorcalcs['lastNDonationNameAmts'] = "No Donors Yet"
+        self.donorcalcs['lastNDonationNameAmtsMessage'] = "No Donors Yet"
+        self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = "No Donors Yet"
+        self.donorcalcs['lastNDonationNameAmtsHorizontal'] = "No Donors Yet"
         self.participantinfo = {}
 
         # misc
@@ -124,13 +124,13 @@ class Participant:
         self.participantinfo["goal"] = self.CurrencySymbol+'{:.2f}'.format(self.participantgoal)
 
     def get_donors(self):
-        """Get the donors from the JSON and creates the donor objects."""
-        self.donorlist = []
+        """Get the donations from the JSON and create the donation objects."""
+        self.donationlist = []
         self.donorJSON = extralife_IO.get_JSON(self.donorURL)
         if len(self.donorJSON) == 0:
             print("No donors!")
         else:
-            self.donorlist = [Donation(self.donorJSON[donor].get('displayName'),
+            self.donationlist = [Donation(self.donorJSON[donor].get('displayName'),
                                     self.donorJSON[donor].get('message'),
                                     self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
 
@@ -145,12 +145,12 @@ class Participant:
                                           self.CurrencySymbol)
 
     def _donor_calculations(self):
-        self.donorcalcs['LastDonorNameAmnt'] = extralife_IO.single_format(self.donorlist[0], False, self.CurrencySymbol)
+        self.donorcalcs['LastDonationNameAmnt'] = extralife_IO.single_format(self.donationlist[0], False, self.CurrencySymbol)
         self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
-        self.donorcalcs['lastNDonorNameAmts'] = extralife_IO.multiple_format(self.donorlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonorNameAmtsMessage'] = extralife_IO.multiple_format(self.donorlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonorNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donorlist, True, True, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonorNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donorlist, False, True, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmts'] = extralife_IO.multiple_format(self.donationlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmtsMessage'] = extralife_IO.multiple_format(self.donationlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donationlist, True, True, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donationlist, False, True, self.CurrencySymbol, int(self.donors_to_display))
 
     def write_text_files(self, dictionary):
         """Write info to text files."""
@@ -167,7 +167,7 @@ class Participant:
         number_of_dononations = self.ParticipantNumDonations
         self.write_text_files(self.participantinfo)
         self.get_donors()
-        if self.donorlist:
+        if self.donationlist:
             self._donor_calculations()
             self.write_text_files(self.donorcalcs)
         if self.TeamID:
