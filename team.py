@@ -7,7 +7,7 @@ class Team:
     def __init__(self, team_ID, folder, currency_symbol):
         # urls
         self.team_url = f"https://www.extra-life.org/api/teams/{team_ID}"
-        self.team_participant_url = f"https://extra-life.org/api/teams/{team_ID}/participants"
+        self.team_participant_url = f"https://www.extra-life.org/api/teams/{team_ID}/participants"
         # misc
         self.output_folder = folder
         self.currency_symbol = currency_symbol
