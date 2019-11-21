@@ -39,15 +39,14 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
         self.timer.timeout.connect(self.getsomeText)
+        self.folders = participant_conf.get_text_folder_only()
         self.timer.start()
 
         # instantiate the tracker so we can send signals
         self.tracker = call_tracker.MyForm(participant_conf)
 
-        # instantiate the settings?
+        # instantiate the settings
         self.call_settings = call_settings.MyForm(participant_conf)
-
-        self.folders = participant_conf.get_text_folder_only()
 
         # want to make sure file exists on new run
         IPC.writeIPC(self.folders, "0")
@@ -91,7 +90,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def callSettings(self):
         self.call_settings.reload_config()
         self.call_settings.show()
-        #call_settings.main(participant_conf)
+        # call_settings.main(participant_conf)
 
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):
@@ -112,6 +111,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
+        # Participant Info
         self.RecentDonations.setPlainText(self.readFiles(self.folders,
                                                          'lastNDonationNameAmts.txt'))
         self.LastDonation.setPlainText(self.readFiles(self.folders,
@@ -125,15 +125,17 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.Goal.setPlainText(self.readFiles(self.folders, 'goal.txt'))
         self.AvgDonation.setPlainText(self.readFiles(self.folders,
                                                      'averageDonation.txt'))
-        self.label_TeamCaptain.setText(self.readFiles(self.folders,
+        # Team Info
+        if participant_conf.get_if_in_team():
+            self.label_TeamCaptain.setText(self.readFiles(self.folders,
                                                       'Team_captain.txt'))
-        self.label_TeamGoal.setText(self.readFiles(self.folders, 'Team_goal.txt'))
-        self.label_TeamNumDonations.setText(self.readFiles(self.folders,
+            self.label_TeamGoal.setText(self.readFiles(self.folders, 'Team_goal.txt'))
+            self.label_TeamNumDonations.setText(self.readFiles(self.folders,
                                                            'Team_numDonations.txt'))
-        self.label_TeamTotalRaised.setText(self.readFiles(self.folders,
+            self.label_TeamTotalRaised.setText(self.readFiles(self.folders,
                                                           'Team_totalRaised.txt'))
-        self.label_TopTeamParticipant.setText(self.readFiles(self.folders, 'Team_TopParticipantNameAmnt.txt'))
-        self.textBrowser_TeamTop5.setPlainText(self.readFiles(self.folders, 'Team_Top5Participants.txt'))
+            self.label_TopTeamParticipant.setText(self.readFiles(self.folders, 'Team_TopParticipantNameAmnt.txt'))
+            self.textBrowser_TeamTop5.setPlainText(self.readFiles(self.folders, 'Team_Top5Participants.txt'))
 
     def runbutton(self):
         print("run button")

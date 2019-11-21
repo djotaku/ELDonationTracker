@@ -134,6 +134,14 @@ class ParticipantConf:
                 self.fields["tracker_image"], self.fields["donation_sound"],
                 self.fields["donors_to_display"])
 
+    def get_if_in_team(self):
+        # debug
+        # print(self.fields["team_id"])
+        if self.fields["team_id"] is None:
+            return False
+        else:
+            return True
+
     def get_version_mismatch(self):
         """Return bool of whether there is a version mismatch."""
         return self.version_mismatch
