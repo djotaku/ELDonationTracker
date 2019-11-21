@@ -38,8 +38,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
-        self.timer.timeout.connect(self.getsomeText)
         self.folders = participant_conf.get_text_folder_only()
+        self.timer.timeout.connect(self.getsomeText)
         self.timer.start()
 
         # instantiate the tracker so we can send signals
@@ -98,13 +98,13 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def readFiles(self, folders, files):
         try:
-            f = open(f'{folders}/{files}', 'r') 
+            f = open(f'{folders}/{files}', 'r')
             text = f.read()
             f.close()
             return text
         except FileNotFoundError:
-            print("""GUI Error:
-                File does not exist.
+            print(f"""GUI Error:
+                {folders}/{files} does not exist.
                 Did you update the settings?
                 Did you hit the 'run' button?
                 """)
