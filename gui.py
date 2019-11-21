@@ -38,7 +38,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
-        self.folders = participant_conf.get_text_folder_only()
         self.timer.timeout.connect(self.getsomeText)
         self.timer.start()
 
@@ -49,6 +48,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.call_settings = call_settings.MyForm(participant_conf)
 
         # want to make sure file exists on new run
+        self.folders = participant_conf.get_text_folder_only()
         IPC.writeIPC(self.folders, "0")
 
         # Connecting *almost* all the buttons to methods
@@ -111,6 +111,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
+        # needs to be repeated in here to get new folder if config changes
+        self.folders = participant_conf.get_text_folder_only()
         # Participant Info
         self.RecentDonations.setPlainText(self.readFiles(self.folders,
                                                          'lastNDonationNameAmts.txt'))
