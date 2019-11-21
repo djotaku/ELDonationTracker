@@ -50,6 +50,7 @@ class MyForm(QDialog):
         unloadtimer.start()
 
     def loadAndUnload(self):
+        self.folders = self.participant_conf.get_text_folder_only()
         IPC = "0"
         try:
             with open(f'{self.folders}/trackerIPC.txt') as file:
