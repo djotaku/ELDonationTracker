@@ -1,7 +1,6 @@
 .kdev4
 *kdev4
 .pytest_cache
-backup_participant.conf
 bin
 *.pyc
 how-branch
@@ -12,3 +11,4 @@ pyvenv.cfg
 *.orig
 OriginalDonation.mp3
 for_lots_of_donors
+*.bak
