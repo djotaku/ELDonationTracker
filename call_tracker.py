@@ -74,11 +74,11 @@ class MyForm(QDialog):
         self.scene.addItem(self.item)
         # want to also play a sound
         try:
-            with open(f'{self.folders}/LastDonorNameAmnt.txt') as file:
+            with open(f'{self.folders}/LastDonationNameAmnt.txt') as file:
                 donorAndAmt = file.read()
                 file.close
             self.ui.Donation_label.setText(donorAndAmt)
-        except:
+        except FileNotFoundError:
             self.ui.Donation_label.setText("TEST 1...2...3...")
 
     def unloadElements(self):
