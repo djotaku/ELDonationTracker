@@ -10,17 +10,11 @@ If you find this useful, please consider donating to my Extra Life campagin: htt
 
 # How To use with a GUI
 
-Watch one of these videos (click on the image):
+Watch one of these videos:
 
-*Linux:*
+<a href="https://youtu.be/ruS6GUZiceQ" target="_blank">How to use Extra Life Donation Tracker with Linux</a>
 
-<a href="https://youtu.be/oEZJXh3jaec" target="_blank"><img src="http://img.youtube.com/vi/oEZJXh3jaec/0.jpg" 
-alt="Link to Linux instruction video"/></a>
-
-*Windows:*
-
-<a href="https://youtu.be/YwvxuauPzhM" target="_blank"><img src="http://img.youtube.com/vi/YwvxuauPzhM/0.jpg" 
-alt="Link to Linux instruction video"/></a>
+<a href="https://youtu.be/yPL3hDivwPE" target="_blank">How to use Extra Life Donation Tracker with Wkndows</a>
 
 or follow the instructions below:
 
