@@ -6,53 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>612</width>
-    <height>279</height>
+    <width>697</width>
+    <height>298</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>591</width>
-     <height>271</height>
+     <width>681</width>
+     <height>289</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEditCurrencySymbol"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <property name="verticalSpacing">
+     <number>2</number>
+    </property>
+    <item row="5" column="1">
+     <widget class="QLabel" name="label_sound">
       <property name="text">
-       <string>Text Folder</string>
+       <string>No Sound Selected</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QLabel" name="label_tracker_image">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>No Image Selected</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEditParticipantID"/>
-    </item>
-    <item row="1" column="1" colspan="2">
-     <widget class="QLabel" name="labelTextFolder">
-      <property name="text">
-       <string>No Folder Selected</string>
+       <string>Participant ID</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -73,20 +63,74 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
+    <item row="7" column="4">
+     <widget class="QPushButton" name="pushButtonSave">
       <property name="text">
-       <string>Participant ID</string>
+       <string>Save</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLabel" name="labelTextFolder">
+      <property name="text">
+       <string>No Folder Selected</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Text Folder</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QSpinBox" name="spinBox_DonorsToDisplay"/>
+    </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
        <string>Tracker Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="3" colspan="2">
+     <widget class="QPushButton" name="pushButton_sound">
+      <property name="text">
+       <string>select Sound</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEditParticipantID"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="label_tracker_image">
+      <property name="text">
+       <string>No Image Selected</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="2" colspan="2">
+     <widget class="QPushButton" name="pushButtonRevert">
+      <property name="text">
+       <string>Revert</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_donors_to_display">
+      <property name="text">
+       <string>Donors to Display</string>
       </property>
      </widget>
     </item>
@@ -100,22 +144,18 @@
       </property>
      </widget>
     </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Donation Sound</string>
+      </property>
+     </widget>
+    </item>
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEditTeamID"/>
     </item>
-    <item row="6" column="2" colspan="2">
-     <widget class="QPushButton" name="pushButtonRevert">
-      <property name="text">
-       <string>Revert</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="4">
-     <widget class="QPushButton" name="pushButtonSave">
-      <property name="text">
-       <string>Save</string>
-      </property>
-     </widget>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEditCurrencySymbol"/>
     </item>
     <item row="4" column="3" colspan="2">
      <widget class="QPushButton" name="pushButton_tracker_image">
@@ -124,27 +164,13 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Donation Sound</string>
+    <item row="8" column="2" colspan="3">
+     <widget class="QPushButton" name="pushButton_persistentsave">
+      <property name="statusTip">
+       <string>To have the settings persist across upgrades</string>
       </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLabel" name="label_sound">
       <property name="text">
-       <string>No Sound Selected</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="3" colspan="2">
-     <widget class="QPushButton" name="pushButton_sound">
-      <property name="text">
-       <string>select Sound</string>
+       <string>Persist Settings</string>
       </property>
      </widget>
     </item>

@@ -2,17 +2,27 @@
 
 # Form implementation generated from reading ui file 'design.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.1
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 692)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setObjectName("centralwidget")
         self.SettingsButton = QtWidgets.QPushButton(self.centralwidget)
         self.SettingsButton.setGeometry(QtCore.QRect(10, 10, 191, 41))
@@ -91,10 +101,10 @@ class Ui_MainWindow(object):
         self.TestAlertButton = QtWidgets.QPushButton(self.centralwidget)
         self.TestAlertButton.setGeometry(QtCore.QRect(690, 10, 84, 41))
         self.TestAlertButton.setObjectName("TestAlertButton")
-        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(10, 340, 771, 291))
-        self.groupBox.setObjectName("groupBox")
-        self.gridLayoutWidget = QtWidgets.QWidget(self.groupBox)
+        self.TeamGroupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.TeamGroupBox.setGeometry(QtCore.QRect(10, 340, 771, 291))
+        self.TeamGroupBox.setObjectName("TeamGroupBox")
+        self.gridLayoutWidget = QtWidgets.QWidget(self.TeamGroupBox)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 30, 751, 251))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.gridLayoutWidget)
@@ -159,9 +169,9 @@ class Ui_MainWindow(object):
         self.pushButtonStop = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonStop.setGeometry(QtCore.QRect(670, 640, 84, 31))
         self.pushButtonStop.setObjectName("pushButtonStop")
-        self.label_8 = QtWidgets.QLabel(self.centralwidget)
-        self.label_8.setGeometry(QtCore.QRect(30, 650, 481, 31))
-        self.label_8.setObjectName("label_8")
+        self.CopyrightLabel = QtWidgets.QLabel(self.centralwidget)
+        self.CopyrightLabel.setGeometry(QtCore.QRect(30, 650, 481, 31))
+        self.CopyrightLabel.setObjectName("CopyrightLabel")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -191,7 +201,7 @@ class Ui_MainWindow(object):
         self.ProgressBarButton.setText(_translate("MainWindow", "Progress Bar"))
         self.RefreshButton.setText(_translate("MainWindow", "Force Refresh"))
         self.TestAlertButton.setText(_translate("MainWindow", "Test Alert"))
-        self.groupBox.setTitle(_translate("MainWindow", "Team Info"))
+        self.TeamGroupBox.setTitle(_translate("MainWindow", "Team Info"))
         self.label_9.setText(_translate("MainWindow", "Team Captain"))
         self.label_TeamGoal.setText(_translate("MainWindow", "Team Goal"))
         self.label_13.setText(_translate("MainWindow", "Top Team Participant"))
@@ -205,5 +215,4 @@ class Ui_MainWindow(object):
         self.label_11.setText(_translate("MainWindow", "# of Donations"))
         self.pushButtonRun.setText(_translate("MainWindow", "Run"))
         self.pushButtonStop.setText(_translate("MainWindow", "Stop"))
-        self.label_8.setText(_translate("MainWindow", "(C) 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com"))
-
+        self.CopyrightLabel.setText(_translate("MainWindow", "(C) 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com"))

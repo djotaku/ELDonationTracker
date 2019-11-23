@@ -10,19 +10,15 @@ If you find this useful, please consider donating to my Extra Life campagin: htt
 
 # How To use with a GUI
 
-Watch one of these videos (click on the image):
+Watch one of these videos:
 
-*Linux:*
+<a href="https://youtu.be/ruS6GUZiceQ" target="_blank">How to use Extra Life Donation Tracker with Linux</a>
 
-<a href="https://youtu.be/oEZJXh3jaec" target="_blank"><img src="http://img.youtube.com/vi/oEZJXh3jaec/0.jpg" 
-alt="Link to Linux instruction video"/></a>
-
-*Windows:*
-
-<a href="https://youtu.be/YwvxuauPzhM" target="_blank"><img src="http://img.youtube.com/vi/YwvxuauPzhM/0.jpg" 
-alt="Link to Linux instruction video"/></a>
+<a href="https://youtu.be/yPL3hDivwPE" target="_blank">How to use Extra Life Donation Tracker with Wkndows</a>
 
 or follow the instructions below:
+
+NOTE: Major Changes occurred in the v3.0 release. Make sure to read the release notes!
 
 I am now creating executables with each release. Download the executable that goes with your operating system. After you unzip or untar the file:
 
@@ -30,9 +26,11 @@ On Windows launch gui.exe.
 
 On Linux launch gui - you may first need to chmod 775 to make it executable.
 
-Then click on the Settings button to fill in the fields there. Click save and exit the settings Window. In the main GUI hit Run to grab your data for the first time. From there, use the text files it generates in OBS or XSplit.
+Then click on the Settings button to fill in the fields there. If you wish to have your settings persist across version updates, click on Persist Settings. Otherwise, click save and exit the settings window. Open the tracker window and capture that window in OBS or XSplit. In the main GUI hit Run to grab your data for the first time. From there, use the text files it generates in OBS or XSplit.
 
 # How To use without a GUI
+
+NOTE: These videos are VERY OUT OF DATE. 
 
 To watch a video of how to use this program on Linux: https://youtu.be/sKaFQPoQeJw
 
@@ -58,6 +56,8 @@ On Windows it's easiest to open extralifedonations.py in IDLE and then run the s
 
 # How To for developers
 
+Please see CONTRIBUTING.MD if you wish to contribute. 
+
 If you prefer to run from a git clone or from downloading one of the source downloads, follow the instructions below:
 
 ## Linux
@@ -74,11 +74,17 @@ to grab the requirements:
 
 pip install -r requirements.txt
 
-Finally, to run type:
+Finally, decide if you want the GUI or just the commandline. If commandline, only:
+
+Fist edit the participant.conf file in a text editor. Then run:
+
+python3 extralifedonations.py
+
+for the GUI type:
 
 python3 gui.py 
 
-Once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered
+The benefit you get from using the GUI is that cnce the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered
 
 Use the settings window to enter your settings and then hit save to save them. 
 
@@ -86,13 +92,11 @@ To run the program, hit run. You should get the same output on the commandline a
 
 ## Windows
 
-You will need the PyQt5 packages. If you already have Python installed from the official Python release (see the video above if you need help), then type:
+You will need the PyQt5 packages. If you already have Python installed from the official Python release (see the video above if you need help), then go to the directory with the files you downloaded from Github and type:
 
-python -m pip install PyQt5 
+python -m pip install -r rquirements.txt 
 
-(I'm pretty sure the package name is case-sensitive)
-
-Once that's installed, navigate to the directory where you cloned the git repo. If you're using Windows Explorer - double-click on gui.py. If you're on the Windows commandline you should be able to type python gui.py. 
+If you're using Windows Explorer - double-click on gui.py. If you're on the Windows commandline you should be able to type python gui.py. 
 
 Once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered
 

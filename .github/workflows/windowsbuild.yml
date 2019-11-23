@@ -35,6 +35,7 @@ jobs:
         cp participant.conf dist/gui/
         cp Engineer.png dist/gui
         cp Donation.mp3 dist/gui
+        cp icon.png dist/gui
         cp dist/gui/Qt5Core.dll dist/gui/PyQt5/Qt/bin
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
