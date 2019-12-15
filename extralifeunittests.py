@@ -10,6 +10,23 @@ import donor
 donor1_json = {"displayName": "donor1", "sumDonations": "45"}
 donor2_json = {"displayName": "donor2", "sumDonations": "30"}
 
+fields_for_participant_conf = {"extralife_id": "12345",
+                               "text_folder": "textfolder",
+                               "currency_symbol": "$",
+                               "team_id": "45678",
+                               "tracker_image": "imagefolder",
+                               "donation_sound": "mp3",
+                               "donors_to_display": "5"}
+
+fields_for_participant_conf_no_team = {"extralife_id": "12345",
+                                       "text_folder": "textfolder",
+                                       "currency_symbol": "$",
+                                       "team_id": None,
+                                       "tracker_image": "imagefolder",
+                                       "donation_sound": "mp3",
+                                       "donors_to_display": "5"}
+
+
 # Tests for class Donor
 def test_Donor_lt():
     """ Test to make sure comparison works. """
@@ -34,6 +51,60 @@ def test_donor_calculations():
 # and will get refactored out.
 
 # Tests for extralife_IO.py
+
+# come back and do one for get_JSON
+
+# ParticipantConf class - will need to figure out how to over-ride conf file
+def test_participantconf_get_version():
+    participant_conf = extralife_IO.ParticipantConf()
+    assert "1.0" == participant_conf.get_version()
+
+
+def test_participantconf_get_CLI_values():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert ("12345", "textfolder",
+            "$", "45678", "5") == participant_conf.get_CLI_values()
+
+
+def test_get_text_folder_only():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert "textfolder" == participant_conf.get_text_folder_only()
+
+
+def test_get_GUI_values():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert ("12345", "textfolder",
+            "$", "45678", "imagefolder",
+            "mp3", "5") == participant_conf.get_GUI_values()
+
+
+def test_get_if_in_team_with_team():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert participant_conf.get_if_in_team() is True
+
+
+def test_get_if_in_team_without_team():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf_no_team
+    assert participant_conf.get_if_in_team() is False
+
+
+def test_get_tracker_image():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert "imagefolder" == participant_conf.get_tracker_image()
+
+
+def test_get_tracker_sound():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert "mp3" == participant_conf.get_tracker_sound()
+
+
 def test_single_format_message_true():
     """ Make sure the formatting works correctly. """
     donor1 = extralifedonations.Donation("donor1", "message", 45)
