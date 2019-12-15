@@ -271,7 +271,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Top Donation</string>
+      <string>Top Donor</string>
      </property>
     </widget>
     <widget class="QTextBrowser" name="TopDonation">
@@ -287,7 +287,7 @@
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="placeholderText">
-      <string>Top Donation</string>
+      <string>Top Donor</string>
      </property>
     </widget>
    </widget>
