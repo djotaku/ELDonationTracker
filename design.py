@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'design.ui'
+# Form implementation generated from reading ui file 'QTdesignerfiles/design.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
@@ -196,8 +196,8 @@ class Ui_MainWindow(object):
         self.RecentDonations.setPlaceholderText(_translate("MainWindow", "Recent Donations"))
         self.LastDonation.setPlaceholderText(_translate("MainWindow", "Last Donation"))
         self.label_2.setText(_translate("MainWindow", "Last Donation"))
-        self.label_3.setText(_translate("MainWindow", "Top Donation"))
-        self.TopDonation.setPlaceholderText(_translate("MainWindow", "Top Donation"))
+        self.label_3.setText(_translate("MainWindow", "Top Donor"))
+        self.TopDonation.setPlaceholderText(_translate("MainWindow", "Top Donor"))
         self.ProgressBarButton.setText(_translate("MainWindow", "Progress Bar"))
         self.RefreshButton.setText(_translate("MainWindow", "Force Refresh"))
         self.TestAlertButton.setText(_translate("MainWindow", "Test Alert"))
