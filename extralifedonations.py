@@ -25,7 +25,10 @@ class Donation:
         else:
             self.name = "Anonymous"
         self.message = message
-        self.amount = amount
+        if amount is not None:
+            self.amount = amount
+        else:
+            self.amount = 0
 
     def __lt__(self, object):
         """Donation less than comparison.
@@ -99,7 +102,7 @@ class Participant:
         else:
             self.donationlist = [Donation(self.donorJSON[donor].get('displayName'),
                                     self.donorJSON[donor].get('message'),
-                                    self.donorJSON[donor]['amount']) for donor in range(0, len(self.donorJSON))]
+                                    self.donorJSON[donor].get('amount')) for donor in range(0, len(self.donorJSON))]
 
     def _top_donor(self):
         """Return Top Donor from server.
