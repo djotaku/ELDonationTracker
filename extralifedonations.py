@@ -38,6 +38,7 @@ class Donation:
         """
         return self.amount < object.amount
 
+
 class Participant:
     """Owns all the attributes under the participant API.
 
