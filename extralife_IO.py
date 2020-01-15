@@ -34,9 +34,11 @@ def get_JSON(url, order_by_donations=False):
                 and this is not an intermittent issue:
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
+        return 0
     except URLError:
         print(f"HTTP code: {payload.getcode()}")
         print(f""" Timed out while getting JSON. """)
+        return 0
 
 # File Input and Output
 # input

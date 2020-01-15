@@ -52,7 +52,7 @@ class Participant:
         be written to files.
         """
         self.participantJSON = extralife_IO.get_JSON(self.participantURL)
-        if len(self.participantJSON) == 0:
+        if self.participantJSON == 0:
             print("Couldn't access participant JSON.")
         else:
             self.ParticipantTotalRaised = self.participantJSON['sumDonations']
@@ -73,7 +73,9 @@ class Participant:
         """Get the donations from the JSON and create the donation objects."""
         self.donationlist = []
         self.donorJSON = extralife_IO.get_JSON(self.donorURL)
-        if len(self.donorJSON) == 0:
+        if self.donorJSON == 0:
+            print("couldn't access donor page")
+        elif len(self.donorJSON) == 0:
             print("No donors!")
         else:
             self.donationlist = [donation.Donation(self.donorJSON[donor].get('displayName'),
@@ -86,7 +88,7 @@ class Participant:
         Uses donor drive's sorting to get the top guy or gal."""
         top_donor_JSON = extralife_IO.get_JSON(self.participant_donor_URL,
                                                True)
-        if len(top_donor_JSON) == 0:
+        if top_donor_JSON == 0:
             print("Couldn't access top donor data")
         else:
             top_donor = donor.Donor(top_donor_JSON[0])
