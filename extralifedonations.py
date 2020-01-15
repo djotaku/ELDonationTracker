@@ -6,6 +6,7 @@ import IPC
 import team
 import extralife_IO
 import donor
+import donation
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
@@ -72,7 +73,7 @@ class Participant:
         if len(self.donorJSON) == 0:
             print("No donors!")
         else:
-            self.donationlist = [Donation(self.donorJSON[donor].get('displayName'),
+            self.donationlist = [donation.Donation(self.donorJSON[donor].get('displayName'),
                                     self.donorJSON[donor].get('message'),
                                     self.donorJSON[donor].get('amount')) for donor in range(0, len(self.donorJSON))]
 
