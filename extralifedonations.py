@@ -52,13 +52,16 @@ class Participant:
         be written to files.
         """
         self.participantJSON = extralife_IO.get_JSON(self.participantURL)
-        self.ParticipantTotalRaised = self.participantJSON['sumDonations']
-        self.ParticipantNumDonations = self.participantJSON['numDonations']
-        try:
-            self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
-        except ZeroDivisionError:
-            self.averagedonation = 0
-        self.participantgoal = self.participantJSON['fundraisingGoal']
+        if len(self.participantJSON) == 0:
+            print("Couldn't access participant JSON.")
+        else:
+            self.ParticipantTotalRaised = self.participantJSON['sumDonations']
+            self.ParticipantNumDonations = self.participantJSON['numDonations']
+            try:
+                self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
+            except ZeroDivisionError:
+                self.averagedonation = 0
+            self.participantgoal = self.participantJSON['fundraisingGoal']
 
         # the dictionary:
         self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(self.participantJSON['sumDonations'])
@@ -83,13 +86,19 @@ class Participant:
         Uses donor drive's sorting to get the top guy or gal."""
         top_donor_JSON = extralife_IO.get_JSON(self.participant_donor_URL,
                                                True)
-        top_donor = donor.Donor(top_donor_JSON[0])
-        return extralife_IO.single_format(top_donor, False,
+        if len(top_donor_JSON) == 0:
+            print("Couldn't access top donor data")
+        else:
+            top_donor = donor.Donor(top_donor_JSON[0])
+            return extralife_IO.single_format(top_donor, False,
                                           self.CurrencySymbol)
 
     def _donor_calculations(self):
         self.donorcalcs['LastDonationNameAmnt'] = extralife_IO.single_format(self.donationlist[0], False, self.CurrencySymbol)
-        self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
+        try:
+            self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
+        except:
+            pass
         self.donorcalcs['lastNDonationNameAmts'] = extralife_IO.multiple_format(self.donationlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
         self.donorcalcs['lastNDonationNameAmtsMessage'] = extralife_IO.multiple_format(self.donationlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
         self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donationlist, True, True, self.CurrencySymbol, int(self.donors_to_display))

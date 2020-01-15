@@ -25,17 +25,18 @@ def get_JSON(url, order_by_donations=False):
         payload = urlopen(request, timeout=5, context=context)
         # debug if having connection issues
         # print(f"HTTP code: {payload.getcode()}")
+        return json.load(payload)
     except HTTPError:
         print(f"""Couldn't get to {url}.
                 Check ExtraLifeID.
                 Or server may be unavailable.
                 If you can reach that URL from your browser
+                and this is not an intermittent issue:
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
     except URLError:
         print(f"HTTP code: {payload.getcode()}")
         print(f""" Timed out while getting JSON. """)
-    return json.load(payload)
 
 # File Input and Output
 # input
