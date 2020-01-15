@@ -33,7 +33,9 @@ class Team:
         """Get team participants."""
         self.participant_list = []
         self.team_participant_json = extralife_IO.get_JSON(self.team_participant_url)
-        if len(self.team_participant_json) == 0:
+        if self.team_participant_json == 0:
+            print("couldn't get to URL")
+        elif len(self.team_participant_json) == 0:
             print("No team participants!")
         else:
             self.participant_list = [TeamParticipant(self.team_participant_json[participant]) for participant in range(0, len(self.team_participant_json))]
@@ -41,7 +43,9 @@ class Team:
     def get_top_5_participants(self):
         """Get team participants."""
         self.top5_team_participant_json = extralife_IO.get_JSON(self.team_participant_url, True)
-        if len(self.top5_team_participant_json) == 0:
+        if self.top5_team_participant_json == 0:
+            print("Couldn't get top 5 team participants")
+        elif len(self.top5_team_participant_json) == 0:
             print("No team participants!")
         else:
             self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]) for participant in range(0, len(self.top5_team_participant_json))]

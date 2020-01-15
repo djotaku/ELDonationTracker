@@ -6,37 +6,10 @@ import IPC
 import team
 import extralife_IO
 import donor
+import donation
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
-
-class Donation:
-    """Donation Attributes.
-
-    Class exists to provide attributes for a donation based on what comes in
-    from the JSON so that it doesn't have to be traversed each time a donor
-    action needs to be taken.
-    """
-
-    def __init__(self, name, message, amount):
-        """Load in values from class initialization."""
-        if name is not None:
-            self.name = name
-        else:
-            self.name = "Anonymous"
-        self.message = message
-        if amount is not None:
-            self.amount = amount
-        else:
-            self.amount = 0
-
-    def __lt__(self, object):
-        """Donation less than comparison.
-
-        Returns True if this donation has a donation
-        amount less than comparision.
-        """
-        return self.amount < object.amount
 
 class Participant:
     """Owns all the attributes under the participant API.
@@ -79,13 +52,16 @@ class Participant:
         be written to files.
         """
         self.participantJSON = extralife_IO.get_JSON(self.participantURL)
-        self.ParticipantTotalRaised = self.participantJSON['sumDonations']
-        self.ParticipantNumDonations = self.participantJSON['numDonations']
-        try:
-            self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
-        except ZeroDivisionError:
-            self.averagedonation = 0
-        self.participantgoal = self.participantJSON['fundraisingGoal']
+        if self.participantJSON == 0:
+            print("Couldn't access participant JSON.")
+        else:
+            self.ParticipantTotalRaised = self.participantJSON['sumDonations']
+            self.ParticipantNumDonations = self.participantJSON['numDonations']
+            try:
+                self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
+            except ZeroDivisionError:
+                self.averagedonation = 0
+            self.participantgoal = self.participantJSON['fundraisingGoal']
 
         # the dictionary:
         self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(self.participantJSON['sumDonations'])
@@ -97,10 +73,12 @@ class Participant:
         """Get the donations from the JSON and create the donation objects."""
         self.donationlist = []
         self.donorJSON = extralife_IO.get_JSON(self.donorURL)
-        if len(self.donorJSON) == 0:
+        if self.donorJSON == 0:
+            print("couldn't access donor page")
+        elif len(self.donorJSON) == 0:
             print("No donors!")
         else:
-            self.donationlist = [Donation(self.donorJSON[donor].get('displayName'),
+            self.donationlist = [donation.Donation(self.donorJSON[donor].get('displayName'),
                                     self.donorJSON[donor].get('message'),
                                     self.donorJSON[donor].get('amount')) for donor in range(0, len(self.donorJSON))]
 
@@ -110,13 +88,19 @@ class Participant:
         Uses donor drive's sorting to get the top guy or gal."""
         top_donor_JSON = extralife_IO.get_JSON(self.participant_donor_URL,
                                                True)
-        top_donor = donor.Donor(top_donor_JSON[0])
-        return extralife_IO.single_format(top_donor, False,
+        if top_donor_JSON == 0:
+            print("Couldn't access top donor data")
+        else:
+            top_donor = donor.Donor(top_donor_JSON[0])
+            return extralife_IO.single_format(top_donor, False,
                                           self.CurrencySymbol)
 
     def _donor_calculations(self):
         self.donorcalcs['LastDonationNameAmnt'] = extralife_IO.single_format(self.donationlist[0], False, self.CurrencySymbol)
-        self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
+        try:
+            self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
+        except:
+            pass
         self.donorcalcs['lastNDonationNameAmts'] = extralife_IO.multiple_format(self.donationlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
         self.donorcalcs['lastNDonationNameAmtsMessage'] = extralife_IO.multiple_format(self.donationlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
         self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donationlist, True, True, self.CurrencySymbol, int(self.donors_to_display))

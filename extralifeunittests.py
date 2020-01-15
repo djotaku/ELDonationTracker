@@ -3,6 +3,7 @@
 import extralifedonations
 import extralife_IO
 import donor
+import donation
 
 # run with command: py.test-3 extralifeunittests.py
 # or if in venv, just pytest extralifeunittests.py (works better)
@@ -107,7 +108,7 @@ def test_get_tracker_sound():
 
 def test_single_format_message_true():
     """ Make sure the formatting works correctly. """
-    donor1 = extralifedonations.Donation("donor1", "message", 45)
+    donor1 = donation.Donation("donor1", "message", 45)
     currency_symbol = "$"
     formatted_message = extralife_IO.single_format(donor1, True, currency_symbol)
     assert formatted_message == "donor1 - $45.00 - message"
@@ -115,7 +116,7 @@ def test_single_format_message_true():
 
 def test_donor_formatting_message_false():
     """ Make sure the formatting works correctly. """
-    donor1 = extralifedonations.Donation("donor1", "message", 45)
+    donor1 = donation.Donation("donor1", "message", 45)
     currency_symbol = "$"
     formatted_message = extralife_IO.single_format(donor1, False, currency_symbol)
     assert formatted_message == "donor1 - $45.00"
@@ -123,12 +124,12 @@ def test_donor_formatting_message_false():
 
 def test_multiple_format_Horizontal():
     """ Does it return the right thing? """
-    donor1 = extralifedonations.Donation("donor1", "message1", 10)
-    donor2 = extralifedonations.Donation("donor2", "message2", 20)
-    donor3 = extralifedonations.Donation("donor3", "message3", 30)
-    donor4 = extralifedonations.Donation("donor4", "message4", 40)
-    donor5 = extralifedonations.Donation("donor5", "message5", 50)
-    donor6 = extralifedonations.Donation("donor6", "message6", 60)
+    donor1 = donation.Donation("donor1", "message1", 10)
+    donor2 = donation.Donation("donor2", "message2", 20)
+    donor3 = donation.Donation("donor3", "message3", 30)
+    donor4 = donation.Donation("donor4", "message4", 40)
+    donor5 = donation.Donation("donor5", "message5", 50)
+    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_IO.multiple_format(donor_list, False, True,
@@ -150,12 +151,12 @@ def test_multiple_format_Horizontal():
 
 def test_multiple_format_Message_Horizontal():
     """ Does it return the right thing? """
-    donor1 = extralifedonations.Donation("donor1", "message1", 10)
-    donor2 = extralifedonations.Donation("donor2", "message2", 20)
-    donor3 = extralifedonations.Donation("donor3", "message3", 30)
-    donor4 = extralifedonations.Donation("donor4", "message4", 40)
-    donor5 = extralifedonations.Donation("donor5", "message5", 50)
-    donor6 = extralifedonations.Donation("donor6", "message6", 60)
+    donor1 = donation.Donation("donor1", "message1", 10)
+    donor2 = donation.Donation("donor2", "message2", 20)
+    donor3 = donation.Donation("donor3", "message3", 30)
+    donor4 = donation.Donation("donor4", "message4", 40)
+    donor5 = donation.Donation("donor5", "message5", 50)
+    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_IO.multiple_format(donor_list, True, True,
@@ -177,12 +178,12 @@ def test_multiple_format_Message_Horizontal():
 
 def test_multiple_format_Vertical():
     """ Does it return the right thing? """
-    donor1 = extralifedonations.Donation("donor1", "message1", 10)
-    donor2 = extralifedonations.Donation("donor2", "message2", 20)
-    donor3 = extralifedonations.Donation("donor3", "message3", 30)
-    donor4 = extralifedonations.Donation("donor4", "message4", 40)
-    donor5 = extralifedonations.Donation("donor5", "message5", 50)
-    donor6 = extralifedonations.Donation("donor6", "message6", 60)
+    donor1 = donation.Donation("donor1", "message1", 10)
+    donor2 = donation.Donation("donor2", "message2", 20)
+    donor3 = donation.Donation("donor3", "message3", 30)
+    donor4 = donation.Donation("donor4", "message4", 40)
+    donor5 = donation.Donation("donor5", "message5", 50)
+    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_IO.multiple_format(donor_list, False, False,
@@ -204,12 +205,12 @@ def test_multiple_format_Vertical():
 
 def test_multiple_format_Message_Vertical():
     """ Does it return the right thing?"""
-    donor1 = extralifedonations.Donation("donor1", "message1", 10)
-    donor2 = extralifedonations.Donation("donor2", "message2", 20)
-    donor3 = extralifedonations.Donation("donor3", "message3", 30)
-    donor4 = extralifedonations.Donation("donor4", "message4", 40)
-    donor5 = extralifedonations.Donation("donor5", "message5", 50)
-    donor6 = extralifedonations.Donation("donor6", "message6", 60)
+    donor1 = donation.Donation("donor1", "message1", 10)
+    donor2 = donation.Donation("donor2", "message2", 20)
+    donor3 = donation.Donation("donor3", "message3", 30)
+    donor4 = donation.Donation("donor4", "message4", 40)
+    donor5 = donation.Donation("donor5", "message5", 50)
+    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_IO.multiple_format(donor_list, True, False,
