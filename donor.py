@@ -7,6 +7,14 @@ class Donor:
     Class exists to provide attributes for a donor based on what comes in from
     the JSON so that it doesn't have to be traversed each time a donor action
     needs to be taken.
+
+    API Variables:
+    name: donor's name if provided, else Anonymous
+    donor_id: the ID assigned by the API (currently not used)
+    image_url: the URL for the donor's avatar (currently not used)
+    amount: the sum of all donations the donor has made this campaign
+            number_of_dononations: the number of donations the donor has made
+            this campaign
     """
 
     def __init__(self, json):
@@ -16,7 +24,8 @@ class Donor:
     def json_to_attributes(self, json):
         """Convert JSON to Donor attributes.
 
-        May be overwritten by child classes."""
+        May be overwritten by child classes.
+        """
         if json.get('displayName') is not None:
             self.name = json.get('displayName')
         else:
