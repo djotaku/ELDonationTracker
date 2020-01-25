@@ -102,7 +102,8 @@ class ParticipantConf:
         """Write config to file.
 
         At this point, only called from GUI. Commandline
-        user is expected to edit file manually."""
+        user is expected to edit file manually.
+        """
         if default:
             with open('participant.conf', 'w') as outfile:
                 json.dump(config, outfile)
@@ -138,6 +139,7 @@ class ParticipantConf:
                 self.fields["donors_to_display"])
 
     def get_if_in_team(self):
+        """Return True if participant is in a team."""
         # debug
         # print(self.fields["team_id"])
         if self.fields["team_id"] is None:
