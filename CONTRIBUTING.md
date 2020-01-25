@@ -18,6 +18,8 @@ The code is up to PEP8 standards and I have written unit tests. The following fi
 
 - team.py
 
+If that list above becomes out of date, the canonical list of files that need to pass flake8 can be found in the repo under .github/workflows/linttest.yml.
+
 All the unit tests in extralifeunittests.py should pass.
 
 Because the PyQt classes and functions mimic their C/C++ classes and functions, they may violate PEP8 and other Python conventions, so flake8 does not have to pass on files related to the GUI. However, they should pass pydocstyle.
