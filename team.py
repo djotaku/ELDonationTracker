@@ -7,7 +7,28 @@ class Team:
     """Hold Team Data."""
 
     def __init__(self, team_ID, folder, currency_symbol):
-        """Set the team variables."""
+        """Set the team variables.
+
+        API Variables:
+        team_url and team_participant_url: self-explanatory
+        team_info: a dictionary to hold the following:
+                   - Team_goal: fundraising goal
+                   - Team_captain: team captain's name
+                   - Team_totalRaised: total amount raised by team
+                   - Team_numDonations: total number of donations to the team
+        participant_list: a list of the most recent participants
+        top_5_participant_list: a list of the top 5 team participants by
+                                amount donated.
+
+        Helper Variables:
+        output_folder: the folder that will contain the txt files for the user
+                       (comes in via the init function from the participant)
+        currency_symbol: for formatting text (comes in via init function)
+        participant_calculation_dict: dictionary holding output for txt files:
+                   - Team_Top5Participants: top 5 participants by donation amount
+                   - Team_Top5ParticipantsHorizontal: same, but horizontal
+                   - Team_TopParticipantNameAmnt: Top participant and amount
+        """
         # urls
         self.team_url = f"https://www.extra-life.org/api/teams/{team_ID}"
         self.team_participant_url = f"https://www.extra-life.org/api/teams/{team_ID}/participants"
@@ -20,6 +41,7 @@ class Team:
 
     def get_team_json(self):
         """Get team info from JSON api."""
+        # need to debug to keep program from exiting if it can't read the URL
         self.team_json = extralife_IO.get_JSON(self.team_url)
         self.team_goal = self.team_json["fundraisingGoal"]
         self.team_captain = self.team_json["captainDisplayName"]
@@ -86,7 +108,17 @@ class Team:
 
 
 class TeamParticipant(donor.Donor):
-    """Participant Attributes."""
+    """Participant Attributes.
+
+    Inherits from the donor class, but
+    over-rides the json_to_attributes function.
+
+    API variables:
+    name: participant's name or Anonymous
+    amount: the sum of all donations by this participant
+    number_of_donations: number of all donations by this participant
+    image_url: the url of the participant's avatar image (not used)
+    """
 
     def json_to_attributes(self, json):
         """Convert JSON to Team Participant attributes."""
