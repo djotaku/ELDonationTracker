@@ -15,6 +15,43 @@ class Participant:
     """Owns all the attributes under the participant API.
 
     Also owns the results of any calculated data.
+
+    Participant.conf variables:
+    ExtraLifeID: the participant's extra life ID
+    textFolder: where the output txt files will be written on disk
+    CurrencySymbol: for the output txt files
+    donors_to_display: for txt files that display multiple donors
+                       (or donations), the number of them that should
+                       be written to the text file.
+
+    API Variables:
+    participantURL: API info for participant
+    donorURL: donation API info (should be renamed to donationURL)
+    participant_donor_URL: API info for donors. Useful for calculating 
+                           top donor.
+    participantinfo: a dictionary holding data from participantURL:
+                     - totalRaised: total money raised
+                     - numDonations: number of donations
+                     - averageDonation: this doesn't come from the API,
+                                        it's calculated in this class.
+                     - goal: the participant's fundraising goal
+    myteam: An instantiation of a team class for the participant's team.
+    donationlist: a list of Donation class ojects made of donations to 
+                  this participant
+
+    Helper Variables:
+    donorcalcs: a dictionary holding values for txt ouput:
+                - LastDonationNameAmnt: most recent donation,
+                                        donor name, amount of donation
+                - TopDonorNameAmnt: top donor name and sum of donations
+                - lastNDonationNameAmts: based on value of donors_to_display
+                                         above, a list of the last N donor
+                                         names and donation amounts
+                - lastNDonationNameAmtsMessage: same with messages
+                - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
+                - lastNDonationNameAmtsHorizontal: same, but no message
+    loop: set to true on init, it's there so that the GUI can stop the loop. 
+          (if the GUI is being used. Otherwise, no big deal)
     """
 
     def __init__(self, participant_conf):
@@ -85,7 +122,8 @@ class Participant:
     def _top_donor(self):
         """Return Top Donor from server.
 
-        Uses donor drive's sorting to get the top guy or gal."""
+        Uses donor drive's sorting to get the top guy or gal.
+        """
         top_donor_JSON = extralife_IO.get_JSON(self.participant_donor_URL,
                                                True)
         if top_donor_JSON == 0:
