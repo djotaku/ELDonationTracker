@@ -1,4 +1,4 @@
-#should change from line edits to labels
+"""The main GUI window."""
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 
@@ -22,17 +22,26 @@ participant_conf = extralife_IO.ParticipantConf()
 
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
+    """The main gui Window."""
 
     def __init__(self):
-        # Super allows us to access variables, methods etc in the design.py file
+        """Setup the GUI.
+
+        We have a QTimer to allow the text on the GUI
+        to update without blocking the user from interacting
+        with the GUI.
+
+        Then we instantiate the other windows:
+        tracker and settings
+        And connect the buttons.
+        """
         super(self.__class__, self).__init__()
 
         # deal with version mismatch
         self.version_mismatch = participant_conf.get_version_mismatch()
         self.version_check()
 
-        self.setupUi(self)  # This is defined in design.py file automatically
-                            # It sets up layout and widgets that are defined
+        self.setupUi(self)
 
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
@@ -141,12 +150,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def runbutton(self):
         print("run button")
-        # need to add some code to keep it from starting more than one thread. 
+        # need to add some code to keep it from starting more than one thread.
         self.thread1 = donationGrabber()
         self.thread1.start()
 
     def stopbutton(self):
-        self.thread1.stop() 
+        self.thread1.stop()
 
 
 class donationGrabber (threading.Thread):

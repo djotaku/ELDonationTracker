@@ -1,11 +1,13 @@
-""" Contains classes pertaining to teams."""
+"""Contains classes pertaining to teams."""
 import extralife_IO
 import donor
 
 
 class Team:
     """Hold Team Data."""
+
     def __init__(self, team_ID, folder, currency_symbol):
+        """Set the team variables."""
         # urls
         self.team_url = f"https://www.extra-life.org/api/teams/{team_ID}"
         self.team_participant_url = f"https://www.extra-life.org/api/teams/{team_ID}/participants"
@@ -51,7 +53,10 @@ class Team:
             self.top_5_participant_list = [TeamParticipant(self.top5_team_participant_json[participant]) for participant in range(0, len(self.top5_team_participant_json))]
 
     def _top_participant(self):
-        """ Get Top Team Participant. This should just grab element 0 from above instead of hitting API twice"""
+        """Get Top Team Participant.
+
+        This should just grab element 0 from above instead of hitting API twice
+        """
         if len(self.top_5_participant_list) == "0":
             print("No participants")
         else:
@@ -68,10 +73,12 @@ class Team:
         extralife_IO.write_text_files(dictionary, self.output_folder)
 
     def team_run(self):
+        """Get team info from API."""
         self.get_team_json()
         self.write_text_files(self.team_info)
 
     def participant_run(self):
+        """Get and calculate team partipant info."""
         self.get_participants()
         self.get_top_5_participants()
         self._participant_calculations()
@@ -80,6 +87,7 @@ class Team:
 
 class TeamParticipant(donor.Donor):
     """Participant Attributes."""
+
     def json_to_attributes(self, json):
         """Convert JSON to Team Participant attributes."""
         if json.get('displayName') is not None:
