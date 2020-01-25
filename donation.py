@@ -1,9 +1,21 @@
+"""A class to hold the Donation attributes and methods."""
+
 class Donation:
     """Donation Attributes.
 
     Class exists to provide attributes for a donation based on what comes in
     from the JSON so that it doesn't have to be traversed each time a donor
     action needs to be taken.
+
+    API Variables:
+    name: the name of the donor for this donation.
+          If the donor wished to stay anonymous,
+          the variable is set to "Anonymous"
+
+    message: the message associated with the donation.
+
+    amount: the amount of the donation. If they blocked it from showing
+            it is set to 0.
     """
 
     def __init__(self, name, message, amount):
