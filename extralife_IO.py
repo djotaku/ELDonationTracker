@@ -1,8 +1,9 @@
 """Holds all the file and internet input and output."""
 
 import json
-from urllib.request import Request, urlopen, HTTPError, URLError
 import ssl
+from urllib.request import HTTPError, Request, URLError, urlopen
+
 import xdgenvpy
 
 

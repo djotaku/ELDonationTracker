@@ -1,5 +1,6 @@
 """A class to hold the Donation attributes and methods."""
 
+
 class Donation:
     """Donation Attributes.
 

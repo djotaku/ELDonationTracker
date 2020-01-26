@@ -25,9 +25,9 @@ class Participant:
                        be written to the text file.
 
     API Variables:
-    participantURL: API info for participant
+    participant_url: API info for participant
     donorURL: donation API info (should be renamed to donationURL)
-    participant_donor_URL: API info for donors. Useful for calculating 
+    participant_donor_URL: API info for donors. Useful for calculating
                            top donor.
     participantinfo: a dictionary holding data from participantURL:
                      - totalRaised: total money raised
@@ -36,7 +36,7 @@ class Participant:
                                         it's calculated in this class.
                      - goal: the participant's fundraising goal
     myteam: An instantiation of a team class for the participant's team.
-    donationlist: a list of Donation class ojects made of donations to 
+    donationlist: a list of Donation class ojects made of donations to
                   this participant
 
     Helper Variables:
@@ -50,7 +50,7 @@ class Participant:
                 - lastNDonationNameAmtsMessage: same with messages
                 - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
                 - lastNDonationNameAmtsHorizontal: same, but no message
-    loop: set to true on init, it's there so that the GUI can stop the loop. 
+    loop: set to true on init, it's there so that the GUI can stop the loop.
           (if the GUI is being used. Otherwise, no big deal)
     """
 
@@ -60,7 +60,7 @@ class Participant:
          self.CurrencySymbol, self.TeamID,
          self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
-        self.participantURL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}"
+        self.participant_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}"
         self.donorURL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         self.participant_donor_URL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
         # donor calculations
@@ -88,48 +88,48 @@ class Participant:
         go into the dictionary participantinfo in the way they'll
         be written to files.
         """
-        participantJSON = extralife_IO.get_JSON(self.participantURL)
-        if participantJSON == 0:
+        participant_json = extralife_IO.get_JSON(self.participant_url)
+        if participant_json == 0:
             print("Couldn't access participant JSON.")
         else:
-            self.ParticipantTotalRaised = participantJSON['sumDonations']
-            self.ParticipantNumDonations = participantJSON['numDonations']
+            self.ParticipantTotalRaised = participant_json['sumDonations']
+            self.ParticipantNumDonations = participant_json['numDonations']
             try:
                 self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
             except ZeroDivisionError:
                 self.averagedonation = 0
-            self.participantgoal = participantJSON['fundraisingGoal']
+            self.participantgoal = participant_json['fundraisingGoal']
 
         # the dictionary:
-        self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(participantJSON['sumDonations'])
-        self.participantinfo["numDonations"] = str(participantJSON['numDonations'])
+        self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(participant_json['sumDonations'])
+        self.participantinfo["numDonations"] = str(participant_json['numDonations'])
         self.participantinfo["averageDonation"] = self.CurrencySymbol+'{:.2f}'.format(self.averagedonation)
         self.participantinfo["goal"] = self.CurrencySymbol+'{:.2f}'.format(self.participantgoal)
 
     def _get_donations(self):
         """Get the donations from the JSON and create the donation objects."""
         self.donationlist = []
-        self.donorJSON = extralife_IO.get_JSON(self.donorURL)
-        if self.donorJSON == 0:
-            print("couldn't access donor page")
-        elif len(self.donorJSON) == 0:
+        donation_json = extralife_IO.get_JSON(self.donorURL)
+        if donation_json == 0:
+            print("couldn't access donation page")
+        elif len(donation_json) == 0:
             print("No donors!")
         else:
-            self.donationlist = [donation.Donation(self.donorJSON[donor].get('displayName'),
-                                    self.donorJSON[donor].get('message'),
-                                    self.donorJSON[donor].get('amount')) for donor in range(0, len(self.donorJSON))]
+            self.donationlist = [donation.Donation(donation_json[donor].get('displayName'),
+                                                   donation_json[donor].get('message'),
+                                                   donation_json[donor].get('amount')) for donor in range(0, len(donation_json))]
 
     def _top_donor(self):
         """Return Top Donor from server.
 
         Uses donor drive's sorting to get the top guy or gal.
         """
-        top_donor_JSON = extralife_IO.get_JSON(self.participant_donor_URL,
+        top_donor_json = extralife_IO.get_JSON(self.participant_donor_URL,
                                                True)
-        if top_donor_JSON == 0:
+        if top_donor_json == 0:
             print("Couldn't access top donor data")
         else:
-            top_donor = donor.Donor(top_donor_JSON[0])
+            top_donor = donor.Donor(top_donor_json[0])
             return extralife_IO.single_format(top_donor, False,
                                           self.CurrencySymbol)
 

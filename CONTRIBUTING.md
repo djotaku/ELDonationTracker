@@ -2,21 +2,17 @@ Master will always contain perfectly working code aligned with the latest releas
 
 If you wish to contribute, please do so off of the devel branch and file a pull request with your changes. If I have another branch pushed to Github that may temporarily be the branch to develop from. Check with me.
 
-The code is up to PEP8 standards and I have written unit tests. The following files should be without errors on flake8's test suite (don't worry about >80 char errors):
+I strive for the code to be PEP8 compliant. Run the following against your fork:
 
-- donation.py
+flake8 extralifedonations.py IPC.py readparticipantconf.py team.py donation.py donor.py extralife_IO.py --count --select=E9,F63,F7,F82 --show-source --statistics
 
-- donor.py
+If it fails, the CI will fail and the pull request will not be merged until it is fixed. 
 
-- extralifedonations.py
+My preference is for the following to be error free (don't worry about line-length errors):
 
-- extralife_IO.py
+flake8 extralifedonations.py IPC.py readparticipantconf.py team.py donation.py donor.py extralife_IO.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics 
 
-- IPC.py
-
-- readparticipantconf.py
-
-- team.py
+But even my code isn't (as of 26 Jan 2020) perfect against that flake8 run, yet.
 
 If that list above becomes out of date, the canonical list of files that need to pass flake8 can be found in the repo under .github/workflows/linttest.yml.
 
