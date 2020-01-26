@@ -1,12 +1,13 @@
 """Contains classes pertaining to teams."""
-import extralife_IO
 import donor
+
+import extralife_IO
 
 
 class Team:
     """Hold Team Data."""
 
-    def __init__(self, team_ID, folder, currency_symbol):
+    def __init__(self, team_id, folder, currency_symbol):
         """Set the team variables.
 
         API Variables:
@@ -25,13 +26,15 @@ class Team:
                        (comes in via the init function from the participant)
         currency_symbol: for formatting text (comes in via init function)
         participant_calculation_dict: dictionary holding output for txt files:
-                   - Team_Top5Participants: top 5 participants by donation amount
+                   - Team_Top5Participants: top 5 participants by
+                     donation amount
                    - Team_Top5ParticipantsHorizontal: same, but horizontal
                    - Team_TopParticipantNameAmnt: Top participant and amount
         """
         # urls
-        self.team_url = f"https://www.extra-life.org/api/teams/{team_ID}"
-        self.team_participant_url = f"https://www.extra-life.org/api/teams/{team_ID}/participants"
+        team_url_base = "https://www.extra-life.org/api/teams/"
+        self.team_url = f"{team_url_base}{team_id}"
+        self.team_participant_url = f"{team_url_base}{team_id}/participants"
         # misc
         self.output_folder = folder
         self.currency_symbol = currency_symbol
