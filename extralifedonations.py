@@ -80,7 +80,7 @@ class Participant:
                                 self.textFolder,
                                 self.CurrencySymbol)
 
-    def get_participant_JSON(self):
+    def _get_participant_JSON(self):
         """Get JSON data for participant information.
 
         Some values that I will want to track as
@@ -88,25 +88,25 @@ class Participant:
         go into the dictionary participantinfo in the way they'll
         be written to files.
         """
-        self.participantJSON = extralife_IO.get_JSON(self.participantURL)
-        if self.participantJSON == 0:
+        participantJSON = extralife_IO.get_JSON(self.participantURL)
+        if participantJSON == 0:
             print("Couldn't access participant JSON.")
         else:
-            self.ParticipantTotalRaised = self.participantJSON['sumDonations']
-            self.ParticipantNumDonations = self.participantJSON['numDonations']
+            self.ParticipantTotalRaised = participantJSON['sumDonations']
+            self.ParticipantNumDonations = participantJSON['numDonations']
             try:
                 self.averagedonation = self.ParticipantTotalRaised/self.ParticipantNumDonations
             except ZeroDivisionError:
                 self.averagedonation = 0
-            self.participantgoal = self.participantJSON['fundraisingGoal']
+            self.participantgoal = participantJSON['fundraisingGoal']
 
         # the dictionary:
-        self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(self.participantJSON['sumDonations'])
-        self.participantinfo["numDonations"] = str(self.participantJSON['numDonations'])
+        self.participantinfo['totalRaised'] = self.CurrencySymbol+'{:.2f}'.format(participantJSON['sumDonations'])
+        self.participantinfo["numDonations"] = str(participantJSON['numDonations'])
         self.participantinfo["averageDonation"] = self.CurrencySymbol+'{:.2f}'.format(self.averagedonation)
         self.participantinfo["goal"] = self.CurrencySymbol+'{:.2f}'.format(self.participantgoal)
 
-    def get_donors(self):
+    def _get_donations(self):
         """Get the donations from the JSON and create the donation objects."""
         self.donationlist = []
         self.donorJSON = extralife_IO.get_JSON(self.donorURL)
@@ -155,24 +155,24 @@ class Participant:
         the calculations methnods, and the methods to
         write to text files.
         """
-        self.get_participant_JSON()
+        self._get_participant_JSON()
         number_of_dononations = self.ParticipantNumDonations
         self.write_text_files(self.participantinfo)
-        self.get_donors()
+        self._get_donations()
         if self.donationlist:
             self._donor_calculations()
             self.write_text_files(self.donorcalcs)
         if self.TeamID:
             self.myteam.team_run()
         while self.loop:
-            self.get_participant_JSON()
+            self._get_participant_JSON()
             self.write_text_files(self.participantinfo)
             if self.TeamID:
                 self.myteam.participant_run()
             if self.ParticipantNumDonations > number_of_dononations:
                 print("A new donor!")
                 number_of_dononations = self.ParticipantNumDonations
-                self.get_donors()
+                self._get_donations()
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
                 IPC.writeIPC(self.textFolder, "1")
