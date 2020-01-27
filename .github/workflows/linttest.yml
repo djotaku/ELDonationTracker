@@ -29,5 +29,5 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest extralifeunittests.py
+        pytest test.py
       shell: bash

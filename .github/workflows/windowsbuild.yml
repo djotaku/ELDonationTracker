@@ -27,7 +27,7 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest extralifeunittests.py
+        pytest test.py
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller
