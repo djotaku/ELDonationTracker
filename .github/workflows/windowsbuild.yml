@@ -27,7 +27,7 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest test.py
+        pytest tests/test.py
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller

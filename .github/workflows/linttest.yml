@@ -29,5 +29,5 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest test.py
+        pytest tests/test.py
       shell: bash

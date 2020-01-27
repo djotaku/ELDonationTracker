@@ -1,6 +1,7 @@
 """Holds all the file and internet input and output."""
 
 import json
+import pathlib
 import ssl
 from urllib.request import HTTPError, Request, URLError, urlopen
 
@@ -87,7 +88,7 @@ class ParticipantConf:
             return config
         except FileNotFoundError:
             print("Persistent settings not found. Using defaults...")
-            with open('../participant.conf') as file:
+            with open(pathlib.PurePath(__file__).parent.joinpath('..')/'participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config
