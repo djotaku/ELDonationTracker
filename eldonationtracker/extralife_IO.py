@@ -87,7 +87,7 @@ class ParticipantConf:
             return config
         except FileNotFoundError:
             print("Persistent settings not found. Using defaults...")
-            with open('participant.conf') as file:
+            with open('../participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config

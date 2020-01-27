@@ -2,11 +2,11 @@
 
 import time
 
-import IPC
-import team
-import extralife_IO
-import donor
-import donation
+from . import IPC
+from . import team
+from . import extralife_IO
+from . import donor
+from . import donation
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
