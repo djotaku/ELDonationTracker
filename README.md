@@ -1,3 +1,5 @@
+![Lint_Test](https://github.com/djotaku/ELDonationTracker/workflows/Lint_Test/badge.svg?branch=devel)
+
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
 
 ![Updates while in-game](https://github.com/djotaku/ELDonationTracker/blob/devel/screenshots/IngameUpdates.png)

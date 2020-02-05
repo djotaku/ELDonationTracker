@@ -1,8 +1,9 @@
 """Holds all the file and internet input and output."""
 
 import json
-from urllib.request import Request, urlopen, HTTPError, URLError
 import ssl
+from urllib.request import HTTPError, Request, URLError, urlopen
+
 import xdgenvpy
 
 
@@ -34,7 +35,7 @@ def get_JSON(url, order_by_donations=False):
                 and this is not an intermittent issue:
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
-        return 0
+        return 0  # to be proper this should return an exemption
     except URLError:
         print(f"HTTP code: {payload.getcode()}")
         print(f""" Timed out while getting JSON. """)
@@ -102,7 +103,8 @@ class ParticipantConf:
         """Write config to file.
 
         At this point, only called from GUI. Commandline
-        user is expected to edit file manually."""
+        user is expected to edit file manually.
+        """
         if default:
             with open('participant.conf', 'w') as outfile:
                 json.dump(config, outfile)
@@ -138,6 +140,7 @@ class ParticipantConf:
                 self.fields["donors_to_display"])
 
     def get_if_in_team(self):
+        """Return True if participant is in a team."""
         # debug
         # print(self.fields["team_id"])
         if self.fields["team_id"] is None:
