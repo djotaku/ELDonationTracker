@@ -45,15 +45,18 @@ class Team:
         """Get team info from JSON api."""
         # need to debug to keep program from exiting if it can't read the URL
         self.team_json = extralife_IO.get_JSON(self.team_url)
-        self.team_goal = self.team_json["fundraisingGoal"]
-        self.team_captain = self.team_json["captainDisplayName"]
-        self.total_raised = self.team_json["sumDonations"]
-        self.num_donations = self.team_json["numDonations"]
-        # dictionary
-        self.team_info["Team_goal"] = f"{self.currency_symbol}{self.team_goal:,.2f}"
-        self.team_info["Team_captain"] = f"{self.team_captain}"
-        self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
-        self.team_info["Team_numDonations"] = f"{self.num_donations}"
+        if self.team_json == 0:
+            print("Could not get team JSON")
+        else:
+            self.team_goal = self.team_json["fundraisingGoal"]
+            self.team_captain = self.team_json["captainDisplayName"]
+            self.total_raised = self.team_json["sumDonations"]
+            self.num_donations = self.team_json["numDonations"]
+            # dictionary
+            self.team_info["Team_goal"] = f"{self.currency_symbol}{self.team_goal:,.2f}"
+            self.team_info["Team_captain"] = f"{self.team_captain}"
+            self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
+            self.team_info["Team_numDonations"] = f"{self.num_donations}"
 
     def get_participants(self):
         """Get team participants."""
