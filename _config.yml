@@ -1,1 +1,3 @@
 theme: jekyll-theme-slate
+title: Extra Life Donation Tracker
+description:  A Python-based donation tracker for Extra Life streams in OBS or XSplit
