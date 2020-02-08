@@ -14,7 +14,7 @@ For users, visit: http://djotaku.github.io/ELDonationTracker/ for instructions.
 
 # How To for developers
 
-Please see (CONTRIBUTING.MD) if you wish to contribute. 
+Please see [CONTRIBUTING.MD](https://github.com/djotaku/ELDonationTracker/blob/master/CONTRIBUTING.md) if you wish to contribute. 
 
 If you prefer to run from a git clone or from downloading one of the source downloads, follow the instructions below:
 
@@ -32,7 +32,7 @@ to grab the requirements:
 
 pip install -r requirements.txt
 
-Finally, decide if you want the GUI or just the commandline. If commandline, only:
+Finally, decide if you want to use the GUI or just the commandline. If commandline, only:
 
 Fist edit the participant.conf file in a text editor. Then run:
 
@@ -42,7 +42,7 @@ for the GUI type:
 
 python3 gui.py 
 
-The benefit you get from using the GUI is that cnce the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered
+The benefit you get from using the GUI is that once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered
 
 Use the settings window to enter your settings and then hit save to save them. 
 
