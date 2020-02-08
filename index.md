@@ -2,7 +2,7 @@ Latest release: [v3.2.1](https://github.com/djotaku/ELDonationTracker/releases/t
 [Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v3.2.1/Extra.Life.Donation.Tracker.for.Windows.v3.2.1.zip) |
 [Linux Download](https://github.com/djotaku/ELDonationTracker/releases/download/v3.2.1/Extra.Life.Donation.Tracker.for.Linux.v3.2.1.tar.gz)
 
-If you find this useful, please consider donating to my [Extra Life campagin](http://extralife.ericmesa.com) 
+If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
 
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
 
