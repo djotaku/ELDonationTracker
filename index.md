@@ -10,7 +10,7 @@ Would you like to be able to update your donations in real-time during a Live St
 
 ![Updates while the webcam is the main focus](https://github.com/djotaku/ELDonationTracker/raw/devel/screenshots/RecentDonations.png)
 
-Watch these videos to learn how to use the Extra Life Donation Tracker:
+# How to use the Extra Life Donation Tracker:
 
 ## Windows
 
@@ -19,21 +19,3 @@ Watch these videos to learn how to use the Extra Life Donation Tracker:
 ## Linux
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ruS6GUZiceQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-# How To use without a GUI
-
-## Setup
-First you should edit the values in participant.conf
-
-Note:
-
-- The values to the right of the : should be in quotation marks.
-- if you're not in a team, the TeamID should be set to 'null' without quotation marks.
-
-## To run
-
-On Linux you should type:
-
-python3 extralifedonations.py
-
-On Windows it's easiest to open extralifedonations.py in IDLE and then run the script from there. (This avoids any issues with python being in your path)
