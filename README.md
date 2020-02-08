@@ -8,7 +8,7 @@ Would you like to be able to update your donations in real-time during a Live St
 
 Read ahead to find out how!
 
-If you find this useful, please consider donating to my Extra Life campagin: http://extralife.ericmesa.com -> I modify this link each year to point to my latest Extra Life campaign.
+If you find this useful, please consider donating to my [Extra Life campagin](http://extralife.ericmesa.com)
 
 For users, visit: http://djotaku.github.io/ELDonationTracker/ for instructions.
 
