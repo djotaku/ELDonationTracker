@@ -15,7 +15,7 @@ import extralifedonations
 import call_tracker
 import call_settings
 import extralife_IO
-import IPC
+import ipc
 
 # setup config file
 participant_conf = extralife_IO.ParticipantConf()
@@ -58,7 +58,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
         # want to make sure file exists on new run
         self.folders = participant_conf.get_text_folder_only()
-        IPC.writeIPC(self.folders, "0")
+        ipc.writeIPC(self.folders, "0")
 
         # Connecting *almost* all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
