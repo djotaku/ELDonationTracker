@@ -12,3 +12,5 @@ pyvenv.cfg
 OriginalDonation.mp3
 for_lots_of_donors
 *.bak
+_build
+*egg*

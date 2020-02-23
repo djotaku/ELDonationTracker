@@ -22,12 +22,12 @@ jobs:
       run: |
         pip install flake8
         # stop the build if there are Python syntax errors or undefined names
-        flake8 extralifedonations.py IPC.py readparticipantconf.py team.py donation.py donor.py extralife_IO.py  --count --select=E9,F63,F7,F82 --show-source --statistics 
+        flake8 eldonationtracker/extralifedonations.py eldonationtracker/ipc.py eldonationtracker/readparticipantconf.py eldonationtracker/team.py eldonationtracker/donation.py eldonationtracker/donor.py eldonationtracker/extralife_IO.py  --count --select=E9,F63,F7,F82 --show-source --statistics 
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 extralifedonations.py IPC.py readparticipantconf.py team.py donation.py donor.py extralife_IO.py  --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics 
+        flake8 eldonationtracker/extralifedonations.py eldonationtracker/ipc.py eldonationtracker/readparticipantconf.py eldonationtracker/team.py eldonationtracker/donation.py eldonationtracker/donor.py eldonationtracker/extralife_IO.py  --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics 
       shell: bash
     - name: Test with pytest
       run: |
-        pip install pytest
-        pytest test.py
+        pip install pytest 
+        pytest -v --pyargs eldonationtracker
       shell: bash

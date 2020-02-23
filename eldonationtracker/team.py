@@ -1,6 +1,5 @@
 """Contains classes pertaining to teams."""
 import donor
-
 import extralife_IO
 
 

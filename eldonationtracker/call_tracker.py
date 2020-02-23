@@ -6,7 +6,7 @@ from tracker import *
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
-import IPC
+import ipc
 
 
 class MyForm(QDialog):
@@ -101,7 +101,7 @@ class MyForm(QDialog):
     def _unloadElements(self):
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
-        IPC.writeIPC(self.folders, "0")
+        ipc.writeIPC(self.folders, "0")
 
 
 def main(participant_conf):
