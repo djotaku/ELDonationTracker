@@ -13,6 +13,8 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../eldonationtracker'))
+sys.path.insert(0, os.path.abspath('../lib/python3.7/site-packages'))
 
 
 # -- Project information -----------------------------------------------------

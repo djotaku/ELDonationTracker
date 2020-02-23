@@ -6,12 +6,18 @@
 Welcome to eldonationtracker's documentation!
 =============================================
 
+ELDonation Tracker is used to provide donation information and updates when streaming or recording a VOD in OBS or XSplit. For a video explaining how to use this program, visit: http://djotaku.github.io/ELDonationTracker/
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   installation
+   usage
+   modules/call_settings
    modules/donation
    modules/donor
+   
 
 
 Indices and tables

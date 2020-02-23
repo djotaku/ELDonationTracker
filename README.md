@@ -12,11 +12,17 @@ Read ahead to find out how!
 
 If you find this useful, please consider donating to my [Extra Life campagin](http://extralife.ericmesa.com)
 
-For users, visit: http://djotaku.github.io/ELDonationTracker/ for instructions.
+# Users
+
+visit: http://djotaku.github.io/ELDonationTracker/ for instructions on how to use the program.
+
+If you prefer text instructions, read the documentation at: https://eldonationtracker.readthedocs.io/en/latest/index.html
 
 # How To for developers
 
 Please see [CONTRIBUTING.MD](https://github.com/djotaku/ELDonationTracker/blob/master/CONTRIBUTING.md) if you wish to contribute. 
+
+Modules are well-documented at: https://eldonationtracker.readthedocs.io/en/latest/py-modindex.html
 
 If you prefer to run from a git clone or from downloading one of the source downloads, follow the instructions below:
 
