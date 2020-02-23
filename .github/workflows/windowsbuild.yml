@@ -26,12 +26,14 @@ jobs:
         flake8 extralifedonations.py IPC.py readparticipantconf.py team.py donation.py donor.py extralife_IO.py  --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics 
     - name: Test with pytest
       run: |
-        pip install pytest
-        pytest tests/test.py
+        pip install pytest setuptools wheel
+        python setup.py bdist_wheel
+        pip install dist/*whl
+        pytest -v --pyargs eldonationtracker
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller gui.py
+        pyinstaller eldonationtracker/gui.py
         cp participant.conf dist/gui/
         cp Engineer.png dist/gui
         cp Donation.mp3 dist/gui
