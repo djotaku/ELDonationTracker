@@ -2,6 +2,8 @@ Development branch badges:![Lint_Test](https://github.com/djotaku/ELDonationTrac
 
 Master branch badges:![Lint_Test](https://github.com/djotaku/ELDonationTracker/workflows/Lint_Test/badge.svg) ![Linux_Build](https://github.com/djotaku/ELDonationTracker/workflows/Linux_Build/badge.svg) ![Windows_Build](https://github.com/djotaku/ELDonationTracker/workflows/Windows_Build/badge.svg)
 
+[![Documentation Status](https://readthedocs.org/projects/eldonationtracker/badge/?version=latest)](https://eldonationtracker.readthedocs.io/en/latest/?badge=latest)
+
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
 
 ![Updates while in-game](https://github.com/djotaku/ELDonationTracker/raw/devel/screenshots/IngameUpdates.png)
