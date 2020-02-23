@@ -5,11 +5,6 @@ from eldonationtracker import extralife_IO
 from eldonationtracker import donor
 from eldonationtracker import donation
 
-# run with command: py.test-3 extralifeunittests.py
-# or if in venv, just pytest extralifeunittests.py (works better)
-
-donor1_json = {"displayName": "donor1", "sumDonations": "45"}
-donor2_json = {"displayName": "donor2", "sumDonations": "30"}
 
 fields_for_participant_conf = {"extralife_id": "12345",
                                "text_folder": "textfolder",
@@ -26,14 +21,6 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        "tracker_image": "imagefolder",
                                        "donation_sound": "mp3",
                                        "donors_to_display": "5"}
-
-
-# Tests for class Donor
-def test_Donor_lt():
-    """ Test to make sure comparison works. """
-    donor1 = donor.Donor(donor1_json)
-    donor2 = donor.Donor(donor2_json)
-    assert donor2 < donor1
 
 
 # Tests for class Participant
