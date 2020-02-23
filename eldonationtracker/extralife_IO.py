@@ -78,7 +78,7 @@ class ParticipantConf:
     def load_JSON(self):
         """Load in the config file."""
         # by using pedantic, it'll create the directory if it's not there
-        
+
         try:
             print(f"Looking for persistent settings at {self.xdg.XDG_CONFIG_HOME}")
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
