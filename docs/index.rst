@@ -14,8 +14,10 @@ ELDonation Tracker is used to provide donation information and updates when stre
 
    installation
    usage
+   modules/call_settings
    modules/donation
    modules/donor
+   
 
 
 Indices and tables

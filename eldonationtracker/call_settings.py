@@ -3,8 +3,8 @@
 import sys
 import json
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
-from settings import *
 
+from settings import *
 import extralife_IO
 
 
