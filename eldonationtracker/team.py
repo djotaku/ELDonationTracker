@@ -1,6 +1,6 @@
 """Contains classes pertaining to teams."""
-from . import donor
-from . import extralife_IO
+import donor
+import extralife_IO
 
 
 class Team:
