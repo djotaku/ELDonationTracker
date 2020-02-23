@@ -155,6 +155,7 @@ class Participant:
         the calculations methnods, and the methods to
         write to text files.
         """
+        # by taking the while look out of here, can make unit tests
         self._get_participant_JSON()
         number_of_dononations = self.ParticipantNumDonations
         self.write_text_files(self.participantinfo)
