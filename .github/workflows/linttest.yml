@@ -28,6 +28,8 @@ jobs:
       shell: bash
     - name: Test with pytest
       run: |
-        pip install pytest
-        pytest tests/test.py
+        pip install pytest setuptools wheel
+        python setup.py bdist_wheel
+        pip install dist/*whl
+        pytest -v --pyargs eldonationtracker
       shell: bash
