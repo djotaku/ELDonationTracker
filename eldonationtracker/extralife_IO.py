@@ -87,11 +87,21 @@ class ParticipantConf:
                 print("Persistent settings found.")
             return config
         except FileNotFoundError:
-            print("Persistent settings not found. Using defaults...")
+            print("Persistent settings not found. Checking current directory")
+        try:
+            with open(pathlib.PurePath(__file__).parent.joinpath('.')/'participant.conf') as file:
+                config = json.load(file)
+                file.close()
+            return config
+        except FileNotFoundError:
+            print("Settings not found in current dir. Checking up one level.")
+        try:
             with open(pathlib.PurePath(__file__).parent.joinpath('..')/'participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config
+        except FileNotFoundError:
+            print("Giving up. Put settings in current directory.")
 
     def update_fields(self):
         """Update fields with data from JSON."""
