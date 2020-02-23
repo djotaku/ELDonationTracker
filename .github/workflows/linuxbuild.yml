@@ -33,7 +33,7 @@ jobs:
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller gui.py
+        pyinstaller eldonationtracker/gui.py
         cp participant.conf dist/gui/
         cp Engineer.png dist/gui
         cp Donation.mp3 dist/gui
