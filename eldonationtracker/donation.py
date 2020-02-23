@@ -8,15 +8,16 @@ class Donation:
     from the JSON so that it doesn't have to be traversed each time a donor
     action needs to be taken.
 
-    API Variables:
-    name: the name of the donor for this donation.
-          If the donor wished to stay anonymous,
-          the variable is set to "Anonymous"
+    :param name: the name of the donor for this donation. If the donor wished\
+    to stay anonymous, the variable is set to "Anonymous"
+    :type name: str
 
-    message: the message associated with the donation.
+    :param message: the message associated with the donation.
+    :type message: str
 
-    amount: the amount of the donation. If they blocked it from showing
-            it is set to 0.
+    :param amount: the amount of the donation. If they blocked it from showing\
+    it is set to 0.
+    :type amount: int
     """
 
     def __init__(self, name, message, amount):
@@ -34,7 +35,7 @@ class Donation:
     def __lt__(self, object):
         """Donation less than comparison.
 
-        Returns True if this donation has a donation
+        :return: Returns True if this donation has a donation\
         amount less than comparision.
         """
         return self.amount < object.amount

@@ -2,11 +2,11 @@
 
 import time
 
-import IPC
-import team
-import extralife_IO
-import donor
+import ipc
 import donation
+import donor
+import extralife_IO
+import team
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
@@ -75,7 +75,7 @@ class Participant:
 
         # misc
         self.loop = True
-        IPC.writeIPC(self.textFolder, "0")
+        ipc.writeIPC(self.textFolder, "0")
         self.myteam = team.Team(self.TeamID,
                                 self.textFolder,
                                 self.CurrencySymbol)
@@ -176,7 +176,7 @@ class Participant:
                 self._get_donations()
                 self._donor_calculations()
                 self.write_text_files(self.donorcalcs)
-                IPC.writeIPC(self.textFolder, "1")
+                ipc.writeIPC(self.textFolder, "1")
             if self.TeamID:
                 self.myteam.team_run()
             print(time.strftime("%H:%M:%S"))
