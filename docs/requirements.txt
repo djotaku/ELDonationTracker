@@ -1,1 +1,3 @@
 sphinx>=2.2
+PyQt5==5.13.1
+xdgenvpy==2.1.1
