@@ -17,27 +17,27 @@ class Participant:
     Also owns the results of any calculated data.
 
     Participant.conf variables:
-    ExtraLifeID: the participant's extra life ID
-    textFolder: where the output txt files will be written on disk
-    CurrencySymbol: for the output txt files
-    donors_to_display: for txt files that display multiple donors
-                       (or donations), the number of them that should
-                       be written to the text file.
+        - ExtraLifeID: the participant's extra life ID
+        - textFolder: where the output txt files will be written on disk
+        - CurrencySymbol: for the output txt files
+        - donors_to_display: for txt files that display multiple donors\
+          (or donations), the number of them that should be written to the\
+          text file.
 
     API Variables:
     participant_url: API info for participant
     donorURL: donation API info (should be renamed to donationURL)
-    participant_donor_URL: API info for donors. Useful for calculating
-                           top donor.
+    participant_donor_URL: API info for donors. Useful for calculating top\
+    donor.
     participantinfo: a dictionary holding data from participantURL:
                      - totalRaised: total money raised
                      - numDonations: number of donations
-                     - averageDonation: this doesn't come from the API,
-                                        it's calculated in this class.
+                     - averageDonation: this doesn't come from the API,\
+                       it's calculated in this class.
                      - goal: the participant's fundraising goal
     myteam: An instantiation of a team class for the participant's team.
-    donationlist: a list of Donation class ojects made of donations to
-                  this participant
+    donationlist: a list of Donation class ojects made of donations to\
+    this participant
 
     Helper Variables:
     donorcalcs: a dictionary holding values for txt ouput:
@@ -50,12 +50,14 @@ class Participant:
                 - lastNDonationNameAmtsMessage: same with messages
                 - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
                 - lastNDonationNameAmtsHorizontal: same, but no message
-    loop: set to true on init, it's there so that the GUI can stop the loop.
-          (if the GUI is being used. Otherwise, no big deal)
+    loop: set to true on init, it's there so that the GUI can stop the loop.\
+    (if the GUI is being used. Otherwise, no big deal)
     """
 
     def __init__(self, participant_conf):
         """Load in config from participant.conf and creates the URLs."""
+        #: ExtraLifeID: something
+        #: textfolder: something
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID,
          self.donors_to_display) = participant_conf.get_CLI_values()
