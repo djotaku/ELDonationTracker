@@ -15,7 +15,7 @@ Will be filled out once PyPi is working
 Commandline users (non-PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you downloaded a zip or tar file, unzip it first, then cd into that directory. Afterwards, follow along below to create a virtual environment (so as not to mess with your Python installation), grab the required packages, and run the program. 
+If you downloaded a zip or tar file, unzip it first, then cd into that directory. Afterwards, follow along below to create a virtual environment (so as not to mess with your Python installation), grab the required packages, and run the program. (For information on what you should put into participant.conf, see :doc:`participant_conf`.
 
 .. code-block:: Bash
 
