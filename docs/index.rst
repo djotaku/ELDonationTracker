@@ -14,9 +14,15 @@ ELDonation Tracker is used to provide donation information and updates when stre
 
    installation
    usage
+   participant_conf
    modules/call_settings
+   modules/call_tracker
    modules/donation
    modules/donor
+   modules/extralife_io
+   modules/gui
+   modules/ipc
+   modules/team
    
 
 
