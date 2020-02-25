@@ -24,7 +24,7 @@ copyright = '2020, Eric Mesa'
 author = 'Eric Mesa'
 
 # The full version, including alpha/beta/rc tags
-release = '3.3'
+release = '3.3.2'
 
 
 # -- General configuration ---------------------------------------------------
