@@ -2,10 +2,10 @@
 
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
-from tracker import *
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
+from tracker import *
 import ipc
 
 
