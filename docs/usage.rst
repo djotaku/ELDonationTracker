@@ -10,7 +10,14 @@ This refers to you if you downloaded a file like Extra Life Donation Tracker for
 Commandline users (PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Will be filled out once PyPi is working
+Go to the folder you created in :doc:`installation`. If you don't have the virtual environment activated, start with that:
+
+.. code-block:: Bash
+
+    python3 -m venv .
+    source ./bin/activate
+    # to check for upgrades
+    pip install --upgrade eldonationtracker
 
 Commandline users (non-PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
