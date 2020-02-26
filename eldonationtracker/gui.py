@@ -11,11 +11,11 @@ import sys
 import threading
 import shutil
 
-import extralifedonations
-import call_tracker
-import call_settings
-import extralife_IO
-import ipc
+from eldonationtracker import extralifedonations as extralifedonations
+from eldonationtracker import call_tracker as call_tracker
+from eldonationtracker import call_settings as call_settings
+from eldonationtracker import extralife_IO as extralife_IO
+from eldonationtracker import ipc as ipc
 
 # setup config file
 participant_conf = extralife_IO.ParticipantConf()

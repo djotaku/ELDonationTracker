@@ -2,11 +2,11 @@
 
 import time
 
-import ipc
-import donation
-import donor
-import extralife_IO
-import team
+from eldonationtracker import ipc as ipc
+from eldonationtracker import donation as donation
+from eldonationtracker import donor as donor
+from eldonationtracker import extralife_IO as extralife_IO
+from eldonationtracker import team as team
 
 # api info at https://github.com/DonorDrive/PublicAPI
 
