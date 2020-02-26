@@ -4,8 +4,8 @@ import sys
 import json
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
 
-from settings import *
-import extralife_IO
+from eldonationtracker.settings import *
+from eldonationtracker import extralife_IO as extralife_IO
 
 
 class MyForm(QDialog):
