@@ -36,7 +36,8 @@ eg:
 
 You can also edit the settings in a GUI rather than on the commandline.   
 
-**Commandline Only**
+**Commandline Only (No GUI)**
+
 Make sure you have the :doc:`participant_conf` in the persistent location. You can grab the one in the Github repo or create your own by looking at the example there. To start the commandline only version:
 
 .. code-block:: Bash
