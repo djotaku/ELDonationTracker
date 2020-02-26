@@ -1,6 +1,6 @@
-Latest release: [v3.3](https://github.com/djotaku/ELDonationTracker/releases/tag/v3.3): 
-[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v3.3/Extra.Life.Donation.Tracker.for.Windows.v3.3.zip) |
-[Linux Download](https://github.com/djotaku/ELDonationTracker/releases/download/v3.3/Extra.Life.Donation.Tracker.for.Linux.v3.3.tar.gz)
+Latest release: [v3.4.1](https://github.com/djotaku/ELDonationTracker/releases/tag/v3.4.1): 
+[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v3.4.1/Extra.Life.Donation.Tracker.for.Windows.v3.4.1.zip) |
+[Linux Download](https://github.com/djotaku/ELDonationTracker/releases/download/v3.4.1/Extra.Life.Donation.Tracker.for.Linux.v3.4.1.tar.gz)
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
 
