@@ -33,4 +33,8 @@ If you downloaded a zip or tar file, unzip it first, then cd into that directory
 
 The benefit you get from using the GUI is that once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered. 
 
+eg:
+
+.. image :: /images/tracker.gif
+
 You can also edit the settings in a GUI rather than on the commandline. Once the settings are configured, hit the run button. You should get the same output on the commandline as you would if you weren't running the GUI. Check there for any errors or messages from the program.
