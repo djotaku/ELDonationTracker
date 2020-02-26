@@ -6,7 +6,31 @@ Installation
 Via PyPi
 ^^^^^^^^
 
-Eventually I will have the proper GH CI setup to automatically create PyPi packages. Until then, see below.
+The first thing to decide is whether you want to install ELDonationTracker to your system packages, user packages, or a virtual environment. 
+
+**Virtual Environment (recommended)**
+
+Create the folder you want to work in and cd into it. 
+
+.. code-block:: Bash
+
+    python3 -m venv .
+    source ./bin/activate
+    # when you are done using the program you can type deactivate
+    # first, make sure you have the latest pip, I've had trouble installing with old versions
+    pip install --upgrade pip
+    pip install eldonationtracker
+    # on Windows you may need to type python -m pip install eldonationtracker
+    # Grab participant.conf from git repo or create based on documentation
+    # Place participant.conf in persistent location, see the page in documentation
+    
+
+**System Packages**
+
+Instructions to be added. Note that this could potentially cause problems with system packages.
+
+**User Install**
+Instructions to be added.
 
 Via Github
 ^^^^^^^^^^
