@@ -6,11 +6,11 @@ from PyQt5 import QtCore
 
 from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
 
-import design
 import sys
 import threading
 import shutil
 
+from eldonationtracker import design as design
 from eldonationtracker import extralifedonations as extralifedonations
 from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixm
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
-from eldonationtracker .tracker import *
+from eldonationtracker.tracker import *
 from eldonationtracker import ipc as ipc
 
 
