@@ -13,7 +13,7 @@ Via Github
 
 Here you have a few options depending on what you want to do.
 
-**GUI Users**
+**GUI Single Executable Users**
 
 Go to the latest release_ and download the file that ends in "For Windows" or "For Linux" (depending on your platform, obviously). Unzip or untar it to the location you want to use and then proceed to :doc:`usage`.
 
@@ -38,6 +38,6 @@ And any time you want to get up to the latest version you can just go to that fo
     
     git pull
     
-I always keep master working (as opposed to the devel branch) so you should always end up with a working copy if you do that. (As long as you're not changing any files) Then proceed to :doc:`usage`.
+The master branch is always equivalent to the latest release (except maybe with more up-to-date documentation) so you should always end up with a working version of ELDonationTracker if you do a git pull. (As long as you're not changing any files. For that reason you may want to move your participant.conf to the persistent location - see :doc:`participant_conf` for that location) Then proceed to :doc:`usage`.
 
 .. _page: https://github.com/djotaku/ELDonationTracker
