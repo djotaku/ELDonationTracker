@@ -1,6 +1,7 @@
 """Holds all the file and internet input and output."""
 
 import json
+import os
 import pathlib
 import ssl
 from urllib.request import HTTPError, Request, URLError, urlopen
@@ -80,14 +81,16 @@ class ParticipantConf:
         # by using pedantic, it'll create the directory if it's not there
 
         try:
-            print(f"Looking for persistent settings at {self.xdg.XDG_CONFIG_HOME}")
+            print("Looking for persistent settings at "
+                  f"{self.xdg.XDG_CONFIG_HOME}")
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
                 config = json.load(file)
                 file.close()
                 print("Persistent settings found.")
             return config
         except FileNotFoundError:
-            print("Persistent settings not found. Checking current directory")
+            print("Persistent settings not found. Checking current directory"
+                  f"({os.getcwd()})")
         try:
             with open(pathlib.PurePath(__file__).parent.joinpath('.')/'participant.conf') as file:
                 config = json.load(file)
@@ -101,7 +104,7 @@ class ParticipantConf:
                 file.close()
             return config
         except FileNotFoundError:
-            print("Giving up. Put settings in current directory.")
+            print(f"Giving up. Put settings in {self.xdg.XDG_CONFIG_HOME}.")
 
     def update_fields(self):
         """Update fields with data from JSON."""
