@@ -162,7 +162,16 @@ class Participant:
         self.donorcalcs['lastNDonationNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donationlist, False, True, self.CurrencySymbol, int(self.donors_to_display))
 
     def write_text_files(self, dictionary):
-        """Write info to text files."""
+        """Write OBS/XSplit display info to text files.
+
+        It uses the helper function extralife_IO.write_text_files to\
+        handle the task.
+
+        :param dictionary: Dictionary containing values to write to text files\
+        . The key will become the filename. The value will be written to the\
+        file.
+        :type dictionary: dict
+        """
         extralife_IO.write_text_files(dictionary, self.textFolder)
 
     def run(self):
