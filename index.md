@@ -20,4 +20,4 @@ Would you like to be able to update your donations in real-time during a Live St
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ruS6GUZiceQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-For documentation, see: https://eldonationtracker.readthedocs.io/en/latest/
+For documentation, see: [https://eldonationtracker.readthedocs.io/en/latest/](https://eldonationtracker.readthedocs.io/en/latest/)
