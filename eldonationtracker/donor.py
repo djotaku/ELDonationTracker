@@ -26,7 +26,7 @@ class Donor:
         self.json_to_attributes(json)
 
     def json_to_attributes(self, json):
-        """Convert JSON to Donor attributes.
+        """Convert API JSON values to Donor attributes.
 
         May be overwritten by child classes.
 

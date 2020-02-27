@@ -8,8 +8,6 @@ from eldonationtracker import donor as donor
 from eldonationtracker import extralife_IO as extralife_IO
 from eldonationtracker import team as team
 
-# api info at https://github.com/DonorDrive/PublicAPI
-
 
 class Participant:
     """Owns all the attributes under the participant API.
@@ -17,30 +15,47 @@ class Participant:
     Also owns the results of any calculated data.
 
     Participant.conf variables:
-        - ExtraLifeID: the participant's extra life ID
-        - textFolder: where the output txt files will be written on disk
-        - CurrencySymbol: for the output txt files
-        - donors_to_display: for txt files that display multiple donors\
-          (or donations), the number of them that should be written to the\
-          text file.
 
-    API Variables:
-    participant_url: API info for participant
-    donorURL: donation API info (should be renamed to donationURL)
-    participant_donor_URL: API info for donors. Useful for calculating top\
-    donor.
-    participantinfo: a dictionary holding data from participantURL:
+    :param ExtraLifeID: the participant's extra life ID
+    :type ExtraLifeID: int
+    :param textFolder: where the output txt files will be written on disk
+    :type textFolder: str
+    :param CurrencySymbol: for the output txt files
+    :type CurrencySymbol: str
+    :param donors_to_display: for txt files that display multiple donors\
+    (or donations), the number of them that should be written to the\
+    text file.
+    :type donors_to_display: int
+
+    Donor Drive API api info at https://github.com/DonorDrive/PublicAPI
+
+    Donor Drive Variables:
+
+    :param participant_url: API info for participant
+    :type participant_url: str
+    :param donorURL: donation API info (should be renamed to donationURL)
+    :type donorURL: str
+    :param participant_donor_URL: API info for donors. Useful for calculating\
+    top donor.
+    :type participant_donor_URL: str
+    :param participantinfo: a dictionary holding data from participantURL:
+
                      - totalRaised: total money raised
                      - numDonations: number of donations
                      - averageDonation: this doesn't come from the API,\
                        it's calculated in this class.
                      - goal: the participant's fundraising goal
-    myteam: An instantiation of a team class for the participant's team.
-    donationlist: a list of Donation class ojects made of donations to\
+    :type participantinfo: dict
+    :param myteam: An instantiation of a team class for the participant's team.
+    :type myteam: cls: eldonationtracker.team
+    :param donationlist: a list of Donation class ojects made of donations to\
     this participant
+    :type donationlist: list
 
     Helper Variables:
-    donorcalcs: a dictionary holding values for txt ouput:
+
+    :param donorcalcs: a dictionary holding values for txt ouput:
+    
                 - LastDonationNameAmnt: most recent donation,
                                         donor name, amount of donation
                 - TopDonorNameAmnt: top donor name and sum of donations
@@ -50,14 +65,14 @@ class Participant:
                 - lastNDonationNameAmtsMessage: same with messages
                 - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
                 - lastNDonationNameAmtsHorizontal: same, but no message
-    loop: set to true on init, it's there so that the GUI can stop the loop.\
-    (if the GUI is being used. Otherwise, no big deal)
+    :type donorcalcs: dict
+    :param loop: set to true on init, it's there so that the GUI can stop the\
+    loop.(if the GUI is being used. Otherwise, no big deal)
+    :type loop: bool
     """
 
     def __init__(self, participant_conf):
         """Load in config from participant.conf and creates the URLs."""
-        #: ExtraLifeID: something
-        #: textfolder: something
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID,
          self.donors_to_display) = participant_conf.get_CLI_values()
@@ -151,13 +166,19 @@ class Participant:
         extralife_IO.write_text_files(dictionary, self.textFolder)
 
     def run(self):
-        """Run things.
+        """Run loop to get participant data.
 
         This should run getParticipantJSON, getDonors,
         the calculations methnods, and the methods to
         write to text files.
+
+        .. warning:: This will be changed in a future version\
+        to no longer be a loop and instead the loop will be in the\
+        if __name__=__main__ part. This will make it more consistent with\
+        the way team.py works and will enable some better efficiencies\
+        with the GUI.
         """
-        # by taking the while look out of here, can make unit tests
+        # by taking the while loop out of here, can make unit tests
         self._get_participant_JSON()
         number_of_dononations = self.ParticipantNumDonations
         self.write_text_files(self.participantinfo)
