@@ -105,7 +105,7 @@ class MyForm(QDialog):
 
 
 def main(participant_conf):
-    """Run it."""
+    """Launch the window."""
     w = MyForm(participant_conf)
     w.exec()
 

@@ -27,10 +27,15 @@ Create the folder you want to work in and cd into it.
 
 **System Packages**
 
-Instructions to be added. Note that this could potentially cause problems with system packages.
+.. todo:: 
+
+    Add instructions and note that this could potentially cause problems with system packages.
 
 **User Install**
-Instructions to be added.
+
+.. todo:: 
+
+    Add Instructions
 
 Via Github
 ^^^^^^^^^^

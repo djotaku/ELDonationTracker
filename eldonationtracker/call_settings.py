@@ -92,9 +92,9 @@ class MyForm(QDialog):
         return config
 
     def save(self):
-        """Save the values in the window.
+        """Save the values in the window to participant.conf.
 
-        Calls the write_config method from extralife_IO.ParticipantConf
+        Calls the write_config method from extralife_IO.ParticipantConf.
         """
         config = self._elements_to_save()
         self.participant_conf.write_config(config, True)
@@ -117,7 +117,7 @@ class MyForm(QDialog):
 
 
 def main(participant_conf):
-    """Launch it."""
+    """Launch the window."""
     w = MyForm(participant_conf)
     w.exec()
 

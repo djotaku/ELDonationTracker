@@ -5,7 +5,11 @@ Usage
 GUI Single Executable users
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This refers to you if you downloaded a file like Extra Life Donation Tracker for Windows v3.4.zip. (Further Documentation to be added)
+This refers to you if you downloaded a file like Extra Life Donation Tracker for Windows v3.4.zip. 
+
+.. todo:: 
+
+    Add documentation on how to use it, include images.
 
 Commandline users (PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^
