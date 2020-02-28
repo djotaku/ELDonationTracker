@@ -8,6 +8,21 @@ Welcome to eldonationtracker's documentation!
 
 ELDonation Tracker is used to provide donation information and updates when streaming or recording a VOD in OBS or XSplit. For a video explaining how to use this program, visit: http://djotaku.github.io/ELDonationTracker/
 
+.. note::
+
+    Starting 20200227 this project will strictly follow Semantic Versioning as laid out at https://semver.org/ 
+    
+    That means:
+    
+    Given a version number MAJOR.MINOR.PATCH, increment the:
+    
+    #. MAJOR version when you make incompatible API changes,
+    
+    #. MINOR version when you add functionality in a backwards compatible manner, and
+    
+    #. PATCH version when you make backwards compatible bug fixes.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
