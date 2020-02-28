@@ -17,9 +17,6 @@ from eldonationtracker import call_settings as call_settings
 from eldonationtracker import extralife_IO as extralife_IO
 from eldonationtracker import ipc as ipc
 
-# setup config file
-participant_conf = extralife_IO.ParticipantConf()
-
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     """The main gui Window."""
@@ -37,8 +34,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         """
         super(self.__class__, self).__init__()
 
+        self.participant_conf = extralife_IO.ParticipantConf()
+
         # deal with version mismatch
-        self.version_mismatch = participant_conf.get_version_mismatch()
+        self.version_mismatch = self.participant_conf.get_version_mismatch()
         self.version_check()
 
         self.setupUi(self)
@@ -51,13 +50,13 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer.start()
 
         # instantiate the tracker so we can send signals
-        self.tracker = call_tracker.MyForm(participant_conf)
+        self.tracker = call_tracker.MyForm(self.participant_conf)
 
         # instantiate the settings
-        self.call_settings = call_settings.MyForm(participant_conf)
+        self.call_settings = call_settings.MyForm(self.participant_conf)
 
         # want to make sure file exists on new run
-        self.folders = participant_conf.get_text_folder_only()
+        self.folders = self.participant_conf.get_text_folder_only()
         ipc.writeIPC(self.folders, "0")
 
         # Connecting *almost* all the buttons to methods
@@ -84,7 +83,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                     print("Your settings were backed up to participant.conf.bak")
                     shutil.copy("backup_participant.conf", "participant.conf")
                     print("Settings have been replaced with the repo defaults.")
-                    participant_conf.reload_JSON()
+                    self.participant_conf.reload_JSON()
                 if choice == "Update on Save":
                     print("When you save the settings, you will be up to date")
         else:
@@ -99,7 +98,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def callSettings(self):
         self.call_settings.reload_config()
         self.call_settings.show()
-        # call_settings.main(participant_conf)
+        # call_settings.main(self.participant_conf)
 
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):
@@ -121,7 +120,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def getsomeText(self):
         # For next refactoring, will use dict to make this just work as a loop
         # needs to be repeated in here to get new folder if config changes
-        self.folders = participant_conf.get_text_folder_only()
+        self.folders = self.participant_conf.get_text_folder_only()
         # Participant Info
         self.RecentDonations.setPlainText(self.readFiles(self.folders,
                                                          'lastNDonationNameAmts.txt'))
@@ -137,7 +136,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.AvgDonation.setPlainText(self.readFiles(self.folders,
                                                      'averageDonation.txt'))
         # Team Info
-        if participant_conf.get_if_in_team():
+        if self.participant_conf.get_if_in_team():
             self.label_TeamCaptain.setText(self.readFiles(self.folders,
                                                       'Team_captain.txt'))
             self.label_TeamGoal.setText(self.readFiles(self.folders, 'Team_goal.txt'))
@@ -151,7 +150,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def runbutton(self):
         print("run button")
         # need to add some code to keep it from starting more than one thread.
-        self.thread1 = donationGrabber()
+        self.thread1 = donationGrabber(self.participant_conf)
         self.thread1.start()
 
     def stopbutton(self):
@@ -161,14 +160,15 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 class donationGrabber (threading.Thread):
     counter = 0
 
-    def __init__(self):
+    def __init__(self, participant_conf):
         threading.Thread.__init__(self)
         self.counter = 0
+        self.participant_conf = participant_conf
 
     def run(self):
         print(f"Starting {self.name}. But first, reloading config file.")
-        participant_conf.reload_JSON()
-        self.p = extralifedonations.Participant(participant_conf)
+        self.participant_conf.reload_JSON()
+        self.p = extralifedonations.Participant(self.participant_conf)
         self.p.run()
 
     def stop(self):
