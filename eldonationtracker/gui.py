@@ -68,6 +68,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
 
+        # Menu connections
+        self.thread_running = False
+        self.actionQuit.triggered.connect(self.quit)
+
     def version_check(self):
         print("Participant.conf version check!")
         if self.version_mismatch is True:
@@ -150,11 +154,21 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def runbutton(self):
         print("run button")
         # need to add some code to keep it from starting more than one thread.
+        self.thread_running = True
         self.thread1 = donationGrabber(self.participant_conf)
         self.thread1.start()
 
     def stopbutton(self):
         self.thread1.stop()
+
+    def quit(self):
+        """Quit the application.
+
+        First need to stop the thread running the CLI code.
+        """
+        if self.thread_running:
+            self.stopbutton()
+        sys.exit()
 
 
 class donationGrabber (threading.Thread):
