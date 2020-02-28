@@ -39,6 +39,7 @@ ELDonation Tracker is used to provide donation information and updates when stre
    modules/gui
    modules/ipc
    modules/team
+   modules/utils/update_available
    
 
 

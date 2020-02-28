@@ -1,6 +1,6 @@
 """Return true if there is an update available.
 
-An update is available if the version on PyPi is higher than the\
+An update is available if the version on PyPi is higher than the \
 version the user has on their machine.
 """
 
@@ -28,6 +28,11 @@ def get_pypi_version() -> str:
 
 
 def update_available() -> bool:
+    """Use semver module to calculate whether there is a newer version on PyPi.
+
+    :return: True if the PyPi version is higer than the version being run.\
+    Returns false if the version being compared to PyPi is equal or greater\
+    than the PyPi version."""
     pypi_version = get_pypi_version()
     if semver.compare(pypi_version, current_version) == 1:
         return True
