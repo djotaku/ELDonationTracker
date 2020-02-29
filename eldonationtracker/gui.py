@@ -9,13 +9,16 @@ from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
 import sys
 import threading
 import shutil
+import webbrowser
 
 from eldonationtracker import design as design
 from eldonationtracker import extralifedonations as extralifedonations
+from eldonationtracker import call_about as call_about
 from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings
 from eldonationtracker import extralife_IO as extralife_IO
 from eldonationtracker import ipc as ipc
+import eldonationtracker.utils.update_available
 
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
@@ -54,6 +57,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
         # instantiate the settings
         self.call_settings = call_settings.MyForm(self.participant_conf)
+        
+        # instantiate About
+        self.call_about = call_about.about_program()
 
         # want to make sure file exists on new run
         self.folders = self.participant_conf.get_text_folder_only()
@@ -67,6 +73,13 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TestAlertButton.clicked.connect(self.testAlert)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
+
+        # Menu connections
+        self.thread_running = False
+        self.actionQuit.triggered.connect(self.quit)
+        self.actionDocumentation.triggered.connect(self.load_documentation)
+        self.actionCheck_for_Update.triggered.connect(self.check_for_update)
+        self.actionAbout.triggered.connect(self.show_about)
 
     def version_check(self):
         print("Participant.conf version check!")
@@ -150,11 +163,39 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def runbutton(self):
         print("run button")
         # need to add some code to keep it from starting more than one thread.
+        self.thread_running = True
         self.thread1 = donationGrabber(self.participant_conf)
         self.thread1.start()
 
     def stopbutton(self):
         self.thread1.stop()
+
+    def quit(self):
+        """Quit the application.
+
+        First need to stop the thread running the CLI code.
+
+        .. warning: This will change when the threading code is removed.
+        """
+        if self.thread_running:
+            self.stopbutton()
+        sys.exit()
+
+    def load_documentation(self):
+        try:
+            webbrowser.open("https://eldonationtracker.readthedocs.io/en/latest/index.html", new=2)
+        except webbrowser.Error:
+            print("couldn't open documentation")
+            message_box = QMessageBox.warning(self, "Documentation", "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
+
+    def check_for_update(self):
+        if eldonationtracker.utils.update_available.main():
+            message_box = QMessageBox.information(self, "Check for Updates", "There is an update available.")
+        else:
+            message_box = QMessageBox.information(self, "Check for Updates", "You have the latest version.")
+
+    def show_about(self):
+        self.call_about.show()
 
 
 class donationGrabber (threading.Thread):

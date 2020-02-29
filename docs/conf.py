@@ -18,13 +18,14 @@ sys.path.insert(0, os.path.abspath('../lib/python3.7/site-packages'))
 
 
 # -- Project information -----------------------------------------------------
+from eldonationtracker import __version__ as current_version
 
 project = 'eldonationtracker'
 copyright = '2020, Eric Mesa'
 author = 'Eric Mesa'
 
 # The full version, including alpha/beta/rc tags
-release = '3.4.1'
+release = current_version
 
 
 # -- General configuration ---------------------------------------------------
@@ -32,8 +33,9 @@ release = '3.4.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo'
-]
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo']
+
+autodoc_mock_imports = ["PyQt5"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
