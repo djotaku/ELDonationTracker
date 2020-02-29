@@ -1,7 +1,6 @@
 # This unitest test uses the following encoding: utf-8
 
 from eldonationtracker import extralife_IO
-from eldonationtracker import donor
 from eldonationtracker import donation
 
 
@@ -22,32 +21,20 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        "donors_to_display": "5"}
 
 
-# Tests for class Participant
-# Come back and develop tests for get_participant_JSON and 
-# get_donors after changing the methods to take input
-# and return a value. That will be in prep for refactoring
-
-def test_donor_calculations():
-    """ Since _donor_calculations is just using the two methods I tested above I'm going to assume it is correct unless someone points out why it still needs a unit test."""
-    pass
-
-
-# Tests for Class Team
-# skipping JSON for now since I'm going to refactor that output
-# in fact, nearly everything here is a variant of participant
-# and will get refactored out.
-
 # Tests for extralife_IO.py
 
 # come back and do one for get_JSON
 
 # ParticipantConf class - will need to figure out how to over-ride conf file
 def test_participantconf_get_version():
+    """Test that the version it reads from the participant.conf file\
+    equals what is expected."""
     participant_conf = extralife_IO.ParticipantConf()
     assert "1.0" == participant_conf.get_version()
 
 
 def test_participantconf_get_CLI_values():
+    """Test that the program correctly returns the CLI values."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
@@ -55,12 +42,14 @@ def test_participantconf_get_CLI_values():
 
 
 def test_get_text_folder_only():
+    """Test that the text folder is correctly returned."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert "textfolder" == participant_conf.get_text_folder_only()
 
 
 def test_get_GUI_values():
+    """Test that it correctly returns the values needed by the GUI."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
@@ -69,31 +58,37 @@ def test_get_GUI_values():
 
 
 def test_get_if_in_team_with_team():
+    """Make sure that if there is a team in the config file,\
+    it returns true."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert participant_conf.get_if_in_team() is True
 
 
 def test_get_if_in_team_without_team():
+    """Make sure that if there isn't a team, it repots there isn't\
+    one defined."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf_no_team
     assert participant_conf.get_if_in_team() is False
 
 
 def test_get_tracker_image():
+    """Test that it returns the image location."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert "imagefolder" == participant_conf.get_tracker_image()
 
 
 def test_get_tracker_sound():
+    """Test that it returns the sound file location."""
     participant_conf = extralife_IO.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert "mp3" == participant_conf.get_tracker_sound()
 
 
 def test_single_format_message_true():
-    """ Make sure the formatting works correctly. """
+    """ Make sure the formatting works correctly."""
     donor1 = donation.Donation("donor1", "message", 45)
     currency_symbol = "$"
     formatted_message = extralife_IO.single_format(donor1, True, currency_symbol)
@@ -101,7 +96,7 @@ def test_single_format_message_true():
 
 
 def test_donor_formatting_message_false():
-    """ Make sure the formatting works correctly. """
+    """ Make sure the formatting works correctly without a message."""
     donor1 = donation.Donation("donor1", "message", 45)
     currency_symbol = "$"
     formatted_message = extralife_IO.single_format(donor1, False, currency_symbol)
@@ -109,7 +104,8 @@ def test_donor_formatting_message_false():
 
 
 def test_multiple_format_Horizontal():
-    """ Does it return the right thing? """
+    """Test formatting with multiple donations with increasing amounts\
+    of donors to ensure the right string would be written to the file."""
     donor1 = donation.Donation("donor1", "message1", 10)
     donor2 = donation.Donation("donor2", "message2", 20)
     donor3 = donation.Donation("donor3", "message3", 30)
@@ -136,7 +132,11 @@ def test_multiple_format_Horizontal():
 
 
 def test_multiple_format_Message_Horizontal():
-    """ Does it return the right thing? """
+    """Test formatting with multiple donations with increasing amounts\
+    of donors to ensure the right string would be written to the file.
+
+    This time including the message that goes along with the donation.
+    """
     donor1 = donation.Donation("donor1", "message1", 10)
     donor2 = donation.Donation("donor2", "message2", 20)
     donor3 = donation.Donation("donor3", "message3", 30)
@@ -163,7 +163,8 @@ def test_multiple_format_Message_Horizontal():
 
 
 def test_multiple_format_Vertical():
-    """ Does it return the right thing? """
+    """Test formatting with multiple donations with increasing amounts\
+    of donors to ensure the right string would be written to the file."""
     donor1 = donation.Donation("donor1", "message1", 10)
     donor2 = donation.Donation("donor2", "message2", 20)
     donor3 = donation.Donation("donor3", "message3", 30)
@@ -190,7 +191,11 @@ def test_multiple_format_Vertical():
 
 
 def test_multiple_format_Message_Vertical():
-    """ Does it return the right thing?"""
+    """Test formatting with multiple donations with increasing amounts\
+    of donors to ensure the right string would be written to the file.
+
+    This time including the message that goes along with the donation.
+    """
     donor1 = donation.Donation("donor1", "message1", 10)
     donor2 = donation.Donation("donor2", "message2", 20)
     donor3 = donation.Donation("donor3", "message3", 30)
@@ -247,10 +252,3 @@ def test_write_text_files_emoji():
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
-
-# Tests for IPC.py
-# Don't see a need to test anything here as it's the most
-# basic of functions.
-
-# Tests for readparticipantconf.py
-# right now not sure what tests I need here
