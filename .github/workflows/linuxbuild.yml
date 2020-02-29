@@ -31,7 +31,7 @@ jobs:
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller -p eldonationtracker --add-binary 'lib/python3.7/site-packages/PyQt5/Qt/lib/libQt5Xml.so.5:.' eldonationtracker/gui.py
+        pyinstaller -p eldonationtracker --add-binary '/opt/hostedtoolcache/Python/3.7.6/x64/lib/python3.7/site-packages/PyQt5/Qt/lib/libQt5Xml.so.5:.' eldonationtracker/gui.py
         cp participant.conf dist/gui
         cp Engineer.png dist/gui
         cp Donation.mp3 dist/gui
