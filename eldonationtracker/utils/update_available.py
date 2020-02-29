@@ -43,6 +43,7 @@ def update_available() -> bool:
 def main():
     result = update_available()
     print(result)
+    return result
 
 
 if __name__ == "__main__":

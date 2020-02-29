@@ -17,6 +17,7 @@ from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings
 from eldonationtracker import extralife_IO as extralife_IO
 from eldonationtracker import ipc as ipc
+import eldonationtracker.utils.update_available
 
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
@@ -73,6 +74,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.thread_running = False
         self.actionQuit.triggered.connect(self.quit)
         self.actionDocumentation.triggered.connect(self.load_documentation)
+        self.actionCheck_for_Update.triggered.connect(self.check_for_update)
 
     def version_check(self):
         print("Participant.conf version check!")
@@ -180,6 +182,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         except webbrowser.Error:
             print("couldn't open documentation")
             message_box = QMessageBox.warning(self, "Documentation", "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
+
+    def check_for_update(self):
+        if eldonationtracker.utils.update_available.main():
+            message_box = QMessageBox.information(self, "Check for Updates", "There is an update available")
+        else:
+            message_box = QMessageBox.information(self, "Check for Updates", "You have the latest version.")
 
 
 class donationGrabber (threading.Thread):
