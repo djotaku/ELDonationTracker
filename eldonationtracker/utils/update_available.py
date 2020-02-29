@@ -17,10 +17,11 @@ def get_pypi_version() -> str:
     :return: A string with the version number.
     """
     url = "https://pypi.org/pypi/eldonationtracker/json"
+    context = ssl._create_unverified_context()
     eldt_json: dict
     try:
         request = Request(url=url)
-        payload = urlopen(request, timeout=5)
+        payload = urlopen(request, timeout=5, context=context)
         eldt_json = json.load(payload)
     except HTTPError:
         print("Could not get JSON")
