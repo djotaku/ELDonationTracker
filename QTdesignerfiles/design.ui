@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Extra Life Donation Tracker</string>
+   <string>EL Donation Tracker</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -347,20 +347,39 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>751</width>
+       <width>863</width>
        <height>251</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_9">
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>62</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_TeamTotalRaised">
         <property name="text">
-         <string>Team Captain</string>
+         <string>Raised</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
         </property>
        </widget>
+      </item>
+      <item row="3" column="2" colspan="4">
+       <widget class="QTextBrowser" name="textBrowser_TeamTop5"/>
       </item>
       <item row="1" column="2">
        <widget class="QLabel" name="label_TeamGoal">
@@ -372,49 +391,13 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="6">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>254</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="2" column="6">
-       <widget class="QLabel" name="label_13">
+      <item row="0" column="5">
+       <widget class="QLabel" name="label_11">
         <property name="text">
-         <string>Top Team Participant</string>
+         <string># of Donations</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
-       <widget class="QLabel" name="label_14">
-        <property name="text">
-         <string>Top 5 Team Participants</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="label_TeamCaptain">
-        <property name="text">
-         <string>Team Captain</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignHCenter|Qt::AlignTop</set>
         </property>
        </widget>
       </item>
@@ -427,42 +410,6 @@
          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
         </property>
        </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QLabel" name="label_TeamTotalRaised">
-        <property name="text">
-         <string>Raised</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignHCenter|Qt::AlignTop</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="6">
-       <widget class="QLabel" name="label_TopTeamParticipant">
-        <property name="text">
-         <string>Top Team Participant</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignHCenter|Qt::AlignTop</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item row="1" column="5">
        <widget class="QLabel" name="label_TeamNumDonations">
@@ -484,18 +431,18 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="5">
-       <widget class="QLabel" name="label_11">
+      <item row="2" column="6">
+       <widget class="QLabel" name="label_13">
         <property name="text">
-         <string># of Donations</string>
+         <string>Top Team Participant</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <spacer name="horizontalSpacer_2">
+      <item row="0" column="6">
+       <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -504,14 +451,67 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>62</width>
+          <width>254</width>
           <height>20</height>
          </size>
         </property>
        </spacer>
       </item>
-      <item row="3" column="2" colspan="4">
-       <widget class="QTextBrowser" name="textBrowser_TeamTop5"/>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_TeamCaptain">
+        <property name="text">
+         <string>Team Captain</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Top 5 Team Participants</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Team Captain</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="6">
+       <widget class="QLabel" name="label_TopTeamParticipant">
+        <property name="text">
+         <string>Top Team Participant</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -552,7 +552,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>(C) 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
+     <string>© 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
     </property>
    </widget>
   </widget>
@@ -600,10 +600,13 @@
    <property name="text">
     <string>Check for Update</string>
    </property>
+   <property name="toolTip">
+    <string>Checks for Updates</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>About ELDonationTracker</string>
    </property>
   </action>
  </widget>

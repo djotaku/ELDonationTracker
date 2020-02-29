@@ -13,6 +13,7 @@ import webbrowser
 
 from eldonationtracker import design as design
 from eldonationtracker import extralifedonations as extralifedonations
+from eldonationtracker import call_about as call_about
 from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings
 from eldonationtracker import extralife_IO as extralife_IO
@@ -56,6 +57,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
         # instantiate the settings
         self.call_settings = call_settings.MyForm(self.participant_conf)
+        
+        # instantiate About
+        self.call_about = call_about.about_program()
 
         # want to make sure file exists on new run
         self.folders = self.participant_conf.get_text_folder_only()
@@ -75,6 +79,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.actionQuit.triggered.connect(self.quit)
         self.actionDocumentation.triggered.connect(self.load_documentation)
         self.actionCheck_for_Update.triggered.connect(self.check_for_update)
+        self.actionAbout.triggered.connect(self.show_about)
 
     def version_check(self):
         print("Participant.conf version check!")
@@ -185,9 +190,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def check_for_update(self):
         if eldonationtracker.utils.update_available.main():
-            message_box = QMessageBox.information(self, "Check for Updates", "There is an update available")
+            message_box = QMessageBox.information(self, "Check for Updates", "There is an update available.")
         else:
             message_box = QMessageBox.information(self, "Check for Updates", "You have the latest version.")
+
+    def show_about(self):
+        self.call_about.show()
 
 
 class donationGrabber (threading.Thread):

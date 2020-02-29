@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 709)
+        MainWindow.resize(800, 729)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -242,5 +242,7 @@ class Ui_MainWindow(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionQuit.setText(_translate("MainWindow", "Quit"))
         self.actionDocumentation.setText(_translate("MainWindow", "Documentation"))
+        self.actionDocumentation.setToolTip(_translate("MainWindow", "Open Documentation in your default browser"))
         self.actionCheck_for_Update.setText(_translate("MainWindow", "Check for Update"))
-        self.actionAbout.setText(_translate("MainWindow", "About"))
+        self.actionCheck_for_Update.setToolTip(_translate("MainWindow", "Checks for Updates"))
+        self.actionAbout.setText(_translate("MainWindow", "About ELDonationTracker"))

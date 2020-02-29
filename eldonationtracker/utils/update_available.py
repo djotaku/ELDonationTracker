@@ -35,14 +35,15 @@ def update_available() -> bool:
     than the PyPi version."""
     pypi_version = get_pypi_version()
     if semver.compare(pypi_version, current_version) == 1:
+        print("There is an update available")
         return True
     else:
+        print("You have the latest version.")
         return False
 
 
 def main():
     result = update_available()
-    print(result)
     return result
 
 
