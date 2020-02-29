@@ -6,6 +6,7 @@ version the user has on their machine.
 
 import json
 import semver
+import ssl
 from urllib.request import HTTPError, Request, URLError, urlopen
 
 from eldonationtracker import __version__ as current_version
