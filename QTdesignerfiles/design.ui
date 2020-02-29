@@ -592,6 +592,9 @@
    <property name="text">
     <string>Documentation</string>
    </property>
+   <property name="toolTip">
+    <string>Open Documentation in your default browser</string>
+   </property>
   </action>
   <action name="actionCheck_for_Update">
    <property name="text">

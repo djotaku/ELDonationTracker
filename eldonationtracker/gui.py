@@ -9,6 +9,7 @@ from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
 import sys
 import threading
 import shutil
+import webbrowser
 
 from eldonationtracker import design as design
 from eldonationtracker import extralifedonations as extralifedonations
@@ -71,6 +72,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         # Menu connections
         self.thread_running = False
         self.actionQuit.triggered.connect(self.quit)
+        self.actionDocumentation.triggered.connect(self.load_documentation)
 
     def version_check(self):
         print("Participant.conf version check!")
@@ -165,10 +167,19 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         """Quit the application.
 
         First need to stop the thread running the CLI code.
+
+        .. warning: This will change when the threading code is removed.
         """
         if self.thread_running:
             self.stopbutton()
         sys.exit()
+
+    def load_documentation(self):
+        try:
+            webbrowser.open("https://eldonationtracker.readthedocs.io/en/latest/index.html", new=2)
+        except webbrowser.Error:
+            print("couldn't open documentation")
+            message_box = QMessageBox.warning(self, "Documentation", "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
 
 
 class donationGrabber (threading.Thread):
