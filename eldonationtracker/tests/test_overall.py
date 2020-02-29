@@ -1,7 +1,6 @@
 # This unitest test uses the following encoding: utf-8
 
 from eldonationtracker import extralife_IO
-from eldonationtracker import donor
 from eldonationtracker import donation
 
 

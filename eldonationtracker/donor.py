@@ -49,3 +49,10 @@ class Donor:
         amount less than comparision.
         """
         return self.amount < object.amount
+
+    def __eq__(self, object):
+        """Donor equal comparison.
+
+        Returns True if thid Donor and the other have the same amount.
+        """
+        return self.amount == object.amount
