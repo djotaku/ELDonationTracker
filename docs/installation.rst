@@ -8,7 +8,8 @@ Via PyPi
 
 The first thing to decide is whether you want to install ELDonationTracker to your system packages, user packages, or a virtual environment. 
 
-**Virtual Environment (recommended)**
+Virtual Environment (recommended)
+---------------------------------
 
 Create the folder you want to work in and cd into it. 
 
@@ -25,13 +26,15 @@ Create the folder you want to work in and cd into it.
     # Place participant.conf in persistent location, see the page in documentation
     
 
-**System Packages**
+System Packages
+---------------
 
 .. todo:: 
 
     Add instructions and note that this could potentially cause problems with system packages.
 
-**User Install**
+User Install
+------------
 
 .. todo:: 
 
@@ -42,13 +45,20 @@ Via Github
 
 Here you have a few options depending on what you want to do.
 
-**GUI Single Executable Users**
+GUI Single Executable Users
+---------------------------
 
-Go to the latest release_ and download the file that ends in "For Windows" or "For Linux" (depending on your platform, obviously). Unzip or untar it to the location you want to use and then proceed to :doc:`usage`.
+Go to the latest release_ and download the file that ends in "For Windows". Unzip it to the location you want to use and then proceed to :doc:`usage`.
+
+Pyinstaller images will no longer be made for Linux as there are issues with the version of libC it links to as well as other side effects from the VM used by the Github CI system. Linux users can still use the GUI via PyPi, Source Code download, or git clone.
+
+.. versionchanged:: 4.0.1
+
 
 .. _release: https://github.com/djotaku/ELDonationTracker/releases
 
-**Commandline Users and/or Developers**
+Commandline Users and/or Developers
+-----------------------------------
 
 Two options:
 

@@ -4,16 +4,27 @@ import json
 import os
 import pathlib
 import ssl
+from typing import Tuple
 from urllib.request import HTTPError, Request, URLError, urlopen
 
 import xdgenvpy
 
 
 # JSON/URL
-def get_JSON(url, order_by_donations=False):
+def get_JSON(url: str, order_by_donations: bool = False) -> dict:
     """Grab JSON from server.
 
-    Connects to server and grabs JSON data from the specified URL.
+    Connects to server and grabs JSON data from the specified URL.\
+    The API server should return JSON with the donation data.
+
+    :param url: API URL for the specific json API point.
+    :param order_by_donations: If true, the url param has\
+    has text appended that will cause the API to return the\
+    data in descending order of the sum of donations.
+
+    :return: JSON as dictionary with API data.
+
+    :raises: HTTPError, URLError
     """
     payload = ""
     # context = ssl._create_default_https_context()
@@ -21,13 +32,9 @@ def get_JSON(url, order_by_donations=False):
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations is True:
         url = url+"?orderBy=sumDonations%20DESC"
-    # debug when having issues with API
-    # print(f"Trying to access URL: {url}")
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
-        # debug if having connection issues
-        # print(f"HTTP code: {payload.getcode()}")
         return json.load(payload)
     except HTTPError:
         print(f"""Couldn't get to {url}.
@@ -48,20 +55,28 @@ def get_JSON(url, order_by_donations=False):
 
 
 class ParticipantConf:
-    """Holds Participant Configuaration info."""
+    """Holds Participant Configuaration info.
 
-    participant_conf_version = "1.0"
-    version_mismatch = False
-    fields = {"extralife_id": None, "text_folder": None,
-              "currency_symbol": None, "team_id": None,
-              "tracker_image": None,
-              "donation_sound": None,
-              "donors_to_display": None}
+    :param participant_conf_version: version of participant.conf
+    :param version_mismatch: Initialized to False.If true, the\
+    user has a different version of the participant.conf.
+    :param fields: A dictionary initialed to None for all fields.
+    :param xdg: By using the PedanticPackage, the directory will\
+    be created if it doesn't already exist.
+    :param participantconf: holds a dictionary of the user's\
+    config file.
+    """
+
+    participant_conf_version: str = "1.0"
+    version_mismatch: bool = False
+    fields: dict = {"extralife_id": None, "text_folder": None,
+                    "currency_symbol": None, "team_id": None,
+                    "tracker_image": None,
+                    "donation_sound": None,
+                    "donors_to_display": None}
 
     def __init__(self):
         """Load in participant conf and check version."""
-        # fields = [self.extralife_id, self.text_folder, self.currency_symbol,
-        #          self.team_id, self.tracker_image, self.donation_sound]
         self.xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
         self.participantconf = self.load_JSON()
         if self.participantconf['Version'] != self.participant_conf_version:
@@ -76,9 +91,17 @@ class ParticipantConf:
             self.version_mismatch = True
         self.update_fields()
 
-    def load_JSON(self):
-        """Load in the config file."""
-        # by using pedantic, it'll create the directory if it's not there
+    def load_JSON(self) -> dict:
+        """Load in the config file.
+
+        Checks in a variety of locations for the participant.conf file.\
+        First, it checks in the persistent settings location (XDG_CONFIG_HOME)\
+        . Then it checks the current directory and one level up. Otherwise it\
+        raises an exception and the program stops.
+
+        :return: A dictionary representing the JSON config file.
+        :raises: FileNotFoundError
+        """
 
         try:
             print("Looking for persistent settings at "
@@ -107,17 +130,21 @@ class ParticipantConf:
             print(f"Giving up. Put settings in {self.xdg.XDG_CONFIG_HOME}.")
 
     def update_fields(self):
-        """Update fields with data from JSON."""
+        """Update fields variable with data from JSON."""
         for field in self.fields:
             self.fields[field] = self.participantconf.get(f'{field}')
             # debug
             # print(f"{field}:{self.fields[field]}")
 
-    def write_config(self, config, default):
+    def write_config(self, config: dict, default: bool):
         """Write config to file.
 
-        At this point, only called from GUI. Commandline
-        user is expected to edit file manually.
+        Only called from GUI. Commandline user is expected to edit\
+        participant.conf manually. Afterward it triggers self.reloadJSON\
+        to have the program run with the updated config.
+
+        :param config: A dictionary holding the config values.
+        :param default: If True, will save the file in the current directory.
         """
         if default:
             with open('participant.conf', 'w') as outfile:
@@ -136,25 +163,38 @@ class ParticipantConf:
         self.participantconf = self.load_JSON()
         self.update_fields()
 
-    def get_CLI_values(self):
-        """Return data required for a CLI-only run."""
+    def get_CLI_values(self) -> Tuple[str, int]:
+        """Return data required for a CLI-only run.
+
+        :returns: A tuple of strings with config values needed if only\
+        running on the commandline.
+        """
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"],
                 self.fields["team_id"], self.fields["donors_to_display"])
 
-    def get_text_folder_only(self):
-        """Return text folder data."""
+    def get_text_folder_only(self) -> str:
+        """Return text folder data.
+
+        :returns: A string with the text folder location."""
         return self.fields["text_folder"]
 
-    def get_GUI_values(self):
-        """Return values needed for the GUI."""
+    def get_GUI_values(self) -> Tuple[str, int]:
+        """Return values needed for the GUI.
+
+        :returns: A tuple of strings with config values needed if only\
+        running the GUI
+        """
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"], self.fields["team_id"],
                 self.fields["tracker_image"], self.fields["donation_sound"],
                 self.fields["donors_to_display"])
 
-    def get_if_in_team(self):
-        """Return True if participant is in a team."""
+    def get_if_in_team(self) -> bool:
+        """Return True if participant is in a team.
+
+        :returns: True if the participant is in a team.
+        """
         # debug
         # print(self.fields["team_id"])
         if self.fields["team_id"] is None:
@@ -162,22 +202,42 @@ class ParticipantConf:
         else:
             return True
 
-    def get_version_mismatch(self):
-        """Return bool of whether there is a version mismatch."""
+    def get_version_mismatch(self) -> bool:
+        """Return bool of whether there is a version mismatch.0
+
+        :returns: True if the version the user is running is not\
+        the same as what this program has as its version.
+        """
         return self.version_mismatch
 
-    def get_tracker_image(self):
-        """Return the tracker image location on disk."""
+    def get_tracker_image(self) -> str:
+        """Return the tracker image location on disk.
+
+        :returns: Location of tracker image on disk.
+        """
         return self.fields["tracker_image"]
 
-    def get_tracker_sound(self):
-        """Return the donation sound image location on disk."""
+    def get_tracker_sound(self) -> str:
+        """Return the donation sound image location on disk.
+
+        :returns: location of the donation sound on disk.
+        """
         return self.fields["donation_sound"]
 
 
 # Formatting
-def single_format(donor, message, currency_symbol):
-    """Take donor, bool of whether it has a message, and a currency symbol. Then return formatted text for creating the output files."""
+def single_format(donor, message: bool, currency_symbol: str) -> str:
+    """Format string for output to text file.
+
+    This function is for when there is only one donor or donation.\
+    For example, for the text file holding the most recent donation.
+
+    :param donor: Donor or Donation class object.
+    :param message: If True, the message (if any) from the donor object\
+    :param currency_symbol: The currency symbol to append to the return string.
+    :returns: A string containing the inputs formatted. For example: \n
+    John Doe - $100.00 - Thanks for raising money for the kids.
+    """
     if message:
         return (f"{donor.name} - {currency_symbol}{donor.amount:.2f}"
                 f" - {donor.message}")
@@ -185,8 +245,28 @@ def single_format(donor, message, currency_symbol):
         return f"{donor.name} - {currency_symbol}{donor.amount:.2f}"
 
 
-def multiple_format(donors, message, horizontal, currency_symbol, how_many):
-    """Create text for multi-donor output files."""
+def multiple_format(donors, message: bool, horizontal: bool,
+                    currency_symbol: str, how_many: int) -> str:
+    """Format string for output to text file.
+
+    This function is for when there is are multiple donors or donations.\
+    For example, for the text file holding the Top 5 donors.
+
+    :param donors: An iterable of Donors or Donations class objects.
+    :param message: If True, the message (if any) from the donor object\
+    :param horizontal: If True, format the message horizontally. Else\
+    vertically.
+    :param currency_symbol: The currency symbol to append to the return string.
+    :param how_many: A number for how many donors/donations to append to the\
+    string.
+    :returns: A string containing the inputs formatted.\n
+    Horizontal example: \n
+    John Doe - $100.00 - Thanks for raising money for the kids. |\
+    Jane Doe - $25.00 - Hurray!\n\n
+    Vertical example: \n
+    John Doe - $200.00 - a message\n
+    Jane Doe - $75.00 - another message
+    """
     text = ""
     if horizontal:
         for donor in range(0, len(donors)):
@@ -207,8 +287,15 @@ def multiple_format(donors, message, horizontal, currency_symbol, how_many):
 
 
 # Output
-def write_text_files(dictionary, text_folder):
-    """Write info to text files."""
+def write_text_files(dictionary: dict, text_folder: str):
+    """Write info to text files.
+
+    The dictionary key will become the filename and the values will\
+    be the content of the files.
+
+    :param dictionary: The dictionary with items to output.
+    :param text_folder: The directory to write the text files.
+    """
     for filename, text in dictionary.items():
         f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
         f.write(text)

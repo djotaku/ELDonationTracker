@@ -4,46 +4,51 @@ from eldonationtracker import extralife_IO as extralife_IO
 
 
 class Team:
-    """Hold Team Data."""
+    """Hold Team API Data.
 
-    def __init__(self, team_id, folder, currency_symbol):
-        """Set the team variables.
+    API Variables:
+        :param team_url: URL to the team JSON API
+        :param team_participant_url: URL to the JSON api for participants\
+        in the team.
+        :param team_info: a dictionary to hold the following:
 
-        API Variables:
-        team_url and team_participant_url: self-explanatory
-        team_info: a dictionary to hold the following:
                    - Team_goal: fundraising goal
                    - Team_captain: team captain's name
                    - Team_totalRaised: total amount raised by team
                    - Team_numDonations: total number of donations to the team
-        participant_list: a list of the most recent participants
-        top_5_participant_list: a list of the top 5 team participants by
-                                amount donated.
+
+        :param participant_list: a list of the most recent participants
+        :param top_5_participant_list: a list of the top 5 team participants\
+        by amount donated.
 
         Helper Variables:
-        output_folder: the folder that will contain the txt files for the user
-                       (comes in via the init function from the participant)
-        currency_symbol: for formatting text (comes in via init function)
-        participant_calculation_dict: dictionary holding output for txt files:
+
+        :param output_folder: the folder that will contain the output txt files
+        :param currency_symbol: for formatting text
+        :param participant_calculation_dict: dictionary holding output for txt\
+        files:
+
                    - Team_Top5Participants: top 5 participants by
                      donation amount
                    - Team_Top5ParticipantsHorizontal: same, but horizontal
-                   - Team_TopParticipantNameAmnt: Top participant and amount
-        """
+                   - Team_TopParticipantNameAmnt: Top participant and amount"""
+
+    def __init__(self, team_id: str, folder: str, currency_symbol: str):
+        """Set the team variables."""
         # urls
-        team_url_base = "https://www.extra-life.org/api/teams/"
-        self.team_url = f"{team_url_base}{team_id}"
-        self.team_participant_url = f"{team_url_base}{team_id}/participants"
+        team_url_base: str = "https://www.extra-life.org/api/teams/"
+        self.team_url: str = f"{team_url_base}{team_id}"
+        self.team_participant_url: str = f"{team_url_base}"
+        f"{team_id}/participants"
         # misc
-        self.output_folder = folder
-        self.currency_symbol = currency_symbol
+        self.output_folder: str = folder
+        self.currency_symbol: str = currency_symbol
         self.team_info = {}
-        self.participant_calculation_dict = {}
+        self.participant_calculation_dict: dict = {}
         self.top_5_participant_list = []
 
     def get_team_json(self):
         """Get team info from JSON api."""
-        # need to debug to keep program from exiting if it can't read the URL
         self.team_json = extralife_IO.get_JSON(self.team_url)
         if self.team_json == 0:
             print("Could not get team JSON")
@@ -59,7 +64,7 @@ class Team:
             self.team_info["Team_numDonations"] = f"{self.num_donations}"
 
     def get_participants(self):
-        """Get team participants."""
+        """Get team participant info from API."""
         self.participant_list = []
         self.team_participant_json = extralife_IO.get_JSON(self.team_participant_url)
         if self.team_participant_json == 0:
@@ -95,8 +100,12 @@ class Team:
         self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = extralife_IO.multiple_format(self.top_5_participant_list, False, True, self.currency_symbol, 5)
         self.participant_calculation_dict['Team_Top5Participants'] = extralife_IO.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
 
-    def write_text_files(self, dictionary):
-        """Write info to text files."""
+    def write_text_files(self, dictionary: dict):
+        """Write info to text files.
+
+        :param dictionary: The dictionary containing the values to write\
+        out to text files.
+        """
         extralife_IO.write_text_files(dictionary, self.output_folder)
 
     def team_run(self):
@@ -119,14 +128,18 @@ class TeamParticipant(donor.Donor):
     over-rides the json_to_attributes function.
 
     API variables:
-    name: participant's name or Anonymous
-    amount: the sum of all donations by this participant
-    number_of_donations: number of all donations by this participant
-    image_url: the url of the participant's avatar image (not used)
+
+    :param name: participant's name or Anonymous
+    :param amount: the sum of all donations by this participant
+    :param number_of_donations: number of all donations by this participant
+    :param image_url: the url of the participant's avatar image (not used)
     """
 
     def json_to_attributes(self, json):
-        """Convert JSON to Team Participant attributes."""
+        """Convert JSON to Team Participant attributes.
+
+        :param json: JSON attributes from API
+        """
         if json.get('displayName') is not None:
             self.name = json.get('displayName')
         else:

@@ -24,7 +24,7 @@ ELDonation Tracker is used to provide donation information and updates when stre
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    installation

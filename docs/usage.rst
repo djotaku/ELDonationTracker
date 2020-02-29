@@ -7,10 +7,22 @@ GUI Single Executable users
 
 This refers to you if you downloaded a file like Extra Life Donation Tracker for Windows v3.4.zip. 
 
+Launching
+---------
+
+Go into the folder you unzipped. Find the file called gui.exe and double-click it. If Windows or your anti-virus software throws a warning, click through to allow it to run.
+
+.. note::
+
+    In a future version, this may change to just be one executable instead of a folder full of files.
+
+Using
+-----
+
 .. todo:: 
 
     Add documentation on how to use it, include images.
-
+    
 Commandline users (PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -24,7 +36,8 @@ Go to the folder you created in :doc:`installation`. If you don't have the virtu
     pip install --upgrade eldonationtracker
 
 
-**GUI**
+GUI
+---
 
 Make sure you have the :doc:`participant_conf` in the persistent location. You can grab the one in the Github repo or create your own by looking at the example there. Once the GUI has actually started, you can easily modify the config file via the GUI. To start the GUI:
 
@@ -40,7 +53,8 @@ eg:
 
 You can also edit the settings in a GUI rather than on the commandline.   
 
-**Commandline Only (No GUI)**
+Commandline Only (No GUI)
+-------------------------
 
 Make sure you have the :doc:`participant_conf` in the persistent location. You can grab the one in the Github repo or create your own by looking at the example there. To start the commandline only version:
 
