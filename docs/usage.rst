@@ -19,6 +19,12 @@ Go into the folder you unzipped. Find the file called gui.exe and double-click i
 Using
 -----
 
+Settings
+testing settings with tracker and watching GUI
+Run/Stop -> looking at CLI for information
+Menu Items
+
+
 .. todo:: 
 
     Add documentation on how to use it, include images.
