@@ -19,6 +19,14 @@ Go into the folder you unzipped. Find the file called gui.exe and double-click i
 Using
 -----
 
+When you launch the GUI, it will look like this (colors will vary by your OS's color scheme):
+
+.. image :: /images/GUI_startup.png
+
+If this is not the first time you've used the GUI, it will eventually populate with data (I'll show that at the end). If you've never launched the GUI before and you haven't updated the :doc:`participant_conf` during a CLI run, the GUI won't know where to get the data or where to put it once it grabs it from the CLI. So the first thing you want to do is click on the settings window:
+
+.. image :: /images/Settings_Window.png
+
 Settings
 testing settings with tracker and watching GUI
 Run/Stop -> looking at CLI for information
