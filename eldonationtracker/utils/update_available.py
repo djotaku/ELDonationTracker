@@ -9,7 +9,7 @@ import semver
 import ssl
 from urllib.request import HTTPError, Request, URLError, urlopen
 
-from eldonationtracker import __version__ as current_version
+from eldonationtracker import __version__ as pkg_current_version
 
 
 def get_pypi_version() -> str:
@@ -29,13 +29,12 @@ def get_pypi_version() -> str:
     return(eldt_json["info"]["version"])
 
 
-def update_available() -> bool:
+def update_available(pypi_version: str, current_version: str) -> bool:
     """Use semver module to calculate whether there is a newer version on PyPi.
 
     :return: True if the PyPi version is higer than the version being run.\
     Returns false if the version being compared to PyPi is equal or greater\
     than the PyPi version."""
-    pypi_version = get_pypi_version()
     if semver.compare(pypi_version, current_version) == 1:
         print("There is an update available")
         return True
@@ -45,7 +44,8 @@ def update_available() -> bool:
 
 
 def main():
-    result = update_available()
+    pypi_version = get_pypi_version()
+    result = update_available(pypi_version, pkg_current_version)
     return result
 
 
