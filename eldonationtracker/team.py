@@ -38,8 +38,9 @@ class Team:
         # urls
         team_url_base: str = "https://www.extra-life.org/api/teams/"
         self.team_url: str = f"{team_url_base}{team_id}"
-        self.team_participant_url: str = f"{team_url_base}"
+        self.team_participant_url: str = f"{team_url_base}"\
         f"{team_id}/participants"
+        print(self.team_participant_url)
         # misc
         self.output_folder: str = folder
         self.currency_symbol: str = currency_symbol
