@@ -35,6 +35,7 @@ def get_JSON(url: str, order_by_donations: bool = False) -> dict:
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
+        #  print(f"trying URL: {url}")
         return json.load(payload)
     except HTTPError:
         print(f"""Couldn't get to {url}.
