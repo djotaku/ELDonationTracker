@@ -5,7 +5,7 @@ Usage
 GUI Single Executable users
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This refers to you if you downloaded a file like Extra Life Donation Tracker for Windows v3.4.zip. 
+This refers to you if you downloaded a file like Extra Life Donation Tracker for Windows v3.4.zip. You may wish to watch a video on how to use the GUI at http://djotaku.github.io/ELDonationTracker/ . But if you prefer to read, continue below.
 
 Launching
 ---------
@@ -27,15 +27,53 @@ If this is not the first time you've used the GUI, it will eventually populate w
 
 .. image :: /images/Settings_Window.png
 
-Settings
-testing settings with tracker and watching GUI
-Run/Stop -> looking at CLI for information
-Menu Items
+#. The first thing to do here is to enter your participant ID. Where do you find that? Well, it's at the end of your extralife website URL. For example, for 2020, the URL to donate to my campaign is:
 
+https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=401280
 
-.. todo:: 
+As you can see, right at the end it says "participantID=401280". If you look back at that settings window image, you'll see that's what I have in there. 
 
-    Add documentation on how to use it, include images.
+#. The next thing to change is the text folder. This is where eldonationtracker will create text files that you will use as inputs in OBS or XSplit. Every time something changes - you get a donation or the team (if you're part of one) gets a donation, those text files will change (if eldonationtracker is running) and so they'll change in real time on your screen in OBS or XSplit. 
+
+#. Next up is the Team ID. If you don't have a team, just make this blank. (No spaces!) Othewise find your Team ID in a similar way as you found your participant ID. Go to your team page and the ID will be at the end of that URL.
+
+#. Now you should select an image with a transparent background (most likely a gif or png) that will appear when someone donates. I'll show what it'll look like in a minute.
+
+#. Also select an MP3 file you would like to play when you get a donation. Keep it shorter than 15 seconds. 
+
+#. The last field to edit is the Donors to Display field. Some of the text files produced by eldonationtracker (lastNDonations, topNdonors, etc) determine how many donors or donations to write to the file. I usually put it at about five, but I also don't get a lot of donations most years.
+
+#. Finally, it's time to save your settings. The BEST option is to pick Persist Settings. Then it will save to a special location on your computer so that even as you upgrade (either grab new zip files from Github or update via PyPi or git pull) you won't have to keep inputting your settings. If you know for sure it's what you want to do, you can hit Save and it'll save in the folder where you're running the program. It *should* work on Windows and may or may not be there next time you launch on Linux. If you have not hit save or Persist Settings yet, Revert will reload whatever was in the file when you hit the Settings button.
+
+OK, now it's time to test that things are working with your settings. Close the settings window and click on Tracker. Then hit test alert. If everything was correctly set up in the settings, you should see something like:
+
+.. image :: /images/tracker.gif
+
+And hear the sound you picked. What the text says will depend on whether you've ever run this program before either in GUI or on the commandline. If you've never run it, you'll get a test message. If you have run it and the settings are correctly configured, it should show whatever in your file called LastDonationNameAmnt.txt. 
+
+OK, now it's time to hit Run and hopefully if all the directions have been followed and I haven't introduced any bugs, it should start grabbing data from the API. You should look at the commandline window for information. Whether you launched the GUI from gui.exe, used PyPi, or python gui, you should have a commandline window showing messages related to what's going on. It should look something roughly like this:
+
+.. code-block:: Bash
+
+    Looking for persistent settings at (this path will depend on your system)
+    Persistent settings found.
+    Participant.conf version check!
+    Version is correct
+    run button
+    Starting Thread-1. But first, reloading config file.
+    Looking for persistent settings at (this path will depend on your system)
+    Persistent settings found.
+    19:19:10
+
+When you're done, be sure to hit stop. When you exit out, it will take a few seconds until it's done before the GUI will disappear. If you Go File->Quit, that will also trigger it to stop. Again, it'll take a few seconds before it's all cleaned up and ready to disappear from your screen.
+    
+Finally, let's quickly go over the help menu items at the top of the GUI.
+
+.. image :: /images/GUI_helpmenu.png
+    
+ - Documentation will take you to the latest version of this very documentation you're reading now
+ - Check for Update will check if you have the latest version. It will then pop up a window to let you know.
+ - About ELDonationTracker will bring up a window with some URLs and copyright data. Eventually if we start getting more contributors, those would be listed there, too.
     
 Commandline users (PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^
