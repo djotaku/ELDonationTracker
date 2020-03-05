@@ -14,7 +14,13 @@ Would you like to be able to update your donations in real-time during a Live St
 
 ## Windows
 
+### Streaming or Recording on OBS
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/f3wDhBjerxs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+### Streaming or Recording on XSplit
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/g2xz5vTx1vM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Linux
 
