@@ -27,6 +27,11 @@ Would you like to be able to update your donations in real-time during a Live St
 ### PyPi and OBS
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/DTaH4YftKW4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+### git clone and OBS
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HqehnFn_mXY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 # Documentation
 
 Visit: [https://eldonationtracker.readthedocs.io/en/latest/](https://eldonationtracker.readthedocs.io/en/latest/)
