@@ -28,6 +28,12 @@ My preference is to try and stay *at least* within the Github max-line-length of
 
 Because the PyQt classes and functions mimic their C/C++ classes and functions, they may violate PEP8 and other Python conventions, so flake8 does not have to pass on files related to the GUI. However, they should pass pydocstyle.
 
+# Static Analysis
+
+I will slowly be increasing the number of files analyzed by MyPy. As with flake8, you can look at the Github CI workflow to see which files should be passing. If you work in those files, they need to continue to pass. Currently:
+
+mypy eldonationtracker/utils/update_available.py
+
 # Testing
 
 All the unit tests should pass. Run: pytest -v --pyargs eldonationtracker

@@ -5,9 +5,9 @@ version the user has on their machine.
 """
 
 import json
-import semver
+import semver  # type: ignore
 import ssl
-from urllib.request import HTTPError, Request, URLError, urlopen
+from urllib.request import HTTPError, Request, URLError, urlopen  # type: ignore
 
 from eldonationtracker import __version__ as pkg_current_version
 
@@ -36,7 +36,7 @@ def update_available(pypi_version: str, current_version: str) -> bool:
     Returns false if the version being compared to PyPi is equal or greater\
     than the PyPi version."""
     if semver.compare(pypi_version, current_version) == 1:
-        print("There is an update available")
+        print(f"There is an update available. PyPi version: {pypi_version}")
         return True
     else:
         print("You have the latest version.")
