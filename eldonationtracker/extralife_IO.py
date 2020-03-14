@@ -3,6 +3,7 @@
 import json
 import os
 import pathlib
+import requests
 import ssl
 from typing import Tuple
 from urllib.request import HTTPError, Request, URLError, urlopen
@@ -128,8 +129,16 @@ class ParticipantConf:
                 file.close()
             return config
         except FileNotFoundError:
-            print(f"Giving up. Put settings in {self.xdg.XDG_CONFIG_HOME}.")
-            #  probably want to use finally
+            print("Attempting to grab a config file from github.")
+            print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
+            url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
+            config_file = requests.get(url)
+            open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
+            return self.load_JSON()
+            #with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
+                #config = json.load(file)
+                #file.close()
+            #return config
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
