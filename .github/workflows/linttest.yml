@@ -1,4 +1,4 @@
-name: Lint,PyTest, MyPy
+name: Lint,PyTest, MyPy, and Coverage
 
 on: [push]
 
@@ -35,3 +35,8 @@ jobs:
        run: |
          pip install mypy
          mypy eldonationtracker/utils/update_available.py
+    - name: CodeCov
+      run: |
+        pip install codecov
+        coverage run -m pytest --pyargs snapintime
+        codecov --token=${{ secrets.CODECOV_TOKEN }}
