@@ -38,5 +38,5 @@ jobs:
     - name: CodeCov
       run: |
         pip install codecov
-        coverage run -m pytest --pyargs snapintime
+        coverage run -m pytest --pyargs eldonationtracker 
         codecov --token=${{ secrets.CODECOV_TOKEN }}
