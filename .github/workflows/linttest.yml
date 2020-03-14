@@ -1,4 +1,4 @@
-name: Lint and PyTest
+name: Lint,PyTest, MyPy, and Coverage
 
 on: [push]
 
@@ -31,3 +31,12 @@ jobs:
         pip install pytest 
         pytest -v --pyargs eldonationtracker
       shell: bash
+    - name: Check with MyPy
+      run: |
+         pip install mypy
+         mypy eldonationtracker/utils/update_available.py
+    - name: CodeCov
+      run: |
+        pip install codecov
+        coverage run -m pytest --pyargs eldonationtracker 
+        codecov --token=${{ secrets.CODECOV_TOKEN }}

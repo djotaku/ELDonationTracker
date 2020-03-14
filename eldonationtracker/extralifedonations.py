@@ -55,7 +55,7 @@ class Participant:
     Helper Variables:
 
     :param donorcalcs: a dictionary holding values for txt ouput:
-    
+
                 - LastDonationNameAmnt: most recent donation,
                                         donor name, amount of donation
                 - TopDonorNameAmnt: top donor name and sum of donations
@@ -78,7 +78,7 @@ class Participant:
          self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
         self.participant_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}"
-        self.donorURL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
+        self.donation_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
         self.participant_donor_URL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
         # donor calculations
         self.donorcalcs = {}
@@ -126,7 +126,7 @@ class Participant:
     def _get_donations(self):
         """Get the donations from the JSON and create the donation objects."""
         self.donationlist = []
-        donation_json = extralife_IO.get_JSON(self.donorURL)
+        donation_json = extralife_IO.get_JSON(self.donation_url)
         if donation_json == 0:
             print("couldn't access donation page")
         elif len(donation_json) == 0:
