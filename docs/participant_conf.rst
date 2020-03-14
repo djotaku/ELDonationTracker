@@ -37,7 +37,7 @@ Locations
 
 The program will look in 3 locations. 
 
-First, it will look in the XDG official locations. If you use "save persistent settings" in the GUI, it will save to this location. On Linux this will be in $HOME/.config/extralifedonationtracker. On Windows it will be C:\Users\username\AppData\Roaming\config\extralifedonationtracker where you replace username with your Windows username. 
+First, it will look in the XDG official locations. If you use "save persistent settings" in the GUI, it will save to this location. On Linux this will be in $HOME/.config/extralifedonationtracker. On Windows it will be C:\\Users\\\username\\AppData\\Roaming\\config\\extralifedonationtracker where you replace username with your Windows username. 
 
 Second, it will look up two directory levels. If you cloned from Github or grabbed a Source Code.zip or .tar.gz, this would be in the first directory you cd into - the one that has requirements.txt, README.md, etc. 
 

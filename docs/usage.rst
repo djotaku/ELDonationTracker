@@ -71,9 +71,9 @@ Finally, let's quickly go over the help menu items at the top of the GUI.
 
 .. image :: /images/GUI_helpmenu.png
     
- - Documentation will take you to the latest version of this very documentation you're reading now
- - Check for Update will check if you have the latest version. It will then pop up a window to let you know.
- - About ELDonationTracker will bring up a window with some URLs and copyright data. Eventually if we start getting more contributors, those would be listed there, too.
+- Documentation will take you to the latest version of this very documentation you're reading now
+- Check for Update will check if you have the latest version. It will then pop up a window to let you know.
+- About ELDonationTracker will bring up a window with some URLs and copyright data. Eventually if we start getting more contributors, those would be listed there, too.
     
 Commandline users (PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^
