@@ -1,6 +1,8 @@
-Development branch badges:![Lint and Test](https://github.com/djotaku/ELDonationTracker/workflows/Lint_Test/badge.svg?branch=devel)
+Development branch badges:![Lint,PyTest, MyPy, and Coverage](https://github.com/djotaku/ELDonationTracker/workflows/Lint,PyTest,%20MyPy,%20and%20Coverage/badge.svg?branch=devel)
 
-Master branch badges:![Lint and Test](https://github.com/djotaku/ELDonationTracker/workflows/Lint_Test/badge.svg) ![Windows Build](https://github.com/djotaku/ELDonationTracker/workflows/Windows_Build/badge.svg) [![Documentation Status](https://readthedocs.org/projects/eldonationtracker/badge/?version=latest)](https://eldonationtracker.readthedocs.io/en/latest/?badge=latest) ![Upload Python Package](https://github.com/djotaku/ELDonationTracker/workflows/Upload%20Python%20Package/badge.svg)
+Master branch badges:![Lint,PyTest, MyPy, and Coverage](https://github.com/djotaku/ELDonationTracker/workflows/Lint,PyTest,%20MyPy,%20and%20Coverage/badge.svg?branch=master) ![Windows Build](https://github.com/djotaku/ELDonationTracker/workflows/Windows%20Build/badge.svg) [![Documentation Status](https://readthedocs.org/projects/eldonationtracker/badge/?version=latest)](https://eldonationtracker.readthedocs.io/en/latest/?badge=latest) ![Upload Python Package](https://github.com/djotaku/ELDonationTracker/workflows/Upload%20Python%20Package/badge.svg) [![codecov](https://codecov.io/gh/djotaku/ELDonationTracker/branch/master/graph/badge.svg)](https://codecov.io/gh/djotaku/ELDonationTracker)
+
+
 
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
 
