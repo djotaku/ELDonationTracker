@@ -32,7 +32,7 @@ jobs:
         pytest -v --pyargs eldonationtracker
       shell: bash
     - name: Check with MyPy
-       run: |
+      run: |
          pip install mypy
          mypy eldonationtracker/utils/update_available.py
     - name: CodeCov
