@@ -129,6 +129,7 @@ class ParticipantConf:
             return config
         except FileNotFoundError:
             print(f"Giving up. Put settings in {self.xdg.XDG_CONFIG_HOME}.")
+            #  probably want to use finally
 
     def update_fields(self):
         """Update fields variable with data from JSON."""

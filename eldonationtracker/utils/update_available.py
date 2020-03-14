@@ -5,9 +5,9 @@ version the user has on their machine.
 """
 
 import json
-import semver
+import semver  # type: ignore
 import ssl
-from urllib.request import HTTPError, Request, URLError, urlopen
+from urllib.request import HTTPError, Request, URLError, urlopen  # type: ignore
 
 from eldonationtracker import __version__ as pkg_current_version
 
