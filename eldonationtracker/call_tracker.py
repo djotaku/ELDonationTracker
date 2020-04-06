@@ -2,7 +2,7 @@
 
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
-from PyQt5.QtCore import pyqtSlot, QUrl
+from PyQt5.QtCore import pyqtSlot, QUrl, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 
 from eldonationtracker.tracker import *
@@ -30,6 +30,7 @@ class MyForm(QDialog):
         self.ui.graphicsView.setScene(self.scene)
         self.donation_player = QMediaPlayer()
         self._loadsound()
+        self.ui.Donation_label.setTextColor(Qt.white)
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
