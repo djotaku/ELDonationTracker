@@ -104,6 +104,11 @@ class MyForm(QDialog):
         self.ui.Donation_label.setText("")
         ipc.writeIPC(self.folders, "0")
 
+    def set_font(self, font):
+        self.ui.Donation_label.setFont(font)
+        print("hello!")
+        print(font)
+
 
 def main(participant_conf):
     """Launch the window."""

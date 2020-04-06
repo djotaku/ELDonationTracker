@@ -73,6 +73,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TestAlertButton.clicked.connect(self.testAlert)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
+        self.pushButton_tracker_font.clicked.connect(self.update_tracker_font)
 
         # Menu connections
         self.thread_running = False
@@ -112,6 +113,14 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.call_settings.reload_config()
         self.call_settings.show()
         # call_settings.main(self.participant_conf)
+
+    def update_tracker_font(self):
+        font = self.call_settings.get_font()
+        print(font)
+        try:
+            self.tracker.set_font(font)
+        except TypeError:
+            print("set font in settings first")
 
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):

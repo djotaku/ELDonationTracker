@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>697</width>
-    <height>298</height>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>0</y>
      <width>681</width>
-     <height>289</height>
+     <height>355</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -29,30 +29,10 @@
     <property name="verticalSpacing">
      <number>2</number>
     </property>
-    <item row="5" column="1">
-     <widget class="QLabel" name="label_sound">
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>No Sound Selected</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Participant ID</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Currency Symbol</string>
+       <string>Donation Sound</string>
       </property>
      </widget>
     </item>
@@ -63,17 +43,10 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="4">
-     <widget class="QPushButton" name="pushButtonSave">
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_4">
       <property name="text">
-       <string>Save</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" colspan="2">
-     <widget class="QLabel" name="labelTextFolder">
-      <property name="text">
-       <string>No Folder Selected</string>
+       <string>Team ID</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -90,13 +63,10 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QSpinBox" name="spinBox_DonorsToDisplay"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_5">
+    <item row="9" column="2" colspan="2">
+     <widget class="QPushButton" name="pushButtonRevert">
       <property name="text">
-       <string>Tracker Image</string>
+       <string>Revert</string>
       </property>
      </widget>
     </item>
@@ -107,8 +77,15 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEditParticipantID"/>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_donors_to_display">
+      <property name="text">
+       <string>Donors to Display</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEditTeamID"/>
     </item>
     <item row="4" column="1">
      <widget class="QLabel" name="label_tracker_image">
@@ -120,42 +97,45 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="2" colspan="2">
-     <widget class="QPushButton" name="pushButtonRevert">
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEditParticipantID"/>
+    </item>
+    <item row="10" column="2" colspan="3">
+     <widget class="QPushButton" name="pushButton_persistentsave">
+      <property name="statusTip">
+       <string>To have the settings persist across upgrades</string>
+      </property>
       <property name="text">
-       <string>Revert</string>
+       <string>Persist Settings</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_donors_to_display">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Donors to Display</string>
+       <string>Currency Symbol</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>Team ID</string>
+       <string>Tracker Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEditCurrencySymbol"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Participant ID</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Donation Sound</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEditTeamID"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEditCurrencySymbol"/>
     </item>
     <item row="4" column="3" colspan="2">
      <widget class="QPushButton" name="pushButton_tracker_image">
@@ -164,13 +144,47 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="2" colspan="3">
-     <widget class="QPushButton" name="pushButton_persistentsave">
-      <property name="statusTip">
-       <string>To have the settings persist across upgrades</string>
-      </property>
+    <item row="6" column="1">
+     <widget class="QSpinBox" name="spinBox_DonorsToDisplay"/>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLabel" name="labelTextFolder">
       <property name="text">
-       <string>Persist Settings</string>
+       <string>No Folder Selected</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLabel" name="label_sound">
+      <property name="text">
+       <string>No Sound Selected</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="4">
+     <widget class="QPushButton" name="pushButtonSave">
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QPushButton" name="pushButton_font">
+      <property name="text">
+       <string>Tracker Font</string>
       </property>
      </widget>
     </item>

@@ -24,44 +24,6 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <widget class="QPushButton" name="SettingsButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>191</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change folders, Extra Life ID, etc&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="text">
-     <string>Settings</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="TrackerButton">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>10</y>
-      <width>261</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tracker</string>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="ParticipantInfo">
     <property name="geometry">
      <rect>
@@ -291,45 +253,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="ProgressBarButton">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>10</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Progress Bar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="RefreshButton">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>10</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Force Refresh</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="TestAlertButton">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>10</y>
-      <width>84</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Test Alert</string>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="TeamGroupBox">
     <property name="geometry">
      <rect>
@@ -555,6 +478,72 @@
      <string>© 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
     </property>
    </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>771</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="SettingsButton">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Change folders, Extra Life ID, etc&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Settings</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+       <property name="default">
+        <bool>false</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="TrackerButton">
+       <property name="text">
+        <string>Tracker</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ProgressBarButton">
+       <property name="text">
+        <string>Progress Bar</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="RefreshButton">
+       <property name="text">
+        <string>Force Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_tracker_font">
+       <property name="text">
+        <string>Update Tracker Font</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="TestAlertButton">
+       <property name="text">
+        <string>Test Alert</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -563,7 +552,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

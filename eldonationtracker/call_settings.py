@@ -1,11 +1,9 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
-import json
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog
 
 from eldonationtracker.settings import *
-from eldonationtracker import extralife_IO as extralife_IO
 
 
 class MyForm(QDialog):
@@ -38,6 +36,7 @@ class MyForm(QDialog):
         self.ui.pushButtonSelectFolder.clicked.connect(self._selectfolder)
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self._selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self._selectfile("sound"))
+        self.ui.pushButton_font.clicked.connect(self._change_font)
         # self.ui.spinBox_DonorsToDisplay.valueChanged.connect(self.donorschanged)
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
@@ -114,6 +113,14 @@ class MyForm(QDialog):
             self.ui.label_tracker_image.setText(the_file[0])
         if whichfile == "sound":
             self.ui.label_sound.setText(the_file[0])
+
+    def _change_font(self):
+        font, ok = QFontDialog.getFont()
+        if ok:
+            self.font = font
+
+    def get_font(self):
+        return self.font
 
 
 def main(participant_conf):
