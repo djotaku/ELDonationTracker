@@ -155,8 +155,10 @@ class MyForm(QDialog):
             self.font = font
 
     def _change_font_color(self):
-        col = QColorDialog.getColor()
-        print(col.getRgb())
+        if self.font_color_value:
+            col = QColorDialog.getColor(self.font_color)
+        else:
+            col = QColorDialog.getColor()
         self.font_color = col
 
 
