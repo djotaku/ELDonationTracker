@@ -89,11 +89,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                                               False)
             if ok and choice:
                 print(f"You have chosen {choice}")
-                # replace below with extralife_IO 131-137 - before releasing 4.2
                 if choice == "Replace with Defaults":
-                    shutil.move("participant.conf", "participant.conf.bak")
-                    print("Your settings were backed up to participant.conf.bak")
-                    shutil.copy("backup_participant.conf", "participant.conf")
+                    self.participant_conf.get_github_config()
                     print("Settings have been replaced with the repo defaults.")
                     self.participant_conf.reload_JSON()
                 if choice == "Update on Save":

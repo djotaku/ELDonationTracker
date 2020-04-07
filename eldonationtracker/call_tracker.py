@@ -23,6 +23,13 @@ class MyForm(QDialog):
         # config stuff
         self.participant_conf = participant_conf
         self.folders = self.participant_conf.get_text_folder_only()
+        (self.font_family, self.font_size, self.font_italic, self.font_bold) = self.participant_conf.get_font_info()
+        if self.font_family:
+            self.font = QFont()
+            self.font.setFamily(self.font_family)
+            self.font.setPointSize(self.font_size)
+            self.font.setItalic(self.font_italic)
+            self.font.setWeight(self.font_bold)
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.scene = QGraphicsScene(self)
@@ -105,8 +112,6 @@ class MyForm(QDialog):
         ipc.writeIPC(self.folders, "0")
 
     def set_font(self, font):
-        my_font = QFont()
-        my_font.setFamily("Liberation Sans")
         self.ui.Donation_label.setFont(font)
 
 
