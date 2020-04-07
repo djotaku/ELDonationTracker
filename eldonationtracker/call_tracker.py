@@ -2,9 +2,9 @@
 
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
-from PyQt5.QtCore import pyqtSlot, QUrl, Qt
+from PyQt5.QtCore import QUrl, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.tracker import *
 from eldonationtracker import ipc as ipc
@@ -20,25 +20,30 @@ class MyForm(QDialog):
         participant.conf settings file.
         """
         super().__init__()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self)
         # config stuff
         self.participant_conf = participant_conf
         self.folders = self.participant_conf.get_text_folder_only()
-        (self.font_family, self.font_size, self.font_italic, self.font_bold) = self.participant_conf.get_font_info()
+        (self.font_family, self.font_size, self.font_italic, self.font_bold,
+         self.font_color_value) = self.participant_conf.get_font_info()
         if self.font_family:
             self.font = QFont()
             self.font.setFamily(self.font_family)
             self.font.setPointSize(self.font_size)
             self.font.setItalic(self.font_italic)
             self.font.setWeight(self.font_bold)
-        self.ui = Ui_Dialog()
-        self.ui.setupUi(self)
+        if self.font_color_value:
+            self.font_color = QColor()
+            self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
+                                   self.font_color_value[3])
+            self.ui.Donation_label.setTextColor(self.font_color)
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
         self._loadimage()
         self.ui.graphicsView.setScene(self.scene)
         self.donation_player = QMediaPlayer()
         self._loadsound()
-        self.ui.Donation_label.setTextColor(Qt.white)
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)

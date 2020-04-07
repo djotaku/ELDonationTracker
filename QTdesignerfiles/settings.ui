@@ -19,7 +19,7 @@
      <x>10</x>
      <y>0</y>
      <width>681</width>
-     <height>355</height>
+     <height>359</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -182,11 +182,22 @@
      </widget>
     </item>
     <item row="7" column="1">
-     <widget class="QPushButton" name="pushButton_font">
-      <property name="text">
-       <string>Tracker Font</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="pushButton_font">
+        <property name="text">
+         <string>Tracker Font</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_font_color">
+        <property name="text">
+         <string>Tracker Font Color</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

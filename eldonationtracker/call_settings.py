@@ -1,8 +1,8 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog
-from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog
+from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
 
@@ -24,13 +24,17 @@ class MyForm(QDialog):
         self.tracker = tracker
         (self.ExtraLifeID, self.textFolder, self.CurrencySymbol, self.TeamID, self.TrackerImage, self.DonationSound,
          self.donors_to_display, self.font_family, self.font_size, self.font_italic,
-         self.font_bold) = participant_conf.get_GUI_values()
+         self.font_bold, self.font_color_value) = participant_conf.get_GUI_values()
         if self.font_family:
             self.font = QFont()
             self.font.setFamily(self.font_family)
             self.font.setPointSize(self.font_size)
             self.font.setItalic(self.font_italic)
             self.font.setWeight(self.font_bold)
+        if self.font_color_value:
+            self.font_color = QColor()
+            self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
+                                   self.font_color_value[3])
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
         self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
@@ -44,7 +48,7 @@ class MyForm(QDialog):
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self._selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self._selectfile("sound"))
         self.ui.pushButton_font.clicked.connect(self._change_font)
-        # self.ui.spinBox_DonorsToDisplay.valueChanged.connect(self.donorschanged)
+        self.ui.pushButton_font_color.clicked.connect(self._change_font_color)
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
         else:
@@ -58,7 +62,8 @@ class MyForm(QDialog):
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID, self.TrackerImage,
          self.DonationSound, self.donors_to_display,
-         self.font_family, self.font_size, self.font_italic, self.font_bold) = self.participant_conf.get_GUI_values()
+         self.font_family, self.font_size, self.font_italic, self.font_bold,
+         self.font_color_value) = self.participant_conf.get_GUI_values()
 
     def revert(self):
         """
@@ -96,6 +101,12 @@ class MyForm(QDialog):
             font_size = None
             font_italic: bool = None
             font_bold: int = None
+            font_color = None
+
+        try:
+            font_color = self.font_color.getRgb()
+        except AttributeError:
+            font_color = None
 
         if self.ui.lineEditTeamID.text() == "":
             teamID = None
@@ -107,7 +118,7 @@ class MyForm(QDialog):
                   'donation_sound': sound,
                   "donors_to_display": donors_to_display,
                   "font_family": font_family, "font_size": font_size, "font_italic": font_italic,
-                  "font_bold": font_bold}
+                  "font_bold": font_bold, "font_color": font_color}
         return config
 
     def save(self):
@@ -142,6 +153,11 @@ class MyForm(QDialog):
         if ok:
             self.tracker.set_font(font)
             self.font = font
+
+    def _change_font_color(self):
+        col = QColorDialog.getColor()
+        print(col.getRgb())
+        self.font_color = col
 
 
 def main(participant_conf):

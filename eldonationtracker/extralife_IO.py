@@ -73,7 +73,7 @@ class ParticipantConf:
     version_mismatch: bool = False
     fields: dict = {"extralife_id": None, "text_folder": None, "currency_symbol": None, "team_id": None,
                     "tracker_image": None, "donation_sound": None, "donors_to_display": None, "font_family": None,
-                    "font_size": None, "font_italic": None, "font_bold": None}
+                    "font_size": None, "font_italic": None, "font_bold": None, "font_color": None}
 
     def __init__(self):
         """Load in participant conf and check version."""
@@ -199,11 +199,11 @@ class ParticipantConf:
                 self.fields["currency_symbol"], self.fields["team_id"],
                 self.fields["tracker_image"], self.fields["donation_sound"],
                 self.fields["donors_to_display"], self.fields["font_family"], self.fields["font_size"],
-                self.fields["font_italic"], self.fields["font_bold"])
+                self.fields["font_italic"], self.fields["font_bold"], self.fields["font_color"])
 
     def get_font_info(self):
         return(self.fields["font_family"], self.fields["font_size"], self.fields["font_italic"],
-               self.fields["font_bold"])
+               self.fields["font_bold"], self.fields["font_color"])
 
     def get_if_in_team(self) -> bool:
         """Return True if participant is in a team.
