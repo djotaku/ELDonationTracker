@@ -529,13 +529,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_tracker_font">
-       <property name="text">
-        <string>Update Tracker Font</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="TestAlertButton">
        <property name="text">
         <string>Test Alert</string>

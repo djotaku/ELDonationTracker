@@ -4,8 +4,6 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 
 from PyQt5 import QtCore
 
-from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
-
 import sys
 import threading
 import shutil
@@ -56,7 +54,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.tracker = call_tracker.MyForm(self.participant_conf)
 
         # instantiate the settings
-        self.call_settings = call_settings.MyForm(self.participant_conf)
+        self.call_settings = call_settings.MyForm(self.participant_conf, self.tracker)
         
         # instantiate About
         self.call_about = call_about.about_program()
@@ -73,7 +71,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TestAlertButton.clicked.connect(self.testAlert)
         self.pushButtonRun.clicked.connect(self.runbutton)
         self.pushButtonStop.clicked.connect(self.stopbutton)
-        self.pushButton_tracker_font.clicked.connect(self.update_tracker_font)
 
         # Menu connections
         self.thread_running = False
@@ -92,6 +89,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                                               False)
             if ok and choice:
                 print(f"You have chosen {choice}")
+                # replace below with extralife_IO 131-137 - before releasing 4.2
                 if choice == "Replace with Defaults":
                     shutil.move("participant.conf", "participant.conf.bak")
                     print("Your settings were backed up to participant.conf.bak")
@@ -113,14 +111,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.call_settings.reload_config()
         self.call_settings.show()
         # call_settings.main(self.participant_conf)
-
-    def update_tracker_font(self):
-        font = self.call_settings.get_font()
-        print(font)
-        try:
-            self.tracker.set_font(font)
-        except TypeError:
-            print("set font in settings first")
 
     # this is used for buttons that I haven't yet implemented
     def deadbuton(self):

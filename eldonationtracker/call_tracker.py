@@ -4,6 +4,7 @@ import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from PyQt5.QtCore import pyqtSlot, QUrl, Qt
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtGui import QFont
 
 from eldonationtracker.tracker import *
 from eldonationtracker import ipc as ipc
@@ -90,7 +91,6 @@ class MyForm(QDialog):
 
     def _loadElements(self):
         self.scene.addItem(self.item)
-        # want to also play a sound
         try:
             with open(f'{self.folders}/LastDonationNameAmnt.txt') as file:
                 donorAndAmt = file.read()
@@ -105,9 +105,9 @@ class MyForm(QDialog):
         ipc.writeIPC(self.folders, "0")
 
     def set_font(self, font):
+        my_font = QFont()
+        my_font.setFamily("Liberation Sans")
         self.ui.Donation_label.setFont(font)
-        print("hello!")
-        print(font)
 
 
 def main(participant_conf):

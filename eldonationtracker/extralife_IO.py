@@ -69,13 +69,11 @@ class ParticipantConf:
     config file.
     """
 
-    participant_conf_version: str = "1.0"
+    participant_conf_version: str = "2.0"
     version_mismatch: bool = False
-    fields: dict = {"extralife_id": None, "text_folder": None,
-                    "currency_symbol": None, "team_id": None,
-                    "tracker_image": None,
-                    "donation_sound": None,
-                    "donors_to_display": None}
+    fields: dict = {"extralife_id": None, "text_folder": None, "currency_symbol": None, "team_id": None,
+                    "tracker_image": None, "donation_sound": None, "donors_to_display": None, "font_family": None,
+                    "font_size": None, "font_italic": None, "font_bold": None}
 
     def __init__(self):
         """Load in participant conf and check version."""
@@ -135,10 +133,6 @@ class ParticipantConf:
             config_file = requests.get(url)
             open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
             return self.load_JSON()
-            #with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
-                #config = json.load(file)
-                #file.close()
-            #return config
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
@@ -199,7 +193,8 @@ class ParticipantConf:
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"], self.fields["team_id"],
                 self.fields["tracker_image"], self.fields["donation_sound"],
-                self.fields["donors_to_display"])
+                self.fields["donors_to_display"], self.fields["font_family"], self.fields["font_size"],
+                self.fields["font_italic"], self.fields["font_bold"])
 
     def get_if_in_team(self) -> bool:
         """Return True if participant is in a team.
