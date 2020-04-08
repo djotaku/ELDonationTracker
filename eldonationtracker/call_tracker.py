@@ -45,13 +45,13 @@ class MyForm(QDialog):
                                                  self.tracker_background_color_value[1],
                                                  self.tracker_background_color_value[2],
                                                  self.tracker_background_color_value[3])
+            self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
         self._loadimage()
         self.ui.graphicsView.setScene(self.scene)
         self.donation_player = QMediaPlayer()
         self._loadsound()
-        self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
