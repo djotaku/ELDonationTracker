@@ -38,12 +38,20 @@ class MyForm(QDialog):
             self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
                                    self.font_color_value[3])
             self.ui.Donation_label.setTextColor(self.font_color)
+        self.tracker_background_color_value = participant_conf.get_tracker_background_color()
+        if self.tracker_background_color_value:
+            self.tracker_background_color = QColor()
+            self.tracker_background_color.setRgb(self.tracker_background_color_value[0],
+                                                 self.tracker_background_color_value[1],
+                                                 self.tracker_background_color_value[2],
+                                                 self.tracker_background_color_value[3])
         self.scene = QGraphicsScene(self)
         self.pixmap = QtGui.QPixmap()
         self._loadimage()
         self.ui.graphicsView.setScene(self.scene)
         self.donation_player = QMediaPlayer()
         self._loadsound()
+        self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
@@ -119,11 +127,17 @@ class MyForm(QDialog):
     def set_font(self, font):
         self.ui.Donation_label.setFont(font)
 
+    def set_font_color(self, font_color):
+        self.ui.Donation_label.setTextColor(font_color)
+
+    def set_background_color(self, color):
+        self.ui.graphicsView.setBackgroundBrush(color)
+
 
 def main(participant_conf):
     """Launch the window."""
-    w = MyForm(participant_conf)
-    w.exec()
+    window = MyForm(participant_conf)
+    window.exec()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

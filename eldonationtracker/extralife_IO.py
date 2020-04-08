@@ -73,7 +73,8 @@ class ParticipantConf:
     version_mismatch: bool = False
     fields: dict = {"extralife_id": None, "text_folder": None, "currency_symbol": None, "team_id": None,
                     "tracker_image": None, "donation_sound": None, "donors_to_display": None, "font_family": None,
-                    "font_size": None, "font_italic": None, "font_bold": None, "font_color": None}
+                    "font_size": None, "font_italic": None, "font_bold": None, "font_color": None,
+                    "tracker_background_color": None}
 
     def __init__(self):
         """Load in participant conf and check version."""
@@ -193,17 +194,29 @@ class ParticipantConf:
         """Return values needed for the GUI.
 
         :returns: A tuple of strings with config values needed if only\
-        running the GUI
+        running the GUI. The two background colors are lists.
         """
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"], self.fields["team_id"],
                 self.fields["tracker_image"], self.fields["donation_sound"],
                 self.fields["donors_to_display"], self.fields["font_family"], self.fields["font_size"],
-                self.fields["font_italic"], self.fields["font_bold"], self.fields["font_color"])
+                self.fields["font_italic"], self.fields["font_bold"], self.fields["font_color"],
+                self.fields["tracker_background_color"])
 
     def get_font_info(self):
+        """Return values needed to change the font for the tracker.
+
+        :returns: A tuple of strings and a list for the color.
+        """
         return(self.fields["font_family"], self.fields["font_size"], self.fields["font_italic"],
                self.fields["font_bold"], self.fields["font_color"])
+
+    def get_tracker_background_color(self):
+        """Return value needed to change the tracker background color
+
+        :returns: A list representing the RGB value for the background
+        """
+        return self.fields["tracker_background_color"]
 
     def get_if_in_team(self) -> bool:
         """Return True if participant is in a team.
