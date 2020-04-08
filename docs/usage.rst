@@ -35,13 +35,29 @@ As you can see, right at the end it says "participantID=401280". If you look bac
 
 #. The next thing to change is the text folder. This is where eldonationtracker will create text files that you will use as inputs in OBS or XSplit. Every time something changes - you get a donation or the team (if you're part of one) gets a donation, those text files will change (if eldonationtracker is running) and so they'll change in real time on your screen in OBS or XSplit. 
 
-#. Next up is the Team ID. If you don't have a team, just make this blank. (No spaces!) Othewise find your Team ID in a similar way as you found your participant ID. Go to your team page and the ID will be at the end of that URL.
+#. Now let's edit the Team ID. If you don't have a team, just make this blank. (No spaces!) Othewise find your Team ID in a similar way as you found your participant ID. Go to your team page and the ID will be at the end of that URL.
 
-#. Now you should select an image with a transparent background (most likely a gif or png) that will appear when someone donates. I'll show what it'll look like in a minute.
+#. Edit the Donors to Display field. Some of the text files produced by eldonationtracker (lastNDonations, topNdonors, etc) determine how many donors or donations to write to the file. I usually put it at about five, but I also don't get a lot of donations most years.
 
-#. Also select an MP3 file you would like to play when you get a donation. Keep it shorter than 15 seconds. 
+The final settings all deal with the tracker window. If you scroll just a little lower in this tutorial you'll see a rectangle with a green
+background and an image and some text appearing and disappearing. That window is what will appear on your screen when someone donates if you've
+properly set up OBS or XSplit to capture those windows.
 
-#. The last field to edit is the Donors to Display field. Some of the text files produced by eldonationtracker (lastNDonations, topNdonors, etc) determine how many donors or donations to write to the file. I usually put it at about five, but I also don't get a lot of donations most years.
+#. You should select an image with a transparent background (most likely a gif or png) that will appear when someone donates. I'll show what it'll look like in a minute.
+
+#. Also select an MP3 file you would like to play when you get a donation. Keep it shorter than 15 seconds.
+
+#. With the last 3 buttons you can change the Font type and size, the font color, and the background color.
+I recommend a size around 48-50 (you may need to type it in yourself if it's not a selectable number).
+For the background color, it's probably best to stick with the chromakey green I've selected because
+that makes it incredibly easy for OBS or XSplit to make the background disappear so that on your
+screen you just see the image and text (not the green background). But if the image you want to use
+has a lot of green in it, you may need to choose bluescreen blue or some other color that will also work well with
+OBS or XSplit's chromakey filters.
+
+.. warning::
+
+    Because of the way QT color chooser dialogue windows work, if you pick a color and hit cancel, it will still change the color in the Tracker window. (whereas you have to click "ok" in the Font chooser window to change the font. Quitting out of everything without saving should bring back the last color you saved (or the default).
 
 #. Finally, it's time to save your settings. The BEST option is to pick Persist Settings. Then it will save to a special location on your computer so that even as you upgrade (either grab new zip files from Github or update via PyPi or git pull) you won't have to keep inputting your settings. If you know for sure it's what you want to do, you can hit Save and it'll save in the folder where you're running the program. It *should* work on Windows and may or may not be there next time you launch on Linux. If you have not hit save or Persist Settings yet, Revert will reload whatever was in the file when you hit the Settings button.
 
