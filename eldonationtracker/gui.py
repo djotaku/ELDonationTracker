@@ -4,8 +4,6 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 
 from PyQt5 import QtCore
 
-from PyQt5.QtCore import Qt, pyqtSignal  # need Qt?
-
 import sys
 import threading
 import shutil
@@ -56,7 +54,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.tracker = call_tracker.MyForm(self.participant_conf)
 
         # instantiate the settings
-        self.call_settings = call_settings.MyForm(self.participant_conf)
+        self.call_settings = call_settings.MyForm(self.participant_conf, self.tracker)
         
         # instantiate About
         self.call_about = call_about.about_program()
@@ -92,9 +90,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             if ok and choice:
                 print(f"You have chosen {choice}")
                 if choice == "Replace with Defaults":
-                    shutil.move("participant.conf", "participant.conf.bak")
-                    print("Your settings were backed up to participant.conf.bak")
-                    shutil.copy("backup_participant.conf", "participant.conf")
+                    self.participant_conf.get_github_config()
                     print("Settings have been replaced with the repo defaults.")
                     self.participant_conf.reload_JSON()
                 if choice == "Update on Save":

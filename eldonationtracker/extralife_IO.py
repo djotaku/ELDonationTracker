@@ -69,13 +69,12 @@ class ParticipantConf:
     config file.
     """
 
-    participant_conf_version: str = "1.0"
+    participant_conf_version: str = "2.0"
     version_mismatch: bool = False
-    fields: dict = {"extralife_id": None, "text_folder": None,
-                    "currency_symbol": None, "team_id": None,
-                    "tracker_image": None,
-                    "donation_sound": None,
-                    "donors_to_display": None}
+    fields: dict = {"extralife_id": None, "text_folder": None, "currency_symbol": None, "team_id": None,
+                    "tracker_image": None, "donation_sound": None, "donors_to_display": None, "font_family": None,
+                    "font_size": None, "font_italic": None, "font_bold": None, "font_color": None,
+                    "tracker_background_color": None}
 
     def __init__(self):
         """Load in participant conf and check version."""
@@ -91,7 +90,9 @@ class ParticipantConf:
                   f"If you are in the GUI, it should prompt you to"
                   f" Migrate or start fresh.")
             self.version_mismatch = True
+        self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
+
 
     def load_JSON(self) -> dict:
         """Load in the config file.
@@ -129,16 +130,15 @@ class ParticipantConf:
                 file.close()
             return config
         except FileNotFoundError:
-            print("Attempting to grab a config file from github.")
-            print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
-            url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
-            config_file = requests.get(url)
-            open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
+            self.get_github_config()
             return self.load_JSON()
-            #with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
-                #config = json.load(file)
-                #file.close()
-            #return config
+
+    def get_github_config(self):
+        print("Attempting to grab a config file from github.")
+        print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
+        url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
+        config_file = requests.get(url)
+        open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
@@ -194,12 +194,29 @@ class ParticipantConf:
         """Return values needed for the GUI.
 
         :returns: A tuple of strings with config values needed if only\
-        running the GUI
+        running the GUI. The two background colors are lists.
         """
         return (self.fields["extralife_id"], self.fields["text_folder"],
                 self.fields["currency_symbol"], self.fields["team_id"],
                 self.fields["tracker_image"], self.fields["donation_sound"],
-                self.fields["donors_to_display"])
+                self.fields["donors_to_display"], self.fields["font_family"], self.fields["font_size"],
+                self.fields["font_italic"], self.fields["font_bold"], self.fields["font_color"],
+                self.fields["tracker_background_color"])
+
+    def get_font_info(self):
+        """Return values needed to change the font for the tracker.
+
+        :returns: A tuple of strings and a list for the color.
+        """
+        return(self.fields["font_family"], self.fields["font_size"], self.fields["font_italic"],
+               self.fields["font_bold"], self.fields["font_color"])
+
+    def get_tracker_background_color(self):
+        """Return value needed to change the tracker background color
+
+        :returns: A list representing the RGB value for the background
+        """
+        return self.fields["tracker_background_color"]
 
     def get_if_in_team(self) -> bool:
         """Return True if participant is in a team.
@@ -311,3 +328,4 @@ def write_text_files(dictionary: dict, text_folder: str):
         f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
         f.write(text)
         f.close
+

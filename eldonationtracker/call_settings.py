@@ -1,17 +1,16 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
-import json
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog
+from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
-from eldonationtracker import extralife_IO as extralife_IO
 
 
 class MyForm(QDialog):
     """Class for the settings Window."""
 
-    def __init__(self, participant_conf):
+    def __init__(self, participant_conf, tracker):
         """Init for the settings Window.
 
         Grabs the data from the participant.conf file and
@@ -22,10 +21,26 @@ class MyForm(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.participant_conf = participant_conf
-        (self.ExtraLifeID, self.textFolder,
-         self.CurrencySymbol, self.TeamID, self.TrackerImage,
-         self.DonationSound,
-         self.donors_to_display) = participant_conf.get_GUI_values()
+        self.tracker = tracker
+        (self.ExtraLifeID, self.textFolder, self.CurrencySymbol, self.TeamID, self.TrackerImage, self.DonationSound,
+         self.donors_to_display, self.font_family, self.font_size, self.font_italic,
+         self.font_bold, self.font_color_value, self.tracker_background_color_value) = participant_conf.get_GUI_values()
+        if self.font_family:
+            self.font = QFont()
+            self.font.setFamily(self.font_family)
+            self.font.setPointSize(self.font_size)
+            self.font.setItalic(self.font_italic)
+            self.font.setWeight(self.font_bold)
+        if self.font_color_value:
+            self.font_color = QColor()
+            self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
+                                   self.font_color_value[3])
+        if self.tracker_background_color_value:
+            self.tracker_background_color = QColor()
+            self.tracker_background_color.setRgb(self.tracker_background_color_value[0],
+                                                 self.tracker_background_color_value[1],
+                                                 self.tracker_background_color_value[2],
+                                                 self.tracker_background_color_value[3])
         self.ui.lineEditParticipantID.setText(self.ExtraLifeID)
         self.ui.labelTextFolder.setText(self.textFolder)
         self.ui.lineEditCurrencySymbol.setText(self.CurrencySymbol)
@@ -38,7 +53,9 @@ class MyForm(QDialog):
         self.ui.pushButtonSelectFolder.clicked.connect(self._selectfolder)
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self._selectfile("image"))
         self.ui.pushButton_sound.clicked.connect(lambda: self._selectfile("sound"))
-        # self.ui.spinBox_DonorsToDisplay.valueChanged.connect(self.donorschanged)
+        self.ui.pushButton_font.clicked.connect(self._change_font)
+        self.ui.pushButton_font_color.clicked.connect(self._change_font_color)
+        self.ui.pushButton_tracker_background.clicked.connect(self._change_tracker_bg_color)
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
         else:
@@ -51,7 +68,9 @@ class MyForm(QDialog):
         """
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID, self.TrackerImage,
-         self.DonationSound, self.donors_to_display) = self.participant_conf.get_GUI_values()
+         self.DonationSound, self.donors_to_display,
+         self.font_family, self.font_size, self.font_italic, self.font_bold,
+         self.font_color_value, self.tracker_background_color_value) = self.participant_conf.get_GUI_values()
 
     def revert(self):
         """
@@ -79,6 +98,27 @@ class MyForm(QDialog):
         sound = self.ui.label_sound.text()
         version = self.participant_conf.get_version()
         donors_to_display = self.ui.spinBox_DonorsToDisplay.value()
+        try:
+            font_family = self.font.family()
+            font_size = self.font.pointSize()
+            font_italic: bool = self.font.italic()
+            font_bold: int = self.font.weight()
+        except AttributeError:
+            font_family = None
+            font_size = None
+            font_italic: bool = None
+            font_bold: int = None
+            font_color = None
+
+        try:
+            font_color = self.font_color.getRgb()
+        except AttributeError:
+            font_color = None
+
+        try:
+            tracker_background_color = self.tracker_background_color.getRgb()
+        except AttributeError:
+            tracker_background_color = None
 
         if self.ui.lineEditTeamID.text() == "":
             teamID = None
@@ -88,7 +128,10 @@ class MyForm(QDialog):
                   'text_folder': textfolder, 'currency_symbol': currencysymbol,
                   'team_id': teamID, 'tracker_image': trackerimage,
                   'donation_sound': sound,
-                  "donors_to_display": donors_to_display}
+                  "donors_to_display": donors_to_display,
+                  "font_family": font_family, "font_size": font_size, "font_italic": font_italic,
+                  "font_bold": font_bold, "font_color": font_color,
+                  "tracker_background_color": tracker_background_color}
         return config
 
     def save(self):
@@ -115,11 +158,36 @@ class MyForm(QDialog):
         if whichfile == "sound":
             self.ui.label_sound.setText(the_file[0])
 
+    def _change_font(self):
+        if self.font_family:
+            font, ok = QFontDialog.getFont(self.font)
+        else:
+            font, ok = QFontDialog.getFont()
+        if ok:
+            self.tracker.set_font(font)
+            self.font = font
+
+    def _change_font_color(self):
+        if self.font_color_value:
+            col = QColorDialog.getColor(self.font_color)
+        else:
+            col = QColorDialog.getColor()
+        self.font_color = col
+        self.tracker.set_font_color(self.font_color)
+
+    def _change_tracker_bg_color(self):
+        if self.tracker_background_color_value:
+            col = QColorDialog.getColor(self.tracker_background_color)
+        else:
+            col = QColorDialog.getColor()
+        self.tracker_background_color = col
+        self.tracker.set_background_color(self.tracker_background_color)
+
 
 def main(participant_conf):
     """Launch the window."""
-    w = MyForm(participant_conf)
-    w.exec()
+    window = MyForm(participant_conf)
+    window.exec()
 
 
 if __name__ == "__main__":
