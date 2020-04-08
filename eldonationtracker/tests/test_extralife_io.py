@@ -10,7 +10,11 @@ fields_for_participant_conf = {"extralife_id": "12345",
                                "team_id": "45678",
                                "tracker_image": "imagefolder",
                                "donation_sound": "mp3",
-                               "donors_to_display": "5"}
+                               "donors_to_display": "5",
+                               "font_family": "Liberation Sans",
+                               "font_size": 52, "font_italic": True, "font_bold": 25,
+                               "font_color": [255, 255, 255, 255], "tracker_background_color": [38, 255, 0, 255]
+                               }
 
 fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        "text_folder": "textfolder",
@@ -18,7 +22,11 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        "team_id": None,
                                        "tracker_image": "imagefolder",
                                        "donation_sound": "mp3",
-                                       "donors_to_display": "5"}
+                                       "donors_to_display": "5",
+                                       "font_family": "Liberation Sans",
+                                       "font_size": 52, "font_italic": True, "font_bold": 25,
+                                       "font_color": [255, 255, 255, 255], "tracker_background_color": [38, 255, 0, 255]
+                                       }
 
 
 # Tests for extralife_IO.py
@@ -30,7 +38,7 @@ def test_participantconf_get_version():
     """Test that the version it reads from the participant.conf file\
     equals what is expected."""
     participant_conf = extralife_IO.ParticipantConf()
-    assert "1.0" == participant_conf.get_version()
+    assert "2.0" == participant_conf.get_version()
 
 
 def test_participantconf_get_CLI_values():
@@ -54,7 +62,8 @@ def test_get_GUI_values():
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
             "$", "45678", "imagefolder",
-            "mp3", "5") == participant_conf.get_GUI_values()
+            "mp3", "5", "Liberation Sans", 52, True, 25, [255, 255, 255, 255],
+            [38, 255, 0, 255]) == participant_conf.get_GUI_values()
 
 
 def test_get_if_in_team_with_team():
