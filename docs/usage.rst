@@ -57,7 +57,7 @@ OBS or XSplit's chromakey filters.
 
 .. warning::
 
-    Because of the way QT color chooser dialogue windows work, if you pick a color and hit cancel, it will still change the color in the Tracker window. (whereas you have to click "ok" in the Font chooser window to change the font. Quitting out of everything without saving should bring back the last color you saved (or the default).
+    Because of the way QT color chooser dialogue windows work, if you pick a color and hit cancel, it will still change the color in the Tracker window. (whereas you have to click "ok" in the Font chooser window to change the font) If you go back in and pick one of the colors from the palette on the left, you can get it working again. Or you can life the right-most slider from black to white. Finally, if you can't remember what color you had quitting out of everything without saving should bring back the last color you saved (or the default).
 
 #. Finally, it's time to save your settings. The BEST option is to pick Persist Settings. Then it will save to a special location on your computer so that even as you upgrade (either grab new zip files from Github or update via PyPi or git pull) you won't have to keep inputting your settings. If you know for sure it's what you want to do, you can hit Save and it'll save in the folder where you're running the program. It *should* work on Windows and may or may not be there next time you launch on Linux. If you have not hit save or Persist Settings yet, Revert will reload whatever was in the file when you hit the Settings button.
 
