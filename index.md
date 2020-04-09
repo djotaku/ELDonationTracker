@@ -1,5 +1,5 @@
-Latest release: [v4.1.3](https://github.com/djotaku/ELDonationTracker/releases/tag/v4.1.3): 
-[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v4.1.3/Extra.Life.Donation.Tracker.for.Windows.v4.1.3.zip) |
+Latest release: [v4.2.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v4.2.0): 
+[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v4.2.0/Extra.Life.Donation.Tracker.for.Windows.v4.2.0.zip) |
 Linux, see videos below for PyPi or git clone instructions.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
@@ -22,7 +22,7 @@ Would you like to be able to update your donations in real-time during a Live St
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/g2xz5vTx1vM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Linux
+## GUI on Linux or Windows with Commandline startup
 
 ### PyPi and OBS
 
