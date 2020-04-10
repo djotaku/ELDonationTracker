@@ -7,6 +7,7 @@ from eldonationtracker import donation as donation
 from eldonationtracker import donor as donor
 from eldonationtracker import extralife_IO as extralife_IO
 from eldonationtracker import team as team
+from eldonationtracker import base_api_url
 
 
 class Participant:
@@ -77,9 +78,9 @@ class Participant:
          self.CurrencySymbol, self.TeamID,
          self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
-        self.participant_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}"
-        self.donation_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
-        self.participant_donor_URL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
+        self.participant_url = f"{base_api_url}/participants/{self.ExtraLifeID}"
+        self.donation_url = f"{self.participant_url}/donations"
+        self.participant_donor_URL = f"{self.participant_url}/donors"
         # donor calculations
         self.donorcalcs = {}
         self.donorcalcs['LastDonationNameAmnt'] = "No Donors Yet"

@@ -1,6 +1,7 @@
 """Contains classes pertaining to teams."""
 from eldonationtracker import donor as donor
 from eldonationtracker import extralife_IO as extralife_IO
+from eldonationtracker import base_api_url
 
 
 class Team:
@@ -36,10 +37,9 @@ class Team:
     def __init__(self, team_id: str, folder: str, currency_symbol: str):
         """Set the team variables."""
         # urls
-        team_url_base: str = "https://www.extra-life.org/api/teams/"
+        team_url_base: str = f"{base_api_url}/teams/"
         self.team_url: str = f"{team_url_base}{team_id}"
-        self.team_participant_url: str = f"{team_url_base}"\
-        f"{team_id}/participants"
+        self.team_participant_url: str = f"{self.team_url}/participants"
         # misc
         self.output_folder: str = folder
         self.currency_symbol: str = currency_symbol
