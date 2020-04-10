@@ -3,6 +3,28 @@
 from eldonationtracker import donor
 
 
+def test_donor_attributes_none_missing():
+    donor1_json = {"displayName": "donor1", "sumDonations": "45", "donorID": 1000111,
+                   'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
+    donor1 = donor.Donor(donor1_json)
+    assert donor1.name == "donor1"
+    assert donor1.donor_id == 1000111
+    assert donor1.image_url == "http://someplace.com/image.jpg"
+    assert donor1.amount == 45
+    assert donor1.number_of_donations == 2
+
+
+def test_donor_attributes_name_missing():
+    donor1_json = {"sumDonations": "45", "donorID": 1000111,
+                   'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
+    donor1 = donor.Donor(donor1_json)
+    assert donor1.name == "Anonymous"
+    assert donor1.donor_id == 1000111
+    assert donor1.image_url == "http://someplace.com/image.jpg"
+    assert donor1.amount == 45
+    assert donor1.number_of_donations == 2
+
+
 def test_donor_lt_whole_numbers():
     """Test to make sure comparison works.
 
@@ -37,3 +59,10 @@ def test_donors_equal():
     donor1 = donor.Donor(donor1_json)
     donor2 = donor.Donor(donor2_json)
     assert donor1 == donor2
+
+
+def test_str():
+    donor1_json = {"displayName": "donor1", "sumDonations": "45", "donorID": 1000111,
+                   'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
+    donor1 = donor.Donor(donor1_json)
+    assert str(donor1) == "A donor named donor1 with donor ID 1000111 who has donated $45.00 over 2 donations."
