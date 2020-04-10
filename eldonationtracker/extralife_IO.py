@@ -144,9 +144,9 @@ class ParticipantConf:
         print(f"Attempting to grab {asset} from Github.")
         print(f"{asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}")
         if asset == "image":
-            url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/4.3/tracker%20assets/Engineer.png'
+            url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/master/tracker%20assets/Engineer.png'
         elif asset == "sound":
-            url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/4.3/tracker%20assets/Donation.mp3'
+            url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/master/tracker%20assets/Donation.mp3'
         try:
             file = requests.get(url)
             if asset == "image":
