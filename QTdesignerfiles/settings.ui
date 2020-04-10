@@ -6,20 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>697</width>
+    <width>805</width>
     <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.png</normaloff>icon.png</iconset>
+  </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>681</width>
-     <height>374</height>
+     <width>791</width>
+     <height>381</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -38,6 +42,9 @@
     </item>
     <item row="1" column="3" colspan="2">
      <widget class="QPushButton" name="pushButtonSelectFolder">
+      <property name="toolTip">
+       <string extracomment="test"/>
+      </property>
       <property name="text">
        <string>select Folder</string>
       </property>
@@ -70,13 +77,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="3" colspan="2">
-     <widget class="QPushButton" name="pushButton_sound">
-      <property name="text">
-       <string>select Sound</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEditTeamID"/>
     </item>
@@ -91,7 +91,14 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEditParticipantID"/>
+     <widget class="QLineEdit" name="lineEditParticipantID">
+      <property name="toolTip">
+       <string extracomment="Enter your Participant ID - at the end of your Extra Life URL"/>
+      </property>
+      <property name="toolTipDuration">
+       <number>5</number>
+      </property>
+     </widget>
     </item>
     <item row="11" column="2" colspan="3">
      <widget class="QPushButton" name="pushButton_persistentsave">
@@ -148,13 +155,6 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="3" colspan="2">
-     <widget class="QPushButton" name="pushButton_tracker_image">
-      <property name="text">
-       <string>select Image</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="1" colspan="2">
      <widget class="QLabel" name="labelTextFolder">
       <property name="text">
@@ -198,6 +198,48 @@
     </item>
     <item row="4" column="1">
      <widget class="QSpinBox" name="spinBox_DonorsToDisplay"/>
+    </item>
+    <item row="5" column="2">
+     <widget class="QPushButton" name="pushButton_tracker_image">
+      <property name="text">
+       <string>select Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QPushButton" name="pushButton_sound">
+      <property name="text">
+       <string>select Sound</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="4">
+     <widget class="QPushButton" name="pushButton_grab_image">
+      <property name="text">
+       <string>Grab from Github</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="4">
+     <widget class="QPushButton" name="pushButton_grab_sound">
+      <property name="text">
+       <string>Grab from Github</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="pushButton_validate_participant_id">
+      <property name="text">
+       <string>Validate Participant ID</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QPushButton" name="pushButton_validate_team_id">
+      <property name="text">
+       <string>Validate Team ID</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

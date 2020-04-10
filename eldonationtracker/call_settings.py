@@ -56,6 +56,8 @@ class MyForm(QDialog):
         self.ui.pushButton_font.clicked.connect(self._change_font)
         self.ui.pushButton_font_color.clicked.connect(self._change_font_color)
         self.ui.pushButton_tracker_background.clicked.connect(self._change_tracker_bg_color)
+        self.ui.pushButton_grab_image.clicked.connect(lambda: self._get_tracker_assets("image"))
+        self.ui.pushButton_grab_sound.clicked.connect(lambda: self._get_tracker_assets("sound"))
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
         else:
@@ -182,6 +184,13 @@ class MyForm(QDialog):
             col = QColorDialog.getColor()
         self.tracker_background_color = col
         self.tracker.set_background_color(self.tracker_background_color)
+
+    def _get_tracker_assets(self, asset):
+        file = self.participant_conf.get_tracker_assets(asset)
+        if asset == "image":
+            self.ui.label_tracker_image.setText(file)
+        elif asset == "sound":
+            self.ui.label_sound.setText(file)
 
 
 def main(participant_conf):

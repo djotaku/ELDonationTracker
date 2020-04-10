@@ -131,11 +131,33 @@ class ParticipantConf:
             return self.load_JSON()
 
     def get_github_config(self):
-        print("Attempting to grab a config file from github.")
+        print("Attempting to grab a config file from GitHub.")
         print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
-        config_file = requests.get(url)
-        open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
+        try:
+            config_file = requests.get(url)
+            open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
+        except HTTPError:
+            print("Could not find participant.conf on Github. Please manually create or download from Github.")
+
+    def get_tracker_assets(self, asset: str):
+        print(f"Attempting to grab {asset} from Github.")
+        print(f"{asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}")
+        if asset == "image":
+            url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/4.3/tracker%20assets/Engineer.png'
+        elif asset == "sound":
+            url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/4.3/tracker%20assets/Donation.mp3'
+        try:
+            file = requests.get(url)
+            if asset == "image":
+                open(f"{self.xdg.XDG_DATA_HOME}/{asset}.png", "wb").write(file.content)
+                return f"{self.xdg.XDG_DATA_HOME}/{asset}.png"
+            elif asset == "sound":
+                open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
+                return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
+            print("file written.")
+        except HTTPError:
+            print(f"Could not get {asset}.")
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
