@@ -36,6 +36,7 @@ class Team:
 
     def __init__(self, team_id: str, folder: str, currency_symbol: str):
         """Set the team variables."""
+        self.team_id = team_id
         # urls
         team_url_base: str = f"{base_api_url}/teams/"
         self.team_url: str = f"{team_url_base}{team_id}"
@@ -46,6 +47,7 @@ class Team:
         self.team_info = {}
         self.participant_calculation_dict: dict = {}
         self.top_5_participant_list = []
+        self.team_json = 0  # this needs to be changed in a refactor - shouldn't hold an int OR a dict
 
     def get_team_json(self):
         """Get team info from JSON api."""
@@ -119,6 +121,15 @@ class Team:
         self.get_top_5_participants()
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
+
+    def __str__(self):
+        team_info = ""
+        if self.team_json != 0:
+            team_info = f"Team goal is {self.team_info['Team_goal']}."
+        if self.team_id:
+            return f"A team found at {self.team_url} ."
+        else:
+            return "Not a valid team - no team_id."
 
 
 class TeamParticipant(donor.Donor):
