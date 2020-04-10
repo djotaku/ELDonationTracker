@@ -17,7 +17,7 @@ class Participant:
 
     Participant.conf variables:
 
-    :param ExtraLifeID: the participant's extra life ID
+    :param self.ExtraLifeID: the participant's extra life ID
     :type ExtraLifeID: int
     :param textFolder: where the output txt files will be written on disk
     :type textFolder: str

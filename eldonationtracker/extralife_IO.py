@@ -57,16 +57,13 @@ def get_JSON(url: str, order_by_donations: bool = False) -> dict:
 
 
 class ParticipantConf:
-    """Holds Participant Configuaration info.
+    """Holds Participant Configuration info.
 
-    :param participant_conf_version: version of participant.conf
-    :param version_mismatch: Initialized to False.If true, the\
-    user has a different version of the participant.conf.
-    :param fields: A dictionary initialed to None for all fields.
-    :param xdg: By using the PedanticPackage, the directory will\
-    be created if it doesn't already exist.
-    :param participantconf: holds a dictionary of the user's\
-    config file.
+    :param cls.participant_conf_version: version of participant.conf
+    :param cls.version_mismatch: Initialized to False.If true, the user has a different version of the participant.conf.
+    :param cls.fields: A dictionary initialed to None for all fields.
+    :param self.xdg: By using the PedanticPackage, the directory will be created if it doesn't already exist.
+    :param self.participantconf: holds a dictionary of the user's config file.
     """
 
     participant_conf_version: str = "2.0"
@@ -251,6 +248,9 @@ class ParticipantConf:
         :returns: location of the donation sound on disk.
         """
         return self.fields["donation_sound"]
+
+    def __str__(self):
+        return f"A configuration version {self.participant_conf_version} with the following data: {self.fields}"
 
 
 # Formatting
