@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QCo
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
+from eldonationtracker import base_api_url
+from eldonationtracker import extralife_IO
 
 
 class MyForm(QDialog):
@@ -58,6 +60,7 @@ class MyForm(QDialog):
         self.ui.pushButton_tracker_background.clicked.connect(self._change_tracker_bg_color)
         self.ui.pushButton_grab_image.clicked.connect(lambda: self._get_tracker_assets("image"))
         self.ui.pushButton_grab_sound.clicked.connect(lambda: self._get_tracker_assets("sound"))
+        self.ui.pushButton_validate_participant_id.clicked.connect(lambda: self._validate_id("participant"))
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
         else:
@@ -191,6 +194,13 @@ class MyForm(QDialog):
             self.ui.label_tracker_image.setText(file)
         elif asset == "sound":
             self.ui.label_sound.setText(file)
+
+    def _validate_id(self, id_type: str):
+        print("Validating URL")
+        if id_type == "participant":
+            url = f"{base_api_url}/participants/{self.ExtraLifeID}"
+            valid_url = extralife_IO.validate_url(url)
+            print(valid_url)
 
 
 def main(participant_conf):

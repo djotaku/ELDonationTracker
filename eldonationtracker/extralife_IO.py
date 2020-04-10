@@ -11,6 +11,16 @@ from urllib.request import HTTPError, Request, URLError, urlopen
 import xdgenvpy
 
 
+def validate_url(url: str):
+    print(f"Checking: {url}")
+    response = requests.get(url) # needs work - always returns true right now
+    print(f"Response is: {response.status_code}")
+    if response.status_code == 200:
+        return True
+    else:
+        return False
+
+
 # JSON/URL
 def get_JSON(url: str, order_by_donations: bool = False) -> dict:
     """Grab JSON from server.
@@ -156,7 +166,7 @@ class ParticipantConf:
                 open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
             print("file written.")
-        except HTTPError:
+        except requests.HTTPError:
             print(f"Could not get {asset}.")
 
     def update_fields(self):
