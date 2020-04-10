@@ -140,10 +140,10 @@ class TeamParticipant(donor.Donor):
 
     API variables:
 
-    :param name: participant's name or Anonymous
-    :param amount: the sum of all donations by this participant
-    :param number_of_donations: number of all donations by this participant
-    :param image_url: the url of the participant's avatar image (not used)
+    :param self.name: participant's name or Anonymous
+    :param self.amount: the sum of all donations by this participant
+    :param self.number_of_donations: number of all donations by this participant
+    :param self.image_url: the url of the participant's avatar image (not used)
     """
 
     def __init__(self, json):
