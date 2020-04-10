@@ -164,6 +164,9 @@ class TeamParticipant(donor.Donor):
         image_url = json.get('avatarImageURL')
         return name, amount, number_of_donations, image_url
 
+    def __str__(self):
+        return f"A Team Participant named {self.name} who has donated ${self.amount:.2f} to the team over {self.number_of_donations} donations."
+
 
 if __name__ == "__main__":
     # debug next line
