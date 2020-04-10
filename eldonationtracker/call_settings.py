@@ -1,7 +1,7 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog, QMessageBox
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
@@ -61,6 +61,7 @@ class MyForm(QDialog):
         self.ui.pushButton_grab_image.clicked.connect(lambda: self._get_tracker_assets("image"))
         self.ui.pushButton_grab_sound.clicked.connect(lambda: self._get_tracker_assets("sound"))
         self.ui.pushButton_validate_participant_id.clicked.connect(lambda: self._validate_id("participant"))
+        self.ui.pushButton_validate_team_id.clicked.connect(lambda: self._validate_id("team"))
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
         else:
@@ -200,7 +201,21 @@ class MyForm(QDialog):
         if id_type == "participant":
             url = f"{base_api_url}/participants/{self.ExtraLifeID}"
             valid_url = extralife_IO.validate_url(url)
-            print(valid_url)
+            if valid_url:
+                message_box = QMessageBox.information(self, "Participant ID Validation",
+                                                      f"Able to reach {url}. Participant ID is valid.")
+            else:
+                message_box = QMessageBox.warning(self, "Participant ID Validation",
+                                                  f"Could not reach {url}. Participant ID may be invalid.")
+        elif id_type == "team":
+            url = f"{base_api_url}/teams/{self.TeamID}"
+            valid_url = extralife_IO.validate_url(url)
+            if valid_url:
+                message_box = QMessageBox.information(self, "Team ID Validation",
+                                                      f"Able to reach {url}. Team ID is valid.")
+            else:
+                message_box = QMessageBox.warning(self, "Team ID Validation",
+                                                  f"Could not reach {url}. Team ID may be invalid.")
 
 
 def main(participant_conf):
