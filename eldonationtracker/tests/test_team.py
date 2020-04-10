@@ -12,6 +12,7 @@ def test_team_participant_url():
     my_team = team.Team("12345", "folder", "$")
     assert my_team.team_participant_url == "https://www.extra-life.org/api/teams/12345/participants"
 
+
 def test_str_no_json_data():
     """Test what str will produce if the JSON retrieval hasn't yet run."""
     my_team = team.Team("12345", "folder", "$")
