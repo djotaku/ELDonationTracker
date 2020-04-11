@@ -7,6 +7,7 @@ from eldonationtracker import donation as donation
 from eldonationtracker import donor as donor
 from eldonationtracker import extralife_IO as extralife_IO
 from eldonationtracker import team as team
+from eldonationtracker import base_api_url
 
 
 class Participant:
@@ -16,13 +17,13 @@ class Participant:
 
     Participant.conf variables:
 
-    :param ExtraLifeID: the participant's extra life ID
+    :param self.ExtraLifeID: the participant's extra life ID
     :type ExtraLifeID: int
-    :param textFolder: where the output txt files will be written on disk
+    :param self.textFolder: where the output txt files will be written on disk
     :type textFolder: str
-    :param CurrencySymbol: for the output txt files
+    :param self.CurrencySymbol: for the output txt files
     :type CurrencySymbol: str
-    :param donors_to_display: for txt files that display multiple donors\
+    :param self.donors_to_display: for txt files that display multiple donors\
     (or donations), the number of them that should be written to the\
     text file.
     :type donors_to_display: int
@@ -31,30 +32,30 @@ class Participant:
 
     Donor Drive Variables:
 
-    :param participant_url: API info for participant
-    :type participant_url: str
-    :param donorURL: donation API info (should be renamed to donationURL)
-    :type donorURL: str
-    :param participant_donor_URL: API info for donors. Useful for calculating\
+    :param self.participant_url: API info for participant
+    :type self.participant_url: str
+    :param self.donorURL: donation API info (should be renamed to donationURL)
+    :type self.donorURL: str
+    :param self.participant_donor_URL: API info for donors. Useful for calculating\
     top donor.
-    :type participant_donor_URL: str
-    :param participantinfo: a dictionary holding data from participantURL:
+    :type self.participant_donor_URL: str
+    :param self.participantinfo: a dictionary holding data from participantURL:
 
                      - totalRaised: total money raised
                      - numDonations: number of donations
                      - averageDonation: this doesn't come from the API,\
                        it's calculated in this class.
                      - goal: the participant's fundraising goal
-    :type participantinfo: dict
-    :param myteam: An instantiation of a team class for the participant's team.
+    :type self.participantinfo: dict
+    :param self.myteam: An instantiation of a team class for the participant's team.
     :type myteam: cls: eldonationtracker.team
-    :param donationlist: a list of Donation class ojects made of donations to\
+    :param self.donationlist: a list of Donation class ojects made of donations to\
     this participant
     :type donationlist: list
 
     Helper Variables:
 
-    :param donorcalcs: a dictionary holding values for txt ouput:
+    :param self.donorcalcs: a dictionary holding values for txt ouput:
 
                 - LastDonationNameAmnt: most recent donation,
                                         donor name, amount of donation
@@ -66,7 +67,7 @@ class Participant:
                 - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
                 - lastNDonationNameAmtsHorizontal: same, but no message
     :type donorcalcs: dict
-    :param loop: set to true on init, it's there so that the GUI can stop the\
+    :param self.loop: set to true on init, it's there so that the GUI can stop the\
     loop.(if the GUI is being used. Otherwise, no big deal)
     :type loop: bool
     """
@@ -77,9 +78,9 @@ class Participant:
          self.CurrencySymbol, self.TeamID,
          self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
-        self.participant_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}"
-        self.donation_url = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donations"
-        self.participant_donor_URL = f"https://www.extra-life.org/api/participants/{self.ExtraLifeID}/donors"
+        self.participant_url = f"{base_api_url}/participants/{self.ExtraLifeID}"
+        self.donation_url = f"{self.participant_url}/donations"
+        self.participant_donor_URL = f"{self.participant_url}/donors"
         # donor calculations
         self.donorcalcs = {}
         self.donorcalcs['LastDonationNameAmnt'] = "No Donors Yet"
@@ -218,6 +219,9 @@ class Participant:
         """Stop the loop."""
         print("stopping now...")
         self.loop = False
+
+    def __str__(self):
+        return f"A participant with Extra Life ID {self.ExtraLifeID}. Team info: {self.myteam}"
 
 
 if __name__ == "__main__":

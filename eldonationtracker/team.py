@@ -1,6 +1,7 @@
 """Contains classes pertaining to teams."""
 from eldonationtracker import donor as donor
 from eldonationtracker import extralife_IO as extralife_IO
+from eldonationtracker import base_api_url
 
 
 class Team:
@@ -35,17 +36,18 @@ class Team:
 
     def __init__(self, team_id: str, folder: str, currency_symbol: str):
         """Set the team variables."""
+        self.team_id = team_id
         # urls
-        team_url_base: str = "https://www.extra-life.org/api/teams/"
+        team_url_base: str = f"{base_api_url}/teams/"
         self.team_url: str = f"{team_url_base}{team_id}"
-        self.team_participant_url: str = f"{team_url_base}"\
-        f"{team_id}/participants"
+        self.team_participant_url: str = f"{self.team_url}/participants"
         # misc
         self.output_folder: str = folder
         self.currency_symbol: str = currency_symbol
         self.team_info = {}
         self.participant_calculation_dict: dict = {}
         self.top_5_participant_list = []
+        self.team_json = 0  # this needs to be changed in a refactor - shouldn't hold an int OR a dict
 
     def get_team_json(self):
         """Get team info from JSON api."""
@@ -120,6 +122,15 @@ class Team:
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
 
+    def __str__(self):
+        team_info = ""
+        if self.team_json != 0:
+            team_info = f"Team goal is {self.team_info['Team_goal']}."
+        if self.team_id:
+            return f"A team found at {self.team_url} ."
+        else:
+            return "Not a valid team - no team_id."
+
 
 class TeamParticipant(donor.Donor):
     """Participant Attributes.
@@ -129,24 +140,32 @@ class TeamParticipant(donor.Donor):
 
     API variables:
 
-    :param name: participant's name or Anonymous
-    :param amount: the sum of all donations by this participant
-    :param number_of_donations: number of all donations by this participant
-    :param image_url: the url of the participant's avatar image (not used)
+    :param self.name: participant's name or Anonymous
+    :param self.amount: the sum of all donations by this participant
+    :param self.number_of_donations: number of all donations by this participant
+    :param self.image_url: the url of the participant's avatar image (not used)
     """
+
+    def __init__(self, json):
+        self.name, self.amount, self.number_of_donations, self.image_url = self.json_to_attributes(json)
 
     def json_to_attributes(self, json):
         """Convert JSON to Team Participant attributes.
 
         :param json: JSON attributes from API
         """
+        name = ""
         if json.get('displayName') is not None:
-            self.name = json.get('displayName')
+            name = json.get('displayName')
         else:
-            self.name = "Anonymous"
-        self.amount = float(json.get("sumDonations"))
-        self.number_of_donations = json.get('numDonations')
-        self.image_url = json.get('avatarImageURL')
+            name = "Anonymous"
+        amount = float(json.get("sumDonations"))
+        number_of_donations = json.get('numDonations')
+        image_url = json.get('avatarImageURL')
+        return name, amount, number_of_donations, image_url
+
+    def __str__(self):
+        return f"A Team Participant named {self.name} who has donated ${self.amount:.2f} to the team over {self.number_of_donations} donations."
 
 
 if __name__ == "__main__":
