@@ -1,5 +1,5 @@
-Latest release: [v4.2.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v4.2.0): 
-[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v4.2.0/Extra.Life.Donation.Tracker.for.Windows.v4.2.0.zip) |
+Latest release: [v4.3.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v4.3.0): 
+[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v4.3.0/Extra.Life.Donation.Tracker.for.Windows.v4.3.0.zip) |
 Linux, see videos below for PyPi or git clone instructions.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
