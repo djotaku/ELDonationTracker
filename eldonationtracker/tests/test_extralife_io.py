@@ -112,6 +112,12 @@ def test_donor_formatting_message_false():
     assert formatted_message == "donor1 - $45.00"
 
 
+def test_participant_conf_str():
+    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert str(participant_conf) == """A configuration version 2.0 with the following data: {'extralife_id': '12345', 'text_folder': 'textfolder', 'currency_symbol': '$', 'team_id': '45678', 'tracker_image': 'imagefolder', 'donation_sound': 'mp3', 'donors_to_display': '5', 'font_family': 'Liberation Sans', 'font_size': 52, 'font_italic': True, 'font_bold': 25, 'font_color': [255, 255, 255, 255], 'tracker_background_color': [38, 255, 0, 255]}"""
+
+
 def test_multiple_format_Horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""

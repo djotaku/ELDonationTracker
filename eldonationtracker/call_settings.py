@@ -1,10 +1,12 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog
+from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog, QMessageBox
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
+from eldonationtracker import base_api_url
+from eldonationtracker import extralife_IO
 
 
 class MyForm(QDialog):
@@ -56,6 +58,10 @@ class MyForm(QDialog):
         self.ui.pushButton_font.clicked.connect(self._change_font)
         self.ui.pushButton_font_color.clicked.connect(self._change_font_color)
         self.ui.pushButton_tracker_background.clicked.connect(self._change_tracker_bg_color)
+        self.ui.pushButton_grab_image.clicked.connect(lambda: self._get_tracker_assets("image"))
+        self.ui.pushButton_grab_sound.clicked.connect(lambda: self._get_tracker_assets("sound"))
+        self.ui.pushButton_validate_participant_id.clicked.connect(lambda: self._validate_id("participant"))
+        self.ui.pushButton_validate_team_id.clicked.connect(lambda: self._validate_id("team"))
         if self.donors_to_display is None:
             self.ui.spinBox_DonorsToDisplay.setValue(0)
         else:
@@ -182,6 +188,34 @@ class MyForm(QDialog):
             col = QColorDialog.getColor()
         self.tracker_background_color = col
         self.tracker.set_background_color(self.tracker_background_color)
+
+    def _get_tracker_assets(self, asset):
+        file = self.participant_conf.get_tracker_assets(asset)
+        if asset == "image":
+            self.ui.label_tracker_image.setText(file)
+        elif asset == "sound":
+            self.ui.label_sound.setText(file)
+
+    def _validate_id(self, id_type: str):
+        print("Validating URL")
+        if id_type == "participant":
+            url = f"{base_api_url}/participants/{self.ExtraLifeID}"
+            valid_url = extralife_IO.validate_url(url)
+            if valid_url:
+                message_box = QMessageBox.information(self, "Participant ID Validation",
+                                                      f"Able to reach {url}. Participant ID is valid.")
+            else:
+                message_box = QMessageBox.warning(self, "Participant ID Validation",
+                                                  f"Could not reach {url}. Participant ID may be invalid.")
+        elif id_type == "team":
+            url = f"{base_api_url}/teams/{self.TeamID}"
+            valid_url = extralife_IO.validate_url(url)
+            if valid_url:
+                message_box = QMessageBox.information(self, "Team ID Validation",
+                                                      f"Able to reach {url}. Team ID is valid.")
+            else:
+                message_box = QMessageBox.warning(self, "Team ID Validation",
+                                                  f"Could not reach {url}. Team ID may be invalid.")
 
 
 def main(participant_conf):

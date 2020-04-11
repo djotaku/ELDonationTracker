@@ -39,3 +39,13 @@ class Donation:
         amount less than comparision.
         """
         return self.amount < object.amount
+
+    def __eq__(self, other):
+        """Donation equal comparison.
+
+        :returns: True if this donation has a donation amount equal to the comparison.
+        """
+        return self.amount == other.amount
+
+    def __str__(self):
+        return f"A donation by {self.name} in the amount of ${self.amount} with the message '{self.message}'"
