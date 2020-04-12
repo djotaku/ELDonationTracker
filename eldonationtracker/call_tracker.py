@@ -139,6 +139,7 @@ def main(participant_conf):
     window = MyForm(participant_conf)
     window.exec()
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = MyForm()
