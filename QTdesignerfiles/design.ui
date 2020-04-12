@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>920</width>
     <height>729</height>
    </rect>
   </property>
@@ -270,7 +270,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>863</width>
+       <width>751</width>
        <height>251</height>
       </rect>
      </property>
@@ -475,7 +475,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>© 2015-2019 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
+     <string>© 2015-2020 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -544,7 +544,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>920</width>
      <height>29</height>
     </rect>
    </property>
