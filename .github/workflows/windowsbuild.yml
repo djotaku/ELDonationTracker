@@ -31,10 +31,7 @@ jobs:
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller -p eldonationtracker eldonationtracker/gui.py
-        cp participant.conf dist/gui
-        cp icon.png dist/gui
-        cp dist/gui/Qt5Core.dll dist/gui/PyQt5/Qt/bin
+        pyinstaller -F -p eldonationtracker --add-binary icon.png;eldonationtracker/icon.png eldonationtracker/gui.py
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with: 
