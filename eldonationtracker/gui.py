@@ -14,7 +14,7 @@ from eldonationtracker import extralifedonations as extralifedonations
 from eldonationtracker import call_about as call_about
 from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings
-from eldonationtracker import extralife_IO as extralife_IO
+from eldonationtracker import extralife_io as extralife_io
 from eldonationtracker import ipc as ipc
 import eldonationtracker.utils.update_available
 
@@ -35,7 +35,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         """
         super(self.__class__, self).__init__()
 
-        self.participant_conf = extralife_IO.ParticipantConf()
+        self.participant_conf = extralife_io.ParticipantConf()
 
         # deal with version mismatch
         self.version_mismatch = self.participant_conf.get_version_mismatch()

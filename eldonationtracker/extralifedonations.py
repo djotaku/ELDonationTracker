@@ -5,7 +5,7 @@ import time
 from eldonationtracker import ipc as ipc
 from eldonationtracker import donation as donation
 from eldonationtracker import donor as donor
-from eldonationtracker import extralife_IO as extralife_IO
+from eldonationtracker import extralife_io as extralife_io
 from eldonationtracker import team as team
 from eldonationtracker import base_api_url
 
@@ -106,7 +106,7 @@ class Participant:
         go into the dictionary participantinfo in the way they'll
         be written to files.
         """
-        participant_json = extralife_IO.get_JSON(self.participant_url)
+        participant_json = extralife_io.get_JSON(self.participant_url)
         if participant_json == 0:
             print("Couldn't access participant JSON.")
         else:
@@ -127,7 +127,7 @@ class Participant:
     def _get_donations(self):
         """Get the donations from the JSON and create the donation objects."""
         self.donationlist = []
-        donation_json = extralife_IO.get_JSON(self.donation_url)
+        donation_json = extralife_io.get_JSON(self.donation_url)
         if donation_json == 0:
             print("couldn't access donation page")
         elif len(donation_json) == 0:
@@ -142,25 +142,25 @@ class Participant:
 
         Uses donor drive's sorting to get the top guy or gal.
         """
-        top_donor_json = extralife_IO.get_JSON(self.participant_donor_URL,
+        top_donor_json = extralife_io.get_JSON(self.participant_donor_URL,
                                                True)
         if top_donor_json == 0:
             print("Couldn't access top donor data")
         else:
             top_donor = donor.Donor(top_donor_json[0])
-            return extralife_IO.single_format(top_donor, False,
-                                          self.CurrencySymbol)
+            return extralife_io.single_format(top_donor, False,
+                                              self.CurrencySymbol)
 
     def _donor_calculations(self):
-        self.donorcalcs['LastDonationNameAmnt'] = extralife_IO.single_format(self.donationlist[0], False, self.CurrencySymbol)
+        self.donorcalcs['LastDonationNameAmnt'] = extralife_io.single_format(self.donationlist[0], False, self.CurrencySymbol)
         try:
             self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
         except:
             pass
-        self.donorcalcs['lastNDonationNameAmts'] = extralife_IO.multiple_format(self.donationlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonationNameAmtsMessage'] = extralife_IO.multiple_format(self.donationlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = extralife_IO.multiple_format(self.donationlist, True, True, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonationNameAmtsHorizontal'] = extralife_IO.multiple_format(self.donationlist, False, True, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmts'] = extralife_io.multiple_format(self.donationlist, False, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmtsMessage'] = extralife_io.multiple_format(self.donationlist, True, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donationlist, True, True, self.CurrencySymbol, int(self.donors_to_display))
+        self.donorcalcs['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donationlist, False, True, self.CurrencySymbol, int(self.donors_to_display))
 
     def write_text_files(self, dictionary):
         """Write OBS/XSplit display info to text files.
@@ -173,7 +173,7 @@ class Participant:
         file.
         :type dictionary: dict
         """
-        extralife_IO.write_text_files(dictionary, self.textFolder)
+        extralife_io.write_text_files(dictionary, self.textFolder)
 
     def run(self):
         """Run loop to get participant data.
@@ -225,6 +225,6 @@ class Participant:
 
 
 if __name__ == "__main__":
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     p = Participant(participant_conf)
     p.run()

@@ -1,6 +1,6 @@
 # This unitest test uses the following encoding: utf-8
 
-from eldonationtracker import extralife_IO
+from eldonationtracker import extralife_io
 from eldonationtracker import donation
 
 
@@ -29,7 +29,7 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        }
 
 
-# Tests for extralife_IO.py
+# Tests for extralife_io.py
 
 # come back and do one for get_JSON
 
@@ -37,13 +37,13 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
 def test_participantconf_get_version():
     """Test that the version it reads from the participant.conf file\
     equals what is expected."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     assert "2.0" == participant_conf.get_version()
 
 
 def test_participantconf_get_CLI_values():
     """Test that the program correctly returns the CLI values."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
             "$", "45678", "5") == participant_conf.get_CLI_values()
@@ -51,14 +51,14 @@ def test_participantconf_get_CLI_values():
 
 def test_get_text_folder_only():
     """Test that the text folder is correctly returned."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert "textfolder" == participant_conf.get_text_folder_only()
 
 
 def test_get_GUI_values():
     """Test that it correctly returns the values needed by the GUI."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
             "$", "45678", "imagefolder",
@@ -69,7 +69,7 @@ def test_get_GUI_values():
 def test_get_if_in_team_with_team():
     """Make sure that if there is a team in the config file,\
     it returns true."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert participant_conf.get_if_in_team() is True
 
@@ -77,21 +77,21 @@ def test_get_if_in_team_with_team():
 def test_get_if_in_team_without_team():
     """Make sure that if there isn't a team, it repots there isn't\
     one defined."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf_no_team
     assert participant_conf.get_if_in_team() is False
 
 
 def test_get_tracker_image():
     """Test that it returns the image location."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert "imagefolder" == participant_conf.get_tracker_image()
 
 
 def test_get_tracker_sound():
     """Test that it returns the sound file location."""
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert "mp3" == participant_conf.get_tracker_sound()
 
@@ -100,7 +100,7 @@ def test_single_format_message_true():
     """ Make sure the formatting works correctly."""
     donor1 = donation.Donation("donor1", "message", 45)
     currency_symbol = "$"
-    formatted_message = extralife_IO.single_format(donor1, True, currency_symbol)
+    formatted_message = extralife_io.single_format(donor1, True, currency_symbol)
     assert formatted_message == "donor1 - $45.00 - message"
 
 
@@ -108,12 +108,12 @@ def test_donor_formatting_message_false():
     """ Make sure the formatting works correctly without a message."""
     donor1 = donation.Donation("donor1", "message", 45)
     currency_symbol = "$"
-    formatted_message = extralife_IO.single_format(donor1, False, currency_symbol)
+    formatted_message = extralife_io.single_format(donor1, False, currency_symbol)
     assert formatted_message == "donor1 - $45.00"
 
 
 def test_participant_conf_str():
-    participant_conf = extralife_IO.ParticipantConf()
+    participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert str(participant_conf) == """A configuration version 2.0 with the following data: {'extralife_id': '12345', 'text_folder': 'textfolder', 'currency_symbol': '$', 'team_id': '45678', 'tracker_image': 'imagefolder', 'donation_sound': 'mp3', 'donors_to_display': '5', 'font_family': 'Liberation Sans', 'font_size': 52, 'font_italic': True, 'font_bold': 25, 'font_color': [255, 255, 255, 255], 'tracker_background_color': [38, 255, 0, 255]}"""
 
@@ -129,14 +129,14 @@ def test_multiple_format_Horizontal():
     donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
-    text1 = extralife_IO.multiple_format(donor_list, False, True,
+    text1 = extralife_io.multiple_format(donor_list, False, True,
                                          currency_symbol, 1)
-    text2 = extralife_IO.multiple_format(donor_list, False, True,
+    text2 = extralife_io.multiple_format(donor_list, False, True,
                                          currency_symbol, 2)
-    text3 = extralife_IO.multiple_format(donor_list,                                   False, True, currency_symbol, 3)
-    text4 = extralife_IO.multiple_format(donor_list, False, True,
+    text3 = extralife_io.multiple_format(donor_list, False, True, currency_symbol, 3)
+    text4 = extralife_io.multiple_format(donor_list, False, True,
                                          currency_symbol, 4)
-    text5 = extralife_IO.multiple_format(donor_list, False, True,
+    text5 = extralife_io.multiple_format(donor_list, False, True,
                                          currency_symbol, 5)
     textlist = [text1, text2, text3, text4, text5]
     assert textlist == ["donor1 - $10.00 | ",
@@ -160,14 +160,14 @@ def test_multiple_format_Message_Horizontal():
     donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
-    text1 = extralife_IO.multiple_format(donor_list, True, True,
+    text1 = extralife_io.multiple_format(donor_list, True, True,
                                          currency_symbol, 1)
-    text2 = extralife_IO.multiple_format(donor_list, True, True,
+    text2 = extralife_io.multiple_format(donor_list, True, True,
                                          currency_symbol, 2)
-    text3 = extralife_IO.multiple_format(donor_list,                                   True, True, currency_symbol, 3)
-    text4 = extralife_IO.multiple_format(donor_list, True, True,
+    text3 = extralife_io.multiple_format(donor_list, True, True, currency_symbol, 3)
+    text4 = extralife_io.multiple_format(donor_list, True, True,
                                          currency_symbol, 4)
-    text5 = extralife_IO.multiple_format(donor_list, True, True,
+    text5 = extralife_io.multiple_format(donor_list, True, True,
                                          currency_symbol, 5)
     textlist = [text1, text2, text3, text4, text5]
     assert textlist == ["donor1 - $10.00 - message1 | ",
@@ -188,14 +188,14 @@ def test_multiple_format_Vertical():
     donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
-    text1 = extralife_IO.multiple_format(donor_list, False, False,
+    text1 = extralife_io.multiple_format(donor_list, False, False,
                                          currency_symbol, 1)
-    text2 = extralife_IO.multiple_format(donor_list, False, False,
+    text2 = extralife_io.multiple_format(donor_list, False, False,
                                          currency_symbol, 2)
-    text3 = extralife_IO.multiple_format(donor_list,                                   False, False, currency_symbol, 3)
-    text4 = extralife_IO.multiple_format(donor_list, False, False,
+    text3 = extralife_io.multiple_format(donor_list, False, False, currency_symbol, 3)
+    text4 = extralife_io.multiple_format(donor_list, False, False,
                                          currency_symbol, 4)
-    text5 = extralife_IO.multiple_format(donor_list, False, False,
+    text5 = extralife_io.multiple_format(donor_list, False, False,
                                          currency_symbol, 5)
     textlist = [text1, text2, text3, text4, text5]
     assert textlist == ["donor1 - $10.00\n",
@@ -219,14 +219,14 @@ def test_multiple_format_Message_Vertical():
     donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
-    text1 = extralife_IO.multiple_format(donor_list, True, False,
+    text1 = extralife_io.multiple_format(donor_list, True, False,
                                          currency_symbol, 1)
-    text2 = extralife_IO.multiple_format(donor_list, True, False,
+    text2 = extralife_io.multiple_format(donor_list, True, False,
                                          currency_symbol, 2)
-    text3 = extralife_IO.multiple_format(donor_list,                                   True, False, currency_symbol, 3)
-    text4 = extralife_IO.multiple_format(donor_list, True, False,
+    text3 = extralife_io.multiple_format(donor_list, True, False, currency_symbol, 3)
+    text4 = extralife_io.multiple_format(donor_list, True, False,
                                          currency_symbol, 4)
-    text5 = extralife_IO.multiple_format(donor_list, True, False,
+    text5 = extralife_io.multiple_format(donor_list, True, False,
                                          currency_symbol, 5)
     textlist = [text1, text2, text3, text4, text5]
     assert textlist == ["donor1 - $10.00 - message1\n",
@@ -241,7 +241,7 @@ def test_write_text_files():
     fileinput = ""
     dictionary = {"testfilename": "test output"}
     text_folder = "testOutput"
-    extralife_IO.write_text_files(dictionary, text_folder)
+    extralife_io.write_text_files(dictionary, text_folder)
     with open(f"testOutput/testfilename.txt") as file:
         fileinput = file.read()
     assert fileinput == "test output"
@@ -252,7 +252,7 @@ def test_write_text_files_unicode():
     fileinput = ""
     dictionary = {"testfilename": "áéíóúñ"}
     text_folder = "testOutput"
-    extralife_IO.write_text_files(dictionary, text_folder)
+    extralife_io.write_text_files(dictionary, text_folder)
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "áéíóúñ"
@@ -263,7 +263,7 @@ def test_write_text_files_emoji():
     fileinput = ""
     dictionary = {"testfilename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
     text_folder = "testOutput"
-    extralife_IO.write_text_files(dictionary, text_folder)
+    extralife_io.write_text_files(dictionary, text_folder)
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"

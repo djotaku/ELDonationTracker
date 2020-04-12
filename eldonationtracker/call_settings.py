@@ -6,7 +6,7 @@ from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
 from eldonationtracker import base_api_url
-from eldonationtracker import extralife_IO
+from eldonationtracker import extralife_io
 
 
 class MyForm(QDialog):
@@ -200,7 +200,7 @@ class MyForm(QDialog):
         print("Validating URL")
         if id_type == "participant":
             url = f"{base_api_url}/participants/{self.ExtraLifeID}"
-            valid_url = extralife_IO.validate_url(url)
+            valid_url = extralife_io.validate_url(url)
             if valid_url:
                 message_box = QMessageBox.information(self, "Participant ID Validation",
                                                       f"Able to reach {url}. Participant ID is valid.")
@@ -209,7 +209,7 @@ class MyForm(QDialog):
                                                   f"Could not reach {url}. Participant ID may be invalid.")
         elif id_type == "team":
             url = f"{base_api_url}/teams/{self.TeamID}"
-            valid_url = extralife_IO.validate_url(url)
+            valid_url = extralife_io.validate_url(url)
             if valid_url:
                 message_box = QMessageBox.information(self, "Team ID Validation",
                                                       f"Able to reach {url}. Team ID is valid.")
