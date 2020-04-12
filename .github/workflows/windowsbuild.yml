@@ -31,7 +31,7 @@ jobs:
     - name: Build with Pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-binary="icon.png;." eldonationtracker/gui.py
+        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with: 
