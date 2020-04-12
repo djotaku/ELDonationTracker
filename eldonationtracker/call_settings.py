@@ -143,7 +143,7 @@ class MyForm(QDialog):
     def save(self):
         """Save the values in the window to participant.conf.
 
-        Calls the write_config method from extralife_IO.ParticipantConf.
+        Calls the write_config method from extralife_io.ParticipantConf.
         """
         config = self._elements_to_save()
         self.participant_conf.write_config(config, True)

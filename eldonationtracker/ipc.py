@@ -1,7 +1,7 @@
 """Writes to an IPC value to allow different modules to pass information.
 
 This is used to allow the tracker to know that new data needs to be read
-in because a new donation has ocurred.
+in because a new donation has occurred.
 """
 
 

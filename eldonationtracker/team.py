@@ -1,6 +1,6 @@
 """Contains classes pertaining to teams."""
 from eldonationtracker import donor as donor
-from eldonationtracker import extralife_io as extralife_IO
+from eldonationtracker import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 
 
@@ -51,7 +51,7 @@ class Team:
 
     def get_team_json(self):
         """Get team info from JSON api."""
-        self.team_json = extralife_IO.get_JSON(self.team_url)
+        self.team_json = extralife_io.get_JSON(self.team_url)
         if self.team_json == 0:
             print("Could not get team JSON")
         else:
@@ -68,7 +68,7 @@ class Team:
     def get_participants(self):
         """Get team participant info from API."""
         self.participant_list = []
-        self.team_participant_json = extralife_IO.get_JSON(self.team_participant_url)
+        self.team_participant_json = extralife_io.get_JSON(self.team_participant_url)
         if self.team_participant_json == 0:
             print("couldn't get to URL")
         elif len(self.team_participant_json) == 0:
@@ -78,7 +78,7 @@ class Team:
 
     def get_top_5_participants(self):
         """Get team participants."""
-        self.top5_team_participant_json = extralife_IO.get_JSON(self.team_participant_url, True)
+        self.top5_team_participant_json = extralife_io.get_JSON(self.team_participant_url, True)
         if self.top5_team_participant_json == 0:
             print("Couldn't get top 5 team participants")
         elif len(self.top5_team_participant_json) == 0:
@@ -99,8 +99,8 @@ class Team:
 
     def _participant_calculations(self):
         self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
-        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = extralife_IO.multiple_format(self.top_5_participant_list, False, True, self.currency_symbol, 5)
-        self.participant_calculation_dict['Team_Top5Participants'] = extralife_IO.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
+        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = extralife_io.multiple_format(self.top_5_participant_list, False, True, self.currency_symbol, 5)
+        self.participant_calculation_dict['Team_Top5Participants'] = extralife_io.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
 
     def write_text_files(self, dictionary: dict):
         """Write info to text files.
@@ -108,7 +108,7 @@ class Team:
         :param dictionary: The dictionary containing the values to write\
         out to text files.
         """
-        extralife_IO.write_text_files(dictionary, self.output_folder)
+        extralife_io.write_text_files(dictionary, self.output_folder)
 
     def team_run(self):
         """Get team info from API."""
