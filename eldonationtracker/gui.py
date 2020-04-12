@@ -10,7 +10,7 @@ import shutil
 import webbrowser
 
 from eldonationtracker import design as design
-from eldonationtracker import extralifedonations as extralifedonations
+from eldonationtracker import participant as participant
 from eldonationtracker import call_about as call_about
 from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings
@@ -205,7 +205,7 @@ class donationGrabber (threading.Thread):
     def run(self):
         print(f"Starting {self.name}. But first, reloading config file.")
         self.participant_conf.reload_JSON()
-        self.p = extralifedonations.Participant(self.participant_conf)
+        self.p = participant.Participant(self.participant_conf)
         self.p.run()
 
     def stop(self):

@@ -1,6 +1,6 @@
 from unittest import mock
 
-import eldonationtracker.extralifedonations as participant
+import eldonationtracker.participant as participant
 
 config = ("12345", "textfolder", "$", "45678", "5")
 fake_participant_conf = mock.Mock()
