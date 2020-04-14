@@ -20,7 +20,7 @@ class Donation:
     :type amount: int
     """
 
-    def __init__(self, name, message, amount):
+    def __init__(self, name, message, amount, donor_id, avatar_url, donation_date, donation_id):
         """Load in values from class initialization."""
         if name is not None:
             self.name = name
@@ -31,6 +31,10 @@ class Donation:
             self.amount = amount
         else:
             self.amount = 0
+        self.donor_id: str = donor_id
+        self.avatar_url: str = avatar_url
+        self.donation_date: str = donation_date
+        self.donation_id: str = donation_id
 
     def __lt__(self, object):
         """Donation less than comparison.

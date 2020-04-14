@@ -1,4 +1,4 @@
-# This unitest test uses the following encoding: utf-8
+# This unit test test uses the following encoding: utf-8
 
 from eldonationtracker import extralife_io
 from eldonationtracker import donation
@@ -98,7 +98,8 @@ def test_get_tracker_sound():
 
 def test_single_format_message_true():
     """ Make sure the formatting works correctly."""
-    donor1 = donation.Donation("donor1", "message", 45)
+    donor1 = donation.Donation("donor1", "message", 45, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                               "861A3C59D235B4DA")
     currency_symbol = "$"
     formatted_message = extralife_io.single_format(donor1, True, currency_symbol)
     assert formatted_message == "donor1 - $45.00 - message"
@@ -106,7 +107,8 @@ def test_single_format_message_true():
 
 def test_donor_formatting_message_false():
     """ Make sure the formatting works correctly without a message."""
-    donor1 = donation.Donation("donor1", "message", 45)
+    donor1 = donation.Donation("donor1", "message", 45, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                               "861A3C59D235B4DA")
     currency_symbol = "$"
     formatted_message = extralife_io.single_format(donor1, False, currency_symbol)
     assert formatted_message == "donor1 - $45.00"
@@ -118,15 +120,22 @@ def test_participant_conf_str():
     assert str(participant_conf) == """A configuration version 2.0 with the following data: {'extralife_id': '12345', 'text_folder': 'textfolder', 'currency_symbol': '$', 'team_id': '45678', 'tracker_image': 'imagefolder', 'donation_sound': 'mp3', 'donors_to_display': '5', 'font_family': 'Liberation Sans', 'font_size': 52, 'font_italic': True, 'font_bold': 25, 'font_color': [255, 255, 255, 255], 'tracker_background_color': [38, 255, 0, 255]}"""
 
 
+donor1 = donation.Donation("donor1", "message1", 10, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                           "861A3C59D235B4DA")
+donor2 = donation.Donation("donor2", "message2", 20, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                           "861A3C59D235B4DA")
+donor3 = donation.Donation("donor3", "message3", 30, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                           "861A3C59D235B4DA")
+donor4 = donation.Donation("donor4", "message4", 40, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                           "861A3C59D235B4DA")
+donor5 = donation.Donation("donor5", "message5", 50, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                           "861A3C59D235B4DA")
+donor6 = donation.Donation("donor6", "message6", 60, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
+                           "861A3C59D235B4DA")
+
 def test_multiple_format_Horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
-    donor1 = donation.Donation("donor1", "message1", 10)
-    donor2 = donation.Donation("donor2", "message2", 20)
-    donor3 = donation.Donation("donor3", "message3", 30)
-    donor4 = donation.Donation("donor4", "message4", 40)
-    donor5 = donation.Donation("donor5", "message5", 50)
-    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_io.multiple_format(donor_list, False, True,
@@ -152,12 +161,6 @@ def test_multiple_format_Message_Horizontal():
 
     This time including the message that goes along with the donation.
     """
-    donor1 = donation.Donation("donor1", "message1", 10)
-    donor2 = donation.Donation("donor2", "message2", 20)
-    donor3 = donation.Donation("donor3", "message3", 30)
-    donor4 = donation.Donation("donor4", "message4", 40)
-    donor5 = donation.Donation("donor5", "message5", 50)
-    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_io.multiple_format(donor_list, True, True,
@@ -180,12 +183,6 @@ def test_multiple_format_Message_Horizontal():
 def test_multiple_format_Vertical():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
-    donor1 = donation.Donation("donor1", "message1", 10)
-    donor2 = donation.Donation("donor2", "message2", 20)
-    donor3 = donation.Donation("donor3", "message3", 30)
-    donor4 = donation.Donation("donor4", "message4", 40)
-    donor5 = donation.Donation("donor5", "message5", 50)
-    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_io.multiple_format(donor_list, False, False,
@@ -211,12 +208,6 @@ def test_multiple_format_Message_Vertical():
 
     This time including the message that goes along with the donation.
     """
-    donor1 = donation.Donation("donor1", "message1", 10)
-    donor2 = donation.Donation("donor2", "message2", 20)
-    donor3 = donation.Donation("donor3", "message3", 30)
-    donor4 = donation.Donation("donor4", "message4", 40)
-    donor5 = donation.Donation("donor5", "message5", 50)
-    donor6 = donation.Donation("donor6", "message6", 60)
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
     currency_symbol = "$"
     text1 = extralife_io.multiple_format(donor_list, True, False,

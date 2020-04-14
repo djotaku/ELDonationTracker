@@ -49,18 +49,18 @@ def get_JSON(url: str, order_by_donations: bool = False) -> dict:
         #  print(f"trying URL: {url}")
         return json.load(payload)
     except HTTPError:
-        print(f"""Couldn't get to {url}.
+        print(f"""Could not get to {url}.
                 Check ExtraLifeID.
                 Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent issue:
                 please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
-        return 0  # to be proper this should return an exemption
+        return {}
     except URLError:
         print(f"HTTP code: {payload.getcode()}")
         print(f""" Timed out while getting JSON. """)
-        return 0
+        return {}
 
 # File Input and Output
 # input

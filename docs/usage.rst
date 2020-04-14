@@ -144,7 +144,7 @@ Make sure you have the :doc:`participant_conf` in the persistent location. You c
 
 Of course, you can import the modules into your own scripts and modify how you use the code I've written. In that case, you may be interested in the module index to get a good look at the API available to your program.
    
-Commandline users (non-PyPi)
+Commandline users (git)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you downloaded a zip or tar file, unzip it first, then cd into that directory. If you did a git clone, cd in to that directory. Afterwards, follow along below to create a virtual environment (so as not to mess with your Python installation), grab the required packages, and run the program. (For information on what you should put into participant.conf, see :doc:`participant_conf`.
