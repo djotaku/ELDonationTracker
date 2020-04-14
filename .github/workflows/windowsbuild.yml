@@ -36,7 +36,7 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with: 
         name: eldonationtracker for Windows
-        path: dist/gui
+        path: dist/
     - name: Build Folder with Pyinstaller
       run: |
         pip install pyinstaller
