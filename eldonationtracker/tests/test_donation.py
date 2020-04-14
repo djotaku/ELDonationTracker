@@ -50,7 +50,7 @@ def test_donation_lt_whole_numbers():
 
     Uses whole dollar amounts.
     """
-    assert donation2_whole_dollar < donation1_whole_dollar
+    assert donation2_whole_dollar.get_amount() < donation1_whole_dollar.get_amount()
 
 
 def test_donation_lt_change():
@@ -58,7 +58,7 @@ def test_donation_lt_change():
 
     Uses dollars and cents.
     """
-    assert donation2 < donation1
+    assert donation2.get_amount() < donation1.get_amount()
 
 
 def test_donation_equal():
@@ -66,7 +66,7 @@ def test_donation_equal():
 
     This time they're equal.
     """
-    assert donation2_equal == donation1
+    assert donation2_equal.get_amount() == donation1.get_amount()
 
 
 def test_donation_str():

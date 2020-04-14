@@ -36,20 +36,15 @@ class Donation:
         self.donation_date: str = donation_date
         self.donation_id: str = donation_id
 
-    def __lt__(self, object):
-        """Donation less than comparison.
-
-        :return: Returns True if this donation has a donation\
-        amount less than comparision.
-        """
-        return self.amount < object.amount
+    def get_amount(self):
+        return self.amount
 
     def __eq__(self, other):
         """Donation equal comparison.
 
-        :returns: True if this donation has a donation amount equal to the comparison.
+        :returns: True if this donation has the same donation ID.
         """
-        return self.amount == other.amount
+        return self.donation_id == other.donation_id
 
     def __str__(self):
         return f"A donation by {self.name} in the amount of ${self.amount} with the message '{self.message}'"

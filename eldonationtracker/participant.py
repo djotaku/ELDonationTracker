@@ -55,7 +55,7 @@ class Participant:
 
     Helper Variables:
 
-    :param self.donorcalcs: a dictionary holding values for txt ouput:
+    :param self.donation_formatted_output: a dictionary holding values for txt ouput:
 
                 - LastDonationNameAmnt: most recent donation,
                                         donor name, amount of donation
@@ -66,7 +66,7 @@ class Participant:
                 - lastNDonationNameAmtsMessage: same with messages
                 - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
                 - lastNDonationNameAmtsHorizontal: same, but no message
-    :type donorcalcs: dict
+    :type donation_formatted_output: dict
     :param self.loop: set to true on init, it's there so that the GUI can stop the\
     loop.(if the GUI is being used. Otherwise, no big deal)
     :type loop: bool
@@ -104,12 +104,16 @@ class Participant:
                                              'averageDonation': f"{self.CurrencySymbol}0.00",
                                              'goal': f"{self.CurrencySymbol}0.00"}
 
+        # donation information
+        self.donation_list: list = []
+        self.donation_formatted_output: dict = {'LastDonationNameAmnt': "No Donations Yet",
+                                                'lastNDonationNameAmts': "No Donations Yet",
+                                                'lastNDonationNameAmtsMessage': "No Donations Yet",
+                                                'lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
+                                                'lastNDonationNameAmtsHorizontal': "No Donations Yet"}
         # donor information
-        self.donation_list = []
-        self.donorcalcs = {'LastDonationNameAmnt': "No Donors Yet", 'TopDonorNameAmnt': "No Donors Yet",
-                           'lastNDonationNameAmts': "No Donors Yet", 'lastNDonationNameAmtsMessage': "No Donors Yet",
-                           'lastNDonationNameAmtsMessageHorizontal': "No Donors Yet",
-                           'lastNDonationNameAmtsHorizontal': "No Donors Yet"}
+        self.top_donor = None
+        self.donor_formatted_output: dict = {'TopDonorNameAmnt': "No Donors Yet"}
 
         # misc
         self.loop = True
@@ -134,6 +138,7 @@ class Participant:
     def _format_participant_info_for_output(self, participant_attribute) -> str:
         """Format participant info for output to text files.
 
+        :param participant_attribute: the data to be formatted for the output.
         :returns: A string with the formatted information.
         """
         formatted_output = f"{self.CurrencySymbol}{participant_attribute:,.2f}"
@@ -156,7 +161,13 @@ class Participant:
             return 0
 
     def _get_donations(self, donations: list) -> list:
-        """Get the donations from the JSON and create the donation objects."""
+        """Get the donations from the JSON and create the donation objects.
+
+        If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
+
+        :param donations: A list consisting of donor.Donation objects.
+        :returns: A list of donor.Donation objects.
+        """
         donation_json = extralife_io.get_JSON(self.donation_url)
         if not donation_json:
             print("couldn't access donation page")
@@ -164,7 +175,7 @@ class Participant:
         elif len(donation_json) == 0:
             print("No donations!")
             return donations
-        else:  # do I just keep it this way? Or append new ones?
+        else:
             donation_list = [donation.Donation(donation_json[this_donation].get('displayName'),
                                                donation_json[this_donation].get('message'),
                                                donation_json[this_donation].get('amount'),
@@ -173,39 +184,43 @@ class Participant:
                                                donation_json[this_donation].get('createdDateUTC'),
                                                donation_json[this_donation].get('donationID'))
                              for this_donation in range(0, len(donation_json))]
-            for a_donation in donation_list:
-                donations.append(a_donation) if a_donation not in donations else donations
-            return donation_list
+            if len(donations) == 0:
+                return donation_list
+            else:
+                for a_donation in reversed(donation_list):
+                    donations.insert(0, a_donation) if a_donation not in donations else donations
+                return donations
 
     # make a top donation method, but only call it once. After that, just update it if the new donation that comes in is
     # larger
 
-    def _top_donor(self):
+    def _get_top_donor(self):
         """Return Top Donor from server.
 
         Uses donor drive's sorting to get the top guy or gal.
         """
-        top_donor_json = extralife_io.get_JSON(self.participant_donor_URL,
-                                               True)
+        top_donor_json = extralife_io.get_JSON(self.participant_donor_URL, True)
         if not top_donor_json:
             print("Couldn't access top donor data")
+            return self.top_donor
         else:
-            top_donor = donor.Donor(top_donor_json[0])
-            return extralife_io.single_format(top_donor, False,
-                                              self.CurrencySymbol)
+            return donor.Donor(top_donor_json[0])
 
-    def _donor_calculations(self):
-        self.donorcalcs['LastDonationNameAmnt'] = extralife_io.single_format(self.donation_list[0], False, self.CurrencySymbol)
-        try:
-            self.donorcalcs['TopDonorNameAmnt'] = self._top_donor()
-        except:
-            pass
-        self.donorcalcs['lastNDonationNameAmts'] = extralife_io.multiple_format(self.donation_list, False, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonationNameAmtsMessage'] = extralife_io.multiple_format(self.donation_list, True, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donation_list, True, True, self.CurrencySymbol, int(self.donors_to_display))
-        self.donorcalcs['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donation_list, False, True, self.CurrencySymbol, int(self.donors_to_display))
+    def _format_donor_information_for_output(self) -> None:
+        """Format the donor attributes for the output files."""
+        self.donor_formatted_output['TopDonorNameAmnt'] = extralife_io.single_format(self.top_donor, False,
+                                                                                     self.CurrencySymbol)
 
-    def write_text_files(self, dictionary):
+    def _format_donation_information_for_output(self) -> None:
+        """Format the donation attributes for the output files."""
+        self.donation_formatted_output['LastDonationNameAmnt'] = extralife_io.single_format(self.donation_list[0],
+                                                                                            False, self.CurrencySymbol)
+        self.donation_formatted_output['lastNDonationNameAmts'] = extralife_io.multiple_format(self.donation_list, False, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsMessage'] = extralife_io.multiple_format(self.donation_list, True, False, self.CurrencySymbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donation_list, True, True, self.CurrencySymbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donation_list, False, True, self.CurrencySymbol, int(self.donors_to_display))
+
+    def write_text_files(self, dictionary: dict) -> None:
         """Write OBS/XSplit display info to text files.
 
         It uses the helper function extralife_IO.write_text_files to handle the task.
@@ -217,33 +232,40 @@ class Participant:
         """
         extralife_io.write_text_files(dictionary, self.textFolder)
 
-    def run(self):
+    def run(self) -> None:
         """Run loop to get participant data.
 
         This should run getParticipantJSON, getDonors,
         the calculations methods, and the methods to
         write to text files.
 
-        .. warning:: This will be changed in a future version\
+        .. warning:: This will be changed in a future version
         to no longer be a loop and instead the loop will be in the\
         if __name__=__main__ part. This will make it more consistent with\
         the way team.py works and will enable some better efficiencies\
         with the GUI.
         """
-        # by taking the while loop out of here, can make unit tests
+        # PARTICIPANT BLOCK ############################
         self.total_raised, self.number_of_donations, self.goal = self._get_participant_info()
         self.average_donation = self._calculate_average_donation()
-        number_of_donations = self.number_of_donations
         self._fill_participant_dictionary()
         self.write_text_files(self.participant_formatted_output)
+        ##############################################################
+        number_of_donations = self.number_of_donations
         # I think (and this may already be in issue #102, but should only get donations if self.number_of_donations is
         # greater than 0.
+        # DONATION BLOCK #######################################
         self.donation_list = self._get_donations(self.donation_list)
+        self._get_top_donor()
         if len(self.donation_list) > 0:
-            self._donor_calculations()
-            self.write_text_files(self.donorcalcs)
+            self._format_donation_information_for_output()
+            self._format_donor_information_for_output()
+            self.write_text_files(self.donation_formatted_output)
+        #########################################################
+        # TEAM BLOCK ############################################
         if self.TeamID:
             self.myteam.team_run()
+        ##########################################################
         while self.loop:
             self._get_participant_info()
             self.write_text_files(self.participant_formatted_output)
@@ -252,9 +274,11 @@ class Participant:
             if self.number_of_donations > number_of_donations:
                 print("A new donor!")
                 number_of_donations = self.number_of_donations
-                self._get_donations()
-                self._donor_calculations()
-                self.write_text_files(self.donorcalcs)
+                self.donation_list = self._get_donations(self.donation_list)
+                self._get_top_donor()
+                self._format_donation_information_for_output()
+                self._format_donor_information_for_output()
+                self.write_text_files(self.donation_formatted_output)
                 ipc.writeIPC(self.textFolder, "1")
             if self.TeamID:
                 self.myteam.team_run()
@@ -270,7 +294,7 @@ class Participant:
         return f"A participant with Extra Life ID {self.ExtraLifeID}. Team info: {self.myteam}"
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     participant_conf = extralife_io.ParticipantConf()
     p = Participant(participant_conf)
     p.run()

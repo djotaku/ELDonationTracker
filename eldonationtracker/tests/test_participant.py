@@ -25,6 +25,8 @@ fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount
 fake_extralife_io = mock.Mock()
 fake_extralife_io.get_JSON.return_value = fake_participant_info
 fake_extralife_io.get_JSON_donations.return_value = fake_donations
+fake_extralife_io.get_JSON_no_json.return_value = {}
+fake_extralife_io.get_JSON_donations_no_json.return_value = {}
 
 def test_api_variables():
     my_participant = Participant(fake_participant_conf)
@@ -50,16 +52,10 @@ def test_str_without_a_team():
     assert str(my_participant) == "A participant with Extra Life ID 12345. Team info: Not a valid team - no team_id."
 
 
-fake_extralife_io.get_JSON.return_value = fake_participant_info
-
-
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON)
 def test_get_participant_info():
     my_participant = Participant(fake_participant_conf)
     assert my_participant._get_participant_info() == (500, 5, 1000)
-
-
-fake_extralife_io.get_JSON_no_json.return_value = {}
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_no_json)
@@ -106,8 +102,34 @@ def test_calculate_average_donation_no_donations():
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations)
 def test_get_donations():
     my_participant = Participant(fake_participant_conf)
-    my_participant._get_donations(my_participant.donation_list)
+    my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
     assert my_participant.donation_list[0].name == "Sean Gibson"
+    assert my_participant.donation_list[1].name == "Eric Mesa"
 
 
-# test get_donations where json is empty
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations_no_json)
+def test_get_donations_no_json():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
+    assert my_participant.donation_list == []
+
+
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations)
+def test_get_donations_already_a_donation_present():
+    my_participant = Participant(fake_participant_conf)
+    donation1 = eldonationtracker.participant.donation.Donation("Donor 1", "Good job!", 34.51, "4939d",
+                                                                "http://image.png",
+                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
+    my_participant.donation_list = [donation1]
+    my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
+    print(my_participant.donation_list)
+    assert my_participant.donation_list[0].name == "Sean Gibson"
+    assert my_participant.donation_list[1].name == "Eric Mesa"
+    assert my_participant.donation_list[2].name == "Donor 1"
+
+# tests to do:
+# _get_top_donor
+# _format_donor_information_for_output
+# _format_donation_information_for_output
+# write_text_files? Or don't test?
+# the "loop" itself
