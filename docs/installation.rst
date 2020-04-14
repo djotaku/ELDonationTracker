@@ -48,11 +48,13 @@ Here you have a few options depending on what you want to do.
 GUI Single Executable Users
 ---------------------------
 
-Go to the latest release_ and download the file that ends in "For Windows". Unzip it to the location you want to use and then proceed to :doc:`usage`.
+Go to the latest release_ and download one of the files that ends in "For Windows". For the 4.4.0 release you can choose a single executable binary or the zip file as before. Unzip it to the location you want to use and then proceed to :doc:`usage`.
 
-Pyinstaller images will no longer be made for Linux as there are issues with the version of libC it links to as well as other side effects from the VM used by the Github CI system. Linux users can still use the GUI via PyPi, Source Code download, or git clone.
+.. versionadded:: 4.4.0
+    Single-binary executable build added.
 
 .. versionchanged:: 4.0.1
+    Pyinstaller images will no longer be made for Linux as there are issues with the version of libC it links to as well as other side effects from the VM used by the Github CI system. Linux users can still use the GUI via PyPi, Source Code download, or git clone.
 
 
 .. _release: https://github.com/djotaku/ELDonationTracker/releases
