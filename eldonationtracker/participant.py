@@ -47,8 +47,8 @@ class Participant:
                        it's calculated in this class.
                      - goal: the participant's fundraising goal
     :type self.participantinfo: dict
-    :param self.myteam: An instantiation of a team class for the participant's team.
-    :type myteam: cls: eldonationtracker.team
+    :param self.my_team: An instantiation of a team class for the participant's team.
+    :type my_team: cls: eldonationtracker.team
     :param self.donationlist: a list of Donation class ojects made of donations to\
     this participant
     :type donation_list: list
@@ -116,11 +116,11 @@ class Participant:
         self.donor_formatted_output: dict = {'TopDonorNameAmnt': "No Donors Yet"}
 
         # misc
-        self.loop = True
+        self.first_run: bool = True
         ipc.writeIPC(self.textFolder, "0")
-        self.myteam = team.Team(self.TeamID,
-                                self.textFolder,
-                                self.CurrencySymbol)
+        self.my_team = team.Team(self.TeamID,
+                                 self.textFolder,
+                                 self.CurrencySymbol)
 
     def _get_participant_info(self):
         """Get JSON data for participant information.
@@ -220,6 +220,66 @@ class Participant:
         self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donation_list, True, True, self.CurrencySymbol, int(self.donors_to_display))
         self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donation_list, False, True, self.CurrencySymbol, int(self.donors_to_display))
 
+    def update_participant_attributes(self) -> None:  # pragma: no cover
+        """Update participant attributes.
+
+         A public method that will update the Participant object with data from self.participant_url.
+
+         Also called from the main loop.
+         """
+        self.total_raised, self.number_of_donations, self.goal = self._get_participant_info()
+        self.average_donation = self._calculate_average_donation()
+
+    def output_participant_data(self) -> None:  # pragma: no cover
+        """Format participant data and write to text files for use by OBS or XSplit.
+
+        A public method to do the above. Also called from the main loop.
+        """
+        self._fill_participant_dictionary()
+        self.write_text_files(self.participant_formatted_output)
+
+    def update_donation_data(self) -> None:
+        """Update donation data.
+
+        As of 5.0 it just updates the list of donations. There may be more donation-related updating in future versions.
+        """
+        if self.number_of_donations > 0:
+            self.donation_list = self._get_donations(self.donation_list)
+
+    def update_donor_data(self) -> None:
+        """Update donor data.
+
+        As of 5.0 it only grabs the top donor. There may be more donor-related updates in the future.
+        """
+        if self.number_of_donations > 0:
+            self.top_donor = self._get_top_donor()
+
+    def output_donation_data(self) -> None:
+        """Write out text files for donation data.
+
+        If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
+        If there have not yet been donations, write default data to the files.
+        """
+        if len(self.donation_list) > 0:
+            self._format_donation_information_for_output()
+            self.write_text_files(self.donation_formatted_output)
+        else:
+            print("No donations, writing default data to files.")
+            self.write_text_files(self.donation_formatted_output)
+
+    def output_donor_data(self) -> None:
+        """Write out text files for donor data.
+
+        If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
+        If there have not yet been donations, write default data to the files.
+        """
+        if len(self.donation_list) > 0:
+            self._format_donor_information_for_output()
+            self.write_text_files(self.donor_formatted_output)
+        else:
+            print("No donations, writing default data to files.")
+            self.write_text_files(self.donor_formatted_output)
+
     def write_text_files(self, dictionary: dict) -> None:
         """Write OBS/XSplit display info to text files.
 
@@ -233,68 +293,32 @@ class Participant:
         extralife_io.write_text_files(dictionary, self.textFolder)
 
     def run(self) -> None:
-        """Run loop to get participant data.
-
-        This should run getParticipantJSON, getDonors,
-        the calculations methods, and the methods to
-        write to text files.
-
-        .. warning:: This will be changed in a future version
-        to no longer be a loop and instead the loop will be in the\
-        if __name__=__main__ part. This will make it more consistent with\
-        the way team.py works and will enable some better efficiencies\
-        with the GUI.
-        """
-        # PARTICIPANT BLOCK ############################
-        self.total_raised, self.number_of_donations, self.goal = self._get_participant_info()
-        self.average_donation = self._calculate_average_donation()
-        self._fill_participant_dictionary()
-        self.write_text_files(self.participant_formatted_output)
-        ##############################################################
+        """Run loop to get participant, donation, donor, and team data and output to text files."""
         number_of_donations = self.number_of_donations
-        # I think (and this may already be in issue #102, but should only get donations if self.number_of_donations is
-        # greater than 0.
-        # DONATION BLOCK #######################################
-        self.donation_list = self._get_donations(self.donation_list)
-        self._get_top_donor()
-        if len(self.donation_list) > 0:
-            self._format_donation_information_for_output()
-            self._format_donor_information_for_output()
-            self.write_text_files(self.donation_formatted_output)
+        self.update_participant_attributes()
+        self.output_participant_data()
+        if self.first_run or self.number_of_donations > number_of_donations:
+            if not self.first_run:
+                print("A new donation!")
+                ipc.writeIPC(self.textFolder, "1")
+            self.update_donation_data()
+            self.output_donation_data()
+            self.update_donor_data()
+            self.output_donor_data()
         #########################################################
         # TEAM BLOCK ############################################
         if self.TeamID:
-            self.myteam.team_run()
+            self.my_team.team_run()
         ##########################################################
-        while self.loop:
-            self._get_participant_info()
-            self.write_text_files(self.participant_formatted_output)
-            if self.TeamID:
-                self.myteam.participant_run()
-            if self.number_of_donations > number_of_donations:
-                print("A new donor!")
-                number_of_donations = self.number_of_donations
-                self.donation_list = self._get_donations(self.donation_list)
-                self._get_top_donor()
-                self._format_donation_information_for_output()
-                self._format_donor_information_for_output()
-                self.write_text_files(self.donation_formatted_output)
-                ipc.writeIPC(self.textFolder, "1")
-            if self.TeamID:
-                self.myteam.team_run()
-            print(time.strftime("%H:%M:%S"))
-            time.sleep(30)
-
-    def stop(self):
-        """Stop the loop."""
-        print("stopping now...")
-        self.loop = False
+        print(time.strftime("%H:%M:%S"))  # this should stay
 
     def __str__(self):
-        return f"A participant with Extra Life ID {self.ExtraLifeID}. Team info: {self.myteam}"
+        return f"A participant with Extra Life ID {self.ExtraLifeID}. Team info: {self.my_team}"
 
 
 if __name__ == "__main__":  # pragma: no cover
     participant_conf = extralife_io.ParticipantConf()
     p = Participant(participant_conf)
-    p.run()
+    while True:
+        p.run()
+        time.sleep(15)

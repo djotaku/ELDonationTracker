@@ -131,5 +131,11 @@ def test_get_donations_already_a_donation_present():
 # _get_top_donor
 # _format_donor_information_for_output
 # _format_donation_information_for_output
+# update_donation_data because of if statement
+# update_donor_data because of if statement
+# output_donation_data because of if statement
+# output_donor_data because of if statement
+
 # write_text_files? Or don't test?
-# the "loop" itself
+# the "loop" itself -> test running, then updating data, then running again to see how it does on first run and
+# on subsequent runs.

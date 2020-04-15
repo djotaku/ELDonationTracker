@@ -6,7 +6,8 @@ import pathlib
 import requests
 import ssl
 from typing import Tuple
-from urllib.request import HTTPError, Request, URLError, urlopen
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 
 import xdgenvpy
 
