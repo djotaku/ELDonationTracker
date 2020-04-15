@@ -28,7 +28,16 @@ jobs:
       run: |
         pip install pytest 
         pytest -v --pyargs eldonationtracker
-    - name: Build with Pyinstaller
+    - name: Build Single Executable with Pyinstaller
+      run: |
+        pip install pyinstaller
+        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with: 
+        name: eldonationtracker for Windows
+        path: dist/
+    - name: Build Folder with Pyinstaller
       run: |
         pip install pyinstaller
         pyinstaller -p eldonationtracker eldonationtracker/gui.py
@@ -37,6 +46,6 @@ jobs:
         cp dist/gui/Qt5Core.dll dist/gui/PyQt5/Qt/bin
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
-      with: 
-        name: Windows-Build
+      with:
+        name: Extra Life Donation Tracker for Windows
         path: dist/gui

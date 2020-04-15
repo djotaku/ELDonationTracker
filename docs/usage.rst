@@ -10,11 +10,12 @@ This refers to you if you downloaded a file like Extra Life Donation Tracker for
 Launching
 ---------
 
-Go into the folder you unzipped. Find the file called gui.exe and double-click it. If Windows or your anti-virus software throws a warning, click through to allow it to run.
+For the zip folder:  Go into the folder you unzipped. Find the file called gui.exe and double-click it. If Windows or your anti-virus software throws a warning, click through to allow it to run.
 
-.. note::
+For the single binary: Double-click eldonationtracker.exe to launch it. f Windows or your anti-virus software throws a warning, click through to allow it to run.
 
-    In a future version, this may change to just be one executable instead of a folder full of files.
+.. versionadded:: 4.4.0
+    Single-binary executable.
 
 .. _gui-usage:
 
