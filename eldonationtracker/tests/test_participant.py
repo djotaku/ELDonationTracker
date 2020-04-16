@@ -343,6 +343,14 @@ def test_run():
 @mock.patch.object(eldonationtracker.participant.team.Team, 'participant_run',
                    fake_participant_for_run.my_team.participant_run)
 def test_run_get_a_donation():
+    fake_participant_for_run.output_participant_data.reset_mock()
+    fake_participant_for_run.writeIPC.reset_mock()
+    fake_participant_for_run.update_donation_data.reset_mock()
+    fake_participant_for_run.output_donation_data.reset_mock()
+    fake_participant_for_run.update_donor_data.reset_mock()
+    fake_participant_for_run.output_donor_data.reset_mock()
+    fake_participant_for_run.my_team.team_run.reset_mock()
+    fake_participant_for_run.my_team.participant_run.reset_mock()
     my_participant = Participant(fake_participant_conf)
     assert my_participant.number_of_donations == 0
     my_participant.first_run = False  # to simulate that this is after one run already
