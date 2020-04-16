@@ -8,25 +8,25 @@ class Team:
     """Hold Team API Data.
 
     API Variables:
-        :param team_url: URL to the team JSON API
-        :param team_participant_url: URL to the JSON api for participants\
+        :param self.team_url: URL to the team JSON API
+        :param self.team_participant_url: URL to the JSON api for participants\
         in the team.
-        :param team_info: a dictionary to hold the following:
+        :param self.team_info: a dictionary to hold the following:
 
                    - Team_goal: fundraising goal
                    - Team_captain: team captain's name
                    - Team_totalRaised: total amount raised by team
                    - Team_numDonations: total number of donations to the team
 
-        :param participant_list: a list of the most recent participants
-        :param top_5_participant_list: a list of the top 5 team participants\
+        :param self.participant_list: a list of the most recent participants
+        :param self.top_5_participant_list: a list of the top 5 team participants\
         by amount donated.
 
         Helper Variables:
 
-        :param output_folder: the folder that will contain the output txt files
+        :param self.output_folder: the folder that will contain the output txt files
         :param currency_symbol: for formatting text
-        :param participant_calculation_dict: dictionary holding output for txt\
+        :param self.participant_calculation_dict: dictionary holding output for txt\
         files:
 
                    - Team_Top5Participants: top 5 participants by
@@ -47,7 +47,7 @@ class Team:
         self.team_info = {}
         self.participant_calculation_dict: dict = {}
         self.top_5_participant_list = []
-        self.team_json = 0  # this needs to be changed in a refactor - shouldn't hold an int OR a dict
+        self.team_json: dict = {}
 
     def get_team_json(self):
         """Get team info from JSON api."""
@@ -105,8 +105,7 @@ class Team:
     def write_text_files(self, dictionary: dict):
         """Write info to text files.
 
-        :param dictionary: The dictionary containing the values to write\
-        out to text files.
+        :param dictionary: The dictionary containing the values to write out to text files.
         """
         extralife_io.write_text_files(dictionary, self.output_folder)
 
@@ -116,7 +115,7 @@ class Team:
         self.write_text_files(self.team_info)
 
     def participant_run(self):
-        """Get and calculate team partipant info."""
+        """Get and calculate team participant info."""
         self.get_participants()
         self.get_top_5_participants()
         self._participant_calculations()
@@ -124,10 +123,10 @@ class Team:
 
     def __str__(self):
         team_info = ""
-        if self.team_json != 0:
+        if self.team_json:
             team_info = f"Team goal is {self.team_info['Team_goal']}."
         if self.team_id:
-            return f"A team found at {self.team_url} ."
+            return f"A team found at {self.team_url} {team_info}."
         else:
             return "Not a valid team - no team_id."
 

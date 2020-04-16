@@ -22,16 +22,28 @@ fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount
                                                                         "8BF4C17.jpg",
                                                       "createdDateUTC": "2020-01-05T20:35:28.897+0000",
                                                       "eventID": 547, "teamID": 50394, "donationID": "7D430E9E9AF79686"}
+
+donor1_json = {"displayName": "donor1", "sumDonations": "45", "donorID": 1000111,
+               'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
+donor1 = eldonationtracker.participant.donor.Donor(donor1_json)
+fake_top_donor_json = [{"displayName": "Top Donor", "sumDonations": "100", "donorID": 1000111,
+                       'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}]
+
 fake_extralife_io = mock.Mock()
 fake_extralife_io.get_JSON.return_value = fake_participant_info
 fake_extralife_io.get_JSON_donations.return_value = fake_donations
 fake_extralife_io.get_JSON_no_json.return_value = {}
 fake_extralife_io.get_JSON_donations_no_json.return_value = {}
+fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
+
+magic_fake_extralife_io = mock.MagicMock()
+magic_fake_extralife_io.get_JSON_top_donor.return_value = fake_top_donor_json
+
 
 def test_api_variables():
     my_participant = Participant(fake_participant_conf)
-    assert (my_participant.ExtraLifeID, my_participant.textFolder,
-            my_participant.CurrencySymbol, my_participant.TeamID,
+    assert (my_participant.extralife_id, my_participant.text_folder,
+            my_participant.currency_symbol, my_participant.team_id,
             my_participant.donors_to_display) == ("12345", "textfolder", "$", "45678", "5")
 
 
@@ -39,7 +51,7 @@ def test_urls():
     my_participant = Participant(fake_participant_conf)
     assert my_participant.participant_url == "https://www.extra-life.org/api/participants/12345"
     assert my_participant.donation_url == "https://www.extra-life.org/api/participants/12345/donations"
-    assert my_participant.participant_donor_URL == "https://www.extra-life.org/api/participants/12345/donors"
+    assert my_participant.participant_donor_url == "https://www.extra-life.org/api/participants/12345/donors"
 
 
 def test_str_with_a_team():
@@ -122,15 +134,68 @@ def test_get_donations_already_a_donation_present():
                                                                 "2020-02-11T17:22:23.963+0000", "fakedonationid")
     my_participant.donation_list = [donation1]
     my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
-    print(my_participant.donation_list)
+    # print(my_participant.donation_list)
     assert my_participant.donation_list[0].name == "Sean Gibson"
     assert my_participant.donation_list[1].name == "Eric Mesa"
     assert my_participant.donation_list[2].name == "Donor 1"
 
-# tests to do:
-# _get_top_donor
-# _format_donor_information_for_output
-# _format_donation_information_for_output
+
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_top_donor_no_json)
+def test_get_top_donor_no_json():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.top_donor = donor1
+    my_participant.top_donor = my_participant._get_top_donor()
+    assert my_participant.top_donor == donor1
+
+
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", magic_fake_extralife_io.get_JSON_top_donor)
+def test_get_top_donor():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.top_donor = donor1
+    my_participant.top_donor = my_participant._get_top_donor()
+    print(my_participant.top_donor)
+    assert my_participant.top_donor.name == "Top Donor"
+
+
+def test_format_donor_information_for_output():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.top_donor = donor1
+    my_participant._format_donor_information_for_output()
+    assert my_participant.donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
+
+
+def test_format_donation_information_for_output():
+    my_participant = Participant(fake_participant_conf)
+    donation1 = eldonationtracker.participant.donation.Donation("Donor 1", "Good job! From Donor 1", 34.51, "4939d",
+                                                                "http://image.png",
+                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
+    donation2 = eldonationtracker.participant.donation.Donation("Donor 2", None, 34.51, "4939d",
+                                                                "http://image.png",
+                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
+    donation3 = eldonationtracker.participant.donation.Donation(None, "Good job! From Donor 3", 34.51, "4939d",
+                                                                "http://image.png",
+                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
+    my_participant.donation_list = [donation3, donation2, donation1]
+    my_participant._format_donation_information_for_output()
+    assert my_participant.donation_formatted_output['LastDonationNameAmnt'] == "Anonymous - $34.51"
+    assert my_participant.donation_formatted_output['lastNDonationNameAmts'] == "Anonymous - $34.51\nDonor 2 - $34.51" \
+                                                                                "\nDonor 1 - $34.51\n"
+    assert my_participant.donation_formatted_output['lastNDonationNameAmtsMessage'] == "Anonymous - $34.51 - Good job" \
+                                                                                       "! From Donor 3\nDonor 2 - $34" \
+                                                                                       ".51 - None\nDonor 1 - $34.51" \
+                                                                                       " - Good job! From Donor 1\n"
+    assert my_participant.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] == "Anonymous - $34.51" \
+                                                                                                 " - Good job! From " \
+                                                                                                 "Donor 3 | Donor 2 -" \
+                                                                                                 " $34.51 - None | " \
+                                                                                                 "Donor 1 - $34.51 - " \
+                                                                                                 "Good job! From " \
+                                                                                                 "Donor 1 | "
+    assert my_participant.donation_formatted_output['lastNDonationNameAmtsHorizontal'] == "Anonymous - $34.51" \
+                                                                                          " | Donor 2 - $34.51" \
+                                                                                          " | Donor 1 - $34.51 | "
+
+
 # update_donation_data because of if statement
 # update_donor_data because of if statement
 # output_donation_data because of if statement

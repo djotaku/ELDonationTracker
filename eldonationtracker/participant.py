@@ -1,4 +1,4 @@
-"""Grabs donor JSON data and outputs to files."""
+"""Grabs Participant JSON data and outputs to files."""
 
 import time
 
@@ -15,72 +15,49 @@ class Participant:
 
     Also owns the results of any calculated data.
 
-    Participant.conf variables:
-
-    :param self.ExtraLifeID: the participant's extra life ID
-    :type ExtraLifeID: int
-    :param self.textFolder: where the output txt files will be written on disk
-    :type textFolder: str
-    :param self.CurrencySymbol: for the output txt files
-    :type CurrencySymbol: str
-    :param self.donors_to_display: for txt files that display multiple donors\
-    (or donations), the number of them that should be written to the\
-    text file.
-    :type donors_to_display: int
-
     Donor Drive API api info at https://github.com/DonorDrive/PublicAPI
 
-    Donor Drive Variables:
-
+    :param self.extralife_id: the participant's extra life ID
+    :type self.extralife_id: int
+    :param self.text_folder: where the output text files will be written on disk
+    :type self.text_folder: str
+    :param self.currency_symbol: for the output text files
+    :type self.currency_symbol: str
+    :param self.donors_to_display: for text files that display multiple donors (or donations), the number of them that should be written to the text file.
+    :type self.donors_to_display: int
     :param self.participant_url: API info for participant
     :type self.participant_url: str
-    :param self.donorURL: donation API info (should be renamed to donationURL)
-    :type self.donorURL: str
-    :param self.participant_donor_URL: API info for donors. Useful for calculating\
-    top donor.
-    :type self.participant_donor_URL: str
-    :param self.participantinfo: a dictionary holding data from participantURL:
-
-                     - totalRaised: total money raised
-                     - numDonations: number of donations
-                     - averageDonation: this doesn't come from the API,\
-                       it's calculated in this class.
-                     - goal: the participant's fundraising goal
-    :type self.participantinfo: dict
+    :param self.donation_url: donation API info
+    :type self.donation_url: str
+    :param self.participant_donor_url: API info for donors. Useful for calculating top donor.
+    :type self.participant_donor_url: str
+    :param self.total_raised: total amount raised by the participant
+    :type self.total_raised: int
+    :param self.number_of_donations: the number of donations received by the participant
+    :type self.number_of_donations: int
+    :param self.average_donation: The average amount of donations for this participant
+    :type self.average_donation: int
+    :param self.goal: The goal for the amount of the money the participant wishes to raise
+    :type self.goal: int
+    :param self.participant_formatted_output: a dictionary holding data about the participant
+    :type self.participant_formatted_output: dict
     :param self.my_team: An instantiation of a team class for the participant's team.
-    :type my_team: cls: eldonationtracker.team
-    :param self.donationlist: a list of Donation class ojects made of donations to\
-    this participant
-    :type donation_list: list
-
-    Helper Variables:
-
-    :param self.donation_formatted_output: a dictionary holding values for txt ouput:
-
-                - LastDonationNameAmnt: most recent donation,
-                                        donor name, amount of donation
-                - TopDonorNameAmnt: top donor name and sum of donations
-                - lastNDonationNameAmts: based on value of donors_to_display
-                                         above, a list of the last N donor
-                                         names and donation amounts
-                - lastNDonationNameAmtsMessage: same with messages
-                - lastNDonationNameAmtsMessageHorizontal: same, but horizontal
-                - lastNDonationNameAmtsHorizontal: same, but no message
-    :type donation_formatted_output: dict
-    :param self.loop: set to true on init, it's there so that the GUI can stop the\
-    loop.(if the GUI is being used. Otherwise, no big deal)
-    :type loop: bool
+    :type self.my_team: cls: eldonationtracker.team
+    :param self.donation_list: a list of Donation class objects made of donations to this participant
+    :type self.donation_list: list
+    :param self.donation_formatted_output: a dictionary holding values for txt output
+    :type self.donation_formatted_output: dict
     """
 
     def __init__(self, participant_conf):
         """Load in config from participant.conf and creates the URLs."""
-        (self.ExtraLifeID, self.textFolder,
-         self.CurrencySymbol, self.TeamID,
+        (self.extralife_id, self.text_folder,
+         self.currency_symbol, self.team_id,
          self.donors_to_display) = participant_conf.get_CLI_values()
         # urls
-        self.participant_url = f"{base_api_url}/participants/{self.ExtraLifeID}"
+        self.participant_url = f"{base_api_url}/participants/{self.extralife_id}"
         self.donation_url = f"{self.participant_url}/donations"
-        self.participant_donor_URL = f"{self.participant_url}/donors"
+        self.participant_donor_url = f"{self.participant_url}/donors"
 
         # Participant Information
         self.total_raised: int = 0
@@ -93,16 +70,16 @@ class Participant:
         self.stream_url: str = ""
         self.extra_life_page_url: str = ""
         self.created_date_utc: str = ""
-        self.teamName: str = ""
+        self.team_name: str = ""
         self.avatar_image_url: str = ""
         self.stream_is_live: bool = False
         self.is_team_captain: bool = False
         self.sum_pledges: int = 0
         # end attributes that need to be implemented in self._get_participant_info
 
-        self.participant_formatted_output = {'totalRaised': f"{self.CurrencySymbol}0.00",
-                                             'averageDonation': f"{self.CurrencySymbol}0.00",
-                                             'goal': f"{self.CurrencySymbol}0.00"}
+        self.participant_formatted_output = {'totalRaised': f"{self.currency_symbol}0.00",
+                                             'averageDonation': f"{self.currency_symbol}0.00",
+                                             'goal': f"{self.currency_symbol}0.00"}
 
         # donation information
         self.donation_list: list = []
@@ -117,10 +94,10 @@ class Participant:
 
         # misc
         self.first_run: bool = True
-        ipc.writeIPC(self.textFolder, "0")
-        self.my_team = team.Team(self.TeamID,
-                                 self.textFolder,
-                                 self.CurrencySymbol)
+        ipc.writeIPC(self.text_folder, "0")
+        self.my_team = team.Team(self.team_id,
+                                 self.text_folder,
+                                 self.currency_symbol)
 
     def _get_participant_info(self):
         """Get JSON data for participant information.
@@ -141,7 +118,7 @@ class Participant:
         :param participant_attribute: the data to be formatted for the output.
         :returns: A string with the formatted information.
         """
-        formatted_output = f"{self.CurrencySymbol}{participant_attribute:,.2f}"
+        formatted_output = f"{self.currency_symbol}{participant_attribute:,.2f}"
         return formatted_output
 
     def _fill_participant_dictionary(self) -> None:
@@ -149,6 +126,7 @@ class Participant:
         self.participant_formatted_output["totalRaised"] = self._format_participant_info_for_output(self.total_raised)
         self.participant_formatted_output["averageDonation"] = self._format_participant_info_for_output(self.average_donation)
         self.participant_formatted_output["goal"] = self._format_participant_info_for_output(self.goal)
+        self.participant_formatted_output["numDonations"] = self._format_participant_info_for_output(self.number_of_donations)
 
     def _calculate_average_donation(self):
         """Calculate the average donation amount.
@@ -199,7 +177,7 @@ class Participant:
 
         Uses donor drive's sorting to get the top guy or gal.
         """
-        top_donor_json = extralife_io.get_JSON(self.participant_donor_URL, True)
+        top_donor_json = extralife_io.get_JSON(self.participant_donor_url, True)
         if not top_donor_json:
             print("Couldn't access top donor data")
             return self.top_donor
@@ -209,16 +187,16 @@ class Participant:
     def _format_donor_information_for_output(self) -> None:
         """Format the donor attributes for the output files."""
         self.donor_formatted_output['TopDonorNameAmnt'] = extralife_io.single_format(self.top_donor, False,
-                                                                                     self.CurrencySymbol)
+                                                                                     self.currency_symbol)
 
     def _format_donation_information_for_output(self) -> None:
         """Format the donation attributes for the output files."""
         self.donation_formatted_output['LastDonationNameAmnt'] = extralife_io.single_format(self.donation_list[0],
-                                                                                            False, self.CurrencySymbol)
-        self.donation_formatted_output['lastNDonationNameAmts'] = extralife_io.multiple_format(self.donation_list, False, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessage'] = extralife_io.multiple_format(self.donation_list, True, False, self.CurrencySymbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donation_list, True, True, self.CurrencySymbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donation_list, False, True, self.CurrencySymbol, int(self.donors_to_display))
+                                                                                            False, self.currency_symbol)
+        self.donation_formatted_output['lastNDonationNameAmts'] = extralife_io.multiple_format(self.donation_list, False, False, self.currency_symbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsMessage'] = extralife_io.multiple_format(self.donation_list, True, False, self.currency_symbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donation_list, True, True, self.currency_symbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donation_list, False, True, self.currency_symbol, int(self.donors_to_display))
 
     def update_participant_attributes(self) -> None:  # pragma: no cover
         """Update participant attributes.
@@ -290,30 +268,31 @@ class Participant:
         file.
         :type dictionary: dict
         """
-        extralife_io.write_text_files(dictionary, self.textFolder)
+        extralife_io.write_text_files(dictionary, self.text_folder)
 
     def run(self) -> None:
-        """Run loop to get participant, donation, donor, and team data and output to text files."""
+        """Run to get participant, donation, donor, and team data and output to text files."""
         number_of_donations = self.number_of_donations
         self.update_participant_attributes()
         self.output_participant_data()
         if self.first_run or self.number_of_donations > number_of_donations:
             if not self.first_run:
                 print("A new donation!")
-                ipc.writeIPC(self.textFolder, "1")
+                ipc.writeIPC(self.text_folder, "1")
             self.update_donation_data()
             self.output_donation_data()
             self.update_donor_data()
             self.output_donor_data()
-        #########################################################
         # TEAM BLOCK ############################################
-        if self.TeamID:
+        if self.team_id:
             self.my_team.team_run()
+            # need change this to only do this if data has changed - I will handle as part of a later issue.
+            self.my_team.participant_run()
         ##########################################################
         print(time.strftime("%H:%M:%S"))  # this should stay
 
     def __str__(self):
-        return f"A participant with Extra Life ID {self.ExtraLifeID}. Team info: {self.my_team}"
+        return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
 
 
 if __name__ == "__main__":  # pragma: no cover
