@@ -39,6 +39,22 @@ fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
 magic_fake_extralife_io = mock.MagicMock()
 magic_fake_extralife_io.get_JSON_top_donor.return_value = fake_top_donor_json
 
+fake_participant = mock.Mock()
+fake_participant.write_text_files.return_value = None
+fake_participant._format_donation_information_for_output.return_value = None
+fake_participant._format_donor_information_for_output.return_value = None
+
+fake_participant_for_run = mock.Mock()
+fake_participant_for_run.update_participant_attributes.return_value = None
+fake_participant_for_run.output_participant_data.return_value = None
+fake_participant_for_run.writeIPC.return_value = None
+fake_participant_for_run.update_donation_data.return_value = None
+fake_participant_for_run.output_donation_data.return_value = None
+fake_participant_for_run.update_donor_data.return_value = None
+fake_participant_for_run.output_donor_data.return_value = None
+fake_participant_for_run.my_team.team_run.return_value = None
+fake_participant_for_run.my_team.participant_run.return_value = None
+
 
 def test_api_variables():
     my_participant = Participant(fake_participant_conf)
@@ -153,7 +169,6 @@ def test_get_top_donor():
     my_participant = Participant(fake_participant_conf)
     my_participant.top_donor = donor1
     my_participant.top_donor = my_participant._get_top_donor()
-    print(my_participant.top_donor)
     assert my_participant.top_donor.name == "Top Donor"
 
 
@@ -196,11 +211,147 @@ def test_format_donation_information_for_output():
                                                                                           " | Donor 1 - $34.51 | "
 
 
-# update_donation_data because of if statement
-# update_donor_data because of if statement
-# output_donation_data because of if statement
-# output_donor_data because of if statement
+def test_update_donation_data_no_donations():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.update_donation_data()
+    assert my_participant.donation_list == []
 
-# write_text_files? Or don't test?
-# the "loop" itself -> test running, then updating data, then running again to see how it does on first run and
-# on subsequent runs.
+
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations)
+def test_update_donation_data_preexisting_donations():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.number_of_donations = 2
+    my_participant.update_donation_data()
+    assert my_participant.donation_list[0].name == "Sean Gibson"
+
+
+def test_update_donor_data_no_donations():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.update_donor_data()
+    assert my_participant.top_donor is None
+
+
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", magic_fake_extralife_io.get_JSON_top_donor)
+def test_update_donor_data():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.number_of_donations = 2
+    my_participant.update_donor_data()
+    assert my_participant.top_donor.name == "Top Donor"
+
+
+# note: order matters - this one needs to go before the one where _format_donation...output is called or the not called
+# fails.
+@mock.patch.object(eldonationtracker.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.participant.Participant, '_format_donation_information_for_output',
+                   fake_participant._format_donation_information_for_output)
+def test_output_donation_data_no_donations():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.output_donation_data()
+    assert my_participant.donation_list == []
+    fake_participant._format_donation_information_for_output.assert_not_called()
+    fake_participant.write_text_files.assert_called()
+
+
+@mock.patch.object(eldonationtracker.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.participant.Participant, '_format_donation_information_for_output',
+                   fake_participant._format_donation_information_for_output)
+def test_output_donation_data():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.donation_list = ["a donor", "another_donor"]
+    my_participant.output_donation_data()
+    fake_participant._format_donation_information_for_output.assert_called()
+    fake_participant.write_text_files.assert_called()
+
+
+@mock.patch.object(eldonationtracker.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.participant.Participant, '_format_donor_information_for_output',\
+                   fake_participant._format_donor_information_for_output)
+def test_output_donor_data_no_donations():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.output_donor_data()
+    fake_participant._format_donor_information_for_output.assert_not_called()
+    fake_participant.write_text_files.assert_called()
+
+
+@mock.patch.object(eldonationtracker.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.participant.Participant, '_format_donor_information_for_output',\
+                   fake_participant._format_donor_information_for_output)
+def test_output_donor_data():
+    my_participant = Participant(fake_participant_conf)
+    my_participant.donation_list = ["a donor", "another_donor"]
+    my_participant.output_donor_data()
+    assert fake_participant._format_donor_information_for_output.called
+    assert fake_participant.write_text_files.called
+
+
+@mock.patch.object(eldonationtracker.participant.Participant, 'update_participant_attributes',
+                   fake_participant_for_run.update_participant_attributes)
+@mock.patch.object(eldonationtracker.participant.Participant, 'output_participant_data',
+                   fake_participant_for_run.output_participant_data)
+@mock.patch.object(eldonationtracker.participant.ipc, 'writeIPC', fake_participant_for_run.writeIPC)
+@mock.patch.object(eldonationtracker.participant.Participant, 'update_donation_data',
+                   fake_participant_for_run.update_donation_data)
+@mock.patch.object(eldonationtracker.participant.Participant, 'output_donation_data',
+                   fake_participant_for_run.output_donation_data)
+@mock.patch.object(eldonationtracker.participant.Participant, 'update_donor_data',
+                   fake_participant_for_run.update_donor_data)
+@mock.patch.object(eldonationtracker.participant.Participant, 'output_donor_data',
+                   fake_participant_for_run.output_donor_data)
+@mock.patch.object(eldonationtracker.participant.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
+@mock.patch.object(eldonationtracker.participant.team.Team, 'participant_run',
+                   fake_participant_for_run.my_team.participant_run)
+def test_run():
+    my_participant = Participant(fake_participant_conf)
+    assert my_participant.number_of_donations == 0
+    assert my_participant.first_run
+    my_participant.run()
+    fake_participant_for_run.update_participant_attributes.assert_called_once()
+    fake_participant_for_run.output_participant_data.assert_called_once()
+    fake_participant_for_run.writeIPC.assert_called_once()  # it's called on class init
+    fake_participant_for_run.update_donation_data.assert_called_once()
+    fake_participant_for_run.output_donation_data.assert_called_once()
+    fake_participant_for_run.update_donor_data.assert_called_once()
+    fake_participant_for_run.output_donor_data.assert_called_once()
+    fake_participant_for_run.my_team.team_run.assert_called_once()
+    fake_participant_for_run.my_team.participant_run.assert_called_once()
+    assert my_participant.first_run is False
+    my_participant.run()
+    assert fake_participant_for_run.update_participant_attributes.call_count == 2
+    assert fake_participant_for_run.output_participant_data.call_count == 2
+    fake_participant_for_run.writeIPC.assert_called_once()
+    fake_participant_for_run.update_donation_data.assert_called_once()
+    fake_participant_for_run.output_donation_data.assert_called_once()
+    fake_participant_for_run.update_donor_data.assert_called_once()
+    fake_participant_for_run.output_donor_data.assert_called_once()
+    assert fake_participant_for_run.my_team.team_run.call_count == 2
+    assert fake_participant_for_run.my_team.participant_run.call_count == 2
+
+
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON)
+@mock.patch.object(eldonationtracker.participant.Participant, 'output_participant_data',
+                   fake_participant_for_run.output_participant_data)
+@mock.patch.object(eldonationtracker.participant.ipc, 'writeIPC', fake_participant_for_run.writeIPC)
+@mock.patch.object(eldonationtracker.participant.Participant, 'update_donation_data',
+                   fake_participant_for_run.update_donation_data)
+@mock.patch.object(eldonationtracker.participant.Participant, 'output_donation_data',
+                   fake_participant_for_run.output_donation_data)
+@mock.patch.object(eldonationtracker.participant.Participant, 'update_donor_data',
+                   fake_participant_for_run.update_donor_data)
+@mock.patch.object(eldonationtracker.participant.Participant, 'output_donor_data',
+                   fake_participant_for_run.output_donor_data)
+@mock.patch.object(eldonationtracker.participant.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
+@mock.patch.object(eldonationtracker.participant.team.Team, 'participant_run',
+                   fake_participant_for_run.my_team.participant_run)
+def test_run_get_a_donation():
+    my_participant = Participant(fake_participant_conf)
+    assert my_participant.number_of_donations == 0
+    my_participant.first_run = False  # to simulate that this is after one run already
+    my_participant.run()
+    fake_participant_for_run.output_participant_data.assert_called_once()
+    assert fake_participant_for_run.writeIPC.call_count == 2  # it's called on class init
+    fake_participant_for_run.update_donation_data.assert_called_once()
+    fake_participant_for_run.output_donation_data.assert_called_once()
+    fake_participant_for_run.update_donor_data.assert_called_once()
+    fake_participant_for_run.output_donor_data.assert_called_once()
+    fake_participant_for_run.my_team.team_run.assert_called_once()
+    fake_participant_for_run.my_team.participant_run.assert_called_once()

@@ -258,7 +258,7 @@ class Participant:
             print("No donations, writing default data to files.")
             self.write_text_files(self.donor_formatted_output)
 
-    def write_text_files(self, dictionary: dict) -> None:
+    def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write OBS/XSplit display info to text files.
 
         It uses the helper function extralife_IO.write_text_files to handle the task.
@@ -289,7 +289,8 @@ class Participant:
             # need change this to only do this if data has changed - I will handle as part of a later issue.
             self.my_team.participant_run()
         ##########################################################
-        print(time.strftime("%H:%M:%S"))  # this should stay
+        self.first_run = False
+        print(time.strftime("%H:%M:%S"))
 
     def __str__(self):
         return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
