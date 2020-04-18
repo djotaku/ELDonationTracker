@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 from PyQt5 import QtCore
 
 import sys
-import shutil
 import webbrowser
 
 from eldonationtracker import design as design
@@ -24,13 +23,14 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def __init__(self):
         """Setup the GUI.
 
-        We have a QTimer to allow the text on the GUI
-        to update without blocking the user from interacting
-        with the GUI.
+        Set up QTimers:
+         1) to allow the text on the GUI to update without blocking the user from interacting with the GUI.
+         2) to run the participant.py updates
 
         Then we instantiate the other windows:
         tracker and settings
-        And connect the buttons.
+
+        Finally, connect the buttons.
         """
         super(self.__class__, self).__init__()
 
@@ -46,7 +46,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
-        self.timer.timeout.connect(self.getsomeText)
+        self.timer.timeout.connect(self.get_some_text)
         self.timer.start()
 
         # instantiate the tracker so we can send signals
@@ -70,13 +70,13 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.participant_timer.timeout.connect(self.my_participant.run)
 
         # Connecting *almost* all the buttons to methods
-        self.SettingsButton.clicked.connect(self.callSettings)
-        self.TrackerButton.clicked.connect(self.callTracker)
-        self.ProgressBarButton.clicked.connect(self.deadbuton)
-        self.RefreshButton.clicked.connect(self.getsomeText)
-        self.TestAlertButton.clicked.connect(self.testAlert)
-        self.pushButtonRun.clicked.connect(self.runbutton)
-        self.pushButtonStop.clicked.connect(self.stopbutton)
+        self.SettingsButton.clicked.connect(self.call_settings_button)
+        self.TrackerButton.clicked.connect(self.call_tracker_button)
+        self.ProgressBarButton.clicked.connect(self.dead_button)
+        self.RefreshButton.clicked.connect(self.get_some_text)
+        self.TestAlertButton.clicked.connect(self.test_alert)
+        self.pushButtonRun.clicked.connect(self.run_button)
+        self.pushButtonStop.clicked.connect(self.stop_button)
 
         # Menu connections
         self.actionQuit.triggered.connect(self.quit)
@@ -105,22 +105,24 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         else:
             print("Version is correct")
 
-    def testAlert(self):
+    def test_alert(self):
         self.tracker.loadAndUnloadTest()
 
-    def callTracker(self):
+    def call_tracker_button(self):
         self.tracker.show()
 
-    def callSettings(self):
+    def call_settings_button(self):
         self.call_settings.reload_config()
         self.call_settings.show()
         # call_settings.main(self.participant_conf)
 
     # this is used for buttons that I haven't yet implemented
-    def deadbuton(self):
+    @staticmethod
+    def dead_button():
         print("not working yet")
 
-    def readFiles(self, folders, files):
+    @staticmethod
+    def read_files(folders, files):
         try:
             f = open(f'{folders}/{files}', 'r')
             text = f.read()
@@ -133,47 +135,39 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                 Did you hit the 'run' button?
                 """)
 
-    def getsomeText(self):
+    def get_some_text(self):
         # For next refactoring, will use dict to make this just work as a loop
         # needs to be repeated in here to get new folder if config changes
         self.folders = self.participant_conf.get_text_folder_only()
         # Participant Info
-        self.RecentDonations.setPlainText(self.readFiles(self.folders,
-                                                         'lastNDonationNameAmts.txt'))
-        self.LastDonation.setPlainText(self.readFiles(self.folders,
-                                                      'LastDonationNameAmnt.txt'))
-        self.TopDonation.setPlainText(self.readFiles(self.folders,
-                                                     'TopDonorNameAmnt.txt'))
-        self.TotalRaised.setPlainText(self.readFiles(self.folders,
-                                                     'totalRaised.txt'))
-        self.TotalNumDonations.setPlainText(self.readFiles(self.folders,
-                                                           'numDonations.txt'))
-        self.Goal.setPlainText(self.readFiles(self.folders, 'goal.txt'))
-        self.AvgDonation.setPlainText(self.readFiles(self.folders,
-                                                     'averageDonation.txt'))
+        self.RecentDonations.setPlainText(self.read_files(self.folders, 'lastNDonationNameAmts.txt'))
+        self.LastDonation.setPlainText(self.read_files(self.folders, 'LastDonationNameAmnt.txt'))
+        self.TopDonation.setPlainText(self.read_files(self.folders, 'TopDonorNameAmnt.txt'))
+        self.TotalRaised.setPlainText(self.read_files(self.folders, 'totalRaised.txt'))
+        self.TotalNumDonations.setPlainText(self.read_files(self.folders, 'numDonations.txt'))
+        self.Goal.setPlainText(self.read_files(self.folders, 'goal.txt'))
+        self.AvgDonation.setPlainText(self.read_files(self.folders, 'averageDonation.txt'))
         # Team Info
         if self.participant_conf.get_if_in_team():
-            self.label_TeamCaptain.setText(self.readFiles(self.folders,
-                                                      'Team_captain.txt'))
-            self.label_TeamGoal.setText(self.readFiles(self.folders, 'Team_goal.txt'))
-            self.label_TeamNumDonations.setText(self.readFiles(self.folders,
-                                                           'Team_numDonations.txt'))
-            self.label_TeamTotalRaised.setText(self.readFiles(self.folders,
-                                                          'Team_totalRaised.txt'))
-            self.label_TopTeamParticipant.setText(self.readFiles(self.folders, 'Team_TopParticipantNameAmnt.txt'))
-            self.textBrowser_TeamTop5.setPlainText(self.readFiles(self.folders, 'Team_Top5Participants.txt'))
+            self.label_TeamCaptain.setText(self.read_files(self.folders, 'Team_captain.txt'))
+            self.label_TeamGoal.setText(self.read_files(self.folders, 'Team_goal.txt'))
+            self.label_TeamNumDonations.setText(self.read_files(self.folders, 'Team_numDonations.txt'))
+            self.label_TeamTotalRaised.setText(self.read_files(self.folders, 'Team_totalRaised.txt'))
+            self.label_TopTeamParticipant.setText(self.read_files(self.folders, 'Team_TopParticipantNameAmnt.txt'))
+            self.textBrowser_TeamTop5.setPlainText(self.read_files(self.folders, 'Team_Top5Participants.txt'))
 
-    def runbutton(self):
+    def run_button(self):
         print(f"Starting the participant run. But first, reloading config file.")
         self.participant_conf.reload_JSON()
         self.participant_timer.start()
 
-    def stopbutton(self):
+    def stop_button(self):
         self.participant_timer.stop()
 
     def quit(self):
         """Quit the application.
         """
+        self.participant_timer.stop()
         sys.exit()
 
     def load_documentation(self):
