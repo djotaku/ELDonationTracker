@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 from PyQt5 import QtCore
 
 import sys
-import threading
 import shutil
 import webbrowser
 
@@ -63,6 +62,13 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.folders = self.participant_conf.get_text_folder_only()
         ipc.writeIPC(self.folders, "0")
 
+        # setup the participant
+        self.my_participant = participant.Participant(self.participant_conf)
+        self.participant_timer = QtCore.QTimer(self)
+        self.participant_timer.setSingleShot(False)
+        self.participant_timer.setInterval(15000)
+        self.participant_timer.timeout.connect(self.my_participant.run)
+
         # Connecting *almost* all the buttons to methods
         self.SettingsButton.clicked.connect(self.callSettings)
         self.TrackerButton.clicked.connect(self.callTracker)
@@ -73,7 +79,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.pushButtonStop.clicked.connect(self.stopbutton)
 
         # Menu connections
-        self.thread_running = False
         self.actionQuit.triggered.connect(self.quit)
         self.actionDocumentation.triggered.connect(self.load_documentation)
         self.actionCheck_for_Update.triggered.connect(self.check_for_update)
@@ -85,8 +90,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             print("There is a version mismatch")
             choices = ("Replace with Defaults", "Update on Save")
             choice, ok = QInputDialog.getItem(self, "Input Dialog",
-                                              "You are using an old version of the configuration file.\n Choose what you would like to do.\n If you choose Update on Save, please click on teh settings button, review the new options, and hit save.", choices, 0,
-                                              False)
+                                              "You are using an old version of the configuration file.\n Choose "
+                                              "what you would like to do.\n If you choose Update on Save, please "
+                                              "click on teh settings button, review the new options, and hit save.",
+                                              choices, 0, False)
             if ok and choice:
                 print(f"You have chosen {choice}")
                 if choice == "Replace with Defaults":
@@ -157,24 +164,16 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             self.textBrowser_TeamTop5.setPlainText(self.readFiles(self.folders, 'Team_Top5Participants.txt'))
 
     def runbutton(self):
-        print("run button")
-        # need to add some code to keep it from starting more than one thread.
-        self.thread_running = True
-        self.thread1 = donationGrabber(self.participant_conf)
-        self.thread1.start()
+        print(f"Starting the participant run. But first, reloading config file.")
+        self.participant_conf.reload_JSON()
+        self.participant_timer.start()
 
     def stopbutton(self):
-        self.thread1.stop()
+        self.participant_timer.stop()
 
     def quit(self):
         """Quit the application.
-
-        First need to stop the thread running the CLI code.
-
-        .. warning: This will change when the threading code is removed.
         """
-        if self.thread_running:
-            self.stopbutton()
         sys.exit()
 
     def load_documentation(self):
@@ -192,24 +191,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def show_about(self):
         self.call_about.show()
-
-
-class donationGrabber (threading.Thread):
-    counter = 0
-
-    def __init__(self, participant_conf):
-        threading.Thread.__init__(self)
-        self.counter = 0
-        self.participant_conf = participant_conf
-
-    def run(self):
-        print(f"Starting {self.name}. But first, reloading config file.")
-        self.participant_conf.reload_JSON()
-        self.p = participant.Participant(self.participant_conf)
-        self.p.run()
-
-    def stop(self):
-        self.p.stop()
 
 
 def main():
