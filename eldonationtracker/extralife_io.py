@@ -290,7 +290,7 @@ class ParticipantConf:
 def single_format(donor, message: bool, currency_symbol: str) -> str:
     """Format string for output to text file.
 
-    This function is for when there is only one donor or donation.\
+    This function is for when there is only one donor or donation.
     For example, for the text file holding the most recent donation.
 
     :param donor: Donor or Donation class object.
