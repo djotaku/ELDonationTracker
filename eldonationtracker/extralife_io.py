@@ -14,7 +14,7 @@ import xdgenvpy
 
 def validate_url(url: str):
     print(f"Checking: {url}")
-    response = requests.get(url) # needs work - always returns true right now
+    response = requests.get(url)  # needs work - always returns true right now
     print(f"Response is: {response.status_code}")
     if response.status_code == 200:
         return True
@@ -60,7 +60,7 @@ def get_JSON(url: str, order_by_donations: bool = False) -> dict:
         return {}
     except URLError:
         print(f"HTTP code: {payload.getcode()}")
-        print(f""" Timed out while getting JSON. """)
+        print(""" Timed out while getting JSON. """)
         return {}
 
 # File Input and Output
@@ -100,7 +100,6 @@ class ParticipantConf:
             self.version_mismatch = True
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
-
 
     def load_JSON(self) -> dict:
         """Load in the config file.
@@ -361,4 +360,3 @@ def write_text_files(dictionary: dict, text_folder: str):
         f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
         f.write(text)
         f.close
-

@@ -23,7 +23,8 @@ class Participant:
     :type self.text_folder: str
     :param self.currency_symbol: for the output text files
     :type self.currency_symbol: str
-    :param self.donors_to_display: for text files that display multiple donors (or donations), the number of them that should be written to the text file.
+    :param self.donors_to_display: for text files that display multiple donors (or donations), the number of them that\
+     should be written to the text file.
     :type self.donors_to_display: int
     :param self.participant_url: API info for participant
     :type self.participant_url: str

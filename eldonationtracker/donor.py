@@ -61,4 +61,5 @@ class Donor:
 
     def __str__(self):
         """Returns a string representation of this donor."""
-        return f"A donor named {self.name} with donor ID {self.donor_id} who has donated ${self.amount:.2f} over {self.number_of_donations} donations."
+        return f"A donor named {self.name} with donor ID {self.donor_id} who has donated ${self.amount:.2f}"\
+               f"over {self.number_of_donations} donations."
