@@ -123,10 +123,13 @@ class Participant:
 
     def _fill_participant_dictionary(self) -> None:
         """Fill up self.participant_formatted_output ."""
-        self.participant_formatted_output["totalRaised"] = self._format_participant_info_for_output(self.total_raised)
-        self.participant_formatted_output["averageDonation"] = self._format_participant_info_for_output(self.average_donation)
+        self.participant_formatted_output["totalRaised"] =\
+            self._format_participant_info_for_output(self.total_raised)
+        self.participant_formatted_output["averageDonation"] =\
+            self._format_participant_info_for_output(self.average_donation)
         self.participant_formatted_output["goal"] = self._format_participant_info_for_output(self.goal)
-        self.participant_formatted_output["numDonations"] = self._format_participant_info_for_output(self.number_of_donations)
+        self.participant_formatted_output["numDonations"] =\
+            self._format_participant_info_for_output(self.number_of_donations)
 
     def _calculate_average_donation(self):
         """Calculate the average donation amount.
@@ -193,10 +196,18 @@ class Participant:
         """Format the donation attributes for the output files."""
         self.donation_formatted_output['LastDonationNameAmnt'] = extralife_io.single_format(self.donation_list[0],
                                                                                             False, self.currency_symbol)
-        self.donation_formatted_output['lastNDonationNameAmts'] = extralife_io.multiple_format(self.donation_list, False, False, self.currency_symbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessage'] = extralife_io.multiple_format(self.donation_list, True, False, self.currency_symbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] = extralife_io.multiple_format(self.donation_list, True, True, self.currency_symbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] = extralife_io.multiple_format(self.donation_list, False, True, self.currency_symbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmts'] =\
+            extralife_io.multiple_format(self.donation_list, False,
+                                         False, self.currency_symbol, int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsMessage'] =\
+            extralife_io.multiple_format(self.donation_list, True, False, self.currency_symbol,
+                                         int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] =\
+            extralife_io.multiple_format(self.donation_list, True, True, self.currency_symbol,
+                                         int(self.donors_to_display))
+        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] =\
+            extralife_io.multiple_format(self.donation_list, False, True, self.currency_symbol,
+                                         int(self.donors_to_display))
 
     def update_participant_attributes(self) -> None:  # pragma: no cover
         """Update participant attributes.
