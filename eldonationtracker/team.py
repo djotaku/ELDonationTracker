@@ -34,9 +34,9 @@ class Team:
         # misc
         self.output_folder: str = output_folder
         self.currency_symbol: str = currency_symbol
-        self.team_info = {}
+        self.team_info: dict = {}
         self.participant_calculation_dict: dict = {}
-        self.top_5_participant_list = []
+        self.top_5_participant_list: list = []
         self.team_json: dict = {}
         self.team_goal: int = 0
         self.team_captain: str = ""
@@ -45,23 +45,22 @@ class Team:
         self.top_5_participant_list: list = []
         self.participant_list: list = []
 
-    def get_team_json(self):
+    def _get_team_json(self):
         """Get team info from JSON api."""
         self.team_json = extralife_io.get_JSON(self.team_url)
         if not self.team_json:
             print("Could not get team JSON")
         else:
-            self.team_goal = self.team_json["fundraisingGoal"]
-            self.team_captain = self.team_json["captainDisplayName"]
-            self.total_raised = self.team_json["sumDonations"]
-            self.num_donations = self.team_json["numDonations"]
-            # dictionary
-            self.team_info["Team_goal"] = f"{self.currency_symbol}{self.team_goal:,.2f}"
-            self.team_info["Team_captain"] = f"{self.team_captain}"
-            self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
-            self.team_info["Team_numDonations"] = f"{self.num_donations}"
+            return self.team_json["fundraisingGoal"], self.team_json["captainDisplayName"],\
+                   self.team_json["sumDonations"], self.team_json["numDonations"]
 
-    def get_participants(self):
+    def _update_team_dictionary(self) -> None:
+        self.team_info["Team_goal"] = f"{self.currency_symbol}{self.team_goal:,.2f}"
+        self.team_info["Team_captain"] = f"{self.team_captain}"
+        self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
+        self.team_info["Team_numDonations"] = f"{self.num_donations}"
+
+    def _get_participants(self) -> None:
         """Get team participant info from API."""
         self.participant_list = []
         team_participant_json = extralife_io.get_JSON(self.team_participant_url)
@@ -73,7 +72,7 @@ class Team:
             self.participant_list = [TeamParticipant(team_participant_json[participant])
                                      for participant in range(0, len(team_participant_json))]
 
-    def get_top_5_participants(self):
+    def _get_top_5_participants(self) -> None:
         """Get team participants."""
         top5_team_participant_json = extralife_io.get_JSON(self.team_participant_url, True)
         if not top5_team_participant_json:
@@ -85,10 +84,12 @@ class Team:
                 [TeamParticipant(top5_team_participant_json[participant])
                  for participant in range(0, len(top5_team_participant_json))]
 
-    def _top_participant(self):
+    def _top_participant(self) -> str:
         """Get Top Team Participant.
 
         This should just grab element 0 from self.top_5_participant_list instead of hitting API twice
+
+        :returns: String formatted information about the top participant.
         """
         if len(self.top_5_participant_list) == "0":
             print("No participants")
@@ -103,22 +104,23 @@ class Team:
         self.participant_calculation_dict['Team_Top5Participants'] = \
             extralife_io.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
 
-    def write_text_files(self, dictionary: dict):
+    def write_text_files(self, dictionary: dict) -> None:
         """Write info to text files.
 
         :param dictionary: The dictionary containing the values to write out to text files.
         """
         extralife_io.write_text_files(dictionary, self.output_folder)
 
-    def team_run(self):
+    def team_run(self) -> None:
         """Get team info from API."""
-        self.get_team_json()
+        self.team_goal, self.team_captain, self.total_raised, self.num_donations = self._get_team_json()
+        self._update_team_dictionary()
         self.write_text_files(self.team_info)
 
-    def participant_run(self):
+    def participant_run(self) -> None:
         """Get and calculate team participant info."""
-        self.get_participants()
-        self.get_top_5_participants()
+        self._get_participants()
+        self._get_top_5_participants()
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
 
@@ -137,7 +139,7 @@ if __name__ == "__main__":
     folder = "/home/ermesa/Programming Projects/python/extralife/testOutput"
     my_team = Team("44013", folder, "$")
     my_team.get_team_json()
-    my_team.get_participants()
+    my_team._get_participants()
     my_team._participant_calculations()
     my_team.write_text_files(my_team.team_info)
     my_team.write_text_files(my_team.participant_calculation_dict)
