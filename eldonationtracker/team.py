@@ -112,6 +112,13 @@ class Team:
         extralife_io.write_text_files(dictionary, self.output_folder)
 
     def team_run(self) -> None:
+        """A public method to update and output team and team participant info."""
+        number_of_donations = self.num_donations
+        self.team_api_info()
+        if self.num_donations > number_of_donations:
+            self.participant_run()
+
+    def team_api_info(self) -> None:
         """Get team info from API."""
         self.team_goal, self.team_captain, self.total_raised, self.num_donations = self._get_team_json()
         self._update_team_dictionary()

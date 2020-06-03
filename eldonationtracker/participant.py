@@ -298,8 +298,6 @@ class Participant:
         # TEAM BLOCK ############################################
         if self.team_id:
             self.my_team.team_run()
-            # need change this to only do this if data has changed - I will handle as part of a later issue.
-            self.my_team.participant_run()
         ##########################################################
         self.first_run = False
         print(time.strftime("%H:%M:%S"))
