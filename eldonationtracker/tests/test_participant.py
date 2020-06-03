@@ -313,7 +313,6 @@ def test_run():
     fake_participant_for_run.update_donor_data.assert_called_once()
     fake_participant_for_run.output_donor_data.assert_called_once()
     fake_participant_for_run.my_team.team_run.assert_called_once()
-    fake_participant_for_run.my_team.participant_run.assert_called_once()
     assert my_participant.first_run is False
     my_participant.run()
     assert fake_participant_for_run.update_participant_attributes.call_count == 2
@@ -324,7 +323,6 @@ def test_run():
     fake_participant_for_run.update_donor_data.assert_called_once()
     fake_participant_for_run.output_donor_data.assert_called_once()
     assert fake_participant_for_run.my_team.team_run.call_count == 2
-    assert fake_participant_for_run.my_team.participant_run.call_count == 2
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON)
@@ -362,4 +360,3 @@ def test_run_get_a_donation():
     fake_participant_for_run.update_donor_data.assert_called_once()
     fake_participant_for_run.output_donor_data.assert_called_once()
     fake_participant_for_run.my_team.team_run.assert_called_once()
-    fake_participant_for_run.my_team.participant_run.assert_called_once()
