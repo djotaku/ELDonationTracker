@@ -12,13 +12,11 @@ from urllib.error import HTTPError, URLError  # type: ignore
 from eldonationtracker import __version__ as pkg_current_version
 
 
-def get_pypi_version() -> str:
+def get_pypi_version(url: str) -> str:
     """Use PyPi JSON API to get latest version.
 
     :return: A string with the version number.
     """
-    # to unit test - https://stackoverflow.com/questions/15753390/how-can-i-mock-requests-and-the-response first answer looks good
-    url = "https://pypi.org/pypi/eldonationtracker/json"  # move this out to main for better unit testing
     context = ssl._create_unverified_context()
     this_program_json: dict = {}
     try:
@@ -52,12 +50,12 @@ def main() -> bool:
     that might not be there.
 
     :returns: True if there's an update available. False if up to date."""
-    pypi_version = get_pypi_version()
+    pypi_url = "https://pypi.org/pypi/eldonationtracker/json"
+    pypi_version = get_pypi_version(pypi_url)
     if pypi_version == "Error":
         return False
     else:
-        result = update_available(pypi_version, pkg_current_version)
-        return result
+        return update_available(pypi_version, pkg_current_version)
 
 
 if __name__ == "__main__":  # pragma: no cover
