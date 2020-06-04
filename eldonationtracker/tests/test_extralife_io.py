@@ -1,5 +1,7 @@
 # This unit test test uses the following encoding: utf-8
 
+from unittest import mock
+
 from eldonationtracker import extralife_io
 from eldonationtracker import donation
 
@@ -29,9 +31,29 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        }
 
 
-# Tests for extralife_io.py
+def test_validate_url_valid_url():
+    """Test that a response code of 200 returns True."""
+    class FakeResponse:
+        def __init__(self):
+            self.status_code = 200
+    fake_requests_get_valid = mock.Mock()
+    fake_requests_get_valid.return_value = FakeResponse()
+    with mock.patch.object(extralife_io.requests, "get", fake_requests_get_valid):
+        valid_url = extralife_io.validate_url("https://github.com/djotaku/ELDonationTracker")
+        assert valid_url is True
 
-# come back and do one for get_JSON
+
+def test_validate_url_invalid_url():
+    """Test that a response code that isn't 200 returns False."""
+    class FakeResponse:
+        def __init__(self):
+            self.status_code = 404
+    fake_requests_get_valid = mock.Mock()
+    fake_requests_get_valid.return_value = FakeResponse()
+    with mock.patch.object(extralife_io.requests, "get", fake_requests_get_valid):
+        invalid_url = extralife_io.validate_url("https://github.com/djotaku/ELDonationTracker")
+        assert invalid_url is False
+
 
 # ParticipantConf class - will need to figure out how to over-ride conf file
 def test_participantconf_get_version():

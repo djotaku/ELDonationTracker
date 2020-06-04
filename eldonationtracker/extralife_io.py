@@ -14,7 +14,7 @@ import xdgenvpy
 
 def validate_url(url: str):
     print(f"Checking: {url}")
-    response = requests.get(url)  # needs work - always returns true right now
+    response = requests.get(url)
     print(f"Response is: {response.status_code}")
     if response.status_code == 200:
         return True
