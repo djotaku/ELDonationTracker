@@ -199,7 +199,7 @@ class MyForm(QDialog):
     def _validate_id(self, id_type: str):
         print("Validating URL")
         if id_type == "participant":
-            url = f"{base_api_url}/participants/{self.ExtraLifeID}"
+            url = f"{base_api_url}/participants/{self.ui.lineEditParticipantID.text()}"
             valid_url = extralife_io.validate_url(url)
             if valid_url:
                 message_box = QMessageBox.information(self, "Participant ID Validation",
@@ -208,7 +208,7 @@ class MyForm(QDialog):
                 message_box = QMessageBox.warning(self, "Participant ID Validation",
                                                   f"Could not reach {url}. Participant ID may be invalid.")
         elif id_type == "team":
-            url = f"{base_api_url}/teams/{self.TeamID}"
+            url = f"{base_api_url}/teams/{self.ui.lineEditTeamID.text()}"
             valid_url = extralife_io.validate_url(url)
             if valid_url:
                 message_box = QMessageBox.information(self, "Team ID Validation",
