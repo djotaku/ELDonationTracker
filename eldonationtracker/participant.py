@@ -95,7 +95,7 @@ class Participant:
 
         # misc
         self.first_run: bool = True
-        ipc.writeIPC(self.text_folder, "0")
+        ipc.write_ipc(self.text_folder, "0")
         self.my_team = team.Team(self.team_id,
                                  self.text_folder,
                                  self.currency_symbol)
@@ -290,7 +290,7 @@ class Participant:
         if self.first_run or self.number_of_donations > number_of_donations:
             if not self.first_run:
                 print("A new donation!")
-                ipc.writeIPC(self.text_folder, "1")
+                ipc.write_ipc(self.text_folder, "1")
             self.update_donation_data()
             self.output_donation_data()
             self.update_donor_data()

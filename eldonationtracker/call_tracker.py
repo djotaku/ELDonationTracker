@@ -122,7 +122,7 @@ class MyForm(QDialog):
     def _unloadElements(self):
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
-        ipc.writeIPC(self.folders, "0")
+        ipc.write_ipc(self.folders, "0")
 
     def set_font(self, font):
         self.ui.Donation_label.setFont(font)

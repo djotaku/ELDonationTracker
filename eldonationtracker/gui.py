@@ -60,7 +60,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
         # want to make sure file exists on new run
         self.folders = self.participant_conf.get_text_folder_only()
-        ipc.writeIPC(self.folders, "0")
+        ipc.write_ipc(self.folders, "0")
 
         # setup the participant
         self.my_participant = participant.Participant(self.participant_conf)
