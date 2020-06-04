@@ -15,3 +15,7 @@ for_lots_of_donors
 _build
 *egg*
 dist
+.coverage
+.idea
+htmlcov
+.mypy
