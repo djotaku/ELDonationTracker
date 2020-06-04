@@ -18,4 +18,4 @@ dist
 .coverage
 .idea
 htmlcov
-.mypy
+.mypy_cache
