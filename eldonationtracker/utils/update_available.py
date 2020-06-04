@@ -1,13 +1,13 @@
 """Return true if there is an update available.
 
-An update is available if the version on PyPi is higher than the \
-version the user has on their machine.
+An update is available if the version on PyPi is higher than the version the user has on their machine.
 """
 
 import json
 import semver  # type: ignore
 import ssl
-from urllib.request import HTTPError, Request, URLError, urlopen  # type: ignore
+from urllib.request import Request, urlopen  # type: ignore
+from urllib.error import HTTPError, URLError  # type: ignore
 
 from eldonationtracker import __version__ as pkg_current_version
 
@@ -17,22 +17,24 @@ def get_pypi_version() -> str:
 
     :return: A string with the version number.
     """
-    url = "https://pypi.org/pypi/eldonationtracker/json"
+    # to unit test - https://stackoverflow.com/questions/15753390/how-can-i-mock-requests-and-the-response first answer looks good
+    url = "https://pypi.org/pypi/eldonationtracker/json"  # move this out to main for better unit testing
     context = ssl._create_unverified_context()
-    eldt_json: dict
+    this_program_json: dict = {}
     try:
         request = Request(url=url)
         payload = urlopen(request, timeout=5, context=context)
-        eldt_json = json.load(payload)
-    except HTTPError:
+        this_program_json = json.load(payload)
+    except (HTTPError, URLError):
         print("Could not get JSON")
-    return(eldt_json["info"]["version"])
+        return "Error"
+    return this_program_json["info"]["version"]
 
 
 def update_available(pypi_version: str, current_version: str) -> bool:
     """Use semver module to calculate whether there is a newer version on PyPi.
 
-    :return: True if the PyPi version is higer than the version being run.\
+    :return: True if the PyPi version is higher than the version being run.\
     Returns false if the version being compared to PyPi is equal or greater\
     than the PyPi version."""
     if semver.compare(pypi_version, current_version) == 1:
@@ -43,11 +45,20 @@ def update_available(pypi_version: str, current_version: str) -> bool:
         return False
 
 
-def main():
+def main() -> bool:
+    """Get the latest version on PyPi and compare to current version.
+
+    Made the decision to return false if the URL couldn't be reached rather than make the user look for an update\
+    that might not be there.
+
+    :returns: True if there's an update available. False if up to date."""
     pypi_version = get_pypi_version()
-    result = update_available(pypi_version, pkg_current_version)
-    return result
+    if pypi_version == "Error":
+        return False
+    else:
+        result = update_available(pypi_version, pkg_current_version)
+        return result
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
