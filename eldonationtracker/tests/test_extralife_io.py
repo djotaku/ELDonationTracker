@@ -1,5 +1,6 @@
 # This unit test test uses the following encoding: utf-8
 
+import pytest
 from unittest import mock
 
 from eldonationtracker import extralife_io
@@ -77,6 +78,16 @@ def test_get_json_url_works_order_by_donations_false():
 def test_get_json_url_works_order_by_donations_true():
     extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", True)
     mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=sumDonations%20DESC",
+                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+
+
+@mock.patch.object(extralife_io, 'Request', mock_request)
+@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
+@mock.patch.object(extralife_io.json, 'load', mock_json_load)
+def test_get_json_http_error_order_by_donations_false():
+    mock_request.side_effect = Exception(extralife_io.HTTPError)
+    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
+    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
                                     headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
