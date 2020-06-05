@@ -41,7 +41,7 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
     # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
-    if order_by_donations is True:
+    if order_by_donations:
         url = url+"?orderBy=sumDonations%20DESC"
     try:
         request = Request(url=url, headers=header)

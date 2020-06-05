@@ -31,6 +31,7 @@ fields_for_participant_conf_no_team = {"extralife_id": "12345",
                                        }
 
 
+# validate_url tests
 def test_validate_url_valid_url():
     """Test that a response code of 200 returns True."""
     class FakeResponse:
@@ -53,6 +54,30 @@ def test_validate_url_invalid_url():
     with mock.patch.object(extralife_io.requests, "get", fake_requests_get_valid):
         invalid_url = extralife_io.validate_url("https://github.com/djotaku/ELDonationTracker")
         assert invalid_url is False
+
+
+# get_json tests
+mock_request = mock.Mock()
+mock_url_open = mock.Mock()
+mock_json_load = mock.Mock()
+
+
+@mock.patch.object(extralife_io, 'Request', mock_request)
+@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
+@mock.patch.object(extralife_io.json, 'load', mock_json_load)
+def test_get_json_url_works_order_by_donations_false():
+    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
+    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
+                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+
+
+@mock.patch.object(extralife_io, 'Request', mock_request)
+@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
+@mock.patch.object(extralife_io.json, 'load', mock_json_load)
+def test_get_json_url_works_order_by_donations_true():
+    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", True)
+    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=sumDonations%20DESC",
+                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
 # ParticipantConf class - will need to figure out how to over-ride conf file
