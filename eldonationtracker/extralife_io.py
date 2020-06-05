@@ -26,12 +26,11 @@ def validate_url(url: str):
 def get_json(url: str, order_by_donations: bool = False) -> dict:
     """Grab JSON from server.
 
-    Connects to server and grabs JSON data from the specified URL.\
-    The API server should return JSON with the donation data.
+    Connects to server and grabs JSON data from the specified URL. The API server should return JSON with the donation \
+    data.
 
     :param url: API URL for the specific json API point.
-    :param order_by_donations: If true, the url param has\
-    has text appended that will cause the API to return the\
+    :param order_by_donations: If true, the url param has data appended that will cause the API to return the\
     data in descending order of the sum of donations.
 
     :return: JSON as dictionary with API data.
@@ -51,11 +50,9 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
         return json.load(payload)
     except HTTPError:
         print(f"""Could not get to {url}.
-                Check ExtraLifeID.
-                Or server may be unavailable.
+                Check ExtraLifeID.Or server may be unavailable.
                 If you can reach that URL from your browser
-                and this is not an intermittent issue:
-                please open an issue at:
+                and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
         return {}
     except URLError:
