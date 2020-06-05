@@ -154,9 +154,6 @@ class Participant:
         if not donation_json:
             print("couldn't access donation page")
             return donations
-        elif len(donation_json) == 0:
-            print("No donations!")
-            return donations
         else:
             donation_list = [donation.Donation(donation_json[this_donation].get('displayName'),
                                                donation_json[this_donation].get('message'),
