@@ -47,7 +47,7 @@ class Team:
 
     def _get_team_json(self):
         """Get team info from JSON api."""
-        self.team_json = extralife_io.get_JSON(self.team_url)
+        self.team_json = extralife_io.get_json(self.team_url)
         if not self.team_json:
             print("Could not get team JSON")
         else:
@@ -63,7 +63,7 @@ class Team:
     def _get_participants(self) -> None:
         """Get team participant info from API."""
         self.participant_list = []
-        team_participant_json = extralife_io.get_JSON(self.team_participant_url)
+        team_participant_json = extralife_io.get_json(self.team_participant_url)
         if not team_participant_json:
             print("couldn't get to URL")
         elif len(team_participant_json) == 0:
@@ -74,7 +74,7 @@ class Team:
 
     def _get_top_5_participants(self) -> None:
         """Get team participants."""
-        top5_team_participant_json = extralife_io.get_JSON(self.team_participant_url, True)
+        top5_team_participant_json = extralife_io.get_json(self.team_participant_url, True)
         if not top5_team_participant_json:
             print("Couldn't get top 5 team participants")
         elif len(top5_team_participant_json) == 0:

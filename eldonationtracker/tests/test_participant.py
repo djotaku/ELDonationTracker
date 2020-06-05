@@ -30,7 +30,7 @@ fake_top_donor_json = [{"displayName": "Top Donor", "sumDonations": "100", "dono
                        'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}]
 
 fake_extralife_io = mock.Mock()
-fake_extralife_io.get_JSON.return_value = fake_participant_info
+fake_extralife_io.get_json.return_value = fake_participant_info
 fake_extralife_io.get_JSON_donations.return_value = fake_donations
 fake_extralife_io.get_JSON_no_json.return_value = {}
 fake_extralife_io.get_JSON_donations_no_json.return_value = {}
@@ -80,13 +80,13 @@ def test_str_without_a_team():
     assert str(my_participant) == "A participant with Extra Life ID 12345. Team info: Not a valid team - no team_id."
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_json)
 def test_get_participant_info():
     my_participant = Participant(fake_participant_conf)
     assert my_participant._get_participant_info() == (500, 5, 1000)
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_no_json)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_no_json)
 def test_get_participant_info_no_json():
     my_participant = Participant(fake_participant_conf)
     assert my_participant._get_participant_info() == (0, 0, 0)
@@ -127,7 +127,7 @@ def test_calculate_average_donation_no_donations():
     assert my_participant._calculate_average_donation() == 0
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_get_donations():
     my_participant = Participant(fake_participant_conf)
     my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
@@ -135,14 +135,14 @@ def test_get_donations():
     assert my_participant.donation_list[1].name == "Eric Mesa"
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations_no_json)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
 def test_get_donations_no_json():
     my_participant = Participant(fake_participant_conf)
     my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
     assert my_participant.donation_list == []
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_get_donations_already_a_donation_present():
     my_participant = Participant(fake_participant_conf)
     donation1 = eldonationtracker.participant.donation.Donation("Donor 1", "Good job!", 34.51, "4939d",
@@ -156,7 +156,7 @@ def test_get_donations_already_a_donation_present():
     assert my_participant.donation_list[2].name == "Donor 1"
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_top_donor_no_json)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_top_donor_no_json)
 def test_get_top_donor_no_json():
     my_participant = Participant(fake_participant_conf)
     my_participant.top_donor = donor1
@@ -164,7 +164,7 @@ def test_get_top_donor_no_json():
     assert my_participant.top_donor == donor1
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", magic_fake_extralife_io.get_JSON_top_donor)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", magic_fake_extralife_io.get_JSON_top_donor)
 def test_get_top_donor():
     my_participant = Participant(fake_participant_conf)
     my_participant.top_donor = donor1
@@ -217,7 +217,7 @@ def test_update_donation_data_no_donations():
     assert my_participant.donation_list == []
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON_donations)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_update_donation_data_preexisting_donations():
     my_participant = Participant(fake_participant_conf)
     my_participant.number_of_donations = 2
@@ -231,7 +231,7 @@ def test_update_donor_data_no_donations():
     assert my_participant.top_donor is None
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", magic_fake_extralife_io.get_JSON_top_donor)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", magic_fake_extralife_io.get_JSON_top_donor)
 def test_update_donor_data():
     my_participant = Participant(fake_participant_conf)
     my_participant.number_of_donations = 2
@@ -325,7 +325,7 @@ def test_run():
     assert fake_participant_for_run.my_team.team_run.call_count == 2
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_JSON", fake_extralife_io.get_JSON)
+@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_json)
 @mock.patch.object(eldonationtracker.participant.Participant, 'output_participant_data',
                    fake_participant_for_run.output_participant_data)
 @mock.patch.object(eldonationtracker.participant.ipc, 'write_ipc', fake_participant_for_run.write_ipc)

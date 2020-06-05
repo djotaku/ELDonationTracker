@@ -105,7 +105,7 @@ class Participant:
 
         :returns: JSON data for self.total_raised, self.number_of_donations, and self.goal.
         """
-        participant_json = extralife_io.get_JSON(self.participant_url)
+        participant_json = extralife_io.get_json(self.participant_url)
         if not participant_json:
             print("Couldn't access participant JSON.")
             return self.total_raised, self.number_of_donations, self.goal
@@ -150,7 +150,7 @@ class Participant:
         :param donations: A list consisting of donor.Donation objects.
         :returns: A list of donor.Donation objects.
         """
-        donation_json = extralife_io.get_JSON(self.donation_url)
+        donation_json = extralife_io.get_json(self.donation_url)
         if not donation_json:
             print("couldn't access donation page")
             return donations
@@ -181,7 +181,7 @@ class Participant:
 
         Uses donor drive's sorting to get the top guy or gal.
         """
-        top_donor_json = extralife_io.get_JSON(self.participant_donor_url, True)
+        top_donor_json = extralife_io.get_json(self.participant_donor_url, True)
         if not top_donor_json:
             print("Couldn't access top donor data")
             return self.top_donor

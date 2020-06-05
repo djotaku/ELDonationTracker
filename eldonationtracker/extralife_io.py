@@ -23,7 +23,7 @@ def validate_url(url: str):
 
 
 # JSON/URL
-def get_JSON(url: str, order_by_donations: bool = False) -> dict:
+def get_json(url: str, order_by_donations: bool = False) -> dict:
     """Grab JSON from server.
 
     Connects to server and grabs JSON data from the specified URL.\
