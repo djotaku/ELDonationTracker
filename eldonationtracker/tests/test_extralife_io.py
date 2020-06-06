@@ -97,6 +97,7 @@ def test_version_mismatch():
         participant_conf = extralife_io.ParticipantConf()
         assert participant_conf.version_mismatch is True
 
+
 def test_participantconf_get_version():
     """Test that it correctly returns the version string."""
     participant_conf = extralife_io.ParticipantConf()
