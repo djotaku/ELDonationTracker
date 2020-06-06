@@ -1,4 +1,6 @@
 """Contains classes pertaining to teams."""
+from typing import Tuple
+
 from eldonationtracker import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 from eldonationtracker.team_participant import TeamParticipant
@@ -45,11 +47,12 @@ class Team:
         self.top_5_participant_list: list = []
         self.participant_list: list = []
 
-    def _get_team_json(self):
+    def _get_team_json(self) -> Tuple[int, str, int, int]:
         """Get team info from JSON api."""
         self.team_json = extralife_io.get_json(self.team_url)
         if not self.team_json:
             print("Could not get team JSON")
+            return self.team_goal, self.team_captain, self.total_raised, self.num_donations
         else:
             return self.team_json["fundraisingGoal"], self.team_json["captainDisplayName"],\
                    self.team_json["sumDonations"], self.team_json["numDonations"]
