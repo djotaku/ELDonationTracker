@@ -5,7 +5,7 @@ import os
 import pathlib
 import requests
 import ssl
-from typing import Tuple
+from typing import Tuple, Any
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
@@ -84,7 +84,7 @@ class ParticipantConf:
     def __init__(self):
         """Load in participant conf and check version."""
         self.xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
-        self.participantconf = self.load_JSON()
+        self.participantconf = self.load_json()
         if self.participantconf['Version'] != self.participant_conf_version:
             print(f"You are using an old version of participant.conf.\n"
                   f"Your version is: {self.participantconf['Version']}\n"
@@ -98,7 +98,7 @@ class ParticipantConf:
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
 
-    def load_JSON(self) -> dict:
+    def load_json(self) -> dict:
         """Load in the config file.
 
         Checks in a variety of locations for the participant.conf file.\
@@ -135,7 +135,7 @@ class ParticipantConf:
             return config
         except FileNotFoundError:
             self.get_github_config()
-            return self.load_JSON()
+            return self.load_json()
 
     def get_github_config(self):
         print("Attempting to grab a config file from GitHub.")
@@ -189,18 +189,18 @@ class ParticipantConf:
         else:
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf', 'w') as outfile:
                 json.dump(config, outfile)
-        self.reload_JSON()
+        self.reload_json()
 
     def get_version(self):
         """Return version."""
         return self.participant_conf_version
 
-    def reload_JSON(self):
+    def reload_json(self):
         """Reload JSON and update the fields."""
-        self.participantconf = self.load_JSON()
+        self.participantconf = self.load_json()
         self.update_fields()
 
-    def get_CLI_values(self) -> Tuple[str, int]:
+    def get_cli_values(self) -> Tuple[Any, Any, Any, Any, Any]:
         """Return data required for a CLI-only run.
 
         :returns: A tuple of strings with config values needed if only\
@@ -216,7 +216,7 @@ class ParticipantConf:
         :returns: A string with the text folder location."""
         return self.fields["text_folder"]
 
-    def get_GUI_values(self) -> Tuple[str, int]:
+    def get_gui_values(self) -> Tuple[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]:
         """Return values needed for the GUI.
 
         :returns: A tuple of strings with config values needed if only\
@@ -257,10 +257,9 @@ class ParticipantConf:
             return True
 
     def get_version_mismatch(self) -> bool:
-        """Return bool of whether there is a version mismatch.0
+        """Return bool of whether there is a version mismatch.
 
-        :returns: True if the version the user is running is not\
-        the same as what this program has as its version.
+        :returns: True if the version the user is running is not the same as what this program has as its version.
         """
         return self.version_mismatch
 

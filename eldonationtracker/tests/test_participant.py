@@ -5,11 +5,11 @@ import eldonationtracker.participant
 
 config = ("12345", "textfolder", "$", "45678", "5")
 fake_participant_conf = mock.Mock()
-fake_participant_conf.get_CLI_values.return_value = config
+fake_participant_conf.get_cli_values.return_value = config
 
 config_no_team = ("12345", "textfolder", "$", None, "5")
 fake_participant_conf_no_team = mock.Mock()
-fake_participant_conf_no_team.get_CLI_values.return_value = config_no_team
+fake_participant_conf_no_team.get_cli_values.return_value = config_no_team
 
 fake_participant_info = {'sumDonations': 500, 'numDonations': 5, 'fundraisingGoal': 1000}
 fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID":"54483486D840B7EA",

@@ -81,30 +81,54 @@ def test_get_json_url_works_order_by_donations_true():
                                     headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
-@mock.patch.object(extralife_io, 'Request', mock_request)
-@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
-@mock.patch.object(extralife_io.json, 'load', mock_json_load)
-def test_get_json_http_error_order_by_donations_false():
-    mock_request.side_effect = Exception(extralife_io.HTTPError)
-    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
-    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
-                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+#@mock.patch.object(extralife_io, 'Request', mock_request)
+#@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
+#@mock.patch.object(extralife_io.json, 'load', mock_json_load)
+#def test_get_json_http_error_order_by_donations_false():
+#    mock_request.side_effect = Exception(extralife_io.HTTPError)
+#    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
+#    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
+#                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
 # ParticipantConf class - will need to figure out how to over-ride conf file
+def test_version_mismatch():
+    with mock.patch.object(extralife_io.ParticipantConf, "load_json", return_value={"Version": "1.0"}):
+        participant_conf = extralife_io.ParticipantConf()
+        assert participant_conf.version_mismatch is True
+
 def test_participantconf_get_version():
-    """Test that the version it reads from the participant.conf file\
-    equals what is expected."""
+    """Test that it correctly returns the version string."""
     participant_conf = extralife_io.ParticipantConf()
     assert "2.0" == participant_conf.get_version()
 
 
-def test_participantconf_get_CLI_values():
+def test_reload_json():
+    """Test that the fields are correct after a reload.
+
+    First test that the fields start loaded above. Then that they are filled in.
+    """
+    with mock.patch.object(extralife_io.ParticipantConf,
+                           "load_json",
+                           return_value={'Version': '2.0', 'extralife_id': '12345', 'text_folder': 'textfolder'}):
+        participant_conf = extralife_io.ParticipantConf()
+        assert participant_conf.fields['extralife_id'] is "12345"
+        assert participant_conf.fields['text_folder'] is "textfolder"
+        # now let's change them.
+        participant_conf.fields['extralife_id'] = "78900"
+        participant_conf.fields['text_folder'] = "nottextfolder"
+        # now reload and it should be back to where it was.
+        participant_conf.reload_json()
+        assert participant_conf.fields['extralife_id'] is "12345"
+        assert participant_conf.fields['text_folder'] is "textfolder"
+
+
+def test_participantconf_get_cli_values():
     """Test that the program correctly returns the CLI values."""
     participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
-            "$", "45678", "5") == participant_conf.get_CLI_values()
+            "$", "45678", "5") == participant_conf.get_cli_values()
 
 
 def test_get_text_folder_only():
@@ -114,14 +138,28 @@ def test_get_text_folder_only():
     assert "textfolder" == participant_conf.get_text_folder_only()
 
 
-def test_get_GUI_values():
+def test_get_gui_values():
     """Test that it correctly returns the values needed by the GUI."""
     participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf
     assert ("12345", "textfolder",
             "$", "45678", "imagefolder",
             "mp3", "5", "Liberation Sans", 52, True, 25, [255, 255, 255, 255],
-            [38, 255, 0, 255]) == participant_conf.get_GUI_values()
+            [38, 255, 0, 255]) == participant_conf.get_gui_values()
+
+
+def test_get_font_info():
+    """Test that it correctly returns the font information."""
+    participant_conf = extralife_io.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert ("Liberation Sans", 52, True, 25, [255, 255, 255, 255]) == participant_conf.get_font_info()
+
+
+def test_get_tracker_background_color():
+    """Test that it correctly returns the tracker's background color"""
+    participant_conf = extralife_io.ParticipantConf()
+    participant_conf.fields = fields_for_participant_conf
+    assert [38, 255, 0, 255] == participant_conf.get_tracker_background_color()
 
 
 def test_get_if_in_team_with_team():
@@ -138,6 +176,17 @@ def test_get_if_in_team_without_team():
     participant_conf = extralife_io.ParticipantConf()
     participant_conf.fields = fields_for_participant_conf_no_team
     assert participant_conf.get_if_in_team() is False
+
+
+def test_get_version_mismatch():
+    participant_conf = extralife_io.ParticipantConf()
+    assert participant_conf.get_version_mismatch() is False
+
+
+def test_get_version_mismatch_if_mismatch():
+    with mock.patch.object(extralife_io.ParticipantConf, "load_json", return_value={"Version": "1.0"}):
+        participant_conf = extralife_io.ParticipantConf()
+        assert participant_conf.get_version_mismatch() is True
 
 
 def test_get_tracker_image():

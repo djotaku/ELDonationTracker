@@ -26,7 +26,7 @@ class MyForm(QDialog):
         self.tracker = tracker
         (self.ExtraLifeID, self.textFolder, self.CurrencySymbol, self.TeamID, self.TrackerImage, self.DonationSound,
          self.donors_to_display, self.font_family, self.font_size, self.font_italic,
-         self.font_bold, self.font_color_value, self.tracker_background_color_value) = participant_conf.get_GUI_values()
+         self.font_bold, self.font_color_value, self.tracker_background_color_value) = participant_conf.get_gui_values()
         if self.font_family:
             self.font = QFont()
             self.font.setFamily(self.font_family)
@@ -76,7 +76,7 @@ class MyForm(QDialog):
          self.CurrencySymbol, self.TeamID, self.TrackerImage,
          self.DonationSound, self.donors_to_display,
          self.font_family, self.font_size, self.font_italic, self.font_bold,
-         self.font_color_value, self.tracker_background_color_value) = self.participant_conf.get_GUI_values()
+         self.font_color_value, self.tracker_background_color_value) = self.participant_conf.get_gui_values()
 
     def revert(self):
         """

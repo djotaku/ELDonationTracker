@@ -99,7 +99,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                 if choice == "Replace with Defaults":
                     self.participant_conf.get_github_config()
                     print("Settings have been replaced with the repo defaults.")
-                    self.participant_conf.reload_JSON()
+                    self.participant_conf.reload_json()
                 if choice == "Update on Save":
                     print("When you save the settings, you will be up to date")
         else:
@@ -158,7 +158,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
     def run_button(self):
         print(f"Starting the participant run. But first, reloading config file.")
-        self.participant_conf.reload_JSON()
+        self.participant_conf.reload_json()
         self.participant_timer.start()
 
     def stop_button(self):

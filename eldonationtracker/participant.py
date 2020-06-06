@@ -54,7 +54,7 @@ class Participant:
         """Load in config from participant.conf and creates the URLs."""
         (self.extralife_id, self.text_folder,
          self.currency_symbol, self.team_id,
-         self.donors_to_display) = participant_conf.get_CLI_values()
+         self.donors_to_display) = participant_conf.get_cli_values()
         # urls
         self.participant_url = f"{base_api_url}/participants/{self.extralife_id}"
         self.donation_url = f"{self.participant_url}/donations"
