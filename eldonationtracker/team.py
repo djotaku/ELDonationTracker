@@ -104,7 +104,7 @@ class Team:
         self.participant_calculation_dict['Team_Top5Participants'] = \
             extralife_io.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
 
-    def write_text_files(self, dictionary: dict) -> None:
+    def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write info to text files.
 
         :param dictionary: The dictionary containing the values to write out to text files.
