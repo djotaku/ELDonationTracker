@@ -63,30 +63,25 @@ class Team:
         self.team_info["Team_totalRaised"] = f"{self.currency_symbol}{self.total_raised:,.2f}"
         self.team_info["Team_numDonations"] = f"{self.num_donations}"
 
-    def _get_participants(self) -> List[TeamParticipant]:
+    def _get_participants(self, top5: bool) -> List[TeamParticipant]:
         """Get team participant info from API.
 
         Passes the JSON to the TeamParticipant class for parsing to create a team participant.
 
+        :param top5: If true, get the list sorted by top sum of donations.
+
         :returns: A list of TeamParticipant objects.
         """
-        team_participant_json = extralife_io.get_json(self.team_participant_url)
+        team_participant_json = extralife_io.get_json(self.team_participant_url, top5)
         if not team_participant_json:
             print("couldn't get to URL or possible no participants.")
-            return self.participant_list
+            if top5:
+                return self.top_5_participant_list
+            else:
+                return self.participant_list
         else:
             return [TeamParticipant(team_participant_json[participant])
                     for participant in range(0, len(team_participant_json))]
-
-    def _get_top_5_participants(self) -> List[TeamParticipant]:
-        """Get team participants."""
-        top5_team_participant_json = extralife_io.get_json(self.team_participant_url, True)
-        if not top5_team_participant_json:
-            print("Couldn't get top 5 team participants or no participants.")
-            return self.top_5_participant_list
-        else:
-            return [TeamParticipant(top5_team_participant_json[participant])
-                    for participant in range(0, len(top5_team_participant_json))]
 
     def _top_participant(self) -> str:
         """Get Top Team Participant.
@@ -130,8 +125,8 @@ class Team:
 
     def participant_run(self) -> None:
         """Get and calculate team participant info."""
-        self.participant_list = self._get_participants()
-        self.top_5_participant_list = self._get_top_5_participants()
+        self.participant_list = self._get_participants(top5=False)
+        self.top_5_participant_list = self._get_participants(top5=True)
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
 

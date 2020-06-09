@@ -52,7 +52,7 @@ def test_update_team_dictionary():
 def test_get_participants_no_participants():
     my_team = team.Team("12345", "folder", "$")
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
-        participants = my_team._get_participants()
+        participants = my_team._get_participants(False)
         assert participants == []
         assert my_team.participant_list == []
 
@@ -85,7 +85,7 @@ def test_get_participants():
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
-        participants = my_team._get_participants()
+        participants = my_team._get_participants(False)
         assert participants[0].name == "Karl Abraham"
         assert participants[1].name == "Ben Tolmachoff"
 
