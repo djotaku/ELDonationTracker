@@ -90,8 +90,9 @@ class Team:
 
         :returns: String formatted information about the top participant.
         """
-        if len(self.top_5_participant_list) == "0":
+        if len(self.top_5_participant_list) == 0:
             print("No participants")
+            return "No participants."
         else:
             return (f"{self.top_5_participant_list[0].name} - $"
                     f"{self.top_5_participant_list[0].amount:,.2f}")
