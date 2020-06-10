@@ -220,6 +220,46 @@ def test_participant_calculations():
         assert my_team.participant_calculation_dict['Team_Top5Participants'] == "Karl Abraham - $0.00\nBen Tolmachoff - $0.00\nMichael Bataligin - $5.00\n"
 
 
+fake_get_team_json = mock.Mock()
+fake_get_team_json.return_value = 400, "Captain", 401, 3
+fake_participant_run = mock.Mock()
+fake_write_text_files = mock.Mock()
+
+
+@mock.patch.object(team.Team, "_get_team_json", fake_get_team_json)
+@mock.patch.object(team.Team, "participant_run", fake_participant_run)
+@mock.patch.object(team.Team, "write_text_files", fake_write_text_files)
+def test_team_run():
+    my_team = team.Team("12345", "folder", "$")
+    my_team.team_run()
+    assert fake_participant_run.call_count == 1
+    my_team.team_run()
+    assert fake_participant_run.call_count == 1
+    fake_get_team_json.return_value = 400, "Captain", 402, 4
+    my_team.team_run()
+    assert fake_participant_run.call_count == 2
+
+
+fake_get_team_json2 = mock.Mock()
+fake_get_team_json2.return_value = 400, "Captain", 401, 3
+
+
+@mock.patch.object(team.Team, "_get_team_json", fake_get_team_json2)
+@mock.patch.object(team.Team, "participant_run", fake_participant_run)
+@mock.patch.object(team.Team, "write_text_files", fake_write_text_files)
+def test_team_api_info():
+    my_team = team.Team("12345", "folder", "$")
+    my_team.team_api_info()
+    assert my_team.team_goal == 400
+    assert my_team.team_captain == "Captain"
+    assert my_team.total_raised == 401
+    assert my_team.num_donations == 3
+    assert my_team.team_info["Team_goal"] == '$400.00'
+    assert my_team.team_info["Team_captain"] == "Captain"
+    assert my_team.team_info["Team_totalRaised"] == "$401.00"
+    assert my_team.team_info["Team_numDonations"] == '3'
+
+
 def test_str_no_json_data():
     """Test what str will produce if the JSON retrieval hasn't yet run."""
     my_team = team.Team("12345", "folder", "$")

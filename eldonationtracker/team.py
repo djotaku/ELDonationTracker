@@ -124,7 +124,7 @@ class Team:
         self._update_team_dictionary()
         self.write_text_files(self.team_info)
 
-    def participant_run(self) -> None:
+    def participant_run(self) -> None:  # pragma: no cover
         """Get and calculate team participant info."""
         self.participant_list = self._get_participants(top5=False)
         self.top_5_participant_list = self._get_participants(top5=True)
