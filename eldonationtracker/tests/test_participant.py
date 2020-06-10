@@ -72,7 +72,7 @@ def test_urls():
 
 def test_str_with_a_team():
     my_participant = Participant(fake_participant_conf)
-    assert str(my_participant) == "A participant with Extra Life ID 12345. Team info: A team found at https://www.extra-life.org/api/teams/45678 ."
+    assert str(my_participant) == "A participant with Extra Life ID 12345. Team info: A team found at https://www.extra-life.org/api/teams/45678. "
 
 
 def test_str_without_a_team():

@@ -263,7 +263,14 @@ def test_team_api_info():
 def test_str_no_json_data():
     """Test what str will produce if the JSON retrieval hasn't yet run."""
     my_team = team.Team("12345", "folder", "$")
-    assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345 ."
+    assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345. "
+
+
+def test_str():
+    """Test what str will produce after team_info has been filled out."""
+    my_team = team.Team("12345", "folder", "$")
+    my_team.team_info["Team_goal"] = '$400.00'
+    assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345. Team goal is $400.00."
 
 
 def test_str_no_json_data_no_team_id():

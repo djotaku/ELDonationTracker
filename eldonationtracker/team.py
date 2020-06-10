@@ -133,10 +133,10 @@ class Team:
 
     def __str__(self):
         team_info = ""
-        if self.team_json:
+        if self.team_info:
             team_info = f"Team goal is {self.team_info['Team_goal']}."
         if self.team_id:
-            return f"A team found at {self.team_url} {team_info}."
+            return f"A team found at {self.team_url}. {team_info}"
         else:
             return "Not a valid team - no team_id."
 
