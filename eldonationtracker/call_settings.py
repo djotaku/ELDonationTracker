@@ -1,6 +1,8 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
+from rich import print
+
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog, QMessageBox
 from PyQt5.QtGui import QFont, QColor
 
@@ -197,7 +199,7 @@ class MyForm(QDialog):
             self.ui.label_sound.setText(file)
 
     def _validate_id(self, id_type: str):
-        print("Validating URL")
+        print("[bold blue]Validating URL[/bold blue]")
         if id_type == "participant":
             url = f"{base_api_url}/participants/{self.ui.lineEditParticipantID.text()}"
             valid_url = extralife_io.validate_url(url)

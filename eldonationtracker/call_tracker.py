@@ -95,9 +95,9 @@ class MyForm(QDialog):
                 IPC = file.read(1)
                 file.close()
         except:
-            print("""tackerIPC.txt not found.
+            print("""[bold pink]tackerIPC.txt not found.
                 Have you updated the settings?
-                Have you hit the 'run' button?""")
+                Have you hit the 'run' button?[/bold pink]""")
         if IPC == "1":
             self._loadimage()
             self._loadElements()
