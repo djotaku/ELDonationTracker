@@ -56,7 +56,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.call_settings = call_settings.MyForm(self.participant_conf, self.tracker)
         
         # instantiate About
-        self.call_about = call_about.about_program()
+        self.call_about = call_about.AboutProgram()
 
         # want to make sure file exists on new run
         self.folders = self.participant_conf.get_text_folder_only()

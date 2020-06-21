@@ -1,6 +1,6 @@
 """Grabs Participant JSON data and outputs to files."""
 
-from rich import print
+from rich import print  # type ignore
 
 import time
 
