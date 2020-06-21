@@ -48,14 +48,14 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
         payload = urlopen(request, timeout=5, context=context)
         #  print(f"trying URL: {url}")
         return json.load(payload)
-    except HTTPError:
+    except HTTPError:  # pragma no cover
         print(f"""Could not get to {url}.
                 Check ExtraLifeID.Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker""")
         return {}
-    except URLError:
+    except URLError:  # pragma no cover
         print(f"HTTP code: {payload.getcode()}")
         print(""" Timed out while getting JSON. """)
         return {}
@@ -98,7 +98,7 @@ class ParticipantConf:
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
 
-    def load_json(self) -> dict:
+    def load_json(self) -> dict:  # pragma no cover
         """Load in the config file.
 
         Checks in a variety of locations for the participant.conf file.\
@@ -137,7 +137,7 @@ class ParticipantConf:
             self.get_github_config()
             return self.load_json()
 
-    def get_github_config(self):
+    def get_github_config(self):  # pragma no cover
         print("Attempting to grab a config file from GitHub.")
         print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
@@ -147,7 +147,7 @@ class ParticipantConf:
         except HTTPError:
             print("Could not find participant.conf on Github. Please manually create or download from Github.")
 
-    def get_tracker_assets(self, asset: str):
+    def get_tracker_assets(self, asset: str):  # pragma no cover
         print(f"Attempting to grab {asset} from Github.")
         print(f"{asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}")
         if asset == "image":
@@ -173,7 +173,7 @@ class ParticipantConf:
             # debug
             # print(f"{field}:{self.fields[field]}")
 
-    def write_config(self, config: dict, default: bool):
+    def write_config(self, config: dict, default: bool):  # pragma no cover
         """Write config to file.
 
         Only called from GUI. Commandline user is expected to edit\
