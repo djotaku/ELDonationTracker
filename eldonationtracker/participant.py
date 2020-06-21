@@ -1,5 +1,7 @@
 """Grabs Participant JSON data and outputs to files."""
 
+from rich import print
+
 import time
 
 from eldonationtracker import ipc as ipc
@@ -107,7 +109,7 @@ class Participant:
         """
         participant_json = extralife_io.get_json(self.participant_url)
         if not participant_json:
-            print("Couldn't access participant JSON.")
+            print("[bold red]Couldn't access participant JSON.[/bold red]")
             return self.total_raised, self.number_of_donations, self.goal
         else:
             return participant_json['sumDonations'], participant_json['numDonations'],\
@@ -152,7 +154,7 @@ class Participant:
         """
         donation_json = extralife_io.get_json(self.donation_url)
         if not donation_json:
-            print("couldn't access donation page")
+            print("[bold red]Couldn't access donation page[/bold red]")
             return donations
         else:
             donation_list = [donation.Donation(donation_json[this_donation].get('displayName'),
@@ -181,7 +183,7 @@ class Participant:
         """
         top_donor_json = extralife_io.get_json(self.participant_donor_url, True)
         if not top_donor_json:
-            print("Couldn't access top donor data")
+            print("[bold red] Couldn't access top donor data[/bold red]")
             return self.top_donor
         else:
             return donor.Donor(top_donor_json[0])
@@ -252,7 +254,7 @@ class Participant:
             self._format_donation_information_for_output()
             self.write_text_files(self.donation_formatted_output)
         else:
-            print("No donations, writing default data to files.")
+            print("[bold blue]No donations, writing default data to files.[/bold blue]")
             self.write_text_files(self.donation_formatted_output)
 
     def output_donor_data(self) -> None:
@@ -265,7 +267,7 @@ class Participant:
             self._format_donor_information_for_output()
             self.write_text_files(self.donor_formatted_output)
         else:
-            print("No donations, writing default data to files.")
+            print("[bold blue]No donations, writing default data to files.[/bold blue]")
             self.write_text_files(self.donor_formatted_output)
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
@@ -287,7 +289,7 @@ class Participant:
         self.output_participant_data()
         if self.first_run or self.number_of_donations > number_of_donations:
             if not self.first_run:
-                print("A new donation!")
+                print("[bold green]A new donation![/bold green]")
                 ipc.write_ipc(self.text_folder, "1")
             self.update_donation_data()
             self.output_donation_data()
