@@ -34,7 +34,7 @@ jobs:
     - name: Check with MyPy
       run: |
          pip install mypy
-         mypy eldonationtracker/utils/update_available.py
+         mypy eldonationtracker
     - name: CodeCov
       run: |
         pip install codecov

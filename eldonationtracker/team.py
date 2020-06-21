@@ -38,7 +38,6 @@ class Team:
         self.currency_symbol: str = currency_symbol
         self.team_info: dict = {}
         self.participant_calculation_dict: dict = {}
-        self.top_5_participant_list: list = []
         self.team_json: dict = {}
         self.team_goal: int = 0
         self.team_captain: str = ""
@@ -145,8 +144,5 @@ if __name__ == "__main__":  # pragma no cover
     # debug next line
     folder = "/home/ermesa/Programming Projects/python/extralife/testOutput"
     my_team = Team("44013", folder, "$")
-    my_team.get_team_json()
-    my_team._get_participants()
-    my_team._participant_calculations()
-    my_team.write_text_files(my_team.team_info)
-    my_team.write_text_files(my_team.participant_calculation_dict)
+    my_team.team_api_info()
+    my_team.participant_run()

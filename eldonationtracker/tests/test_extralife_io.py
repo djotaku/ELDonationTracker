@@ -1,6 +1,5 @@
 # This unit test test uses the following encoding: utf-8
 
-import pytest
 from unittest import mock
 
 from eldonationtracker import extralife_io

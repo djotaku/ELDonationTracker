@@ -167,7 +167,8 @@ class Participant:
                 return donation_list
             else:
                 for a_donation in reversed(donation_list):
-                    donations.insert(0, a_donation) if a_donation not in donations else donations
+                    if a_donation not in donations:
+                        donations.insert(0, a_donation)
                 return donations
 
     # make a top donation method, but only call it once. After that, just update it if the new donation that comes in is

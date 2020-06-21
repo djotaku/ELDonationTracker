@@ -9,7 +9,7 @@ from typing import Tuple, Any
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-import xdgenvpy
+import xdgenvpy  # type: ignore
 
 
 def validate_url(url: str):
@@ -47,7 +47,7 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
         #  print(f"trying URL: {url}")
-        return json.load(payload)
+        return json.load(payload)  # type: ignore
     except HTTPError:  # pragma no cover
         print(f"""Could not get to {url}.
                 Check ExtraLifeID.Or server may be unavailable.
@@ -56,7 +56,7 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
                 https://github.com/djotaku/ELDonationTracker""")
         return {}
     except URLError:  # pragma no cover
-        print(f"HTTP code: {payload.getcode()}")
+        print(f"HTTP code: {payload.getcode()}")  # type: ignore
         print(""" Timed out while getting JSON. """)
         return {}
 

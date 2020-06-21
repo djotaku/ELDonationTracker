@@ -3,7 +3,7 @@
 import sys
 from PyQt5.QtWidgets import QDialog, QApplication, QGraphicsScene, QGraphicsPixmapItem
 from PyQt5.QtCore import QUrl, Qt
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent  # type: ignore
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.tracker import *
@@ -138,10 +138,3 @@ def main(participant_conf):
     """Launch the window."""
     window = MyForm(participant_conf)
     window.exec()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    w = MyForm()
-    w.show()
-    sys.exit(app.exec_())
