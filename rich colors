@@ -2,6 +2,6 @@
 
 [bold red] - something that needs the user's attention and signifies an error.
 
-[bold pink] - Needs user's attention, but isn't necessarily an error
+[bold magenta] - Needs user's attention, but isn't necessarily an error
 
 [bold blue] - informative, but does not need the user's attention.

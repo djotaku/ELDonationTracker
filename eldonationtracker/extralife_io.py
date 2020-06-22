@@ -4,6 +4,7 @@ import json
 import os
 import pathlib
 import requests
+from rich import print
 import ssl
 from typing import Tuple, Any
 from urllib.request import Request, urlopen
@@ -13,9 +14,9 @@ import xdgenvpy  # type: ignore
 
 
 def validate_url(url: str):
-    print(f"Checking: {url}")
+    print(f"[bold blue]Checking: {url}[/bold blue]")
     response = requests.get(url)
-    print(f"Response is: {response.status_code}")
+    print(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
     if response.status_code == 200:
         return True
     else:
@@ -49,15 +50,15 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
         #  print(f"trying URL: {url}")
         return json.load(payload)  # type: ignore
     except HTTPError:  # pragma no cover
-        print(f"""Could not get to {url}.
+        print(f"""[bold red]Could not get to {url}.
                 Check ExtraLifeID.Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent problem, please open an issue at:
-                https://github.com/djotaku/ELDonationTracker""")
+                https://github.com/djotaku/ELDonationTracker[/bold red]""")
         return {}
     except URLError:  # pragma no cover
-        print(f"HTTP code: {payload.getcode()}")  # type: ignore
-        print(""" Timed out while getting JSON. """)
+        print(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
+        print(""" [bold red]Timed out while getting JSON. [/bold red]""")
         return {}
 
 # File Input and Output
@@ -111,23 +112,23 @@ class ParticipantConf:
         """
 
         try:
-            print("Looking for persistent settings at "
-                  f"{self.xdg.XDG_CONFIG_HOME}")
+            print("[bold blue]Looking for persistent settings at "
+                  f"{self.xdg.XDG_CONFIG_HOME}[/bold blue]")
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
                 config = json.load(file)
                 file.close()
-                print("Persistent settings found.")
+                print("[bold green]Persistent settings found.[/bold green]")
             return config
         except FileNotFoundError:
-            print("Persistent settings not found. Checking current directory"
-                  f"({os.getcwd()})")
+            print("[bold magenta]Persistent settings not found. Checking current directory"
+                  f"({os.getcwd()})[/bold magenta]")
         try:
             with open(pathlib.PurePath(__file__).parent.joinpath('.')/'participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config
         except FileNotFoundError:
-            print("Settings not found in current dir. Checking up one level.")
+            print("[bold magenta]Settings not found in current dir. Checking up one level.[/bold magenta]")
         try:
             with open(pathlib.PurePath(__file__).parent.joinpath('..')/'participant.conf') as file:
                 config = json.load(file)
@@ -138,18 +139,19 @@ class ParticipantConf:
             return self.load_json()
 
     def get_github_config(self):  # pragma no cover
-        print("Attempting to grab a config file from GitHub.")
-        print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
+        print("[bold blue]Attempting to grab a config file from GitHub.[/bold blue]")
+        print(f"[bold blue]Config will be placed at {self.xdg.XDG_CONFIG_HOME}.[/bold blue]")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
         try:
             config_file = requests.get(url)
             open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
         except HTTPError:
-            print("Could not find participant.conf on Github. Please manually create or download from Github.")
+            print("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
+                  "[bold magenta]Please manually create or download from Github.[/bold magenta]")
 
     def get_tracker_assets(self, asset: str):  # pragma no cover
-        print(f"Attempting to grab {asset} from Github.")
-        print(f"{asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}")
+        print(f"[bold blue] Attempting to grab {asset} from Github.[/bold blue] ")
+        print(f"[bold blue] {asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}[/bold blue] ")
         if asset == "image":
             url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/master/tracker%20assets/Engineer.png'
         elif asset == "sound":
@@ -162,9 +164,9 @@ class ParticipantConf:
             elif asset == "sound":
                 open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
-            print("file written.")
+            print("[bold blue]file written.[/bold blue]")
         except requests.HTTPError:
-            print(f"Could not get {asset}.")
+            print(f"[bold red]Could not get {asset}.[/bold red]")
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
@@ -355,4 +357,4 @@ def write_text_files(dictionary: dict, text_folder: str):
     for filename, text in dictionary.items():
         f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
         f.write(text)
-        f.close
+        f.close()

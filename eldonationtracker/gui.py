@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 
 from PyQt5 import QtCore
 
+from rich import print
 import sys
 import webbrowser
 
@@ -85,9 +86,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.actionAbout.triggered.connect(self.show_about)
 
     def version_check(self):
-        print("Participant.conf version check!")
+        print("[bold blue]Participant.conf version check![/bold blue]")
         if self.version_mismatch is True:
-            print("There is a version mismatch")
+            print("[bold magenta]There is a version mismatch[/bold magenta]")
             choices = ("Replace with Defaults", "Update on Save")
             choice, ok = QInputDialog.getItem(self, "Input Dialog",
                                               "You are using an old version of the configuration file.\n Choose "
@@ -95,15 +96,15 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                                               "click on teh settings button, review the new options, and hit save.",
                                               choices, 0, False)
             if ok and choice:
-                print(f"You have chosen {choice}")
+                print(f"[bold blue]You have chosen {choice}[/bold blue]")
                 if choice == "Replace with Defaults":
                     self.participant_conf.get_github_config()
-                    print("Settings have been replaced with the repo defaults.")
+                    print("[bold blue]Settings have been replaced with the repo defaults.[/bold blue]")
                     self.participant_conf.reload_json()
                 if choice == "Update on Save":
-                    print("When you save the settings, you will be up to date")
+                    print("[bold blue]When you save the settings, you will be up to date[/bold blue]")
         else:
-            print("Version is correct")
+            print("[bold green]Version is correct[/bold green] ")
 
     def test_alert(self):
         self.tracker.load_and_unload_test()
@@ -119,7 +120,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     # this is used for buttons that I haven't yet implemented
     @staticmethod
     def dead_button():
-        print("not working yet")
+        print("[bold blue]not working yet[/bold blue]")
 
     @staticmethod
     def read_files(folders, files):
@@ -129,10 +130,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             f.close()
             return text
         except FileNotFoundError:
-            print(f"""GUI Error:
+            print(f"""[bold magenta]GUI Error:
                 {folders}/{files} does not exist.
                 Did you update the settings?
-                Did you hit the 'run' button?
+                Did you hit the 'run' button?[/bold magenta]
                 """)
 
     def get_some_text(self):
@@ -157,7 +158,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             self.textBrowser_TeamTop5.setPlainText(self.read_files(self.folders, 'Team_Top5Participants.txt'))
 
     def run_button(self):
-        print(f"Starting the participant run. But first, reloading config file.")
+        print(f"[bold blue]Starting the participant run. But first, reloading config file.[/bold blue]")
         self.participant_conf.reload_json()
         self.participant_timer.start()
 
@@ -174,7 +175,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         try:
             webbrowser.open("https://eldonationtracker.readthedocs.io/en/latest/index.html", new=2)
         except webbrowser.Error:
-            print("couldn't open documentation")
+            print("[bold red]Couldn't open documentation[/bold red]")
             message_box = QMessageBox.warning(self, "Documentation", "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
 
     def check_for_update(self):

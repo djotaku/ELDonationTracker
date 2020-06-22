@@ -1,4 +1,5 @@
 """Contains classes pertaining to teams."""
+from rich import print
 from typing import Tuple, List
 
 from eldonationtracker import extralife_io as extralife_io
@@ -50,7 +51,7 @@ class Team:
         """Get team info from JSON api."""
         self.team_json = extralife_io.get_json(self.team_url)
         if not self.team_json:
-            print("Could not get team JSON")
+            print("[bold magenta]Could not get team JSON[/bold magenta]")
             return self.team_goal, self.team_captain, self.total_raised, self.num_donations
         else:
             return self.team_json["fundraisingGoal"], self.team_json["captainDisplayName"],\
@@ -73,7 +74,7 @@ class Team:
         """
         team_participant_json = extralife_io.get_json(self.team_participant_url, top5)
         if not team_participant_json:
-            print("couldn't get to URL or possible no participants.")
+            print("[bold magenta]Couldn't get to URL or possibly no participants.[/bold magenta]")
             if top5:
                 return self.top_5_participant_list
             else:
@@ -90,7 +91,7 @@ class Team:
         :returns: String formatted information about the top participant.
         """
         if len(self.top_5_participant_list) == 0:
-            print("No participants")
+            print("[bold blue] No participants[/bold blue] ")
             return "No participants."
         else:
             return (f"{self.top_5_participant_list[0].name} - $"
