@@ -106,7 +106,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             print("Version is correct")
 
     def test_alert(self):
-        self.tracker.loadAndUnloadTest()
+        self.tracker.load_and_unload_test()
 
     def call_tracker_button(self):
         self.tracker.show()
