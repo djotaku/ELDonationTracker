@@ -54,9 +54,9 @@ class MyForm(QDialog):
         self.ui.pushButtonRevert.clicked.connect(self.revert)
         self.ui.pushButtonSave.clicked.connect(self.save)
         self.ui.pushButton_persistentsave.clicked.connect(self.persistent_save)
-        self.ui.pushButtonSelectFolder.clicked.connect(self._selectfolder)
-        self.ui.pushButton_tracker_image.clicked.connect(lambda: self._selectfile("image"))
-        self.ui.pushButton_sound.clicked.connect(lambda: self._selectfile("sound"))
+        self.ui.pushButtonSelectFolder.clicked.connect(self._select_folder)
+        self.ui.pushButton_tracker_image.clicked.connect(lambda: self._select_file("image"))
+        self.ui.pushButton_sound.clicked.connect(lambda: self._select_file("sound"))
         self.ui.pushButton_font.clicked.connect(self._change_font)
         self.ui.pushButton_font_color.clicked.connect(self._change_font_color)
         self.ui.pushButton_tracker_background.clicked.connect(self._change_tracker_bg_color)
@@ -99,10 +99,10 @@ class MyForm(QDialog):
             self.ui.spinBox_DonorsToDisplay.setValue(int(self.donors_to_display))
 
     def _elements_to_save(self):
-        participantID = self.ui.lineEditParticipantID.text()
-        textfolder = self.ui.labelTextFolder.text()
-        currencysymbol = self.ui.lineEditCurrencySymbol.text()
-        trackerimage = self.ui.label_tracker_image.text()
+        participant_id = self.ui.lineEditParticipantID.text()
+        text_folder = self.ui.labelTextFolder.text()
+        currency_symbol = self.ui.lineEditCurrencySymbol.text()
+        tracker_image = self.ui.label_tracker_image.text()
         sound = self.ui.label_sound.text()
         version = self.participant_conf.get_version()
         donors_to_display = self.ui.spinBox_DonorsToDisplay.value()
@@ -129,12 +129,12 @@ class MyForm(QDialog):
             tracker_background_color = None
 
         if self.ui.lineEditTeamID.text() == "":
-            teamID = None
+            team_id = None
         else:
-            teamID = self.ui.lineEditTeamID.text()
-        config = {'Version': version, 'extralife_id': participantID,
-                  'text_folder': textfolder, 'currency_symbol': currencysymbol,
-                  'team_id': teamID, 'tracker_image': trackerimage,
+            team_id = self.ui.lineEditTeamID.text()
+        config = {'Version': version, 'extralife_id': participant_id,
+                  'text_folder': text_folder, 'currency_symbol': currency_symbol,
+                  'team_id': team_id, 'tracker_image': tracker_image,
                   'donation_sound': sound,
                   "donors_to_display": donors_to_display,
                   "font_family": font_family, "font_size": font_size, "font_italic": font_italic,
@@ -155,15 +155,15 @@ class MyForm(QDialog):
         config = self._elements_to_save()
         self.participant_conf.write_config(config, False)
 
-    def _selectfolder(self):
+    def _select_folder(self):
         directory = QFileDialog.getExistingDirectory(self, "Get Folder")
         self.ui.labelTextFolder.setText(directory)
 
-    def _selectfile(self, whichfile):
+    def _select_file(self, which_file):
         the_file = QFileDialog.getOpenFileName(self, "Select File")
-        if whichfile == "image":
+        if which_file == "image":
             self.ui.label_tracker_image.setText(the_file[0])
-        if whichfile == "sound":
+        if which_file == "sound":
             self.ui.label_sound.setText(the_file[0])
 
     def _change_font(self):
