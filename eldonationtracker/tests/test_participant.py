@@ -288,7 +288,6 @@ def test_output_donor_data():
                    fake_participant_for_run.update_participant_attributes)
 @mock.patch.object(eldonationtracker.participant.Participant, 'output_participant_data',
                    fake_participant_for_run.output_participant_data)
-@mock.patch.object(eldonationtracker.participant.ipc, 'write_ipc', fake_participant_for_run.write_ipc)
 @mock.patch.object(eldonationtracker.participant.Participant, 'update_donation_data',
                    fake_participant_for_run.update_donation_data)
 @mock.patch.object(eldonationtracker.participant.Participant, 'output_donation_data',
@@ -307,7 +306,6 @@ def test_run():
     my_participant.run()
     fake_participant_for_run.update_participant_attributes.assert_called_once()
     fake_participant_for_run.output_participant_data.assert_called_once()
-    fake_participant_for_run.write_ipc.assert_called_once()  # it's called on class init
     fake_participant_for_run.update_donation_data.assert_called_once()
     fake_participant_for_run.output_donation_data.assert_called_once()
     fake_participant_for_run.update_donor_data.assert_called_once()
@@ -317,7 +315,6 @@ def test_run():
     my_participant.run()
     assert fake_participant_for_run.update_participant_attributes.call_count == 2
     assert fake_participant_for_run.output_participant_data.call_count == 2
-    fake_participant_for_run.write_ipc.assert_called_once()
     fake_participant_for_run.update_donation_data.assert_called_once()
     fake_participant_for_run.output_donation_data.assert_called_once()
     fake_participant_for_run.update_donor_data.assert_called_once()
@@ -328,7 +325,6 @@ def test_run():
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_json)
 @mock.patch.object(eldonationtracker.participant.Participant, 'output_participant_data',
                    fake_participant_for_run.output_participant_data)
-@mock.patch.object(eldonationtracker.participant.ipc, 'write_ipc', fake_participant_for_run.write_ipc)
 @mock.patch.object(eldonationtracker.participant.Participant, 'update_donation_data',
                    fake_participant_for_run.update_donation_data)
 @mock.patch.object(eldonationtracker.participant.Participant, 'output_donation_data',
@@ -342,7 +338,6 @@ def test_run():
                    fake_participant_for_run.my_team.participant_run)
 def test_run_get_a_donation():
     fake_participant_for_run.output_participant_data.reset_mock()
-    fake_participant_for_run.write_ipc.reset_mock()
     fake_participant_for_run.update_donation_data.reset_mock()
     fake_participant_for_run.output_donation_data.reset_mock()
     fake_participant_for_run.update_donor_data.reset_mock()
@@ -354,7 +349,6 @@ def test_run_get_a_donation():
     my_participant.first_run = False  # to simulate that this is after one run already
     my_participant.run()
     fake_participant_for_run.output_participant_data.assert_called_once()
-    assert fake_participant_for_run.write_ipc.call_count == 2  # it's called on class init
     fake_participant_for_run.update_donation_data.assert_called_once()
     fake_participant_for_run.output_donation_data.assert_called_once()
     fake_participant_for_run.update_donor_data.assert_called_once()
