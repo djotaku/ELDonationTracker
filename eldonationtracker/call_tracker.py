@@ -12,7 +12,7 @@ from eldonationtracker import ipc as ipc
 class MyForm(QDialog):
     """The class to hold the tracker window."""
 
-    def __init__(self, participant_conf):
+    def __init__(self, participant_conf, participant):
         """Set up the window.
 
         Loads in the image and sound file the user specified in the
@@ -23,6 +23,7 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         # config stuff
         self.participant_conf = participant_conf
+        self.participant = participant
         self.folders = self.participant_conf.get_text_folder_only()
         (self.font_family, self.font_size, self.font_italic, self.font_bold,
          self.font_color_value) = self.participant_conf.get_font_info()
@@ -88,17 +89,7 @@ class MyForm(QDialog):
 
     def _load_and_unload(self):
         self.folders = self.participant_conf.get_text_folder_only()
-        current_ipc = "0"
-        try:
-            with open(f'{self.folders}/trackerIPC.txt') as file:
-                current_ipc = file.read(1)
-                file.close()
-        except FileNotFoundError:
-            print("""[bold magenta]tackerIPC.txt not found.
-                Have you updated the settings?
-                
-                Have you hit the 'run' button?[/bold magenta]""")
-        if current_ipc == "1":
+        if self.participant.new_donation:
             self._load_image()
             self._load_elements()
             self._load_sound()
@@ -121,7 +112,7 @@ class MyForm(QDialog):
     def _unload_elements(self):
         self.scene.removeItem(self.item)
         self.ui.Donation_label.setText("")
-        ipc.write_ipc(self.folders, "0")
+        self.participant.new_donation = False
 
     def set_font(self, font):
         self.ui.Donation_label.setFont(font)

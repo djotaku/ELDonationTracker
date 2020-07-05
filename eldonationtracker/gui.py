@@ -50,8 +50,15 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.timer.timeout.connect(self.get_some_text)
         self.timer.start()
 
+        # setup the participant
+        self.my_participant = participant.Participant(self.participant_conf)
+        self.participant_timer = QtCore.QTimer(self)
+        self.participant_timer.setSingleShot(False)
+        self.participant_timer.setInterval(15000)
+        self.participant_timer.timeout.connect(self.my_participant.run)
+
         # instantiate the tracker so we can send signals
-        self.tracker = call_tracker.MyForm(self.participant_conf)
+        self.tracker = call_tracker.MyForm(self.participant_conf, self.my_participant)
 
         # instantiate the settings
         self.call_settings = call_settings.MyForm(self.participant_conf, self.tracker)
@@ -61,14 +68,6 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
         # want to make sure file exists on new run
         self.folders = self.participant_conf.get_text_folder_only()
-        ipc.write_ipc(self.folders, "0")
-
-        # setup the participant
-        self.my_participant = participant.Participant(self.participant_conf)
-        self.participant_timer = QtCore.QTimer(self)
-        self.participant_timer.setSingleShot(False)
-        self.participant_timer.setInterval(15000)
-        self.participant_timer.timeout.connect(self.my_participant.run)
 
         # Connecting *almost* all the buttons to methods
         self.SettingsButton.clicked.connect(self.call_settings_button)
