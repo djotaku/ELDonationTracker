@@ -167,6 +167,6 @@ class Team:
 if __name__ == "__main__":  # pragma no cover
     # debug next line
     folder = "/home/ermesa/Programming Projects/python/extralife/testOutput"
-    my_team = Team("44013", folder, "$")
+    my_team = Team("44013", folder, "$", "5")
     my_team.team_api_info()
     my_team.participant_run()
