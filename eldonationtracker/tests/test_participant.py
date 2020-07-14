@@ -127,35 +127,6 @@ def test_calculate_average_donation_no_donations():
     assert my_participant._calculate_average_donation() == 0
 
 
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
-def test_get_donations():
-    my_participant = Participant(fake_participant_conf)
-    my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
-    assert my_participant.donation_list[0].name == "Sean Gibson"
-    assert my_participant.donation_list[1].name == "Eric Mesa"
-
-
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
-def test_get_donations_no_json():
-    my_participant = Participant(fake_participant_conf)
-    my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
-    assert my_participant.donation_list == []
-
-
-@mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
-def test_get_donations_already_a_donation_present():
-    my_participant = Participant(fake_participant_conf)
-    donation1 = eldonationtracker.participant.donation.Donation("Donor 1", "Good job!", 34.51, "4939d",
-                                                                "http://image.png",
-                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
-    my_participant.donation_list = [donation1]
-    my_participant.donation_list = my_participant._get_donations(my_participant.donation_list)
-    # print(my_participant.donation_list)
-    assert my_participant.donation_list[0].name == "Sean Gibson"
-    assert my_participant.donation_list[1].name == "Eric Mesa"
-    assert my_participant.donation_list[2].name == "Donor 1"
-
-
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_top_donor_no_json)
 def test_get_top_donor_no_json():
     my_participant = Participant(fake_participant_conf)

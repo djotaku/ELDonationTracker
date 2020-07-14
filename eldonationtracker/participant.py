@@ -144,35 +144,6 @@ class Participant:
         except ZeroDivisionError:
             return 0
 
-    def _get_donations(self, donations: list) -> list:
-        """Get the donations from the JSON and create the donation objects.
-
-        If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
-
-        :param donations: A list consisting of donor.Donation objects.
-        :returns: A list of donor.Donation objects.
-        """
-        donation_json = extralife_io.get_json(self.donation_url)
-        if not donation_json:
-            print("[bold red]Couldn't access donation page[/bold red]")
-            return donations
-        else:
-            donation_list = [donation.Donation(donation_json[this_donation].get('displayName'),
-                                               donation_json[this_donation].get('message'),
-                                               donation_json[this_donation].get('amount'),
-                                               donation_json[this_donation].get('donorID'),
-                                               donation_json[this_donation].get('avatarImageURL'),
-                                               donation_json[this_donation].get('createdDateUTC'),
-                                               donation_json[this_donation].get('donationID'))
-                             for this_donation in range(0, len(donation_json))]
-            if len(donations) == 0:
-                return donation_list
-            else:
-                for a_donation in reversed(donation_list):
-                    if a_donation not in donations:
-                        donations.insert(0, a_donation)
-                return donations
-
     # make a top donation method, but only call it once. After that, just update it if the new donation that comes in is
     # larger
 
@@ -234,7 +205,7 @@ class Participant:
         As of 5.0 it just updates the list of donations. There may be more donation-related updating in future versions.
         """
         if self.number_of_donations > 0:
-            self.donation_list = self._get_donations(self.donation_list)
+            self.donation_list = donation.get_donations(self.donation_list, self.donation_url)
 
     def update_donor_data(self) -> None:
         """Update donor data.

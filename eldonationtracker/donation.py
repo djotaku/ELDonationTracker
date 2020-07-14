@@ -1,5 +1,38 @@
 """A class to hold the Donation attributes and methods."""
 
+from eldonationtracker import extralife_io as extralife_io
+
+
+def get_donations(donations: list, donation_url: str) -> list:
+    """Get the donations from the JSON and create the donation objects.
+
+    If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
+
+    :param donations: A list consisting of donor.Donation objects.
+    :param donation_url: The URL to go to for donations.
+    :returns: A list of donor.Donation objects.
+    """
+    donation_json = extralife_io.get_json(donation_url)
+    if not donation_json:
+        print("[bold red]Couldn't access donation page[/bold red]")
+        return donations
+    else:
+        donation_list = [Donation(donation_json[this_donation].get('displayName'),
+                                  donation_json[this_donation].get('message'),
+                                  donation_json[this_donation].get('amount'),
+                                  donation_json[this_donation].get('donorID'),
+                                  donation_json[this_donation].get('avatarImageURL'),
+                                  donation_json[this_donation].get('createdDateUTC'),
+                                  donation_json[this_donation].get('donationID'))
+                         for this_donation in range(0, len(donation_json))]
+        if len(donations) == 0:
+            return donation_list
+        else:
+            for a_donation in reversed(donation_list):
+                if a_donation not in donations:
+                    donations.insert(0, a_donation)
+            return donations
+
 
 class Donation:
     """Donation Attributes.
