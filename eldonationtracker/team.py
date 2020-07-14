@@ -5,6 +5,7 @@ from typing import Tuple, List
 from eldonationtracker import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 from eldonationtracker.team_participant import TeamParticipant
+from eldonationtracker import donation as donation
 
 
 class Team:
@@ -13,6 +14,7 @@ class Team:
     :param self.team_id: The team's ID in the API
     :param self.team_url: URL to the team JSON API
     :param self.team_participant_url: URL to the JSON api for participants in the team.
+    :param self.team_donation_url: URL to the JSON api for donations to the team
     :param self.output_folder: The folder for the output text files
     :param currency_symbol: for formatting text
     :param self.team_info: a dictionary to values for output to text files
@@ -27,25 +29,36 @@ class Team:
     :param self.participant_list: a list of the most recent participants
     """
 
-    def __init__(self, team_id: str, output_folder: str, currency_symbol: str):
+    def __init__(self, team_id: str, output_folder: str, currency_symbol: str, donors_to_display:str):
         """Set the team variables."""
         self.team_id: str = team_id
         # urls
         team_url_base: str = f"{base_api_url}/teams/"
         self.team_url: str = f"{team_url_base}{team_id}"
         self.team_participant_url: str = f"{self.team_url}/participants"
+        self.team_donation_url: str = f"{self.team_url}/donations"
         # misc
         self.output_folder: str = output_folder
         self.currency_symbol: str = currency_symbol
+        self.donors_to_display: str = donors_to_display
+        # team info
         self.team_info: dict = {}
-        self.participant_calculation_dict: dict = {}
         self.team_json: dict = {}
         self.team_goal: int = 0
         self.team_captain: str = ""
         self.total_raised: int = 0
         self.num_donations: int = 0
+        # donor info
+        self.participant_calculation_dict: dict = {}
         self.top_5_participant_list: List[TeamParticipant] = []
         self.participant_list: List[TeamParticipant] = []
+        # donation info
+        self.donation_list: List[donation.Donation] = []
+        self.donation_formatted_output: dict = {'Team_LastDonationNameAmnt': "No Donations Yet",
+                                                'Team_lastNDonationNameAmts': "No Donations Yet",
+                                                'Team_lastNDonationNameAmtsMessage': "No Donations Yet",
+                                                'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
+                                                'Team_lastNDonationNameAmtsHorizontal': "No Donations Yet"}
 
     def _get_team_json(self) -> Tuple[int, str, int, int]:
         """Get team info from JSON api."""
@@ -117,6 +130,7 @@ class Team:
         self.team_api_info()
         if self.num_donations > number_of_donations:
             self.participant_run()
+            self.donation_run()
 
     def team_api_info(self) -> None:
         """Get team info from API."""
@@ -130,6 +144,15 @@ class Team:
         self.top_5_participant_list = self._get_participants(top5=True)
         self._participant_calculations()
         self.write_text_files(self.participant_calculation_dict)
+
+    def donation_run(self) -> None:
+        """Get and calculate donation information."""
+        self.donation_list = donation.get_donations(self.donation_list, self.team_donation_url)
+        self.donation_formatted_output = donation.format_donation_information_for_output(self.donation_list,
+                                                                                         self.currency_symbol,
+                                                                                         self.donors_to_display,
+                                                                                         team=True)
+        self.write_text_files(self.donation_formatted_output)
 
     def __str__(self):
         team_info = ""

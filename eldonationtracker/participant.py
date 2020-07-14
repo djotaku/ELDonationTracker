@@ -4,7 +4,6 @@ from rich import print  # type ignore
 
 import time
 
-from eldonationtracker import ipc as ipc
 from eldonationtracker import donation as donation
 from eldonationtracker import donor as donor
 from eldonationtracker import extralife_io as extralife_io
@@ -98,9 +97,7 @@ class Participant:
         # misc
         self.first_run: bool = True
         self.new_donation = False
-        self.my_team = team.Team(self.team_id,
-                                 self.text_folder,
-                                 self.currency_symbol)
+        self.my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
 
     def _get_participant_info(self):
         """Get JSON data for participant information.
@@ -166,20 +163,10 @@ class Participant:
 
     def _format_donation_information_for_output(self) -> None:
         """Format the donation attributes for the output files."""
-        self.donation_formatted_output['LastDonationNameAmnt'] = extralife_io.single_format(self.donation_list[0],
-                                                                                            False, self.currency_symbol)
-        self.donation_formatted_output['lastNDonationNameAmts'] =\
-            extralife_io.multiple_format(self.donation_list, False,
-                                         False, self.currency_symbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessage'] =\
-            extralife_io.multiple_format(self.donation_list, True, False, self.currency_symbol,
-                                         int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] =\
-            extralife_io.multiple_format(self.donation_list, True, True, self.currency_symbol,
-                                         int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] =\
-            extralife_io.multiple_format(self.donation_list, False, True, self.currency_symbol,
-                                         int(self.donors_to_display))
+        self.donation_formatted_output = donation.format_donation_information_for_output(self.donation_list,
+                                                                                         self.currency_symbol,
+                                                                                         self.donors_to_display,
+                                                                                         team=False)
 
     def update_participant_attributes(self) -> None:  # pragma: no cover
         """Update participant attributes.

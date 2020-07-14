@@ -6,7 +6,7 @@ from eldonationtracker import team as team
 
 
 def test_team_url():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_url == "https://www.extra-life.org/api/teams/12345"
 
 
