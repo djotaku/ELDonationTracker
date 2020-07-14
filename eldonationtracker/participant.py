@@ -4,7 +4,6 @@ from rich import print  # type ignore
 
 import time
 
-from eldonationtracker import ipc as ipc
 from eldonationtracker import donation as donation
 from eldonationtracker import donor as donor
 from eldonationtracker import extralife_io as extralife_io
@@ -98,9 +97,7 @@ class Participant:
         # misc
         self.first_run: bool = True
         self.new_donation = False
-        self.my_team = team.Team(self.team_id,
-                                 self.text_folder,
-                                 self.currency_symbol)
+        self.my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
 
     def _get_participant_info(self):
         """Get JSON data for participant information.
@@ -144,35 +141,6 @@ class Participant:
         except ZeroDivisionError:
             return 0
 
-    def _get_donations(self, donations: list) -> list:
-        """Get the donations from the JSON and create the donation objects.
-
-        If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
-
-        :param donations: A list consisting of donor.Donation objects.
-        :returns: A list of donor.Donation objects.
-        """
-        donation_json = extralife_io.get_json(self.donation_url)
-        if not donation_json:
-            print("[bold red]Couldn't access donation page[/bold red]")
-            return donations
-        else:
-            donation_list = [donation.Donation(donation_json[this_donation].get('displayName'),
-                                               donation_json[this_donation].get('message'),
-                                               donation_json[this_donation].get('amount'),
-                                               donation_json[this_donation].get('donorID'),
-                                               donation_json[this_donation].get('avatarImageURL'),
-                                               donation_json[this_donation].get('createdDateUTC'),
-                                               donation_json[this_donation].get('donationID'))
-                             for this_donation in range(0, len(donation_json))]
-            if len(donations) == 0:
-                return donation_list
-            else:
-                for a_donation in reversed(donation_list):
-                    if a_donation not in donations:
-                        donations.insert(0, a_donation)
-                return donations
-
     # make a top donation method, but only call it once. After that, just update it if the new donation that comes in is
     # larger
 
@@ -195,20 +163,10 @@ class Participant:
 
     def _format_donation_information_for_output(self) -> None:
         """Format the donation attributes for the output files."""
-        self.donation_formatted_output['LastDonationNameAmnt'] = extralife_io.single_format(self.donation_list[0],
-                                                                                            False, self.currency_symbol)
-        self.donation_formatted_output['lastNDonationNameAmts'] =\
-            extralife_io.multiple_format(self.donation_list, False,
-                                         False, self.currency_symbol, int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessage'] =\
-            extralife_io.multiple_format(self.donation_list, True, False, self.currency_symbol,
-                                         int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] =\
-            extralife_io.multiple_format(self.donation_list, True, True, self.currency_symbol,
-                                         int(self.donors_to_display))
-        self.donation_formatted_output['lastNDonationNameAmtsHorizontal'] =\
-            extralife_io.multiple_format(self.donation_list, False, True, self.currency_symbol,
-                                         int(self.donors_to_display))
+        self.donation_formatted_output = donation.format_donation_information_for_output(self.donation_list,
+                                                                                         self.currency_symbol,
+                                                                                         self.donors_to_display,
+                                                                                         team=False)
 
     def update_participant_attributes(self) -> None:  # pragma: no cover
         """Update participant attributes.
@@ -234,7 +192,7 @@ class Participant:
         As of 5.0 it just updates the list of donations. There may be more donation-related updating in future versions.
         """
         if self.number_of_donations > 0:
-            self.donation_list = self._get_donations(self.donation_list)
+            self.donation_list = donation.get_donations(self.donation_list, self.donation_url)
 
     def update_donor_data(self) -> None:
         """Update donor data.

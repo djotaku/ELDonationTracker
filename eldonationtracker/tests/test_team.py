@@ -6,12 +6,12 @@ from eldonationtracker import team as team
 
 
 def test_team_url():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_url == "https://www.extra-life.org/api/teams/12345"
 
 
 def test_team_participant_url():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_participant_url == "https://www.extra-life.org/api/teams/12345/participants"
 
 
@@ -19,14 +19,14 @@ def test_get_team_json():
     with mock.patch("eldonationtracker.team.extralife_io.get_json",
                     return_value={"fundraisingGoal": 500, "captainDisplayName": "Captain Awesome",
                                   "sumDonations": 400, "numDonations": 300}):
-        my_team = team.Team("12345", "folder", "$")
+        my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
         assert team_json == (500, 'Captain Awesome', 400, 300)
 
 
 def test_get_team_json_no_json():
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
-        my_team = team.Team("12345", "folder", "$")
+        my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
         assert team_json == (0, '', 0, 0)
         # let's pretend that at some point values were added
@@ -40,7 +40,7 @@ def test_get_team_json_no_json():
 
 
 def test_update_team_dictionary():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     my_team.team_goal = 500
     my_team.team_captain = 'Captain Awesome'
     my_team.total_raised = 400
@@ -50,7 +50,7 @@ def test_update_team_dictionary():
 
 
 def test_get_participants_no_participants():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
         participants = my_team._get_participants(False)
         assert participants == []
@@ -58,7 +58,7 @@ def test_get_participants_no_participants():
 
 
 def test_get_participants():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     team_participants = [{"displayName":"Karl Abraham",
                           "fundraisingGoal":500.00,
                           "eventName":"Extra Life 2020",
@@ -91,7 +91,7 @@ def test_get_participants():
 
 
 def test_get_participants_no_participants_top_5():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
         participants = my_team._get_participants(True)
         assert participants == []
@@ -105,7 +105,7 @@ def test_get_participants_top_5():
     of what the code has to do with what it gets back, there is no difference. So I have just copied things
     to ensure I'm considering both parts of the if statement in this function.
     """
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     team_participants = [{"displayName":"Karl Abraham",
                           "fundraisingGoal":500.00,
                           "eventName":"Extra Life 2020",
@@ -138,13 +138,13 @@ def test_get_participants_top_5():
 
 
 def test_top_participant_no_participants():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     top_participant = my_team._top_participant()
     assert top_participant == "No participants."
 
 
 def test_top_participant():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     team_participants = [{"displayName":"Karl Abraham",
                           "fundraisingGoal":500.00,
                           "eventName":"Extra Life 2020",
@@ -178,7 +178,7 @@ def test_top_participant():
 
 def test_participant_calculations_no_data():
     """What if the API comes back empty? Maybe a team just formed without any members?"""
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     my_team._participant_calculations()
     assert my_team.participant_calculation_dict['Team_TopParticipantNameAmnt'] == "No participants."
     assert my_team.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == ""
@@ -186,7 +186,7 @@ def test_participant_calculations_no_data():
 
 
 def test_participant_calculations():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     team_participants = [{"displayName":"Karl Abraham",
                           "fundraisingGoal":500.00,
                           "eventName":"Extra Life 2020",
@@ -224,13 +224,15 @@ fake_get_team_json = mock.Mock()
 fake_get_team_json.return_value = 400, "Captain", 401, 3
 fake_participant_run = mock.Mock()
 fake_write_text_files = mock.Mock()
+fake_donation_run = mock.Mock()
 
 
 @mock.patch.object(team.Team, "_get_team_json", fake_get_team_json)
 @mock.patch.object(team.Team, "participant_run", fake_participant_run)
 @mock.patch.object(team.Team, "write_text_files", fake_write_text_files)
+@mock.patch.object(team.Team, "donation_run", fake_donation_run)
 def test_team_run():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     my_team.team_run()
     assert fake_participant_run.call_count == 1
     my_team.team_run()
@@ -247,8 +249,9 @@ fake_get_team_json2.return_value = 400, "Captain", 401, 3
 @mock.patch.object(team.Team, "_get_team_json", fake_get_team_json2)
 @mock.patch.object(team.Team, "participant_run", fake_participant_run)
 @mock.patch.object(team.Team, "write_text_files", fake_write_text_files)
+@mock.patch.object(team.Team, "donation_run", fake_donation_run)
 def test_team_api_info():
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     my_team.team_api_info()
     assert my_team.team_goal == 400
     assert my_team.team_captain == "Captain"
@@ -262,13 +265,13 @@ def test_team_api_info():
 
 def test_str_no_json_data():
     """Test what str will produce if the JSON retrieval hasn't yet run."""
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345. "
 
 
 def test_str():
     """Test what str will produce after team_info has been filled out."""
-    my_team = team.Team("12345", "folder", "$")
+    my_team = team.Team("12345", "folder", "$", "5")
     my_team.team_info["Team_goal"] = '$400.00'
     assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345. Team goal is $400.00."
 
@@ -278,5 +281,5 @@ def test_str_no_json_data_no_team_id():
 
     This would happen if the user is not part of a team.
     """
-    my_team = team.Team(None, "folder", "$")
+    my_team = team.Team(None, "folder", "$", "5")
     assert str(my_team) == "Not a valid team - no team_id."
