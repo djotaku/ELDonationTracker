@@ -2,17 +2,33 @@
 Usage
 =====
 
-GUI Single Executable users (Windows Users)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For All Users
+^^^^^^^^^^^^^
 
-This refers to you if you downloaded a file like Extra Life Donation Tracker for Windows v3.4.zip. You may wish to watch a video on how to use the GUI at http://djotaku.github.io/ELDonationTracker/ . But if you prefer to read, continue below.
+Version 5.0 adds the use of the rich module which uses different font colors on the console output (either the little black window that opens on Windows or the terminal used to launch the program on Linux). The following is the key for the colors used:
+
+- green: something positive for the user. Eg: new donor
+
+- red: something that needs the user's attention and signifies an error.
+
+- magenta: Needs user's attention, but isn't necessarily an error
+
+- bold blue: informative, but does not need the user's attention.
+
+.. versionadded:: 5.0
+    Added use of rich module to colorize output
+
+GUI Windows Executable users (Microsoft Windows Users)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This refers to you if you downloaded a file like "Extra Life Donation Tracker for Windows v5.0.zip" or "eldonationtracker for Windows v5.0.ext". You may wish to watch a video on how to use the GUI at http://djotaku.github.io/ELDonationTracker/ . But if you prefer to read, continue below.
 
 Launching
 ---------
 
 For the zip folder:  Go into the folder you unzipped. Find the file called gui.exe and double-click it. If Windows or your anti-virus software throws a warning, click through to allow it to run.
 
-For the single binary: Double-click eldonationtracker.exe to launch it. f Windows or your anti-virus software throws a warning, click through to allow it to run.
+For the single binary: Double-click eldonationtracker.exe to launch it. If Windows or your anti-virus software throws a warning, click through to allow it to run.
 
 .. versionadded:: 4.4.0
     Single-binary executable.
@@ -39,7 +55,7 @@ As you can see, right at the end it says "participantID=401280". If you look bac
 .. versionadded:: 4.3.0
     Validate Participant ID
 
- - The next thing to change is the text folder. This is where eldonationtracker will create text files that you will use as inputs in OBS or XSplit. Every time something changes - you get a donation or the team (if you're part of one) gets a donation, those text files will change (as long as eldonationtracker is running) and so they'll change in real time on your screen in OBS or XSplit.
+ - The next thing to change is the text folder. This is where eldonationtracker will create text files that you will use as inputs in OBS or XSplit. Every time something changes - you get a donation or the team (if you're part of one) gets a donation, those text files will change (as long as eldonationtracker is running) and so they'll change in real time on your screen in OBS or XSplit. (In OBS or XSplit you set a text source linked to one of those files and it will change as the file contents change)
 
  - Now let's edit the Team ID. If you don't have a team, just make this blank. (No spaces!) Otherwise find your Team ID in a similar way as you found your participant ID. Go to your team page and the ID will be at the end of that URL. If you want to check that you've typed or copied the team ID correctly, you can click on :guilabel:`Validate Team ID` and it will attempt to connect to that API endpoint for that team ID. If it is successful, you have the right team ID (or coincidentally mistyped someone else's). If it's unsuccessful, the most likely reason is that you mistyped it, but you would also get that outcome if the API is unavailable.
 
@@ -67,16 +83,16 @@ The final settings all deal with the tracker window. If you scroll just a little
 
 .. warning::
 
-    Because of the way QT color chooser dialogue windows work, if you pick a color and hit cancel, it will still change the color in the Tracker window. (whereas you have to click "ok" in the Font chooser window to change the font) If you go back in and pick one of the colors from the palette on the left, you can get it working again. Or you can life the right-most slider from black to white. Finally, if you can't remember what color you had quitting out of everything without saving should bring back the last color you saved (or the default).
+    Because of the way QT color chooser dialogue windows work, if you pick a color and hit cancel, it will still change the color in the Tracker window. (whereas you have to click "ok" in the Font chooser window to change the font) If you go back in and pick one of the colors from the palette on the left, you can get it working again. Or you can slide the right-most slider from black to white. Finally, if you can't remember what color you had quitting out of everything without saving should bring back the last color you saved (or the default).
 
 
-- Finally, it's time to save your settings. The BEST option is to pick :guilabel:`Persist Settings`. Then it will save to a special location on your computer so that even as you upgrade (either grab new zip files from Github or update via PyPi or git pull) you won't have to keep inputting your settings. If you know for sure it's what you want to do, you can hit :guilabel:`Save` and it'll save in the folder where you're running the program. It *should* work on Windows and may or may not be there next time you launch on Linux. If you have not hit save or Persist Settings yet, Revert will reload whatever configuration information was in the file when you hit the Settings button.
+- Finally, it's time to save your settings. The BEST option is to pick :guilabel:`Persist Settings`. Then it will save to a special location on your computer so that even as you upgrade (either grab new zip files from Github or update via PyPi or git pull) you won't have to keep inputting your settings. If you know for sure that you don't want to do that, you can hit :guilabel:`Save` and it'll save in the folder where you're running the program. It *should* work on Windows and may or may not be there next time you launch on Linux. If you have not hit save or Persist Settings yet, Revert will reload whatever configuration information was in the file when you hit the Settings button.
 
 OK, now it's time to test that things are working with your settings. Close the settings window and click on :guilabel:`Tracker`. Then hit test alert. If everything was correctly set up in the settings, you should see something like:
 
 .. image :: /images/tracker.gif
 
-And hear the sound you picked. What the text says will depend on whether you've ever run this program before either in GUI or on the commandline. If you've never run it, you'll get a test message. If you have run it and the settings are correctly configured, it should show whatever in your file called :file:`LastDonationNameAmnt.txt`.
+And hear the sound you picked. What the text says will depend on whether you've ever run this program before either in GUI or on the commandline. If you've never run it, you'll get a test message. If you have run it and the settings are correctly configured, it should show whatever is in your file called :file:`LastDonationNameAmnt.txt`.
 
 OK, now it's time to hit :guilabel:`Run` and hopefully if all the directions have been followed and I haven't introduced any bugs, it should start grabbing data from the API. You should look at the commandline window for information. Whether you launched the GUI from gui.exe, used PyPi, or python gui, you should have a commandline window showing messages related to what's going on. It should look something roughly like this:
 
@@ -87,7 +103,7 @@ OK, now it's time to hit :guilabel:`Run` and hopefully if all the directions hav
     Participant.conf version check!
     Version is correct
     run button
-    Starting Thread-1. But first, reloading config file.
+    Starting the participant run. But first, reloading config file.
     Looking for persistent settings at (this path will depend on your system)
     Persistent settings found.
     19:19:10
@@ -110,7 +126,6 @@ Go to the folder you created in :doc:`installation`. If you don't have the virtu
 
 .. code-block:: Bash
 
-    python3 -m venv .
     source ./bin/activate
     # to check for upgrades
     pip install --upgrade eldonationtracker
@@ -131,7 +146,7 @@ eg:
 
 .. image :: /images/tracker.gif
 
-You can also edit the settings in a GUI rather than on the commandline and those settings will persist to commandline-only usage..
+You can also edit the participant.conf settings in a GUI rather than on the commandline and those settings will persist to commandline-only usage.
 
 Commandline Only (No GUI)
 -------------------------
@@ -140,10 +155,13 @@ Make sure you have the :doc:`participant_conf` in the persistent location. You c
 
 .. code-block:: Bash
 
-   python -m eldonationtracker.extralifedonations
+   python -m eldonationtracker.participant
 
 
 Of course, you can import the modules into your own scripts and modify how you use the code I've written. In that case, you may be interested in the module index to get a good look at the API available to your program.
+
+.. versionchanged:: 5.0.0
+    Command changed from from python -m eldonationtracker.extralifedonations to python -m eldonationtracker.participant
    
 Commandline users (git)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -155,6 +173,7 @@ If you downloaded a zip or tar file, unzip it first, then cd into that directory
     python3 -m venv .
     source ./bin/activate
     # when you are done using the program you can type deactivate
+    pip install --upgrade pip
     pip install -r requirements.txt 
     # on Windows you may need to type python -m pip install -r requirements.txt
     # edit participant.conf 
@@ -162,7 +181,7 @@ If you downloaded a zip or tar file, unzip it first, then cd into that directory
     # for the GUI:
     python gui.py
     # for the commandline only
-    python extralifedonations.py
+    python participant.py
 
 The benefit you get from using the GUI is that once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered. For text instructions on how to use the GUI, go to :ref:`gui-usage` or watch the video at http://djotaku.github.io/ELDonationTracker/
 
