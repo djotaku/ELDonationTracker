@@ -2,7 +2,7 @@
 extralife_io
 ==============
 
-.. automodule:: eldonationtracker.extralife_IO
+.. automodule:: eldonationtracker.extralife_io
       :members: 
       :undoc-members:
       :show-inheritance:

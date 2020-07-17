@@ -29,26 +29,40 @@ Create the folder you want to work in and cd into it.
 System Packages
 ---------------
 
-.. todo:: 
+.. note::
 
-    Add instructions and note that this could potentially cause problems with system packages.
+    This is NOT recommended and can cause issues with your system.
+
+.. code-block:: Bash
+
+    sudo pip install --upgrade pip
+    sudo pip install eldonationtracker
+    # Grab participant.conf from git repo or create based on documentation
+    # Place participant.conf in persistent location, see the page in documentation
 
 User Install
 ------------
 
-.. todo:: 
+.. note::
 
-    Add Instructions
+    A user install is sometimes a bit buggier than either using a virtual environment or system packages
+
+.. code-block:: Bash
+
+    sudo pip install --upgrade pip
+    sudo pip install eldonationtracker
+    # Grab participant.conf from git repo or create based on documentation
+    # Place participant.conf in persistent location, see the page in documentation
 
 Via Github
 ^^^^^^^^^^
 
 Here you have a few options depending on what you want to do.
 
-GUI Single Executable Users
----------------------------
+GUI Windows Executable Users
+----------------------------
 
-Go to the latest release_ and download one of the files that ends in "For Windows". For the 4.4.0 release you can choose a single executable binary or the zip file as before. Unzip it to the location you want to use and then proceed to :doc:`usage`.
+Go to the latest release_ and download one of the files that ends in "For Windows". You can choose a single executable binary or a zip file. The single executable is simply launched like any Windows application - double-click it. It has a slower startup time than the zip file, but once it's running, there is no performance penalty. For the zip file: unzip it to the location you want to use and then proceed to :doc:`usage`.
 
 .. versionadded:: 4.4.0
     Single-binary executable build added.

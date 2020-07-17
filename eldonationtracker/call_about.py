@@ -1,4 +1,4 @@
-""" Contains programming locig for the about window in the GUI."""
+""" Contains programming logic for the about window in the GUI."""
 
 from PyQt5.QtWidgets import QDialog
 import sys
@@ -6,7 +6,7 @@ import sys
 from eldonationtracker.about import *
 
 
-class about_program(QDialog):
+class AboutProgram(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()
@@ -18,5 +18,5 @@ class about_program(QDialog):
 
 
 def main():
-    w = about_program()
+    w = AboutProgram()
     w.exec()

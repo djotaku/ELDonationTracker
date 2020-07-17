@@ -43,6 +43,7 @@ class Donor:
         number_of_donations = json.get('numDonations')
         return name, donor_id, image_url, amount, number_of_donations
 
+    # for __lt__ and __eq__ probably want to do similar to donation.py
     def __lt__(self, other):
         """Donor less than comparison.
 
@@ -60,4 +61,5 @@ class Donor:
 
     def __str__(self):
         """Returns a string representation of this donor."""
-        return f"A donor named {self.name} with donor ID {self.donor_id} who has donated ${self.amount:.2f} over {self.number_of_donations} donations."
+        return f"A donor named {self.name} with donor ID {self.donor_id} who has donated ${self.amount:.2f}"\
+               f" over {self.number_of_donations} donations."

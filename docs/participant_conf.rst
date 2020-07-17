@@ -28,9 +28,21 @@ Here's an example from my config file in 2020:
 
     "donors_to_display": "5"
 
+    "font_family": "Liberation Sans",
+
+    "font_size": 52,
+
+    "font_italic": true,
+
+    "font_bold": 75,
+
+    "font_color": [255, 255, 255, 255],
+
+    "tracker_background_color": [0, 255, 0, 255]
+
     }
     
-If you are using the GUI with the program, you can edit the file with the GUI and it should always turn out OK. If you are editing it in a text editor, the important thing to remember is the quotation marks.
+If you are using the GUI, you can edit the file with the GUI and it should always turn out OK. If you are editing it in a text editor, the important thing to remember is the quotation marks.
 
 Locations
 ^^^^^^^^^
@@ -43,7 +55,7 @@ Second, it will look up two directory levels. If you cloned from Github or grabb
 
 Third, it will look in the directory where it is being run. If you are using the GUI single executable, this means the same folder as gui.exe (on Windows) or gui (on Linux). 
 
-As long as it's in one of those directories, it will be fine. Otherwise it will error out.
+As long as it's in one of those directories, it will be fine. Otherwise it will attempt to grab a copy from Github.
 
 Config Values
 ^^^^^^^^^^^^^
@@ -56,3 +68,5 @@ Config Values
  - tracker_image:  if you're using the GUI, what you want to appear when you get a donation
  - donation_sound:  if you're using GUI, what you want to hear when there's a donation
  - donors_to_display:  controls how many donors/donations appear in files that have more than one
+
+The values corresponding to the tracker (everything after donors_to_display) is best configured in the GUI to ensure you're getting values that make sense on your system.
