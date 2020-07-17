@@ -128,8 +128,7 @@ class Participant:
         self.participant_formatted_output["averageDonation"] =\
             self._format_participant_info_for_output(self.average_donation)
         self.participant_formatted_output["goal"] = self._format_participant_info_for_output(self.goal)
-        self.participant_formatted_output["numDonations"] =\
-            self._format_participant_info_for_output(self.number_of_donations)
+        self.participant_formatted_output["numDonations"] = str(self.number_of_donations)
 
     def _calculate_average_donation(self):
         """Calculate the average donation amount.
