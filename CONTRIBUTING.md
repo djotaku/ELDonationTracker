@@ -30,9 +30,9 @@ Because the PyQt classes and functions mimic their C/C++ classes and functions, 
 
 # Static Analysis
 
-I will slowly be increasing the number of files analyzed by MyPy. As with flake8, you can look at the Github CI workflow to see which files should be passing. If you work in those files, they need to continue to pass. Currently:
+mypy eldonationtracker
 
-mypy eldonationtracker/utils/update_available.py
+Should pass without errors.
 
 # Testing
 

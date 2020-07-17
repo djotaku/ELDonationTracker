@@ -4,17 +4,19 @@ import json
 import os
 import pathlib
 import requests
+from rich import print
 import ssl
-from typing import Tuple
-from urllib.request import HTTPError, Request, URLError, urlopen
+from typing import Tuple, Any
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 
-import xdgenvpy
+import xdgenvpy  # type: ignore
 
 
 def validate_url(url: str):
-    print(f"Checking: {url}")
-    response = requests.get(url) # needs work - always returns true right now
-    print(f"Response is: {response.status_code}")
+    print(f"[bold blue]Checking: {url}[/bold blue]")
+    response = requests.get(url)
+    print(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
     if response.status_code == 200:
         return True
     else:
@@ -22,15 +24,14 @@ def validate_url(url: str):
 
 
 # JSON/URL
-def get_JSON(url: str, order_by_donations: bool = False) -> dict:
+def get_json(url: str, order_by_donations: bool = False) -> dict:
     """Grab JSON from server.
 
-    Connects to server and grabs JSON data from the specified URL.\
-    The API server should return JSON with the donation data.
+    Connects to server and grabs JSON data from the specified URL. The API server should return JSON with the donation \
+    data.
 
     :param url: API URL for the specific json API point.
-    :param order_by_donations: If true, the url param has\
-    has text appended that will cause the API to return the\
+    :param order_by_donations: If true, the url param has data appended that will cause the API to return the\
     data in descending order of the sum of donations.
 
     :return: JSON as dictionary with API data.
@@ -41,26 +42,24 @@ def get_JSON(url: str, order_by_donations: bool = False) -> dict:
     # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
-    if order_by_donations is True:
+    if order_by_donations:
         url = url+"?orderBy=sumDonations%20DESC"
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
         #  print(f"trying URL: {url}")
-        return json.load(payload)
-    except HTTPError:
-        print(f"""Couldn't get to {url}.
-                Check ExtraLifeID.
-                Or server may be unavailable.
+        return json.load(payload)  # type: ignore
+    except HTTPError:  # pragma no cover
+        print(f"""[bold red]Could not get to {url}.
+                Check ExtraLifeID.Or server may be unavailable.
                 If you can reach that URL from your browser
-                and this is not an intermittent issue:
-                please open an issue at:
-                https://github.com/djotaku/ELDonationTracker""")
-        return 0  # to be proper this should return an exemption
-    except URLError:
-        print(f"HTTP code: {payload.getcode()}")
-        print(f""" Timed out while getting JSON. """)
-        return 0
+                and this is not an intermittent problem, please open an issue at:
+                https://github.com/djotaku/ELDonationTracker[/bold red]""")
+        return {}
+    except URLError:  # pragma no cover
+        print(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
+        print(""" [bold red]Timed out while getting JSON. [/bold red]""")
+        return {}
 
 # File Input and Output
 # input
@@ -86,7 +85,7 @@ class ParticipantConf:
     def __init__(self):
         """Load in participant conf and check version."""
         self.xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
-        self.participantconf = self.load_JSON()
+        self.participantconf = self.load_json()
         if self.participantconf['Version'] != self.participant_conf_version:
             print(f"You are using an old version of participant.conf.\n"
                   f"Your version is: {self.participantconf['Version']}\n"
@@ -100,8 +99,7 @@ class ParticipantConf:
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
 
-
-    def load_JSON(self) -> dict:
+    def load_json(self) -> dict:  # pragma no cover
         """Load in the config file.
 
         Checks in a variety of locations for the participant.conf file.\
@@ -114,23 +112,23 @@ class ParticipantConf:
         """
 
         try:
-            print("Looking for persistent settings at "
-                  f"{self.xdg.XDG_CONFIG_HOME}")
+            print("[bold blue]Looking for persistent settings at "
+                  f"{self.xdg.XDG_CONFIG_HOME}[/bold blue]")
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
                 config = json.load(file)
                 file.close()
-                print("Persistent settings found.")
+                print("[bold green]Persistent settings found.[/bold green]")
             return config
         except FileNotFoundError:
-            print("Persistent settings not found. Checking current directory"
-                  f"({os.getcwd()})")
+            print("[bold magenta]Persistent settings not found. Checking current directory"
+                  f"({os.getcwd()})[/bold magenta]")
         try:
             with open(pathlib.PurePath(__file__).parent.joinpath('.')/'participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config
         except FileNotFoundError:
-            print("Settings not found in current dir. Checking up one level.")
+            print("[bold magenta]Settings not found in current dir. Checking up one level.[/bold magenta]")
         try:
             with open(pathlib.PurePath(__file__).parent.joinpath('..')/'participant.conf') as file:
                 config = json.load(file)
@@ -138,21 +136,22 @@ class ParticipantConf:
             return config
         except FileNotFoundError:
             self.get_github_config()
-            return self.load_JSON()
+            return self.load_json()
 
-    def get_github_config(self):
-        print("Attempting to grab a config file from GitHub.")
-        print(f"Config will be placed at {self.xdg.XDG_CONFIG_HOME}.")
+    def get_github_config(self):  # pragma no cover
+        print("[bold blue]Attempting to grab a config file from GitHub.[/bold blue]")
+        print(f"[bold blue]Config will be placed at {self.xdg.XDG_CONFIG_HOME}.[/bold blue]")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
         try:
             config_file = requests.get(url)
             open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
         except HTTPError:
-            print("Could not find participant.conf on Github. Please manually create or download from Github.")
+            print("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
+                  "[bold magenta]Please manually create or download from Github.[/bold magenta]")
 
-    def get_tracker_assets(self, asset: str):
-        print(f"Attempting to grab {asset} from Github.")
-        print(f"{asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}")
+    def get_tracker_assets(self, asset: str):  # pragma no cover
+        print(f"[bold blue] Attempting to grab {asset} from Github.[/bold blue] ")
+        print(f"[bold blue] {asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}[/bold blue] ")
         if asset == "image":
             url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/master/tracker%20assets/Engineer.png'
         elif asset == "sound":
@@ -165,9 +164,9 @@ class ParticipantConf:
             elif asset == "sound":
                 open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
-            print("file written.")
+            print("[bold blue]file written.[/bold blue]")
         except requests.HTTPError:
-            print(f"Could not get {asset}.")
+            print(f"[bold red]Could not get {asset}.[/bold red]")
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
@@ -176,7 +175,7 @@ class ParticipantConf:
             # debug
             # print(f"{field}:{self.fields[field]}")
 
-    def write_config(self, config: dict, default: bool):
+    def write_config(self, config: dict, default: bool):  # pragma no cover
         """Write config to file.
 
         Only called from GUI. Commandline user is expected to edit\
@@ -192,18 +191,18 @@ class ParticipantConf:
         else:
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf', 'w') as outfile:
                 json.dump(config, outfile)
-        self.reload_JSON()
+        self.reload_json()
 
     def get_version(self):
         """Return version."""
         return self.participant_conf_version
 
-    def reload_JSON(self):
+    def reload_json(self):
         """Reload JSON and update the fields."""
-        self.participantconf = self.load_JSON()
+        self.participantconf = self.load_json()
         self.update_fields()
 
-    def get_CLI_values(self) -> Tuple[str, int]:
+    def get_cli_values(self) -> Tuple[Any, Any, Any, Any, Any]:
         """Return data required for a CLI-only run.
 
         :returns: A tuple of strings with config values needed if only\
@@ -219,7 +218,7 @@ class ParticipantConf:
         :returns: A string with the text folder location."""
         return self.fields["text_folder"]
 
-    def get_GUI_values(self) -> Tuple[str, int]:
+    def get_gui_values(self) -> Tuple[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]:
         """Return values needed for the GUI.
 
         :returns: A tuple of strings with config values needed if only\
@@ -260,10 +259,9 @@ class ParticipantConf:
             return True
 
     def get_version_mismatch(self) -> bool:
-        """Return bool of whether there is a version mismatch.0
+        """Return bool of whether there is a version mismatch.
 
-        :returns: True if the version the user is running is not\
-        the same as what this program has as its version.
+        :returns: True if the version the user is running is not the same as what this program has as its version.
         """
         return self.version_mismatch
 
@@ -289,7 +287,7 @@ class ParticipantConf:
 def single_format(donor, message: bool, currency_symbol: str) -> str:
     """Format string for output to text file.
 
-    This function is for when there is only one donor or donation.\
+    This function is for when there is only one donor or donation.
     For example, for the text file holding the most recent donation.
 
     :param donor: Donor or Donation class object.
@@ -359,5 +357,4 @@ def write_text_files(dictionary: dict, text_folder: str):
     for filename, text in dictionary.items():
         f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
         f.write(text)
-        f.close
-
+        f.close()

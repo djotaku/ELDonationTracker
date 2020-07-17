@@ -1,11 +1,11 @@
 """Writes to an IPC value to allow different modules to pass information.
 
 This is used to allow the tracker to know that new data needs to be read
-in because a new donation has ocurred.
+in because a new donation has occurred.
 """
 
 
-def writeIPC(folder: str, value: str):
+def write_ipc(folder: str, value: str):
     """Write to the IPC file.
 
     This is used to let the call_tracker module know that a new\
@@ -19,8 +19,7 @@ def writeIPC(folder: str, value: str):
     try:
         with open(f'{folders}/trackerIPC.txt', 'w') as file:
             file.write(value)
-            file.close
     except IOError:
-        print("""No trackerIPC.txt found.
+        print("""[bold magenta]No trackerIPC.txt found.
             Have you updated the settings?
-            Have you hit the 'run' button?""")
+            Have you hit the 'run' button?[/bold magenta]""")

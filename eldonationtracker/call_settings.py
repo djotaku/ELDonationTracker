@@ -1,12 +1,14 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import sys
+from rich import print
+
 from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog, QMessageBox
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.settings import *
 from eldonationtracker import base_api_url
-from eldonationtracker import extralife_IO
+from eldonationtracker import extralife_io
 
 
 class MyForm(QDialog):
@@ -26,7 +28,7 @@ class MyForm(QDialog):
         self.tracker = tracker
         (self.ExtraLifeID, self.textFolder, self.CurrencySymbol, self.TeamID, self.TrackerImage, self.DonationSound,
          self.donors_to_display, self.font_family, self.font_size, self.font_italic,
-         self.font_bold, self.font_color_value, self.tracker_background_color_value) = participant_conf.get_GUI_values()
+         self.font_bold, self.font_color_value, self.tracker_background_color_value) = participant_conf.get_gui_values()
         if self.font_family:
             self.font = QFont()
             self.font.setFamily(self.font_family)
@@ -52,9 +54,9 @@ class MyForm(QDialog):
         self.ui.pushButtonRevert.clicked.connect(self.revert)
         self.ui.pushButtonSave.clicked.connect(self.save)
         self.ui.pushButton_persistentsave.clicked.connect(self.persistent_save)
-        self.ui.pushButtonSelectFolder.clicked.connect(self._selectfolder)
-        self.ui.pushButton_tracker_image.clicked.connect(lambda: self._selectfile("image"))
-        self.ui.pushButton_sound.clicked.connect(lambda: self._selectfile("sound"))
+        self.ui.pushButtonSelectFolder.clicked.connect(self._select_folder)
+        self.ui.pushButton_tracker_image.clicked.connect(lambda: self._select_file("image"))
+        self.ui.pushButton_sound.clicked.connect(lambda: self._select_file("sound"))
         self.ui.pushButton_font.clicked.connect(self._change_font)
         self.ui.pushButton_font_color.clicked.connect(self._change_font_color)
         self.ui.pushButton_tracker_background.clicked.connect(self._change_tracker_bg_color)
@@ -76,7 +78,7 @@ class MyForm(QDialog):
          self.CurrencySymbol, self.TeamID, self.TrackerImage,
          self.DonationSound, self.donors_to_display,
          self.font_family, self.font_size, self.font_italic, self.font_bold,
-         self.font_color_value, self.tracker_background_color_value) = self.participant_conf.get_GUI_values()
+         self.font_color_value, self.tracker_background_color_value) = self.participant_conf.get_gui_values()
 
     def revert(self):
         """
@@ -97,10 +99,10 @@ class MyForm(QDialog):
             self.ui.spinBox_DonorsToDisplay.setValue(int(self.donors_to_display))
 
     def _elements_to_save(self):
-        participantID = self.ui.lineEditParticipantID.text()
-        textfolder = self.ui.labelTextFolder.text()
-        currencysymbol = self.ui.lineEditCurrencySymbol.text()
-        trackerimage = self.ui.label_tracker_image.text()
+        participant_id = self.ui.lineEditParticipantID.text()
+        text_folder = self.ui.labelTextFolder.text()
+        currency_symbol = self.ui.lineEditCurrencySymbol.text()
+        tracker_image = self.ui.label_tracker_image.text()
         sound = self.ui.label_sound.text()
         version = self.participant_conf.get_version()
         donors_to_display = self.ui.spinBox_DonorsToDisplay.value()
@@ -127,12 +129,12 @@ class MyForm(QDialog):
             tracker_background_color = None
 
         if self.ui.lineEditTeamID.text() == "":
-            teamID = None
+            team_id = None
         else:
-            teamID = self.ui.lineEditTeamID.text()
-        config = {'Version': version, 'extralife_id': participantID,
-                  'text_folder': textfolder, 'currency_symbol': currencysymbol,
-                  'team_id': teamID, 'tracker_image': trackerimage,
+            team_id = self.ui.lineEditTeamID.text()
+        config = {'Version': version, 'extralife_id': participant_id,
+                  'text_folder': text_folder, 'currency_symbol': currency_symbol,
+                  'team_id': team_id, 'tracker_image': tracker_image,
                   'donation_sound': sound,
                   "donors_to_display": donors_to_display,
                   "font_family": font_family, "font_size": font_size, "font_italic": font_italic,
@@ -143,7 +145,7 @@ class MyForm(QDialog):
     def save(self):
         """Save the values in the window to participant.conf.
 
-        Calls the write_config method from extralife_IO.ParticipantConf.
+        Calls the write_config method from extralife_io.ParticipantConf.
         """
         config = self._elements_to_save()
         self.participant_conf.write_config(config, True)
@@ -153,15 +155,15 @@ class MyForm(QDialog):
         config = self._elements_to_save()
         self.participant_conf.write_config(config, False)
 
-    def _selectfolder(self):
+    def _select_folder(self):
         directory = QFileDialog.getExistingDirectory(self, "Get Folder")
         self.ui.labelTextFolder.setText(directory)
 
-    def _selectfile(self, whichfile):
+    def _select_file(self, which_file):
         the_file = QFileDialog.getOpenFileName(self, "Select File")
-        if whichfile == "image":
+        if which_file == "image":
             self.ui.label_tracker_image.setText(the_file[0])
-        if whichfile == "sound":
+        if which_file == "sound":
             self.ui.label_sound.setText(the_file[0])
 
     def _change_font(self):
@@ -197,10 +199,10 @@ class MyForm(QDialog):
             self.ui.label_sound.setText(file)
 
     def _validate_id(self, id_type: str):
-        print("Validating URL")
+        print("[bold blue]Validating URL[/bold blue]")
         if id_type == "participant":
             url = f"{base_api_url}/participants/{self.ui.lineEditParticipantID.text()}"
-            valid_url = extralife_IO.validate_url(url)
+            valid_url = extralife_io.validate_url(url)
             if valid_url:
                 message_box = QMessageBox.information(self, "Participant ID Validation",
                                                       f"Able to reach {url}. Participant ID is valid.")
@@ -209,7 +211,7 @@ class MyForm(QDialog):
                                                   f"Could not reach {url}. Participant ID may be invalid.")
         elif id_type == "team":
             url = f"{base_api_url}/teams/{self.ui.lineEditTeamID.text()}"
-            valid_url = extralife_IO.validate_url(url)
+            valid_url = extralife_io.validate_url(url)
             if valid_url:
                 message_box = QMessageBox.information(self, "Team ID Validation",
                                                       f"Able to reach {url}. Team ID is valid.")
@@ -222,10 +224,3 @@ def main(participant_conf):
     """Launch the window."""
     window = MyForm(participant_conf)
     window.exec()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    w = MyForm()
-    w.show()
-    sys.exit(app.exec_())
