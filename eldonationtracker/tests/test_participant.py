@@ -77,7 +77,7 @@ def test_str_with_a_team():
 
 def test_str_without_a_team():
     my_participant = Participant(fake_participant_conf_no_team)
-    assert str(my_participant) == "A participant with Extra Life ID 12345. Team info: Not a valid team - no team_id."
+    assert str(my_participant) == "A participant with Extra Life ID 12345."
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_json)

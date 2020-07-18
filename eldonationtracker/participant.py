@@ -277,7 +277,10 @@ class Participant:
         print(time.strftime("%H:%M:%S"))
 
     def __str__(self):
-        return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
+        if self.my_team:
+            return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
+        else:
+            return f"A participant with Extra Life ID {self.extralife_id}."
 
 
 if __name__ == "__main__":  # pragma: no cover
