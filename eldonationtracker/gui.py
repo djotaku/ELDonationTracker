@@ -14,7 +14,6 @@ from eldonationtracker import call_about as call_about
 from eldonationtracker import call_tracker as call_tracker
 from eldonationtracker import call_settings as call_settings
 from eldonationtracker import extralife_io as extralife_io
-from eldonationtracker import ipc as ipc
 import eldonationtracker.utils.update_available
 
 
@@ -159,6 +158,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     def run_button(self):
         print(f"[bold blue]Starting the participant run. But first, reloading config file.[/bold blue]")
         self.participant_conf.reload_json()
+        # reload participant.conf in participant in case the user has changed settings
+        self.my_participant.set_config_values()
         self.participant_timer.start()
 
     def stop_button(self):

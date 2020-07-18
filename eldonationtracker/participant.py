@@ -51,15 +51,20 @@ class Participant:
     :type self.donation_formatted_output: dict
     """
 
-    def __init__(self, participant_conf):
-        """Load in config from participant.conf and creates the URLs."""
-        (self.extralife_id, self.text_folder,
-         self.currency_symbol, self.team_id,
-         self.donors_to_display) = participant_conf.get_cli_values()
-        # urls
-        self.participant_url = f"{base_api_url}/participants/{self.extralife_id}"
-        self.donation_url = f"{self.participant_url}/donations"
-        self.participant_donor_url = f"{self.participant_url}/donors"
+    def __init__(self, config):
+        """Load in config from participant.conf and initialize participant variables.
+        """
+        self.config = config
+        self.extralife_id: str = ""
+        self.text_folder: str = ""
+        self.currency_symbol: str = ""
+        self.team_id: str = ""
+        self.donors_to_display: str = ""
+        self.participant_url: str = ""
+        self.donation_url: str = ""
+        self.participant_donor_url: str = ""
+        self.my_team: team.Team = None
+        self.set_config_values()
 
         # Participant Information
         self.total_raised: int = 0
@@ -96,8 +101,20 @@ class Participant:
 
         # misc
         self.first_run: bool = True
-        self.new_donation = False
-        self.my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
+        self.new_donation: bool = False
+
+    def set_config_values(self) -> None:
+        """Set participant values, create URLs, and create Team."""
+        (self.extralife_id, self.text_folder,
+         self.currency_symbol, self.team_id,
+         self.donors_to_display) = self.config.get_cli_values()
+        # urls
+        self.participant_url = f"{base_api_url}/participants/{self.extralife_id}"
+        self.donation_url = f"{self.participant_url}/donations"
+        self.participant_donor_url = f"{self.participant_url}/donors"
+
+        if self.team_id:
+            self.my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
 
     def _get_participant_info(self):
         """Get JSON data for participant information.
@@ -260,7 +277,10 @@ class Participant:
         print(time.strftime("%H:%M:%S"))
 
     def __str__(self):
-        return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
+        if self.my_team:
+            return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
+        else:
+            return f"A participant with Extra Life ID {self.extralife_id}."
 
 
 if __name__ == "__main__":  # pragma: no cover

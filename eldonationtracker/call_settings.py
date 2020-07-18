@@ -52,7 +52,6 @@ class MyForm(QDialog):
         self.ui.label_tracker_image.setText(self.TrackerImage)
         self.ui.label_sound.setText(self.DonationSound)
         self.ui.pushButtonRevert.clicked.connect(self.revert)
-        self.ui.pushButtonSave.clicked.connect(self.save)
         self.ui.pushButton_persistentsave.clicked.connect(self.persistent_save)
         self.ui.pushButtonSelectFolder.clicked.connect(self._select_folder)
         self.ui.pushButton_tracker_image.clicked.connect(lambda: self._select_file("image"))
@@ -141,14 +140,6 @@ class MyForm(QDialog):
                   "font_bold": font_bold, "font_color": font_color,
                   "tracker_background_color": tracker_background_color}
         return config
-
-    def save(self):
-        """Save the values in the window to participant.conf.
-
-        Calls the write_config method from extralife_io.ParticipantConf.
-        """
-        config = self._elements_to_save()
-        self.participant_conf.write_config(config, True)
 
     def persistent_save(self):
         """Use xdg_config, saves a persistent config to the XDG spot."""
