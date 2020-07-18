@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'QTdesignerfiles/settings.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -15,7 +15,7 @@ class Ui_Dialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(805, 392)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("QTdesignerfiles/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         self.layoutWidget = QtWidgets.QWidget(Dialog)
         self.layoutWidget.setGeometry(QtCore.QRect(10, 0, 791, 381))
@@ -40,9 +40,6 @@ class Ui_Dialog(object):
         self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.pushButtonRevert = QtWidgets.QPushButton(self.layoutWidget)
-        self.pushButtonRevert.setObjectName("pushButtonRevert")
-        self.gridLayout.addWidget(self.pushButtonRevert, 10, 2, 1, 2)
         self.lineEditTeamID = QtWidgets.QLineEdit(self.layoutWidget)
         self.lineEditTeamID.setObjectName("lineEditTeamID")
         self.gridLayout.addWidget(self.lineEditTeamID, 3, 1, 1, 1)
@@ -91,9 +88,6 @@ class Ui_Dialog(object):
         self.label_sound.setAlignment(QtCore.Qt.AlignCenter)
         self.label_sound.setObjectName("label_sound")
         self.gridLayout.addWidget(self.label_sound, 6, 1, 1, 1)
-        self.pushButtonSave = QtWidgets.QPushButton(self.layoutWidget)
-        self.pushButtonSave.setObjectName("pushButtonSave")
-        self.gridLayout.addWidget(self.pushButtonSave, 10, 4, 1, 1)
         self.label_donors_to_display = QtWidgets.QLabel(self.layoutWidget)
         self.label_donors_to_display.setObjectName("label_donors_to_display")
         self.gridLayout.addWidget(self.label_donors_to_display, 4, 0, 1, 1)
@@ -118,6 +112,9 @@ class Ui_Dialog(object):
         self.pushButton_validate_team_id = QtWidgets.QPushButton(self.layoutWidget)
         self.pushButton_validate_team_id.setObjectName("pushButton_validate_team_id")
         self.gridLayout.addWidget(self.pushButton_validate_team_id, 3, 2, 1, 1)
+        self.pushButtonRevert = QtWidgets.QPushButton(self.layoutWidget)
+        self.pushButtonRevert.setObjectName("pushButtonRevert")
+        self.gridLayout.addWidget(self.pushButtonRevert, 10, 2, 1, 3)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -129,10 +126,9 @@ class Ui_Dialog(object):
         self.pushButtonSelectFolder.setText(_translate("Dialog", "select Folder"))
         self.label_4.setText(_translate("Dialog", "Team ID"))
         self.label_2.setText(_translate("Dialog", "Text Folder"))
-        self.pushButtonRevert.setText(_translate("Dialog", "Revert"))
         self.label_tracker_image.setText(_translate("Dialog", "No Image Selected"))
         self.pushButton_persistentsave.setStatusTip(_translate("Dialog", "To have the settings persist across upgrades"))
-        self.pushButton_persistentsave.setText(_translate("Dialog", "Persist Settings"))
+        self.pushButton_persistentsave.setText(_translate("Dialog", "Save"))
         self.label_3.setText(_translate("Dialog", "Currency Symbol"))
         self.label_5.setText(_translate("Dialog", "Tracker Image"))
         self.pushButton_font.setText(_translate("Dialog", "Tracker Font"))
@@ -141,7 +137,6 @@ class Ui_Dialog(object):
         self.labelTextFolder.setText(_translate("Dialog", "No Folder Selected"))
         self.pushButton_tracker_background.setText(_translate("Dialog", "Change Tracker Background Color"))
         self.label_sound.setText(_translate("Dialog", "No Sound Selected"))
-        self.pushButtonSave.setText(_translate("Dialog", "Save"))
         self.label_donors_to_display.setText(_translate("Dialog", "Donors to Display"))
         self.pushButton_tracker_image.setText(_translate("Dialog", "select Image"))
         self.pushButton_sound.setText(_translate("Dialog", "select Sound"))
@@ -149,3 +144,4 @@ class Ui_Dialog(object):
         self.pushButton_grab_sound.setText(_translate("Dialog", "Grab from Github"))
         self.pushButton_validate_participant_id.setText(_translate("Dialog", "Validate Participant ID"))
         self.pushButton_validate_team_id.setText(_translate("Dialog", "Validate Team ID"))
+        self.pushButtonRevert.setText(_translate("Dialog", "Revert"))
