@@ -235,7 +235,7 @@ def test_output_donation_data():
 
 
 @mock.patch.object(eldonationtracker.participant.Participant, 'write_text_files', fake_participant.write_text_files)
-@mock.patch.object(eldonationtracker.participant.Participant, '_format_donor_information_for_output',\
+@mock.patch.object(eldonationtracker.participant.Participant, '_format_donor_information_for_output',
                    fake_participant._format_donor_information_for_output)
 def test_output_donor_data_no_donations():
     my_participant = Participant(fake_participant_conf)
@@ -245,11 +245,12 @@ def test_output_donor_data_no_donations():
 
 
 @mock.patch.object(eldonationtracker.participant.Participant, 'write_text_files', fake_participant.write_text_files)
-@mock.patch.object(eldonationtracker.participant.Participant, '_format_donor_information_for_output',\
+@mock.patch.object(eldonationtracker.participant.Participant, '_format_donor_information_for_output',
                    fake_participant._format_donor_information_for_output)
 def test_output_donor_data():
     my_participant = Participant(fake_participant_conf)
     my_participant.donation_list = ["a donor", "another_donor"]
+    my_participant.top_donor = "a top donor"
     my_participant.output_donor_data()
     assert fake_participant._format_donor_information_for_output.called
     assert fake_participant.write_text_files.called

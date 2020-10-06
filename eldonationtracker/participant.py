@@ -237,11 +237,11 @@ class Participant:
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
-        if len(self.donation_list) > 0:
+        if len(self.donation_list) > 0 and self.top_donor is not None:
             self._format_donor_information_for_output()
             self.write_text_files(self.donor_formatted_output)
         else:
-            print("[bold blue]No donations, writing default data to files.[/bold blue]")
+            print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
             self.write_text_files(self.donor_formatted_output)
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
