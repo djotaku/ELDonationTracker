@@ -66,3 +66,11 @@ def test_str():
                    'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
     donor1 = donor.Donor(donor1_json)
     assert str(donor1) == "A donor named donor1 with donor ID 1000111 who has donated $45.00 over 2 donations."
+
+
+def test_emoji_in_name():
+    """Test to make sure that emoji in the donor's name doesn't crash the program."""
+    emoji_donor_json = {"displayName": "🍀🍀🍀🍀", "sumDonations": "45", "donorID": 1000111,
+                   'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
+    emoji_donor = donor.Donor(emoji_donor_json)
+    assert emoji_donor.name == "🍀🍀🍀🍀"
