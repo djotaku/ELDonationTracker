@@ -123,7 +123,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     @staticmethod
     def read_files(folders, files):
         try:
-            f = open(f'{folders}/{files}', 'r')
+            f = open(f'{folders}/{files}', 'r', encoding='utf8')
             text = f.read()
             f.close()
             return text
