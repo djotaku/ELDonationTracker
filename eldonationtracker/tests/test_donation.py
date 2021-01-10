@@ -117,3 +117,11 @@ def test_donation_equal():
 def test_donation_str():
     """Test that the class string is properly created."""
     assert str(donation1) == "A donation by Donor 1 in the amount of $34.51 with the message 'Good job!'"
+
+
+def test_emoji_in_donor_name():
+    """Test that an emoji in the donor name will not crash things."""
+    emoji_donation = donation.Donation("🍀🍀🍀🍀", "Good job!", 32, "4939d", "http://image.png",
+                                               "2020-02-11T17:22:23.963+0000", "FAKE7C59D235B4DA")
+    assert emoji_donation.name == "🍀🍀🍀🍀"
+    assert str(emoji_donation) == "A donation by 🍀🍀🍀🍀 in the amount of $32 with the message 'Good job!'"

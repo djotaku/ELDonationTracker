@@ -309,7 +309,7 @@ def test_multiple_format_Vertical():
                         "donor1 - $10.00\ndonor2 - $20.00\ndonor3 - $30.00\ndonor4 - $40.00\ndonor5 - $50.00\n"]
 
 
-def test_multiple_format_Message_Vertical():
+def test_multiple_format_message_vertical():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file.
 
