@@ -355,6 +355,17 @@ def write_text_files(dictionary: dict, text_folder: str):
     :param text_folder: The directory to write the text files.
     """
     for filename, text in dictionary.items():
-        f = open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8')
-        f.write(text)
-        f.close()
+        with open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8') as file:
+            file.write(text)
+
+
+def write_html_files(data: str, filename: str, text_folder: str):
+    """Write data to an HTML file.
+
+    :param data: The data to write to an HTML file.
+    :param filename: The filename for the HTML file.
+    :param text_folder: The directory to write the HTML files to.
+    """
+    html_to_write = "<HTML><body>" + data + "</body></HTML>"
+    with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
+        html_file.write(html_to_write)

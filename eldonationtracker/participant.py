@@ -126,8 +126,8 @@ class Participant:
             print("[bold red]Couldn't access participant JSON.[/bold red]")
             return self.total_raised, self.number_of_donations, self.goal
         else:
-            return participant_json['sumDonations'], participant_json['numDonations'],\
-                   participant_json['fundraisingGoal']
+            return participant_json.get('sumDonations'), participant_json.get('numDonations'),\
+                   participant_json.get('fundraisingGoal'), participant_json.get('avatarImageURL')
 
     def _format_participant_info_for_output(self, participant_attribute) -> str:
         """Format participant info for output to text files.
@@ -191,7 +191,7 @@ class Participant:
 
          Also called from the main loop.
          """
-        self.total_raised, self.number_of_donations, self.goal = self._get_participant_info()
+        self.total_raised, self.number_of_donations, self.goal, self.avatar_image_url = self._get_participant_info()
         self.average_donation = self._calculate_average_donation()
 
     def output_participant_data(self) -> None:  # pragma: no cover
@@ -201,6 +201,8 @@ class Participant:
         """
         self._fill_participant_dictionary()
         self.write_text_files(self.participant_formatted_output)
+        participant_avatar_for_html = "<img src=http:" + self.avatar_image_url + ">"
+        extralife_io.write_html_files(participant_avatar_for_html, 'Participant_Avatar', self.text_folder)
 
     def update_donation_data(self) -> None:
         """Update donation data.

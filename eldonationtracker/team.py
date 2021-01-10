@@ -27,6 +27,7 @@ class Team:
     :param self.num_donations: The total amount of donations to the team.
     :param self.top_5_participant_list: The top 5 participants in the team
     :param self.participant_list: a list of the most recent participants
+    :param self.team_avatar_image: The team's avatar
     """
 
     def __init__(self, team_id: str, output_folder: str, currency_symbol: str, donors_to_display:str):
@@ -48,6 +49,7 @@ class Team:
         self.team_captain: str = ""
         self.total_raised: int = 0
         self.num_donations: int = 0
+        self.team_avatar_image: str = ''
         # donor info
         self.participant_calculation_dict: dict = {}
         self.top_5_participant_list: List[TeamParticipant] = []
@@ -153,6 +155,8 @@ class Team:
                                                                                          self.donors_to_display,
                                                                                          team=True)
         self.write_text_files(self.donation_formatted_output)
+        team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
+        extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)
 
     def __str__(self):
         team_info = ""
