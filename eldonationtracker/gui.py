@@ -61,7 +61,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
         # instantiate the settings
         self.call_settings = call_settings.MyForm(self.participant_conf, self.tracker)
-        
+
         # instantiate About
         self.call_about = call_about.AboutProgram()
 
@@ -146,6 +146,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TotalNumDonations.setPlainText(self.read_files(self.folders, 'numDonations.txt'))
         self.Goal.setPlainText(self.read_files(self.folders, 'goal.txt'))
         self.AvgDonation.setPlainText(self.read_files(self.folders, 'averageDonation.txt'))
+        try:
+            avatar_url = QtCore.QUrl.fromLocalFile(self.folders + 'Participant_Avatar.html')
+            self.participant_avatar.load(avatar_url)
+        except FileNotFoundError:
+            print("[bold blue] Particpant Avatar not found. After running you should have it.")
+
         # Team Info
         if self.participant_conf.get_if_in_team():
             self.label_TeamCaptain.setText(self.read_files(self.folders, 'Team_captain.txt'))
@@ -176,7 +182,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             webbrowser.open("https://eldonationtracker.readthedocs.io/en/latest/index.html", new=2)
         except webbrowser.Error:
             print("[bold red]Couldn't open documentation[/bold red]")
-            message_box = QMessageBox.warning(self, "Documentation", "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
+            message_box = QMessageBox.warning(self, "Documentation",
+                                              "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
 
     def check_for_update(self):
         if eldonationtracker.utils.update_available.main():
@@ -190,10 +197,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
 
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
-    form = ELDonationGUI()   # We set the form to be our ELDonationGUI (design)
-    form.show()                         # Show the form
-    app.exec_()                         # and execute the app
+    form = ELDonationGUI()  # We set the form to be our ELDonationGUI (design)
+    form.show()  # Show the form
+    app.exec_()  # and execute the app
 
 
-if __name__ == '__main__':              # if we're running file directly and not importing it
-    main()                              # run the main function
+if __name__ == '__main__':  # if we're running file directly and not importing it
+    main()  # run the main function

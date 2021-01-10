@@ -1,3 +1,16 @@
+#v5.3.0
+## Release Notes
+
+### User-Facing Changes
+
+- There are two new output files: Participant_Avatar.html and Team_Avatar.html. Feel free to use them in OBS, XSplit, or anywhere else to make your overlay more personalized.
+- added Participant Avatar to the GUI
+
+### Developer-Facing or API Changes
+
+- Updated version of PyQt and associated libraries.
+
+
 #v5.2.4
 ## Release Notes
 
