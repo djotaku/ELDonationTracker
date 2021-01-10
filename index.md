@@ -1,5 +1,5 @@
-Latest release: [v5.2.3](https://github.com/djotaku/ELDonationTracker/releases/tag/v5.2.3-real): 
-[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v5.2.3-real/eldonationtracker.for.Windows.v5.2.3.exe) |
+Latest release: [v5.2.4](https://github.com/djotaku/ELDonationTracker/releases/tag/v5.2.4): 
+[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v5.2.4/eldonationtracker.for.Windows.v5.2.4.exe) |
 Linux, see videos below for PyPi or git clone instructions.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
