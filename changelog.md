@@ -8,7 +8,7 @@
 
 ### Developer-Facing or API Changes
 
-- Updated version of PyQt and associated libraries.
+- Updated the version of PyQt and associated libraries.
 
 
 #v5.2.4

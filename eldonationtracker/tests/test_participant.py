@@ -83,7 +83,7 @@ def test_str_without_a_team():
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_json)
 def test_get_participant_info():
     my_participant = Participant(fake_participant_conf)
-    assert my_participant._get_participant_info() == (500, 5, 1000)
+    assert my_participant._get_participant_info() == (500, 5, 1000, None)
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_no_json)
