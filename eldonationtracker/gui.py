@@ -1,3 +1,5 @@
+# type: ignore
+
 """The main GUI window."""
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
