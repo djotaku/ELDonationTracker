@@ -365,3 +365,14 @@ def test_write_text_files_emoji():
     with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
         fileinput = file.read()
     assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
+
+
+def test_write_html_files():
+    """Test that the HTML files are writen correctly."""
+    data = "data for HTML file"
+    filename = "test_HTML"
+    text_folder = "testOutput"
+    extralife_io.write_html_files(data, filename, text_folder)
+    with open(f"testOutput/{filename}.html", 'r', encoding='utf8') as file:
+        html_input = file.read()
+    assert html_input == f"<HTML><body>{data}</body></HTML>"
