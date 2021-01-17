@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'about.ui'
+# Form implementation generated from reading ui file '../QTdesignerfiles/about.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.1
+# Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -38,16 +38,16 @@ class Ui_Dialog(object):
         self.textBrowser.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\';\">ELDonation Tracker is a program to provide information from an </span><a href=\"http://www.extrlife.org\"><span style=\" font-family:\'Sans Serif\'; text-decoration: underline; color:#0000ff;\">Extra Life</span></a><span style=\" font-family:\'Sans Serif\';\"> Campaign for use in streaming or recording a video on demand in OBS or XSplit. </span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\';\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"http://djotaku.github.io/ELDonationTracker/\"><span style=\" font-family:\'Sans Serif\'; text-decoration: underline; color:#0000ff;\">http://djotaku.github.io/ELDonationTracker/</span></a></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\';\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\';\">File bugs at: </span><a href=\"https://github.com/djotaku/ELDonationTracker/issues\"><span style=\" font-family:\'Sans Serif\'; text-decoration: underline; color:#0000ff;\">https://github.com/djotaku/ELDonationTracker/issues</span></a></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\';\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\';\">If you find this program useful, consider donating to </span><a href=\"http://extralife.ericmesa.com\"><span style=\" font-family:\'Sans Serif\'; text-decoration: underline; color:#0000ff;\">my Extra Life Campaign</span></a><span style=\" font-family:\'Sans Serif\';\">.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\';\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\';\">© 2015-2020 Eric Mesa</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\';\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\';\">License: GNU General Public License V3</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Liberation Sans\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">ELDonation Tracker is a program to provide information from an </span><a href=\"http://www.extrlife.org\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt; text-decoration: underline; color:#0000ff;\">Extra Life</span></a><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\"> Campaign for use in streaming or recording a video on demand in OBS or XSplit. </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"http://djotaku.github.io/ELDonationTracker/\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt; text-decoration: underline; color:#0000ff;\">http://djotaku.github.io/ELDonationTracker/</span></a></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">File bugs at: </span><a href=\"https://github.com/djotaku/ELDonationTracker/issues\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt; text-decoration: underline; color:#0000ff;\">https://github.com/djotaku/ELDonationTracker/issues</span></a></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">If you find this program useful, consider donating to </span><a href=\"http://extralife.ericmesa.com\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt; text-decoration: underline; color:#0000ff;\">my Extra Life Campaign</span></a><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">© 2015-2021 Eric Mesa</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">License: GNU General Public License V3</span></p></body></html>"))
         self.pushButton_OK.setText(_translate("Dialog", "OK"))

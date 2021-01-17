@@ -1,6 +1,7 @@
 """A class to hold the Donation attributes and methods."""
 
 from eldonationtracker import extralife_io as extralife_io
+from rich import print
 
 
 def get_donations(donations: list, donation_url: str) -> list:
@@ -37,25 +38,22 @@ def get_donations(donations: list, donation_url: str) -> list:
 def format_donation_information_for_output(donation_list: list, currency_symbol: str, donors_to_display: str,
                                            team: bool) -> dict:
     """Format the donation attributes for the output files."""
-    prefix = ""
     donation_formatted_output: dict = {}
     if team:
         prefix = "Team_"
+    else:
+        prefix = ''
 
     donation_formatted_output[f'{prefix}LastDonationNameAmnt'] = extralife_io.single_format(donation_list[0],
                                                                                             False, currency_symbol)
     donation_formatted_output[f'{prefix}lastNDonationNameAmts'] = \
-        extralife_io.multiple_format(donation_list, False,
-                                     False, currency_symbol, int(donors_to_display))
+        extralife_io.multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
     donation_formatted_output[f'{prefix}lastNDonationNameAmtsMessage'] = \
-        extralife_io.multiple_format(donation_list, True, False, currency_symbol,
-                                     int(donors_to_display))
+        extralife_io.multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
     donation_formatted_output[f'{prefix}lastNDonationNameAmtsMessageHorizontal'] = \
-        extralife_io.multiple_format(donation_list, True, True, currency_symbol,
-                                     int(donors_to_display))
+        extralife_io.multiple_format(donation_list, True, True, currency_symbol, int(donors_to_display))
     donation_formatted_output[f'{prefix}lastNDonationNameAmtsHorizontal'] = \
-        extralife_io.multiple_format(donation_list, False, True, currency_symbol,
-                                     int(donors_to_display))
+        extralife_io.multiple_format(donation_list, False, True, currency_symbol, int(donors_to_display))
     return donation_formatted_output
 
 

@@ -19,3 +19,4 @@ dist
 .idea
 htmlcov
 .mypy_cache
+tests/testOutput/

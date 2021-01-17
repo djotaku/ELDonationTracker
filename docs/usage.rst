@@ -193,3 +193,28 @@ eg:
 .. image :: /images/tracker.gif
 
 You can also edit the settings in a GUI rather than on the commandline. Once the settings are configured, hit the run button. You should get the same output on the commandline as you would if you weren't running the GUI. Check there for any errors or messages from the program.
+
+Docker or Podman users
+^^^^^^^^^^^^^^^^^^^^^^^
+
+If you would like to run the donation tracker in Docker or Podman, you can now do so. This would give you access to the
+commandline output without having to make any changes to the underlying system.
+
+The container can be found at the Docker hub at: https://hub.docker.com/repository/docker/djotaku/eldonationtracker
+
+As you already know, you will need a :doc:`participant_conf` file with your configuration. For the Docker container,
+the important thing is that your text_folder field needs to have "/root/output/" as the output. (Obviously fill in the
+other fields - like your participant ID - as necessary)
+
+Let's say that you have a folder called extralifedonationtracker where you have  and a folder called testoutput where you want the OBS/XSplit output to go. Then you would run:
+
+docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:5.3
+
+if using docker or
+
+podman run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker:Z -v ./testoutput:/root/output:Z djotaku/eldonationtracker:5.3
+
+if using Podman
+
+.. versionadded:: 5.3.0
+    Docker / Podman container
