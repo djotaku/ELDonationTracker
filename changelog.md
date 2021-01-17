@@ -5,6 +5,7 @@
 
 - There are two new output files: Participant_Avatar.html and Team_Avatar.html. Feel free to use them in OBS, XSplit, or anywhere else to make your overlay more personalized.
 - added Participant Avatar to the GUI
+- Added Docker (or you can use Podman) Container
 
 ### Developer-Facing or API Changes
 

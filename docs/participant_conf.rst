@@ -12,7 +12,7 @@ Here's an example from my config file in 2020:
 .. code-block:: JSON
 
     {
-    "Version" : "1.0",
+    "Version" : "2.0",
 
     "extralife_id" : "401280",
 
