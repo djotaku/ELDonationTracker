@@ -150,13 +150,14 @@ class Team:
     def donation_run(self) -> None:
         """Get and calculate donation information."""
         self.donation_list = donation.get_donations(self.donation_list, self.team_donation_url)
-        self.donation_formatted_output = donation.format_donation_information_for_output(self.donation_list,
-                                                                                         self.currency_symbol,
-                                                                                         self.donors_to_display,
-                                                                                         team=True)
-        self.write_text_files(self.donation_formatted_output)
-        team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
-        extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)
+        if self.donation_list:
+            self.donation_formatted_output = donation.format_donation_information_for_output(self.donation_list,
+                                                                                             self.currency_symbol,
+                                                                                             self.donors_to_display,
+                                                                                             team=True)
+            self.write_text_files(self.donation_formatted_output)
+            team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
+            extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)
 
     def __str__(self):
         team_info = ""
