@@ -1,6 +1,7 @@
 """A class to hold the Donation attributes and methods."""
 
 from eldonationtracker import extralife_io as extralife_io
+from rich import print
 
 
 def get_donations(donations: list, donation_url: str) -> list:

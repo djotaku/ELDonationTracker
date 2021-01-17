@@ -150,9 +150,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.AvgDonation.setPlainText(self.read_files(self.folders, 'averageDonation.txt'))
         try:
             avatar_url = QtCore.QUrl.fromLocalFile(self.folders + 'Participant_Avatar.html')
-            self.participant_avatar.load(avatar_url)
+            print(avatar_url)
+            self.participant_avatar.setUrl(avatar_url)
         except FileNotFoundError:
-            print("[bold blue] Particpant Avatar not found. After running you should have it.")
+            print("[bold blue] Participant Avatar not found. After running you should have it.[/bold blue]")
 
         # Team Info
         if self.participant_conf.get_if_in_team():
