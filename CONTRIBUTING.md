@@ -2,7 +2,7 @@
 
 Master should always contain perfectly working code aligned with the latest release.
 
-If you wish to contribute, please do so off of the devel branch and file a pull request with your changes. If I have another branch pushed to Github, that branch may temporarily be the branch to develop from. Check with me.
+If you wish to contribute, please do and file a pull request with your changes. If I have another branch pushed to Github, that branch may temporarily be the branch to develop from. Check with me.
 
 # Linting (ie PEP8 Compliance)
 

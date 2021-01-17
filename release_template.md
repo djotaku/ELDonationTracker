@@ -14,6 +14,11 @@ The trade-off is that the single-binary is simpler, but takes a little longer to
 **Linux users**
 use PyPi or git clone.
 
+**Docker or Podman users***
+docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:5.3
+or
+podman run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker:Z -v ./testoutput:/root/output:Z djotaku/eldonationtracker:5.3
+
 ## For more detailed instructions
 
 Installation Instructions: https://eldonationtracker.readthedocs.io/en/latest/installation.html
