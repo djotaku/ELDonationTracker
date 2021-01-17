@@ -149,7 +149,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.Goal.setPlainText(self.read_files(self.folders, 'goal.txt'))
         self.AvgDonation.setPlainText(self.read_files(self.folders, 'averageDonation.txt'))
         try:
-            avatar_url = QtCore.QUrl.fromLocalFile(self.folders + 'Participant_Avatar.html')
+            avatar_url = QtCore.QUrl.fromLocalFile(self.folders + '/Participant_Avatar.html')
             print(avatar_url)
             self.participant_avatar.setUrl(avatar_url)
         except FileNotFoundError:
