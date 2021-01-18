@@ -20,3 +20,4 @@ dist
 htmlcov
 .mypy_cache
 tests/testOutput/
+testOutput/
