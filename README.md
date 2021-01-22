@@ -1,6 +1,4 @@
-Development branch badges:![Lint,PyTest, MyPy, and Coverage](https://github.com/djotaku/ELDonationTracker/workflows/Lint,PyTest,%20MyPy,%20and%20Coverage/badge.svg?branch=devel)
-
-Master branch badges:![Lint,PyTest, MyPy, and Coverage](https://github.com/djotaku/ELDonationTracker/workflows/Lint,PyTest,%20MyPy,%20and%20Coverage/badge.svg?branch=master) ![Windows Build](https://github.com/djotaku/ELDonationTracker/workflows/Windows%20Build/badge.svg) [![Documentation Status](https://readthedocs.org/projects/eldonationtracker/badge/?version=latest)](https://eldonationtracker.readthedocs.io/en/latest/?badge=latest) ![Upload Python Package](https://github.com/djotaku/ELDonationTracker/workflows/Upload%20Python%20Package/badge.svg) [![codecov](https://codecov.io/gh/djotaku/ELDonationTracker/branch/master/graph/badge.svg)](https://codecov.io/gh/djotaku/ELDonationTracker)
+![Lint,PyTest, MyPy, and Coverage](https://github.com/djotaku/ELDonationTracker/workflows/Lint,PyTest,%20MyPy,%20and%20Coverage/badge.svg?branch=master) ![Windows Build](https://github.com/djotaku/ELDonationTracker/workflows/Windows%20Build/badge.svg) [![Documentation Status](https://readthedocs.org/projects/eldonationtracker/badge/?version=latest)](https://eldonationtracker.readthedocs.io/en/latest/?badge=latest) ![Upload Python Package](https://github.com/djotaku/ELDonationTracker/workflows/Upload%20Python%20Package/badge.svg) [![codecov](https://codecov.io/gh/djotaku/ELDonationTracker/branch/master/graph/badge.svg)](https://codecov.io/gh/djotaku/ELDonationTracker)
 
 
 
