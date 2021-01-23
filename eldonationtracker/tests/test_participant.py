@@ -94,9 +94,9 @@ def test_get_participant_info_no_json():
 
 def test_format_participant_info_for_output():
     my_participant = Participant(fake_participant_conf)
-    my_participant.total_raised = 400
-    my_participant.average_donation = 100
-    my_participant.goal = 1000
+    my_participant._total_raised = 400
+    my_participant._average_donation = 100
+    my_participant._goal = 1000
     assert my_participant._format_participant_info_for_output(my_participant.total_raised) == "$400.00"
     assert my_participant._format_participant_info_for_output(my_participant.average_donation) == "$100.00"
     assert my_participant._format_participant_info_for_output(my_participant.goal) == "$1,000.00"
@@ -104,50 +104,50 @@ def test_format_participant_info_for_output():
 
 def test_fill_participant_dictionary():
     my_participant = Participant(fake_participant_conf)
-    my_participant.total_raised = 400
-    my_participant.average_donation = 100
-    my_participant.goal = 1000
+    my_participant._total_raised = 400
+    my_participant._average_donation = 100
+    my_participant._goal = 1000
     my_participant._fill_participant_dictionary()
-    assert my_participant.participant_formatted_output["totalRaised"] == "$400.00"
-    assert my_participant.participant_formatted_output["averageDonation"] == "$100.00"
-    assert my_participant.participant_formatted_output["goal"] == "$1,000.00"
+    assert my_participant._participant_formatted_output["totalRaised"] == "$400.00"
+    assert my_participant._participant_formatted_output["averageDonation"] == "$100.00"
+    assert my_participant._participant_formatted_output["goal"] == "$1,000.00"
 
 
 def test_calculate_average_donation():
     my_participant = Participant(fake_participant_conf)
-    my_participant.total_raised = 100
-    my_participant.number_of_donations = 2
+    my_participant._total_raised = 100
+    my_participant._number_of_donations = 2
     assert my_participant._calculate_average_donation() == 50
 
 
 def test_calculate_average_donation_no_donations():
     my_participant = Participant(fake_participant_conf)
-    my_participant.total_raised = 0
-    my_participant.number_of_donations = 0
+    my_participant._total_raised = 0
+    my_participant._number_of_donations = 0
     assert my_participant._calculate_average_donation() == 0
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_top_donor_no_json)
 def test_get_top_donor_no_json():
     my_participant = Participant(fake_participant_conf)
-    my_participant.top_donor = donor1
-    my_participant.top_donor = my_participant._get_top_donor()
-    assert my_participant.top_donor == donor1
+    my_participant._top_donor = donor1
+    my_participant._top_donor = my_participant._get_top_donor()
+    assert my_participant._top_donor == donor1
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", magic_fake_extralife_io.get_JSON_top_donor)
 def test_get_top_donor():
     my_participant = Participant(fake_participant_conf)
-    my_participant.top_donor = donor1
-    my_participant.top_donor = my_participant._get_top_donor()
-    assert my_participant.top_donor.name == "Top Donor"
+    my_participant._top_donor = donor1
+    my_participant._top_donor = my_participant._get_top_donor()
+    assert my_participant._top_donor.name == "Top Donor"
 
 
 def test_format_donor_information_for_output():
     my_participant = Participant(fake_participant_conf)
-    my_participant.top_donor = donor1
+    my_participant._top_donor = donor1
     my_participant._format_donor_information_for_output()
-    assert my_participant.donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
+    assert my_participant._donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
 
 
 def test_format_donation_information_for_output():
@@ -161,23 +161,23 @@ def test_format_donation_information_for_output():
     donation3 = eldonationtracker.participant.donation.Donation(None, "Good job! From Donor 3", 34.51, "4939d",
                                                                 "http://image.png",
                                                                 "2020-02-11T17:22:23.963+0000", "fakedonationid")
-    my_participant.donation_list = [donation3, donation2, donation1]
+    my_participant._donation_list = [donation3, donation2, donation1]
     my_participant._format_donation_information_for_output()
-    assert my_participant.donation_formatted_output['LastDonationNameAmnt'] == "Anonymous - $34.51"
-    assert my_participant.donation_formatted_output['lastNDonationNameAmts'] == "Anonymous - $34.51\nDonor 2 - $34.51" \
+    assert my_participant._donation_formatted_output['LastDonationNameAmnt'] == "Anonymous - $34.51"
+    assert my_participant._donation_formatted_output['lastNDonationNameAmts'] == "Anonymous - $34.51\nDonor 2 - $34.51" \
                                                                                 "\nDonor 1 - $34.51\n"
-    assert my_participant.donation_formatted_output['lastNDonationNameAmtsMessage'] == "Anonymous - $34.51 - Good job" \
+    assert my_participant._donation_formatted_output['lastNDonationNameAmtsMessage'] == "Anonymous - $34.51 - Good job" \
                                                                                        "! From Donor 3\nDonor 2 - $34" \
                                                                                        ".51 - None\nDonor 1 - $34.51" \
                                                                                        " - Good job! From Donor 1\n"
-    assert my_participant.donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] == "Anonymous - $34.51" \
+    assert my_participant._donation_formatted_output['lastNDonationNameAmtsMessageHorizontal'] == "Anonymous - $34.51" \
                                                                                                  " - Good job! From " \
                                                                                                  "Donor 3 | Donor 2 -" \
                                                                                                  " $34.51 - None | " \
                                                                                                  "Donor 1 - $34.51 - " \
                                                                                                  "Good job! From " \
                                                                                                  "Donor 1 | "
-    assert my_participant.donation_formatted_output['lastNDonationNameAmtsHorizontal'] == "Anonymous - $34.51" \
+    assert my_participant._donation_formatted_output['lastNDonationNameAmtsHorizontal'] == "Anonymous - $34.51" \
                                                                                           " | Donor 2 - $34.51" \
                                                                                           " | Donor 1 - $34.51 | "
 
@@ -185,29 +185,29 @@ def test_format_donation_information_for_output():
 def test_update_donation_data_no_donations():
     my_participant = Participant(fake_participant_conf)
     my_participant.update_donation_data()
-    assert my_participant.donation_list == []
+    assert my_participant._donation_list == []
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_update_donation_data_preexisting_donations():
     my_participant = Participant(fake_participant_conf)
-    my_participant.number_of_donations = 2
+    my_participant._number_of_donations = 2
     my_participant.update_donation_data()
-    assert my_participant.donation_list[0].name == "Sean Gibson"
+    assert my_participant._donation_list[0].name == "Sean Gibson"
 
 
 def test_update_donor_data_no_donations():
     my_participant = Participant(fake_participant_conf)
     my_participant.update_donor_data()
-    assert my_participant.top_donor is None
+    assert my_participant._top_donor is None
 
 
 @mock.patch.object(eldonationtracker.participant.extralife_io, "get_json", magic_fake_extralife_io.get_JSON_top_donor)
 def test_update_donor_data():
     my_participant = Participant(fake_participant_conf)
-    my_participant.number_of_donations = 2
+    my_participant._number_of_donations = 2
     my_participant.update_donor_data()
-    assert my_participant.top_donor.name == "Top Donor"
+    assert my_participant._top_donor.name == "Top Donor"
 
 
 # note: order matters - this one needs to go before the one where _format_donation...output is called or the not called
@@ -218,7 +218,7 @@ def test_update_donor_data():
 def test_output_donation_data_no_donations():
     my_participant = Participant(fake_participant_conf)
     my_participant.output_donation_data()
-    assert my_participant.donation_list == []
+    assert my_participant._donation_list == []
     fake_participant._format_donation_information_for_output.assert_not_called()
     fake_participant.write_text_files.assert_called()
 
@@ -228,7 +228,7 @@ def test_output_donation_data_no_donations():
                    fake_participant._format_donation_information_for_output)
 def test_output_donation_data():
     my_participant = Participant(fake_participant_conf)
-    my_participant.donation_list = ["a donor", "another_donor"]
+    my_participant._donation_list = ["a donor", "another_donor"]
     my_participant.output_donation_data()
     fake_participant._format_donation_information_for_output.assert_called()
     fake_participant.write_text_files.assert_called()
@@ -249,8 +249,8 @@ def test_output_donor_data_no_donations():
                    fake_participant._format_donor_information_for_output)
 def test_output_donor_data():
     my_participant = Participant(fake_participant_conf)
-    my_participant.donation_list = ["a donor", "another_donor"]
-    my_participant.top_donor = "a top donor"
+    my_participant._donation_list = ["a donor", "another_donor"]
+    my_participant._top_donor = "a top donor"
     my_participant.output_donor_data()
     assert fake_participant._format_donor_information_for_output.called
     assert fake_participant.write_text_files.called
@@ -274,7 +274,7 @@ def test_output_donor_data():
 def test_run():
     my_participant = Participant(fake_participant_conf)
     assert my_participant.number_of_donations == 0
-    assert my_participant.first_run
+    assert my_participant._first_run
     my_participant.run()
     fake_participant_for_run.update_participant_attributes.assert_called_once()
     fake_participant_for_run.output_participant_data.assert_called_once()
@@ -283,7 +283,7 @@ def test_run():
     fake_participant_for_run.update_donor_data.assert_called_once()
     fake_participant_for_run.output_donor_data.assert_called_once()
     fake_participant_for_run.my_team.team_run.assert_called_once()
-    assert my_participant.first_run is False
+    assert my_participant._first_run is False
     my_participant.run()
     assert fake_participant_for_run.update_participant_attributes.call_count == 2
     assert fake_participant_for_run.output_participant_data.call_count == 2
@@ -318,7 +318,7 @@ def test_run_get_a_donation():
     fake_participant_for_run.my_team.participant_run.reset_mock()
     my_participant = Participant(fake_participant_conf)
     assert my_participant.number_of_donations == 0
-    my_participant.first_run = False  # to simulate that this is after one run already
+    my_participant._first_run = False  # to simulate that this is after one run already
     my_participant.run()
     fake_participant_for_run.output_participant_data.assert_called_once()
     fake_participant_for_run.update_donation_data.assert_called_once()
