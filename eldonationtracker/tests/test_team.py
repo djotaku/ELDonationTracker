@@ -54,7 +54,7 @@ def test_get_participants_no_participants():
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
         participants = my_team._get_participants(False)
         assert participants == []
-        assert my_team.participant_list == []
+        assert my_team._participant_list == []
 
 
 def test_get_participants():
@@ -95,7 +95,7 @@ def test_get_participants_no_participants_top_5():
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
         participants = my_team._get_participants(True)
         assert participants == []
-        assert my_team.top_5_participant_list == []
+        assert my_team._top_5_participant_list == []
 
 
 def test_get_participants_top_5():
@@ -171,7 +171,7 @@ def test_top_participant():
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
-        my_team.top_5_participant_list = my_team._get_participants(True)
+        my_team._top_5_participant_list = my_team._get_participants(True)
         top_participant = my_team._top_participant()
         assert top_participant == "Karl Abraham - $0.00"
 
@@ -180,9 +180,9 @@ def test_participant_calculations_no_data():
     """What if the API comes back empty? Maybe a team just formed without any members?"""
     my_team = team.Team("12345", "folder", "$", "5")
     my_team._participant_calculations()
-    assert my_team.participant_calculation_dict['Team_TopParticipantNameAmnt'] == "No participants."
-    assert my_team.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == ""
-    assert my_team.participant_calculation_dict['Team_Top5Participants'] == ""
+    assert my_team._participant_calculation_dict['Team_TopParticipantNameAmnt'] == "No participants."
+    assert my_team._participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == ""
+    assert my_team._participant_calculation_dict['Team_Top5Participants'] == ""
 
 
 def test_participant_calculations():
@@ -213,11 +213,11 @@ def test_participant_calculations():
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
     with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
-        my_team.top_5_participant_list = my_team._get_participants(True)
+        my_team._top_5_participant_list = my_team._get_participants(True)
         my_team._participant_calculations()
-        assert my_team.participant_calculation_dict['Team_TopParticipantNameAmnt'] == "Karl Abraham - $0.00"
-        assert my_team.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == "Karl Abraham - $0.00 | Ben Tolmachoff - $0.00 | Michael Bataligin - $5.00 | "
-        assert my_team.participant_calculation_dict['Team_Top5Participants'] == "Karl Abraham - $0.00\nBen Tolmachoff - $0.00\nMichael Bataligin - $5.00\n"
+        assert my_team._participant_calculation_dict['Team_TopParticipantNameAmnt'] == "Karl Abraham - $0.00"
+        assert my_team._participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == "Karl Abraham - $0.00 | Ben Tolmachoff - $0.00 | Michael Bataligin - $5.00 | "
+        assert my_team._participant_calculation_dict['Team_Top5Participants'] == "Karl Abraham - $0.00\nBen Tolmachoff - $0.00\nMichael Bataligin - $5.00\n"
 
 
 fake_get_team_json = mock.Mock()

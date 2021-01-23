@@ -62,25 +62,25 @@ class Donation:
 
     Class exists to provide attributes for a donation based on what comes in from the JSON so that it doesn't have to be
      traversed each time a donor action needs to be taken.
-
-    :param name: the name of the donor for this donation.
-    :type name: str
-    :param message: the message associated with the donation.
-    :type message: str
-    :param amount: the amount of the donation.
-    :type amount: int
-    :param donor_id: the donor drive ID of the donor who made this donation
-    :type donor_id: str
-    :param avatar_url: the URL of the avatar associated with this donation.
-    :type avatar_url: str
-    :param donation_date: the date of the donation.
-    :type donation_date: str
-    :param donation_id: The donor drive ID of this donation
-    :type donation_id: str
     """
 
     def __init__(self, name, message, amount, donor_id, avatar_url, donation_date, donation_id):
-        """Load in values from class initialization."""
+        """Load in values from class initialization.
+
+        :param name: the name of the donor for this donation.
+        :type name: str
+        :param message: the message associated with the donation.
+        :type message: str
+        :param amount: the amount of the donation.
+        :type amount: int
+        :param donor_id: the donor drive ID of the donor who made this donation
+        :type donor_id: str
+        :param avatar_url: the URL of the avatar associated with this donation.
+        :type avatar_url: str
+        :param donation_date: the date of the donation.
+        :type donation_date: str
+        :param donation_id: The donor drive ID of this donation
+        :type donation_id: str"""
         if name is not None:
             self._name = name
         else:

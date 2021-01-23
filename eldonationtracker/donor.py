@@ -7,13 +7,15 @@ class Donor:
     Class exists to provide attributes for a donor based on what comes in from
     the JSON so that it doesn't have to be traversed each time a donor action
     needs to be taken.
-
-    :param json: JSON attributes from the API
-    :type json: json
     """
 
     def __init__(self, json):
-        """Load in values from class initialization."""
+        """Load in values from class initialization.
+
+
+        :param json: JSON attributes from the API
+        :type json: json
+        """
         self._name, self._donor_id, self._image_url, self._amount, self._number_of_donations =\
             self.json_to_attributes(json)
 

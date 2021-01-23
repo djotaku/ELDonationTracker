@@ -9,26 +9,20 @@ from eldonationtracker import donation as donation
 
 
 class Team:
-    """Hold Team API Data.
-
-    :param team_id: The team's ID in the API
-    :type team_id: str
-    :param output_folder: The folder for the output text files
-    :type output_folder: str
-    :param currency_symbol: for formatting text
-    :type currency_symbol: str
-    :param donors_to_display: the number of donors to write out to the text files
-    :type donors_to_display: str
-
-    :param self.participant_calculation_dict: dictionary holding output for txt files
-    :param self.top_5_participant_list: a list of the top 5 team participants by amount donated.
-    :param self.top_5_participant_list: The top 5 participants in the team
-    :param self.participant_list: a list of the most recent participants
-    :param self.team_avatar_image: The team's avatar
-    """
+    """Hold Team API Data."""
 
     def __init__(self, team_id: str, output_folder: str, currency_symbol: str, donors_to_display: str):
-        """Set the team variables."""
+        """Set the team variables.
+
+        :param team_id: The team's ID in the API
+        :type team_id: str
+        :param output_folder: The folder for the output text files
+        :type output_folder: str
+        :param currency_symbol: for formatting text
+        :type currency_symbol: str
+        :param donors_to_display: the number of donors to write out to the text files
+        :type donors_to_display: str
+        """
         self._team_id: str = team_id
         # urls
         self._team_url_base: str = f"{base_api_url}/teams/"
@@ -45,14 +39,14 @@ class Team:
         self._team_captain: str = ""
         self._total_raised: int = 0
         self._num_donations: int = 0
-        self.team_avatar_image: str = ''
+        self._team_avatar_image: str = ''
         # donor info
-        self.participant_calculation_dict: dict = {}
-        self.top_5_participant_list: List[TeamParticipant] = []
-        self.participant_list: List[TeamParticipant] = []
+        self._participant_calculation_dict: dict = {}  # dictionary holding output for txt files
+        self._top_5_participant_list: List[TeamParticipant] = []  # list: top 5 team participants by amount donated.
+        self._participant_list: List[TeamParticipant] = []  # A list of the most recent participants
         # donation info
-        self.donation_list: List[donation.Donation] = []
-        self.donation_formatted_output: dict = {'Team_LastDonationNameAmnt': "No Donations Yet",
+        self._donation_list: List[donation.Donation] = []
+        self._donation_formatted_output: dict = {'Team_LastDonationNameAmnt': "No Donations Yet",
                                                 'Team_lastNDonationNameAmts': "No Donations Yet",
                                                 'Team_lastNDonationNameAmtsMessage': "No Donations Yet",
                                                 'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
@@ -115,7 +109,13 @@ class Team:
 
     @property
     def num_donations(self) -> int:
+        """The number of donations to the team."""
         return self._num_donations
+
+    @property
+    def team_avatar_image(self):
+        """The team's avatar image."""
+        return self._team_avatar_image
 
     def _get_team_json(self) -> Tuple[int, str, int, int]:
         """Get team info from JSON api."""
@@ -146,9 +146,9 @@ class Team:
         if not team_participant_json:
             print("[bold magenta]Couldn't get to URL or possibly no participants.[/bold magenta]")
             if top5:
-                return self.top_5_participant_list
+                return self._top_5_participant_list
             else:
-                return self.participant_list
+                return self._participant_list
         else:
             return [TeamParticipant(team_participant_json[participant])
                     for participant in range(0, len(team_participant_json))]
@@ -160,19 +160,19 @@ class Team:
 
         :returns: String formatted information about the top participant.
         """
-        if len(self.top_5_participant_list) == 0:
+        if len(self._top_5_participant_list) == 0:
             print("[bold blue] No participants[/bold blue] ")
             return "No participants."
         else:
-            return (f"{self.top_5_participant_list[0].name} - $"
-                    f"{self.top_5_participant_list[0].amount:,.2f}")
+            return (f"{self._top_5_participant_list[0].name} - $"
+                    f"{self._top_5_participant_list[0].amount:,.2f}")
 
     def _participant_calculations(self) -> None:
-        self.participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
-        self.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = \
-            extralife_io.multiple_format(self.top_5_participant_list, False, True, self.currency_symbol, 5)
-        self.participant_calculation_dict['Team_Top5Participants'] = \
-            extralife_io.multiple_format(self.top_5_participant_list, False, False, self.currency_symbol, 5)
+        self._participant_calculation_dict['Team_TopParticipantNameAmnt'] = self._top_participant()
+        self._participant_calculation_dict['Team_Top5ParticipantsHorizontal'] = \
+            extralife_io.multiple_format(self._top_5_participant_list, False, True, self.currency_symbol, 5)
+        self._participant_calculation_dict['Team_Top5Participants'] = \
+            extralife_io.multiple_format(self._top_5_participant_list, False, False, self.currency_symbol, 5)
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write info to text files.
@@ -197,20 +197,20 @@ class Team:
 
     def participant_run(self) -> None:  # pragma: no cover
         """Get and calculate team participant info."""
-        self.participant_list = self._get_participants(top5=False)
-        self.top_5_participant_list = self._get_participants(top5=True)
+        self._participant_list = self._get_participants(top5=False)
+        self._top_5_participant_list = self._get_participants(top5=True)
         self._participant_calculations()
-        self.write_text_files(self.participant_calculation_dict)
+        self.write_text_files(self._participant_calculation_dict)
 
     def donation_run(self) -> None:
         """Get and calculate donation information."""
-        self.donation_list = donation.get_donations(self.donation_list, self.team_donation_url)
-        if self.donation_list:
-            self.donation_formatted_output = donation.format_donation_information_for_output(self.donation_list,
-                                                                                             self.currency_symbol,
-                                                                                             self.donors_to_display,
-                                                                                             team=True)
-            self.write_text_files(self.donation_formatted_output)
+        self._donation_list = donation.get_donations(self._donation_list, self.team_donation_url)
+        if self._donation_list:
+            self._donation_formatted_output = donation.format_donation_information_for_output(self._donation_list,
+                                                                                              self.currency_symbol,
+                                                                                              self.donors_to_display,
+                                                                                              team=True)
+            self.write_text_files(self._donation_formatted_output)
             team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
             extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)
 
