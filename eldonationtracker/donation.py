@@ -66,32 +66,63 @@ class Donation:
     :param name: the name of the donor for this donation. If the donor wished to stay anonymous, the variable is set to/
      "Anonymous"
     :type name: str
-
     :param message: the message associated with the donation.
     :type message: str
-
     :param amount: the amount of the donation. If they blocked it from showing it is set to 0.
     :type amount: int
+    :param donor_id: the donor drive ID of the donor who made this donation
+    :type donor_id: str
+    :param avatar_url: the URL of the avatar associated with this donation.
+    :type avatar_url: str
+    :param donation_date: the date of the donation.
+    :type donation_date: str
+    :param donation_id: The donor drive ID of this donation
+    :type donation_id: str
     """
 
     def __init__(self, name, message, amount, donor_id, avatar_url, donation_date, donation_id):
         """Load in values from class initialization."""
         if name is not None:
-            self.name = name
+            self._name = name
         else:
-            self.name = "Anonymous"
-        self.message = message
+            self._name = "Anonymous"
+        self._message = message
         if amount is not None:
-            self.amount = amount
+            self._amount = amount
         else:
-            self.amount = 0
-        self.donor_id: str = donor_id
-        self.avatar_url: str = avatar_url
-        self.donation_date: str = donation_date
-        self.donation_id: str = donation_id
+            self._amount = 0
+        self._donor_id: str = donor_id
+        self._avatar_url: str = avatar_url
+        self._donation_date: str = donation_date
+        self._donation_id: str = donation_id
 
-    def get_amount(self):
-        return self.amount
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def message(self):
+        return self._message
+
+    @property
+    def amount(self):
+        return self._amount
+
+    @property
+    def donor_id(self):
+        return self._donor_id
+
+    @property
+    def avatar_url(self):
+        return self._avatar_url
+
+    @property
+    def donation_date(self):
+        return self._donation_date
+
+    @property
+    def donation_id(self):
+        return self._donation_id
 
     def __eq__(self, other):
         """Donation equal comparison.
