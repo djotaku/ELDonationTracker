@@ -20,6 +20,10 @@ class MyForm(QDialog):
         Grabs the data from the participant.conf file and
         uses that to pre-populate the fields in the settings
         window.
+
+        :param participant_conf: The participant configuration values.
+        :type participant_conf: extralife_io.ParticipantConf
+        :param tracker: A reference to the tracker.
         """
         super().__init__()
         self.ui = Ui_Dialog()
