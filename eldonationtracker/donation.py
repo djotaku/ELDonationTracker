@@ -63,12 +63,11 @@ class Donation:
     Class exists to provide attributes for a donation based on what comes in from the JSON so that it doesn't have to be
      traversed each time a donor action needs to be taken.
 
-    :param name: the name of the donor for this donation. If the donor wished to stay anonymous, the variable is set to/
-     "Anonymous"
+    :param name: the name of the donor for this donation.
     :type name: str
     :param message: the message associated with the donation.
     :type message: str
-    :param amount: the amount of the donation. If they blocked it from showing it is set to 0.
+    :param amount: the amount of the donation.
     :type amount: int
     :param donor_id: the donor drive ID of the donor who made this donation
     :type donor_id: str
@@ -97,31 +96,39 @@ class Donation:
         self._donation_id: str = donation_id
 
     @property
-    def name(self):
+    def name(self) -> str:
+        """the name of the donor for this donation. If the donor wished to stay anonymous, the variable is set to/
+     'Anonymous'"""
         return self._name
 
     @property
-    def message(self):
+    def message(self) -> str:
+        """the message associated with the donation."""
         return self._message
 
     @property
-    def amount(self):
+    def amount(self) -> int:
+        """the amount of the donation. If they blocked it from showing it is set to 0."""
         return self._amount
 
     @property
-    def donor_id(self):
+    def donor_id(self) -> str:
+        """the donor drive ID of the donor who made this donation"""
         return self._donor_id
 
     @property
-    def avatar_url(self):
+    def avatar_url(self) -> str:
+        """the URL of the avatar associated with this donation."""
         return self._avatar_url
 
     @property
-    def donation_date(self):
+    def donation_date(self) -> str:
+        """the date of the donation."""
         return self._donation_date
 
     @property
-    def donation_id(self):
+    def donation_id(self) -> str:
+        """The donor drive ID of this donation."""
         return self._donation_id
 
     def __eq__(self, other):

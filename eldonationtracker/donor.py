@@ -10,16 +10,6 @@ class Donor:
 
     :param json: JSON attributes from the API
     :type json: json
-    :param self._name: donor's name if provided, else Anonymous
-    :type self._name: str
-    :param self._donor_id: the ID assigned by the API (currently not used)
-    :type self._donor_id: str
-    :param self._image_url: the URL for the donor's avatar (currently not used)
-    :type self._image_url: str
-    :param self._amount: the sum of all donations the donor has made this campaign
-    :type self._amount: float
-    :param self._number_of_donations: the number of donations the donor has made this campaign
-    :type self._number_of_donations: str
     """
 
     def __init__(self, json):
@@ -28,23 +18,28 @@ class Donor:
             self.json_to_attributes(json)
 
     @property
-    def name(self):
+    def name(self) -> str:
+        """Donor's name if provided, else Anonymous."""
         return self._name
 
     @property
-    def donor_id(self):
+    def donor_id(self) -> str:
+        """The ID assigned by the API (currently not used)."""
         return self._donor_id
 
     @property
-    def image_url(self):
+    def image_url(self) -> str:
+        """The URL for the donor's avatar (currently not used)"""
         return self._image_url
 
     @property
-    def amount(self):
+    def amount(self) -> float:
+        """The sum of all donations the donor has made this campaign"""
         return self._amount
 
     @property
-    def number_of_donations(self):
+    def number_of_donations(self) -> str:
+        """The number of donations the donor has made this campaign"""
         return self._number_of_donations
 
     @staticmethod
