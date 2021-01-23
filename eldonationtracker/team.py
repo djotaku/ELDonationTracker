@@ -113,12 +113,15 @@ class Team:
         return self._num_donations
 
     @property
-    def team_avatar_image(self):
+    def team_avatar_image(self) -> str:
         """The team's avatar image."""
         return self._team_avatar_image
 
-    def _get_team_json(self) -> Tuple[int, str, int, int]:
-        """Get team info from JSON api."""
+    def _get_team_json(self) -> Tuple:
+        """Get team info from JSON api.
+
+        :returns: JSON values for fundraising goal, Captain's name, total value of donations, and the # of donations.
+        """
         team_json = extralife_io.get_json(self.team_url)
         if not team_json:
             print("[bold magenta]Could not get team JSON[/bold magenta]")
