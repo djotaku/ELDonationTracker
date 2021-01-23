@@ -19,6 +19,7 @@ class Team:
     :type currency_symbol: str
     :param donors_to_display: the number of donors to write out to the text files
     :type donors_to_display: str
+
     :param self.participant_calculation_dict: dictionary holding output for txt files
     :param self.top_5_participant_list: a list of the top 5 team participants by amount donated.
     :param self.top_5_participant_list: The top 5 participants in the team
