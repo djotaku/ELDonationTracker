@@ -10,24 +10,46 @@ class Donor:
 
     :param json: JSON attributes from the API
     :type json: json
-    :param self.name: donor's name if provided, else Anonymous
-    :type name: str
-    :param self.donor_id: the ID assigned by the API (currently not used)
-    :type donor_id: str
-    :param self.image_url: the URL for the donor's avatar (currently not used)
-    :type image_url: str
-    :param self.amount: the sum of all donations the donor has made this campaign
-    :param self.number_of_donations: the number of donations the donor has made this campaign
+    :param self._name: donor's name if provided, else Anonymous
+    :type self._name: str
+    :param self._donor_id: the ID assigned by the API (currently not used)
+    :type self._donor_id: str
+    :param self._image_url: the URL for the donor's avatar (currently not used)
+    :type self._image_url: str
+    :param self._amount: the sum of all donations the donor has made this campaign
+    :type self._amount: float
+    :param self._number_of_donations: the number of donations the donor has made this campaign
+    :type self._number_of_donations: str
     """
 
     def __init__(self, json):
         """Load in values from class initialization."""
-        self.name, self.donor_id, self.image_url, self.amount, self.number_of_donations = self.json_to_attributes(json)
+        self._name, self._donor_id, self._image_url, self._amount, self._number_of_donations =\
+            self.json_to_attributes(json)
 
-    def json_to_attributes(self, json):
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def donor_id(self):
+        return self._donor_id
+
+    @property
+    def image_url(self):
+        return self._image_url
+
+    @property
+    def amount(self):
+        return self._amount
+
+    @property
+    def number_of_donations(self):
+        return self._number_of_donations
+
+    @staticmethod
+    def json_to_attributes(json):
         """Convert API JSON values to Donor attributes.
-
-        May be overwritten by child classes.
 
         :param json: JSON attributes from the API
         :type json: json
