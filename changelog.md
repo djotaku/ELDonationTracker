@@ -1,3 +1,20 @@
+#v6.0
+## Release Notes
+
+### User-Facing Changes
+
+- N/A for now
+
+### Developer-Facing or API Changes
+
+- Created Properties for accessing the variables for the API classes.
+These also replace any "getter" methods that had been in place. 
+  If there are no "setter" methods, it's because that attribute should
+  only be set by internal methods and/or from the Donor Drive API. If you 
+  believe an attribute without a "setter" should have one - 
+  file an issue.
+
+
 #v5.3.0
 ## Release Notes
 
