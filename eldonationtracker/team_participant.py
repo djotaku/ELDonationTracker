@@ -9,7 +9,7 @@ class TeamParticipant(donor.Donor):
 
     API variables:
 
-    :param self.name: participant's name or Anonymous
+    :param self.name: participant's name
     :param self.amount: the sum of all donations by this participant
     :param self.number_of_donations: number of all donations by this participant
     :param self.image_url: the url of the participant's avatar image (not used)

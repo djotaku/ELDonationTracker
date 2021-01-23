@@ -31,22 +31,22 @@ def test_get_team_json_no_json():
         assert team_json == (0, '', 0, 0)
         # let's pretend that at some point values were added
         # but now the API can't be reached. Let's make sure it doesn't over-write the good data.
-        my_team.team_goal = 500
-        my_team.team_captain = 'Captain Awesome'
-        my_team.total_raised = 400
-        my_team.num_donations = 300
+        my_team._team_goal = 500
+        my_team._team_captain = 'Captain Awesome'
+        my_team._total_raised = 400
+        my_team._num_donations = 300
         team_json = my_team._get_team_json()
         assert team_json == (500, 'Captain Awesome', 400, 300)
 
 
 def test_update_team_dictionary():
     my_team = team.Team("12345", "folder", "$", "5")
-    my_team.team_goal = 500
-    my_team.team_captain = 'Captain Awesome'
-    my_team.total_raised = 400
-    my_team.num_donations = 300
+    my_team._team_goal = 500
+    my_team._team_captain = 'Captain Awesome'
+    my_team._total_raised = 400
+    my_team._num_donations = 300
     my_team._update_team_dictionary()
-    assert list(my_team.team_info.values()) == ['$500.00', 'Captain Awesome', '$400.00', '300']
+    assert list(my_team._team_info.values()) == ['$500.00', 'Captain Awesome', '$400.00', '300']
 
 
 def test_get_participants_no_participants():
@@ -257,10 +257,10 @@ def test_team_api_info():
     assert my_team.team_captain == "Captain"
     assert my_team.total_raised == 401
     assert my_team.num_donations == 3
-    assert my_team.team_info["Team_goal"] == '$400.00'
-    assert my_team.team_info["Team_captain"] == "Captain"
-    assert my_team.team_info["Team_totalRaised"] == "$401.00"
-    assert my_team.team_info["Team_numDonations"] == '3'
+    assert my_team._team_info["Team_goal"] == '$400.00'
+    assert my_team._team_info["Team_captain"] == "Captain"
+    assert my_team._team_info["Team_totalRaised"] == "$401.00"
+    assert my_team._team_info["Team_numDonations"] == '3'
 
 
 def test_str_no_json_data():
@@ -272,7 +272,7 @@ def test_str_no_json_data():
 def test_str():
     """Test what str will produce after team_info has been filled out."""
     my_team = team.Team("12345", "folder", "$", "5")
-    my_team.team_info["Team_goal"] = '$400.00'
+    my_team._team_info["Team_goal"] = '$400.00'
     assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345. Team goal is $400.00."
 
 
