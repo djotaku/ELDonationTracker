@@ -2,9 +2,8 @@
 
 from unittest import mock
 
-from eldonationtracker import extralife_io
-from eldonationtracker import donation
-
+from eldonationtracker.utils import extralife_io
+from eldonationtracker.api import donation
 
 fields_for_participant_conf = {"extralife_id": "12345",
                                "text_folder": "textfolder",
@@ -78,16 +77,6 @@ def test_get_json_url_works_order_by_donations_true():
     extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", True)
     mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=sumDonations%20DESC",
                                     headers={'User-Agent': 'Extra Life Donation Tracker'})
-
-
-#@mock.patch.object(extralife_io, 'Request', mock_request)
-#@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
-#@mock.patch.object(extralife_io.json, 'load', mock_json_load)
-#def test_get_json_http_error_order_by_donations_false():
-#    mock_request.side_effect = Exception(extralife_io.HTTPError)
-#    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
-#    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
-#                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
 # ParticipantConf class - will need to figure out how to over-ride conf file
@@ -334,45 +323,38 @@ def test_multiple_format_message_vertical():
                         "donor1 - $10.00 - message1\ndonor2 - $20.00 - message2\ndonor3 - $30.00 - message3\ndonor4 - $40.00 - message4\ndonor5 - $50.00 - message5\n"]
 
 
-def test_write_text_files():
+def test_write_text_files(tmpdir):
     """ Test that data gets written to the text files correctly. """
-    fileinput = ""
-    dictionary = {"testfilename": "test output"}
-    text_folder = "testOutput"
-    extralife_io.write_text_files(dictionary, text_folder)
-    with open(f"testOutput/testfilename.txt") as file:
-        fileinput = file.read()
-    assert fileinput == "test output"
+    dictionary = {"test_filename": "test output"}
+    extralife_io.write_text_files(dictionary, tmpdir)
+    with open(f"{tmpdir}/test_filename.txt") as file:
+        file_input = file.read()
+    assert file_input == "test output"
 
 
-def test_write_text_files_unicode():
+def test_write_text_files_unicode(tmpdir):
     """ Test that unicode gets written to the text files correctly. """
-    fileinput = ""
-    dictionary = {"testfilename": "áéíóúñ"}
-    text_folder = "testOutput"
-    extralife_io.write_text_files(dictionary, text_folder)
-    with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
-        fileinput = file.read()
-    assert fileinput == "áéíóúñ"
+    dictionary = {"test_filename": "áéíóúñ"}
+    extralife_io.write_text_files(dictionary, tmpdir)
+    with open(f"{tmpdir}/test_filename.txt", 'r', encoding='utf8') as file:
+        file_input = file.read()
+    assert file_input == "áéíóúñ"
 
 
-def test_write_text_files_emoji():
+def test_write_text_files_emoji(tmpdir):
     """ Test that emojis get written to the text files correctly. """
-    fileinput = ""
-    dictionary = {"testfilename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
-    text_folder = "testOutput"
-    extralife_io.write_text_files(dictionary, text_folder)
-    with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
-        fileinput = file.read()
-    assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
+    dictionary = {"test_filename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
+    extralife_io.write_text_files(dictionary, tmpdir)
+    with open(f"{tmpdir}/test_filename.txt", 'r', encoding='utf8') as file:
+        file_input = file.read()
+    assert file_input == "😁😂🧐🙏🚣🌸🦞🏰💌"
 
 
-def test_write_html_files():
+def test_write_html_files(tmpdir):
     """Test that the HTML files are writen correctly."""
     data = "data for HTML file"
     filename = "test_HTML"
-    text_folder = "testOutput"
-    extralife_io.write_html_files(data, filename, text_folder)
-    with open(f"testOutput/{filename}.html", 'r', encoding='utf8') as file:
+    extralife_io.write_html_files(data, filename, tmpdir)
+    with open(f"{tmpdir}/{filename}.html", 'r', encoding='utf8') as file:
         html_input = file.read()
     assert html_input == f"<HTML><body>{data}</body></HTML>"

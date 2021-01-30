@@ -2,7 +2,7 @@
 call_about
 ==========
 
-.. automodule:: eldonationtracker.call_about
+.. automodule:: eldonationtracker.ui.call_about
       :members:
       :undoc-members:
       :show-inheritance:

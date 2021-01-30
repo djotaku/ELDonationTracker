@@ -23,17 +23,9 @@ Please see [CONTRIBUTING.MD](https://github.com/djotaku/ELDonationTracker/blob/m
 Modules are well-documented at: https://eldonationtracker.readthedocs.io/en/latest/py-modindex.html
 
 
-# Web GUI - currently unmaintained
+# Web GUI - may return in 7.0
 
-If you want a webpage you can use as a GUI to do a sanity check on what should be in the donation files, first change the folder at the end in the __main__ section (this should be the same folder you're using for the text files). Then run
-
-python createHTML.py 
-
-Then open mainpage.html at the folder you told it to use. It should update every 15 seconds.
-
-(Currently web page creation is still python 2)
-
-tracker.html part still needs a little work.
+The code was so out of date and probably didn't work any longer with the all the refactoring I've done. I have deleted the file (and it may return in the 7.0 release)  
 
 # Support
 

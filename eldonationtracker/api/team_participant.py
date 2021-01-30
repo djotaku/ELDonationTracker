@@ -1,4 +1,4 @@
-from eldonationtracker import donor as donor
+from eldonationtracker.api import donor as donor
 
 
 class TeamParticipant(donor.Donor):

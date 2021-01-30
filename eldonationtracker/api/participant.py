@@ -4,10 +4,8 @@ from rich import print  # type ignore
 
 import time
 
-from eldonationtracker import donation as donation
-from eldonationtracker import donor as donor
-from eldonationtracker import extralife_io as extralife_io
-from eldonationtracker import team as team
+from eldonationtracker.api import donor as donor, team as team, donation as donation
+from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 
 

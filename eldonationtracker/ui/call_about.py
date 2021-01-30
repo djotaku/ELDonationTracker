@@ -2,7 +2,7 @@
 
 from PyQt5.QtWidgets import QDialog
 
-from eldonationtracker.about import *
+from eldonationtracker.ui.about import *
 
 
 class AboutProgram(QDialog):

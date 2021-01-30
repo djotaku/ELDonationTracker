@@ -1,6 +1,7 @@
 """Test methods in donor class."""
 
-from eldonationtracker import donation
+import eldonationtracker
+from eldonationtracker.api import donation
 
 from unittest import mock
 
@@ -45,7 +46,7 @@ fake_extralife_io.get_JSON_donations_no_json.return_value = {}
 fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
 
 
-@mock.patch.object(donation.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_get_donations():
     donation_list = []
     donations = donation.get_donations(donation_list, "http://fakeurl.com")
@@ -53,14 +54,14 @@ def test_get_donations():
     assert donations[1].name == "Eric Mesa"
 
 
-@mock.patch.object(donation.extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
 def test_get_donations_no_json():
     donation_list = []
     donations = donation.get_donations(donation_list, "http://fakeurl.com")
     assert donations == []
 
 
-@mock.patch.object(donation.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_get_donations_already_a_donation_present():
     donation_list = [donation1]
     donation_list = donation.get_donations(donation_list, "http://fakeurl.com")

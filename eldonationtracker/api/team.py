@@ -2,10 +2,10 @@
 from rich import print
 from typing import Tuple, List
 
-from eldonationtracker import extralife_io as extralife_io
+from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
-from eldonationtracker.team_participant import TeamParticipant
-from eldonationtracker import donation as donation
+from eldonationtracker.api.team_participant import TeamParticipant
+from eldonationtracker.api import donation as donation
 
 
 class Team:

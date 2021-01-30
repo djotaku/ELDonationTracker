@@ -5,8 +5,7 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent  # type: ignore
 from PyQt5.QtGui import QFont, QColor
 
-from eldonationtracker.tracker import *
-from eldonationtracker import ipc as ipc
+from eldonationtracker.ui.tracker import *
 
 
 class MyForm(QDialog):
@@ -75,7 +74,7 @@ class MyForm(QDialog):
         This causes the image and sound to load so that the
         user can test to see how it's going to look on their OBS
         or XSplit screen as well as to make sure they can hear
-        the sound. Called by gui.py.
+        the sound. Called by ui.py.
         """
         self._load_image()
         self._load_elements()
