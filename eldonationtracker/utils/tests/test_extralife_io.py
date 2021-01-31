@@ -229,6 +229,7 @@ donor5 = donation.Donation("donor5", "message5", 50, "4939d", "http://image.png"
 donor6 = donation.Donation("donor6", "message6", 60, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
                            "861A3C59D235B4DA")
 
+
 def test_multiple_format_Horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
@@ -276,7 +277,7 @@ def test_multiple_format_Message_Horizontal():
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | donor3 - $30.00 - message3 | donor4 - $40.00 - message4 | donor5 - $50.00 - message5 | "]
 
 
-def test_multiple_format_Vertical():
+def test_multiple_format_vertical():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
