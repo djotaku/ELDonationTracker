@@ -16,4 +16,5 @@ class TeamParticipant(donor.Donor):
     """
 
     def __str__(self):
-        return f"A Team Participant named {self.name} who has donated ${self.amount:.2f} to the team over {self.number_of_donations} donations."
+        return f"A Team Participant named {self.name} who has donated ${self.amount:.2f} to the team over" \
+               f" {self.number_of_donations} donations."

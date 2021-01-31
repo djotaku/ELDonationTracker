@@ -51,16 +51,16 @@ class Participant:
         # end attributes that need to be implemented in self._get_participant_info
 
         self._participant_formatted_output = {'totalRaised': f"{self.currency_symbol}0.00",
-                                             'averageDonation': f"{self.currency_symbol}0.00",
-                                             'goal': f"{self.currency_symbol}0.00"}
+                                              'averageDonation': f"{self.currency_symbol}0.00",
+                                              'goal': f"{self.currency_symbol}0.00"}
 
         # donation information
         self._donation_list: list = []
         self._donation_formatted_output: dict = {'LastDonationNameAmnt': "No Donations Yet",
-                                                'lastNDonationNameAmts': "No Donations Yet",
-                                                'lastNDonationNameAmtsMessage': "No Donations Yet",
-                                                'lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
-                                                'lastNDonationNameAmtsHorizontal': "No Donations Yet"}
+                                                 'lastNDonationNameAmts': "No Donations Yet",
+                                                 'lastNDonationNameAmtsMessage': "No Donations Yet",
+                                                 'lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
+                                                 'lastNDonationNameAmtsHorizontal': "No Donations Yet"}
         # donor information
         self._top_donor = None
         self._donor_formatted_output: dict = {'TopDonorNameAmnt': "No Donors Yet"}
@@ -219,7 +219,7 @@ class Participant:
             print("[bold red]Couldn't access participant JSON.[/bold red]")
             return self.total_raised, self.number_of_donations, self.goal
         else:
-            return participant_json.get('sumDonations'), participant_json.get('numDonations'),\
+            return participant_json.get('sumDonations'), participant_json.get('numDonations'), \
                    participant_json.get('fundraisingGoal'), participant_json.get('avatarImageURL')
 
     def _format_participant_info_for_output(self, participant_attribute) -> str:
@@ -233,9 +233,9 @@ class Participant:
 
     def _fill_participant_dictionary(self) -> None:
         """Fill up self.participant_formatted_output ."""
-        self._participant_formatted_output["totalRaised"] =\
+        self._participant_formatted_output["totalRaised"] = \
             self._format_participant_info_for_output(self.total_raised)
-        self._participant_formatted_output["averageDonation"] =\
+        self._participant_formatted_output["averageDonation"] = \
             self._format_participant_info_for_output(self.average_donation)
         self._participant_formatted_output["goal"] = self._format_participant_info_for_output(self.goal)
         self._participant_formatted_output["numDonations"] = str(self.number_of_donations)

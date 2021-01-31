@@ -101,15 +101,15 @@ def test_reload_json():
                            "load_json",
                            return_value={'Version': '2.0', 'extralife_id': '12345', 'text_folder': 'textfolder'}):
         participant_conf = extralife_io.ParticipantConf()
-        assert participant_conf.fields['extralife_id'] is "12345"
-        assert participant_conf.fields['text_folder'] is "textfolder"
+        assert participant_conf.fields['extralife_id'] == "12345"
+        assert participant_conf.fields['text_folder'] == "textfolder"
         # now let's change them.
         participant_conf.fields['extralife_id'] = "78900"
         participant_conf.fields['text_folder'] = "nottextfolder"
         # now reload and it should be back to where it was.
         participant_conf.reload_json()
-        assert participant_conf.fields['extralife_id'] is "12345"
-        assert participant_conf.fields['text_folder'] is "textfolder"
+        assert participant_conf.fields['extralife_id'] == "12345"
+        assert participant_conf.fields['text_folder'] == "textfolder"
 
 
 def test_participantconf_get_cli_values():

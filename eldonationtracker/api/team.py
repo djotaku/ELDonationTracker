@@ -47,10 +47,10 @@ class Team:
         # donation info
         self._donation_list: List[donation.Donation] = []
         self._donation_formatted_output: dict = {'Team_LastDonationNameAmnt': "No Donations Yet",
-                                                'Team_lastNDonationNameAmts': "No Donations Yet",
-                                                'Team_lastNDonationNameAmtsMessage': "No Donations Yet",
-                                                'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
-                                                'Team_lastNDonationNameAmtsHorizontal': "No Donations Yet"}
+                                                 'Team_lastNDonationNameAmts': "No Donations Yet",
+                                                 'Team_lastNDonationNameAmtsMessage': "No Donations Yet",
+                                                 'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
+                                                 'Team_lastNDonationNameAmtsHorizontal': "No Donations Yet"}
 
     @property
     def team_id(self) -> str:
@@ -66,7 +66,7 @@ class Team:
     def team_url(self) -> str:
         """URL to the team JSON API."""
         return self._team_url
-    
+
     @property
     def team_participant_url(self) -> str:
         """URL to the JSON api for participants in the team."""
@@ -127,7 +127,7 @@ class Team:
             print("[bold magenta]Could not get team JSON[/bold magenta]")
             return self.team_goal, self.team_captain, self.total_raised, self.num_donations
         else:
-            return team_json.get("fundraisingGoal"), team_json.get("captainDisplayName"),\
+            return team_json.get("fundraisingGoal"), team_json.get("captainDisplayName"), \
                    team_json.get("sumDonations"), team_json.get("numDonations")
 
     def _update_team_dictionary(self) -> None:
