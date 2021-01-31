@@ -1,6 +1,8 @@
+# type: ignore
+
 """Launch the GUI."""
 
-import eldonationtracker.ui.call_main_gui as gui
+import eldonationtracker.ui.call_main_gui as the_gui
 
 if __name__ == '__main__':
-    gui.main()
+    the_gui.main()
