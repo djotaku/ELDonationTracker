@@ -11,8 +11,19 @@ config_no_team = ("12345", "textfolder", "$", None, "5")
 fake_participant_conf_no_team = mock.Mock()
 fake_participant_conf_no_team.get_cli_values.return_value = config_no_team
 
-fake_participant_info = {'sumDonations': 500, 'numDonations': 5, 'fundraisingGoal': 1000}
-fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID":"54483486D840B7EA",
+fake_participant_info = {"displayName": "Eric Mesa", "fundraisingGoal": 600.00, "participantID": 449263.0,
+                         "eventName": "Extra Life 2021", "teamName": "Twitchclub", "isTeamCaptain": False,
+                         "avatarImageURL": "//assets.donordrive.com/extralife/images/$avatars$/constituent_D4DC394A-C293-34EB-4162ECD2B8BF4C17.jpg",
+                         "streamIsLive": False,
+                         "links":
+                             {"donate":
+                                  "https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263#donate",
+                              "stream": "https://player.twitch.tv/?channel=djotaku",
+                              "page":
+                                  "https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263"},
+                         "createdDateUTC": "2021-01-03T21:45:29.523+0000", "eventID": 550.0, "sumDonations": 75.00,
+                         "sumPledges": 0.00, "numDonations": 2.0}
+fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID": "54483486D840B7EA",
                   "avatarImageURL": "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif",
                   "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
                   "donationID": "861A3C59D235B4DA"}, {"displayName": "Eric Mesa", "participantID": 401280,
@@ -57,6 +68,7 @@ fake_participant_for_run.my_team.participant_run.return_value = None
 
 
 def test_api_variables():
+    """Test that API variables are properly assigned."""
     my_participant = Participant(fake_participant_conf)
     assert (my_participant.extralife_id, my_participant.text_folder,
             my_participant.currency_symbol, my_participant.team_id,
@@ -64,6 +76,7 @@ def test_api_variables():
 
 
 def test_urls():
+    """Make sure the API URLs are properly constructed."""
     my_participant = Participant(fake_participant_conf)
     assert my_participant.participant_url == "https://www.extra-life.org/api/participants/12345"
     assert my_participant.donation_url == "https://www.extra-life.org/api/participants/12345/donations"
@@ -71,28 +84,38 @@ def test_urls():
 
 
 def test_str_with_a_team():
+    """Test the str(participant) string if the participant is part of a team."""
     my_participant = Participant(fake_participant_conf)
     assert str(my_participant) == "A participant with Extra Life ID 12345. Team info: A team found at https://www.extra-life.org/api/teams/45678. "
 
 
 def test_str_without_a_team():
+    """Test the str(participant) string if the participant is not part of a team."""
     my_participant = Participant(fake_participant_conf_no_team)
     assert str(my_participant) == "A participant with Extra Life ID 12345."
 
 
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_json)
 def test_get_participant_info():
+    """Make sure the API info for the participant is properly assigned."""
     my_participant = Participant(fake_participant_conf)
-    assert my_participant._get_participant_info() == (500, 5, 1000, None)
+    assert my_participant._get_participant_info() == (75.0, 2, 600, "//assets.donordrive.com/extralife/images/$avatars$/constituent_D4DC394A-C293-34EB-4162ECD2B8BF4C17.jpg",
+                                                      'Extra Life 2021', 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263#donate',
+                                                      'https://player.twitch.tv/?channel=djotaku',
+                                                      'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263',
+                                                      '2021-01-03T21:45:29.523+0000', False, 0, 'Twitchclub', False,
+                                                      'Eric Mesa')
 
 
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_no_json)
 def test_get_participant_info_no_json():
+    """Ensure that the proper values are returned if the JSON values are not retrieved from the API."""
     my_participant = Participant(fake_participant_conf)
-    assert my_participant._get_participant_info() == (0, 0, 0)
+    assert my_participant._get_participant_info() == (0, 0, 0, '', '', '', '', '', '', False, 0, '', False, '')
 
 
 def test_format_participant_info_for_output():
+    """Make sure the right values are grabbed from the participant properties."""
     my_participant = Participant(fake_participant_conf)
     my_participant._total_raised = 400
     my_participant._average_donation = 100
@@ -103,6 +126,7 @@ def test_format_participant_info_for_output():
 
 
 def test_fill_participant_dictionary():
+    """Make sure the output formatted dictionary has the right info."""
     my_participant = Participant(fake_participant_conf)
     my_participant._total_raised = 400
     my_participant._average_donation = 100
@@ -114,6 +138,7 @@ def test_fill_participant_dictionary():
 
 
 def test_calculate_average_donation():
+    """Make sure the average donation is properly calculated."""
     my_participant = Participant(fake_participant_conf)
     my_participant._total_raised = 100
     my_participant._number_of_donations = 2
@@ -121,6 +146,7 @@ def test_calculate_average_donation():
 
 
 def test_calculate_average_donation_no_donations():
+    """Make sure the average donation is properly calculated if there haven't been any donations yet."""
     my_participant = Participant(fake_participant_conf)
     my_participant._total_raised = 0
     my_participant._number_of_donations = 0
@@ -129,6 +155,7 @@ def test_calculate_average_donation_no_donations():
 
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_top_donor_no_json)
 def test_get_top_donor_no_json():
+    """Make sure the top donor works correctly if the JSON was not returned."""
     my_participant = Participant(fake_participant_conf)
     my_participant._top_donor = donor1
     my_participant._top_donor = my_participant._get_top_donor()
@@ -137,6 +164,7 @@ def test_get_top_donor_no_json():
 
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", magic_fake_extralife_io.get_JSON_top_donor)
 def test_get_top_donor():
+    """Make sure we get the correct top donor."""
     my_participant = Participant(fake_participant_conf)
     my_participant._top_donor = donor1
     my_participant._top_donor = my_participant._get_top_donor()
@@ -144,6 +172,7 @@ def test_get_top_donor():
 
 
 def test_format_donor_information_for_output():
+    """Make sure the donor information is properly formatted for the users."""
     my_participant = Participant(fake_participant_conf)
     my_participant._top_donor = donor1
     my_participant._format_donor_information_for_output()
@@ -151,6 +180,7 @@ def test_format_donor_information_for_output():
 
 
 def test_format_donation_information_for_output():
+    """Test donation output for the users."""
     my_participant = Participant(fake_participant_conf)
     donation1 = eldonationtracker.api.donation.Donation("Donor 1", "Good job! From Donor 1", 34.51, "4939d",
                                                                 "http://image.png",
@@ -183,6 +213,7 @@ def test_format_donation_information_for_output():
 
 
 def test_update_donation_data_no_donations():
+    """Make sure the donation data is updated correction if there are no donations."""
     my_participant = Participant(fake_participant_conf)
     my_participant.update_donation_data()
     assert my_participant._donation_list == []
@@ -326,3 +357,8 @@ def test_run_get_a_donation():
     fake_participant_for_run.update_donor_data.assert_called_once()
     fake_participant_for_run.output_donor_data.assert_called_once()
     fake_participant_for_run.my_team.team_run.assert_called_once()
+
+
+def test_participant_properties():
+    """Check that the properties are all properly set."""
+    pass

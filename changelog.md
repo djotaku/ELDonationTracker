@@ -14,7 +14,9 @@ These also replace any "getter" methods that had been in place.
   believe an attribute without a "setter" should have one - 
   file an issue.
   
-- re-organized files into sub-modules to better encapsulate which part of the program they are for.  All the Donor Drive API compoments are now found in eldonationtracker.api.  
+- re-organized files into sub-modules to better encapsulate which part of the program they are for.  All the Donor Drive API compoments are now found in eldonationtracker.api.
+
+- Now getting all the attributes for the Participant
 
 
 #v5.3.0

@@ -38,17 +38,16 @@ class Participant:
         self._average_donation: int = 0
         self._goal: int = 0
         self._avatar_image_url: str = ""
-        # the following need to be implemented in self._get_participant_info:
         self._event_name: str = ""
         self._donation_link_url: str = ""
         self._stream_url: str = ""
         self._extra_life_page_url: str = ""
         self._created_date_utc: str = ""
-        self._team_name: str = ""
         self._stream_is_live: bool = False
-        self._is_team_captain: bool = False
         self._sum_pledges: int = 0
-        # end attributes that need to be implemented in self._get_participant_info
+        self._team_name: str = ""
+        self._is_team_captain: bool = False
+        self._display_name: str = ''
 
         self._participant_formatted_output = {'totalRaised': f"{self.currency_symbol}0.00",
                                               'averageDonation': f"{self.currency_symbol}0.00",
@@ -196,6 +195,11 @@ class Participant:
         """Change the _new_donation status."""
         self._new_donation = new_donation_status
 
+    @property
+    def display_name(self) -> str:
+        """Return the participant's display name."""
+        return self._display_name
+
     def set_config_values(self) -> None:
         """Set participant values, create URLs, and create Team."""
         (self._extralife_id, self._text_folder,
@@ -217,10 +221,22 @@ class Participant:
         participant_json = extralife_io.get_json(self.participant_url)
         if not participant_json:
             print("[bold red]Couldn't access participant JSON.[/bold red]")
-            return self.total_raised, self.number_of_donations, self.goal
+            return self.total_raised, self.number_of_donations, self.goal, self.avatar_image_url, self.event_name, \
+                self.donation_link_url, self.stream_url, self.extra_life_page_url, self.created_date_utc,\
+                self.stream_is_live, self.sum_pledges, self.team_name, self.is_team_captain, self.display_name
         else:
+            if self.my_team:
+                team_name = participant_json.get('teamName')
+                is_team_captain = participant_json.get('isTeamCaptain')
+            else:
+                team_name = ''
+                is_team_captain = False
             return participant_json.get('sumDonations'), participant_json.get('numDonations'), \
-                   participant_json.get('fundraisingGoal'), participant_json.get('avatarImageURL')
+                participant_json.get('fundraisingGoal'), participant_json.get('avatarImageURL'), \
+                participant_json.get('eventName'), participant_json.get('links').get("donate"), \
+                participant_json.get('links').get('stream'), participant_json.get('links').get('page'), \
+                participant_json.get('createdDateUTC'), participant_json.get("streamIsLive"), \
+                participant_json.get('sumPledges'), team_name, is_team_captain, participant_json.get('displayName')
 
     def _format_participant_info_for_output(self, participant_attribute) -> str:
         """Format participant info for output to text files.
@@ -284,7 +300,10 @@ class Participant:
 
          Also called from the main loop.
          """
-        self._total_raised, self._number_of_donations, self._goal, self._avatar_image_url = self._get_participant_info()
+        self._total_raised, self._number_of_donations, self._goal, self._avatar_image_url, \
+            self._event_name, self._donation_link_url, self._stream_url, \
+            self._extra_life_page_url, self._created_date_utc, self._stream_is_live, \
+            self._sum_pledges, self._team_name, self._is_team_captain, self._display_name = self._get_participant_info()
         self._average_donation = self._calculate_average_donation()
 
     def output_participant_data(self) -> None:  # pragma: no cover
