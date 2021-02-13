@@ -6,29 +6,45 @@ from eldonationtracker.api import donation
 
 from unittest import mock
 
-donation1 = donation.Donation("Donor 1", "Good job!", 34.51, "4939d", "http://image.png",
-                              "2020-02-11T17:22:23.963+0000", "FAKE3C59D235B4DA")
+donation1_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.51, "donorID": "FAKE3C59D235B4DA",
+                  "avatarImageURL": "//image.png", "message": "Good job!",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DB"}
+donation1 = donation.Donation(donation1_json)
 
-donation2 = donation.Donation("Donor 1", "Good job!", 34.50, "4939d", "http://image.png",
-                              "2020-02-11T17:22:23.963+0000", "FAKE2C59D235B4DA")
+donation2_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.50, "donorID": "FAKE3C59D235B4DA",
+                  "avatarImageURL": "//image.png",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DC"}
+donation2 = donation.Donation(donation2_json)
+donation2_equal = donation.Donation(donation1_json)
 
-donation2_equal = donation.Donation("Donor 1", "Good job!", 34.51, "4939d", "http://image.png",
-                                    "2020-02-11T17:22:23.963+0000", "FAKE3C59D235B4DA")
+donation_anonymous_json = {"displayName": None, "participantID": '4939d', "amount": 34.51, "message": "Good job!",
+                           "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                           "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                           "donationID": "861A3C59D235B4DD"}
+donation_anonymous = donation.Donation(donation_anonymous_json)
 
-donation_anonymous = donation.Donation(None, "Good job!", 34.51, "4939d", "http://image.png",
-                                       "2020-02-11T17:22:23.963+0000", "FAKE43C59D235B4DA")
+donation_no_money_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": None, "message": "Good job!",
+                          "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                          "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                          "donationID": "861A3C59D235B4DE"}
+donation_no_money = donation.Donation(donation_no_money_json)
 
-donation_no_money = donation.Donation("Donor 1", "Good job!", None, "4939d", "http://image.png",
-                                      "2020-02-11T17:22:23.963+0000", "FAKE53C59D235B4DA")
+donation1_whole_dollar_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34,
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DF"}
+donation1_whole_dollar = donation.Donation(donation1_whole_dollar_json)
 
-donation1_whole_dollar = donation.Donation("Donor 1", "Good job!", 34, "4939d", "http://image.png",
-                                           "2020-02-11T17:22:23.963+0000", "FAKE63C59D235B4DA")
-
-donation2_whole_dollar = donation.Donation("Donor 1", "Good job!", 32, "4939d", "http://image.png",
-                                           "2020-02-11T17:22:23.963+0000", "FAKE7C59D235B4DA")
+donation2_whole_dollar_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 32,
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DG"}
+donation2_whole_dollar = donation.Donation(donation2_whole_dollar_json)
 
 fake_participant_info = {'sumDonations': 500, 'numDonations': 5, 'fundraisingGoal': 1000}
-fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID":"54483486D840B7EA",
+fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID": "54483486D840B7EA",
                   "avatarImageURL": "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif",
                   "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
                   "donationID": "861A3C59D235B4DA"}, {"displayName": "Eric Mesa", "participantID": 401280,
@@ -38,6 +54,11 @@ fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount
                                                                         "8BF4C17.jpg",
                                                       "createdDateUTC": "2020-01-05T20:35:28.897+0000",
                                                       "eventID": 547, "teamID": 50394, "donationID": "7D430E9E9AF79686"}
+donation_emoji_json = {"displayName": "🍀🍀🍀🍀", "participantID": '4939d', "amount": 34.51,
+                       "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png", "message": "Good job!",
+                       "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                       "donationID": "861A3C59D235B4DA"}
+
 
 fake_extralife_io = mock.Mock()
 fake_extralife_io.get_json.return_value = fake_participant_info
@@ -49,6 +70,7 @@ fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
 
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
 def test_get_donations():
+    """Ensure that JSON is properly parsed to create the donation objects."""
     donation_list = []
     donations = eldonationtracker.utils.extralife_io.get_donations(donation_list, "http://fakeurl.com")
     assert donations[0].name == "Sean Gibson"
@@ -57,6 +79,7 @@ def test_get_donations():
 
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
 def test_get_donations_no_json():
+    """Test to make sure nothing goes wrong if the JSON endpoint can't be reached."""
     donation_list = []
     donations = eldonationtracker.utils.extralife_io.get_donations(donation_list, "http://fakeurl.com")
     assert donations == []
@@ -123,7 +146,6 @@ def test_donation_str():
 
 def test_emoji_in_donor_name():
     """Test that an emoji in the donor name will not crash things."""
-    emoji_donation = donation.Donation("🍀🍀🍀🍀", "Good job!", 32, "4939d", "http://image.png",
-                                               "2020-02-11T17:22:23.963+0000", "FAKE7C59D235B4DA")
+    emoji_donation = donation.Donation(donation_emoji_json)
     assert emoji_donation.name == "🍀🍀🍀🍀"
-    assert str(emoji_donation) == "A donation by 🍀🍀🍀🍀 in the amount of $32 with the message 'Good job!'"
+    assert str(emoji_donation) == "A donation by 🍀🍀🍀🍀 in the amount of $34.51 with the message 'Good job!'"

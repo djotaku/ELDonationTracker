@@ -194,20 +194,18 @@ def test_get_tracker_sound():
 
 def test_single_format_message_true():
     """ Make sure the formatting works correctly."""
-    donor1 = donation.Donation("donor1", "message", 45, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                               "861A3C59D235B4DA")
+    donor1 = donation.Donation(donation1_json)
     currency_symbol = "$"
     formatted_message = extralife_io.single_format(donor1, True, currency_symbol)
-    assert formatted_message == "donor1 - $45.00 - message"
+    assert formatted_message == "donor1 - $10.00 - message1"
 
 
 def test_donor_formatting_message_false():
     """ Make sure the formatting works correctly without a message."""
-    donor1 = donation.Donation("donor1", "message", 45, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                               "861A3C59D235B4DA")
+    donor1 = donation.Donation(donation1_json)
     currency_symbol = "$"
     formatted_message = extralife_io.single_format(donor1, False, currency_symbol)
-    assert formatted_message == "donor1 - $45.00"
+    assert formatted_message == "donor1 - $10.00"
 
 
 def test_participant_conf_str():
@@ -216,21 +214,40 @@ def test_participant_conf_str():
     assert str(participant_conf) == """A configuration version 2.0 with the following data: {'extralife_id': '12345', 'text_folder': 'textfolder', 'currency_symbol': '$', 'team_id': '45678', 'tracker_image': 'imagefolder', 'donation_sound': 'mp3', 'donors_to_display': '5', 'font_family': 'Liberation Sans', 'font_size': 52, 'font_italic': True, 'font_bold': 25, 'font_color': [255, 255, 255, 255], 'tracker_background_color': [38, 255, 0, 255]}"""
 
 
-donor1 = donation.Donation("donor1", "message1", 10, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor2 = donation.Donation("donor2", "message2", 20, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor3 = donation.Donation("donor3", "message3", 30, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor4 = donation.Donation("donor4", "message4", 40, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor5 = donation.Donation("donor5", "message5", 50, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor6 = donation.Donation("donor6", "message6", 60, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
+donation1_json = {"displayName": "donor1", "participantID": '4939d', "amount": 10, "message": "message1",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation2_json = {"displayName": "donor2", "participantID": '4939d', "amount": 20, "message": "message2",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation3_json = {"displayName": "donor3", "participantID": '4939d', "amount": 30, "message": "message3",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation4_json = {"displayName": "donor4", "participantID": '4939d', "amount": 40, "message": "message4",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation5_json = {"displayName": "donor5", "participantID": '4939d', "amount": 50, "message": "message5",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation6_json = {"displayName": "donor6", "participantID": '4939d', "amount": 60, "message": "message6",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+
+donor1 = donation.Donation(donation1_json)
+donor2 = donation.Donation(donation2_json)
+donor3 = donation.Donation(donation3_json)
+donor4 = donation.Donation(donation4_json)
+donor5 = donation.Donation(donation5_json)
+donor6 = donation.Donation(donation6_json)
 
 
-def test_multiple_format_Horizontal():
+def test_multiple_format_horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
@@ -252,7 +269,7 @@ def test_multiple_format_Horizontal():
                         "donor1 - $10.00 | donor2 - $20.00 | donor3 - $30.00 | donor4 - $40.00 | donor5 - $50.00 | "]
 
 
-def test_multiple_format_Message_Horizontal():
+def test_multiple_format_message_horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file.
 
@@ -269,8 +286,8 @@ def test_multiple_format_Message_Horizontal():
                                          currency_symbol, 4)
     text5 = extralife_io.multiple_format(donor_list, True, True,
                                          currency_symbol, 5)
-    textlist = [text1, text2, text3, text4, text5]
-    assert textlist == ["donor1 - $10.00 - message1 | ",
+    text_list = [text1, text2, text3, text4, text5]
+    assert text_list == ["donor1 - $10.00 - message1 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | donor3 - $30.00 - message3 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | donor3 - $30.00 - message3 | donor4 - $40.00 - message4 | ",

@@ -40,6 +40,21 @@ donor1 = eldonationtracker.api.donor.Donor(donor1_json)
 fake_top_donor_json = [{"displayName": "Top Donor", "sumDonations": "100", "donorID": 1000111,
                        'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}]
 
+donation1_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.51, "donorID": "FAKE3C59D235B4DA",
+                  "avatarImageURL": "//image.png", "message": "Good job! From Donor 1",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DA"}
+donation2_json = {"displayName": "Donor 2", "participantID": '4939d', "amount": 34.51, "donorID": "FAKE3C59D235B4DA",
+                  "avatarImageURL": "//image.png",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DB"}
+donation_anonymous_json = {"displayName": None, "participantID": '4939d', "amount": 34.51,
+                           "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                           "message": "Good job! From Donor 3",
+                           "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                           "donationID": "861A3C59D235B4DC"}
+
+
 fake_extralife_io = mock.Mock()
 fake_extralife_io.get_json.return_value = fake_participant_info
 fake_extralife_io.get_JSON_donations.return_value = fake_donations
@@ -182,15 +197,9 @@ def test_format_donor_information_for_output():
 def test_format_donation_information_for_output():
     """Test donation output for the users."""
     my_participant = Participant(fake_participant_conf)
-    donation1 = eldonationtracker.api.donation.Donation("Donor 1", "Good job! From Donor 1", 34.51, "4939d",
-                                                                "http://image.png",
-                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
-    donation2 = eldonationtracker.api.donation.Donation("Donor 2", None, 34.51, "4939d",
-                                                                "http://image.png",
-                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
-    donation3 = eldonationtracker.api.donation.Donation(None, "Good job! From Donor 3", 34.51, "4939d",
-                                                                "http://image.png",
-                                                                "2020-02-11T17:22:23.963+0000", "fakedonationid")
+    donation1 = eldonationtracker.api.donation.Donation(donation1_json)
+    donation2 = eldonationtracker.api.donation.Donation(donation2_json)
+    donation3 = eldonationtracker.api.donation.Donation(donation_anonymous_json)
     my_participant._donation_list = [donation3, donation2, donation1]
     my_participant._format_donation_information_for_output()
     assert my_participant._donation_formatted_output['LastDonationNameAmnt'] == "Anonymous - $34.51"

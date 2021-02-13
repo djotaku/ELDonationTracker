@@ -45,28 +45,26 @@ class Donor:
         return self._number_of_donations
 
     @staticmethod
-    def json_to_attributes(json):
+    def json_to_attributes(json_values):
         """Convert API JSON values to Donor attributes.
 
-        :param json: JSON attributes from the API
-        :type json: json
+        :param json_values: JSON attributes from the API
+        :type json_values: json
         """
-        name = ""
-        if json.get('displayName') is not None:
-            name = json.get('displayName')
+        if json_values.get('displayName') is not None:
+            name = json_values.get('displayName')
         else:
             name = "Anonymous"
-        donor_id = json.get('donorID')
-        image_url = json.get('avatarImageURL')
-        amount = float(json.get('sumDonations'))
-        number_of_donations = json.get('numDonations')
+        donor_id = json_values.get('donorID')
+        image_url = json_values.get('avatarImageURL')
+        amount = float(json_values.get('sumDonations'))
+        number_of_donations = json_values.get('numDonations')
         return name, donor_id, image_url, amount, number_of_donations
 
     def __lt__(self, other):
         """Donor less than comparison.
 
-        Returns True if this Donor has a donation
-        amount less than comparision.
+        Returns True if this Donor has a donation amount less than comparison.
         """
         return self.amount < other.amount
 

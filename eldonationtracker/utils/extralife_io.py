@@ -69,23 +69,16 @@ def get_donations(donations: list, donation_url: str) -> list:
 
     If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
 
-    :param donations: A list consisting of donor.Donation objects.
+    :param donations: A list consisting of donation.Donation objects.
     :param donation_url: The URL to go to for donations.
-    :returns: A list of donor.Donation objects.
+    :returns: A list of donation.Donation objects.
     """
     donation_json = get_json(donation_url)
     if not donation_json:
         print("[bold red]Couldn't access donation page[/bold red]")
         return donations
     else:
-        donation_list = [Donation(donation_json[this_donation].get('displayName'),
-                                  donation_json[this_donation].get('message'),
-                                  donation_json[this_donation].get('amount'),
-                                  donation_json[this_donation].get('donorID'),
-                                  donation_json[this_donation].get('avatarImageURL'),
-                                  donation_json[this_donation].get('createdDateUTC'),
-                                  donation_json[this_donation].get('donationID'))
-                         for this_donation in range(0, len(donation_json))]
+        donation_list = [Donation(this_donation) for this_donation in donation_json]
         if len(donations) == 0:  # if I didn't already have donations....
             return donation_list
         else:  # add in only the new donations
