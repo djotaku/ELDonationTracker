@@ -5,6 +5,8 @@
 
 - To launch the command-line version of the program you now run: python -m eldonationtracker.cli
 
+- New output files: LastDonorNameAmnt.txt, lastNDonorNameAmtsHorizontal.txt,lastNDonorNameAmts.txt, TopDonationNameAmnt.txt
+
 ### Developer-Facing or API Changes
 
 - Created Properties for accessing the variables for the API classes.

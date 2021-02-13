@@ -56,6 +56,9 @@ class Participant:
 
         # donation information
         self._donation_list: list = []
+        self._ordered_donation_list: list = []
+        self._top_donation = None
+        self._top_donation_formatted_output: dict = {'TopDonationNameAmnt': "No Donations Yet"}
         self._donation_formatted_output: dict = {'LastDonationNameAmnt': "No Donations Yet",
                                                  'lastNDonationNameAmts': "No Donations Yet",
                                                  'lastNDonationNameAmtsMessage': "No Donations Yet",
@@ -63,7 +66,14 @@ class Participant:
                                                  'lastNDonationNameAmtsHorizontal': "No Donations Yet"}
         # donor information
         self._top_donor = None
-        self._donor_formatted_output: dict = {'TopDonorNameAmnt': "No Donors Yet"}
+        self._top_donor_formatted_output: dict = {'TopDonorNameAmnt': "No Donors Yet"}
+        self._donor_list: list = []
+        self._ordered_donor_list: list = []
+        self._donor_formatted_output: dict = {'LastDonorNameAmnt': "No Donations Yet",
+                                              'lastNDonorNameAmts': "No Donations Yet",
+                                              'lastNDonorNameAmtsMessage': "No Donations Yet",
+                                              'lastNDonorNameAmtsMessageHorizontal': "No Donations Yet",
+                                              'lastNDonorNameAmtsHorizontal': "No Donations Yet"}
 
         # misc
         self._first_run: bool = True
@@ -267,30 +277,37 @@ class Participant:
         except ZeroDivisionError:
             return 0
 
-    # make a top donation method, but only call it once. After that, just update it if the new donation that comes in is
-    # larger
+    def _get_top_donations(self):
+        """Return top donations from server.
 
-    def _get_top_donor(self):
-        """Return Top Donor from server.
+        Uses donor drive's sorting to get the top donation."""
+        return extralife_io.get_donations(self._ordered_donation_list, self.donation_url, True, True)
+
+    def _get_top_donors(self):
+        """Return Top Donors from server.
 
         Uses donor drive's sorting to get the top guy or gal.
         """
-        top_donor_json = extralife_io.get_json(self.participant_donor_url, True)
-        if not top_donor_json:
-            print("[bold red] Couldn't access top donor data[/bold red]")
-            return self._top_donor
-        else:
-            return donor.Donor(top_donor_json[0])
+        return extralife_io.get_donations(self._ordered_donor_list, self.participant_donor_url, False, True)
+
+    def _get_donors(self):
+        """Return Donors from server."""
+        return extralife_io.get_donations(self._ordered_donor_list, self.participant_donor_url, False, False)
 
     def _format_donor_information_for_output(self) -> None:
         """Format the donor attributes for the output files."""
-        self._donor_formatted_output['TopDonorNameAmnt'] = extralife_io.single_format(self._top_donor, False,
-                                                                                      self.currency_symbol)
+        self._top_donor_formatted_output['TopDonorNameAmnt'] = extralife_io.single_format(self._top_donor, False,
+                                                                                          self.currency_symbol)
+        self._donor_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
+            self._donor_list, self.currency_symbol, self.donors_to_display, team=False, donation=False)
 
     def _format_donation_information_for_output(self) -> None:
         """Format the donation attributes for the output files."""
         self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
             self._donation_list, self.currency_symbol, self.donors_to_display, team=False)
+        self._top_donation_formatted_output['TopDonationNameAmnt'] = extralife_io.single_format(self._top_donation,
+                                                                                                False,
+                                                                                                self.currency_symbol)
 
     def update_participant_attributes(self) -> None:  # pragma: no cover
         """Update participant attributes.
@@ -323,14 +340,18 @@ class Participant:
         if self.number_of_donations > 0:
             self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
                                                                                      self.donation_url)
+            self._ordered_donation_list = self._get_top_donations()
+            try:
+                self._top_donation = self._ordered_donation_list[0]
+            except IndexError:
+                pass
 
     def update_donor_data(self) -> None:
-        """Update donor data.
-
-        As of 5.0 it only grabs the top donor. There may be more donor-related updates in the future.
-        """
+        """Update donor data."""
         if self.number_of_donations > 0:
-            self._top_donor = self._get_top_donor()
+            self._donor_list = self._get_donors()
+            self._ordered_donor_list = self._get_top_donors()
+            self._top_donor = self._ordered_donor_list[0]
 
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
@@ -341,6 +362,8 @@ class Participant:
         if len(self._donation_list) > 0:
             self._format_donation_information_for_output()
             self.write_text_files(self._donation_formatted_output)
+            if self._top_donation is not None:
+                self.write_text_files(self._top_donation_formatted_output)
         else:
             print("[bold blue]No donations, writing default data to files.[/bold blue]")
             self.write_text_files(self._donation_formatted_output)
@@ -351,12 +374,14 @@ class Participant:
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
-        if len(self._donation_list) > 0 and self._top_donor is not None:
+        if len(self._donation_list) > 0:
             self._format_donor_information_for_output()
             self.write_text_files(self._donor_formatted_output)
+            if self._top_donor is not None:
+                self.write_text_files(self._top_donor_formatted_output)
         else:
             print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
-            self.write_text_files(self._donor_formatted_output)
+            self.write_text_files(self._top_donor_formatted_output)
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write OBS/XSplit display info to text files.

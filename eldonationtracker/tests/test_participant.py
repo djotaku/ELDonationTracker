@@ -191,7 +191,7 @@ def test_format_donor_information_for_output():
     my_participant = Participant(fake_participant_conf)
     my_participant._top_donor = donor1
     my_participant._format_donor_information_for_output()
-    assert my_participant._donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
+    assert my_participant._top_donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
 
 
 def test_format_donation_information_for_output():

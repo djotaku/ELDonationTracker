@@ -27,7 +27,7 @@ def validate_url(url: str):
 
 
 # JSON/URL
-def get_json(url: str, order_by_donations: bool = False) -> dict:
+def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool = False) -> dict:
     """Grab JSON from server.
 
     Connects to server and grabs JSON data from the specified URL. The API server should return JSON with the donation \
@@ -36,6 +36,8 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
     :param url: API URL for the specific json API point.
     :param order_by_donations: If true, the url param has data appended that will cause the API to return the\
     data in descending order of the sum of donations.
+    :param order_by_amount: If true, the url param has data appended that will cause the API to return the\
+    data in descending order of the sum of amounts.
 
     :return: JSON as dictionary with API data.
 
@@ -45,8 +47,10 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
     # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
-    if order_by_donations:
+    if order_by_donations and not order_by_amount:
         url = url+"?orderBy=sumDonations%20DESC"
+    elif order_by_amount:
+        url = url + "?orderBy=amount%20DESC"
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
@@ -76,9 +80,12 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
     :param api_url: The URL to go to for donations.
     :returns: A list of donation.Donation objects.
     """
-    json_response = get_json(api_url, largest_first)
+    if largest_first and is_donation:
+        json_response = get_json(api_url, largest_first, is_donation)
+    else:
+        json_response = get_json(api_url, largest_first)
     if not json_response:
-        print("[bold red]Couldn't access donation page[/bold red]")
+        print("[bold red]Couldn't access JSON endpoint./bold red]")
         return donations_or_donors
     else:
         if is_donation:
@@ -401,10 +408,11 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
                                                                                False, currency_symbol)
     donation_formatted_output[f'{prefix}lastN{middle_text}NameAmts'] = \
         multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
-    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessage'] = \
-        multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
-    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessageHorizontal'] = \
-        multiple_format(donation_list, True, True, currency_symbol, int(donors_to_display))
+    if donation:
+        donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessage'] = \
+            multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
+        donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessageHorizontal'] = \
+            multiple_format(donation_list, True, True, currency_symbol, int(donors_to_display))
     donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsHorizontal'] = \
         multiple_format(donation_list, False, True, currency_symbol, int(donors_to_display))
     return donation_formatted_output
