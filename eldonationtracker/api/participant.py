@@ -255,8 +255,7 @@ class Participant:
         :param participant_attribute: the data to be formatted for the output.
         :returns: A string with the formatted information.
         """
-        formatted_output = f"{self.currency_symbol}{participant_attribute:,.2f}"
-        return formatted_output
+        return f"{self.currency_symbol}{participant_attribute:,.2f}"
 
     def _fill_participant_dictionary(self) -> None:
         """Fill up self.participant_formatted_output ."""

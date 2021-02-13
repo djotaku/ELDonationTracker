@@ -20,10 +20,7 @@ def validate_url(url: str):
     print(f"[bold blue]Checking: {url}[/bold blue]")
     response = requests.get(url)
     print(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
-    if response.status_code == 200:
-        return True
-    else:
-        return False
+    return response.status_code == 200
 
 
 # JSON/URL
@@ -48,9 +45,9 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations and not order_by_amount:
-        url = url+"?orderBy=sumDonations%20DESC"
+        url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
-        url = url + "?orderBy=amount%20DESC"
+        url += "?orderBy=amount%20DESC"
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
@@ -291,10 +288,7 @@ class ParticipantConf:
         """
         # debug
         # print(self.fields["team_id"])
-        if self.fields["team_id"] is None:
-            return False
-        else:
-            return True
+        return self.fields["team_id"] is not None
 
     def get_version_mismatch(self) -> bool:
         """Return bool of whether there is a version mismatch.
@@ -364,22 +358,18 @@ def multiple_format(donors, message: bool, horizontal: bool,
     Jane Doe - $75.00 - another message
     """
     text = ""
-    if horizontal:
-        for donor in range(0, len(donors)):
+    for donor in range(len(donors)):
+        if horizontal:
             text = text+single_format(donors[donor],
                                       message,
                                       currency_symbol)+" | "
-            if donor == how_many - 1:
-                break
-        return text
-    else:
-        for donor in range(0, len(donors)):
+        else:
             text = text+single_format(donors[donor],
                                       message,
                                       currency_symbol)+"\n"
-            if donor == how_many - 1:
-                break
-        return text
+        if donor == how_many - 1:
+            break
+    return text
 
 
 def format_information_for_output(donation_list: list, currency_symbol: str, donors_to_display: str, team: bool,
@@ -395,15 +385,8 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     :returns: A dictionary with the output text formatted correctly.
     """
     donation_formatted_output: dict = {}
-    if team:
-        prefix = "Team_"
-    else:
-        prefix = ''
-    if donation:
-        middle_text = "Donation"
-    else:
-        middle_text = "Donor"
-
+    prefix = "Team_" if team else ''
+    middle_text = "Donation" if donation else "Donor"
     donation_formatted_output[f'{prefix}Last{middle_text}NameAmnt'] = single_format(donation_list[0],
                                                                                False, currency_symbol)
     donation_formatted_output[f'{prefix}lastN{middle_text}NameAmts'] = \
