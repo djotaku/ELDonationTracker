@@ -91,7 +91,7 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
         if is_donation:
             donor_or_donation_list = [Donation(this_donation) for this_donation in json_response]
         else:
-            donor_or_donation_list = [Donor(this_donor) for this_donor in json_response]
+            donor_or_donation_list = [Donor(this_donor) for this_donor in json_response]  # type: ignore
         if len(donations_or_donors) == 0:  # if I didn't already have donations....
             return donor_or_donation_list
         else:  # add in only the new donations
