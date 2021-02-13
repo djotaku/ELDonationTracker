@@ -2,6 +2,7 @@
 from rich import print
 from typing import Tuple, List
 
+import eldonationtracker.utils.extralife_io
 from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 from eldonationtracker.api.team_participant import TeamParticipant
@@ -207,12 +208,12 @@ class Team:
 
     def donation_run(self) -> None:
         """Get and calculate donation information."""
-        self._donation_list = donation.get_donations(self._donation_list, self.team_donation_url)
+        self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list, self.team_donation_url)
         if self._donation_list:
-            self._donation_formatted_output = donation.format_donation_information_for_output(self._donation_list,
-                                                                                              self.currency_symbol,
-                                                                                              self.donors_to_display,
-                                                                                              team=True)
+            self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_donation_information_for_output(self._donation_list,
+                                                                                                                          self.currency_symbol,
+                                                                                                                          self.donors_to_display,
+                                                                                                                          team=True)
             self.write_text_files(self._donation_formatted_output)
             team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
             extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)

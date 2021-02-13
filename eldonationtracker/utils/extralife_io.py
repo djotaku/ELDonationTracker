@@ -12,6 +12,8 @@ from urllib.error import HTTPError, URLError
 
 import xdgenvpy  # type: ignore
 
+from eldonationtracker.api.donation import Donation
+
 
 def validate_url(url: str):
     print(f"[bold blue]Checking: {url}[/bold blue]")
@@ -61,10 +63,40 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
         print(""" [bold red]Timed out while getting JSON. [/bold red]""")
         return {}
 
+
+def get_donations(donations: list, donation_url: str) -> list:
+    """Get the donations from the JSON and create the donation objects.
+
+    If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
+
+    :param donations: A list consisting of donor.Donation objects.
+    :param donation_url: The URL to go to for donations.
+    :returns: A list of donor.Donation objects.
+    """
+    donation_json = get_json(donation_url)
+    if not donation_json:
+        print("[bold red]Couldn't access donation page[/bold red]")
+        return donations
+    else:
+        donation_list = [Donation(donation_json[this_donation].get('displayName'),
+                                  donation_json[this_donation].get('message'),
+                                  donation_json[this_donation].get('amount'),
+                                  donation_json[this_donation].get('donorID'),
+                                  donation_json[this_donation].get('avatarImageURL'),
+                                  donation_json[this_donation].get('createdDateUTC'),
+                                  donation_json[this_donation].get('donationID'))
+                         for this_donation in range(0, len(donation_json))]
+        if len(donations) == 0:  # if I didn't already have donations....
+            return donation_list
+        else:  # add in only the new donations
+            for a_donation in reversed(donation_list):
+                if a_donation not in donations:
+                    donations.insert(0, a_donation)
+            return donations
+
+
 # File Input and Output
 # input
-
-
 class ParticipantConf:
     """Holds Participant Configuration info.
 
@@ -344,6 +376,28 @@ def multiple_format(donors, message: bool, horizontal: bool,
         return text
 
 
+def format_donation_information_for_output(donation_list: list, currency_symbol: str, donors_to_display: str,
+                                           team: bool) -> dict:
+    """Format the donation attributes for the output files."""
+    donation_formatted_output: dict = {}
+    if team:
+        prefix = "Team_"
+    else:
+        prefix = ''
+
+    donation_formatted_output[f'{prefix}LastDonationNameAmnt'] = single_format(donation_list[0],
+                                                                               False, currency_symbol)
+    donation_formatted_output[f'{prefix}lastNDonationNameAmts'] = \
+        multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
+    donation_formatted_output[f'{prefix}lastNDonationNameAmtsMessage'] = \
+        multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
+    donation_formatted_output[f'{prefix}lastNDonationNameAmtsMessageHorizontal'] = \
+        multiple_format(donation_list, True, True, currency_symbol, int(donors_to_display))
+    donation_formatted_output[f'{prefix}lastNDonationNameAmtsHorizontal'] = \
+        multiple_format(donation_list, False, True, currency_symbol, int(donors_to_display))
+    return donation_formatted_output
+
+
 # Output
 def write_text_files(dictionary: dict, text_folder: str):
     """Write info to text files.
@@ -369,3 +423,4 @@ def write_html_files(data: str, filename: str, text_folder: str):
     html_to_write = "<HTML><body>" + data + "</body></HTML>"
     with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
         html_file.write(html_to_write)
+
