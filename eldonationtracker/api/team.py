@@ -143,7 +143,6 @@ class Team:
         Passes the JSON to the TeamParticipant class for parsing to create a team participant.
 
         :param top5: If true, get the list sorted by top sum of donations.
-
         :returns: A list of TeamParticipant objects.
         """
         team_participant_json = extralife_io.get_json(self.team_participant_url, top5)
@@ -154,8 +153,7 @@ class Team:
             else:
                 return self._participant_list
         else:
-            return [TeamParticipant(team_participant_json[participant])
-                    for participant in range(0, len(team_participant_json))]
+            return [TeamParticipant(participant) for participant in team_participant_json]
 
     def _top_participant(self) -> str:
         """Get Top Team Participant.
@@ -208,12 +206,11 @@ class Team:
 
     def donation_run(self) -> None:
         """Get and calculate donation information."""
-        self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list, self.team_donation_url)
+        self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
+                                                                                 self.team_donation_url)
         if self._donation_list:
-            self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_donation_information_for_output(self._donation_list,
-                                                                                                                          self.currency_symbol,
-                                                                                                                          self.donors_to_display,
-                                                                                                                          team=True)
+            self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
+                self._donation_list, self.currency_symbol, self.donors_to_display, team=True)
             self.write_text_files(self._donation_formatted_output)
             team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
             extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)

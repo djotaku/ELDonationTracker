@@ -289,10 +289,8 @@ class Participant:
 
     def _format_donation_information_for_output(self) -> None:
         """Format the donation attributes for the output files."""
-        self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_donation_information_for_output(self._donation_list,
-                                                                                                                      self.currency_symbol,
-                                                                                                                      self.donors_to_display,
-                                                                                                                      team=False)
+        self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
+            self._donation_list, self.currency_symbol, self.donors_to_display, team=False)
 
     def update_participant_attributes(self) -> None:  # pragma: no cover
         """Update participant attributes.
@@ -323,7 +321,8 @@ class Participant:
         As of 5.0 it just updates the list of donations. There may be more donation-related updating in future versions.
         """
         if self.number_of_donations > 0:
-            self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list, self.donation_url)
+            self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
+                                                                                     self.donation_url)
 
     def update_donor_data(self) -> None:
         """Update donor data.

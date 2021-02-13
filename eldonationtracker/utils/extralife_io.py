@@ -13,6 +13,7 @@ from urllib.error import HTTPError, URLError
 import xdgenvpy  # type: ignore
 
 from eldonationtracker.api.donation import Donation
+from eldonationtracker.api.donor import Donor
 
 
 def validate_url(url: str):
@@ -64,28 +65,33 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
         return {}
 
 
-def get_donations(donations: list, donation_url: str) -> list:
+def get_donations(donations_or_donors: list, api_url: str, is_donation=True, largest_first=False) -> list:
     """Get the donations from the JSON and create the donation objects.
 
     If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
 
-    :param donations: A list consisting of donation.Donation objects.
-    :param donation_url: The URL to go to for donations.
+    :param is_donation: True if we are getting data for donations. False if we are getting data for donors.
+    :param largest_first: True if we want to sort by largest. False if sort by latest donors or donations.
+    :param donations_or_donors: A list consisting of donation.Donation or donor.Donor objects.
+    :param api_url: The URL to go to for donations.
     :returns: A list of donation.Donation objects.
     """
-    donation_json = get_json(donation_url)
-    if not donation_json:
+    json_response = get_json(api_url, largest_first)
+    if not json_response:
         print("[bold red]Couldn't access donation page[/bold red]")
-        return donations
+        return donations_or_donors
     else:
-        donation_list = [Donation(this_donation) for this_donation in donation_json]
-        if len(donations) == 0:  # if I didn't already have donations....
-            return donation_list
+        if is_donation:
+            donor_or_donation_list = [Donation(this_donation) for this_donation in json_response]
+        else:
+            donor_or_donation_list = [Donor(this_donor) for this_donor in json_response]
+        if len(donations_or_donors) == 0:  # if I didn't already have donations....
+            return donor_or_donation_list
         else:  # add in only the new donations
-            for a_donation in reversed(donation_list):
-                if a_donation not in donations:
-                    donations.insert(0, a_donation)
-            return donations
+            for a_donation in reversed(donor_or_donation_list):
+                if a_donation not in donations_or_donors:
+                    donations_or_donors.insert(0, a_donation)
+            return donations_or_donors
 
 
 # File Input and Output
@@ -369,24 +375,37 @@ def multiple_format(donors, message: bool, horizontal: bool,
         return text
 
 
-def format_donation_information_for_output(donation_list: list, currency_symbol: str, donors_to_display: str,
-                                           team: bool) -> dict:
-    """Format the donation attributes for the output files."""
+def format_information_for_output(donation_list: list, currency_symbol: str, donors_to_display: str, team: bool,
+                                  donation=True) -> dict:
+    """Format the donation attributes for the output files.
+
+    :param donation:
+    :param donation_list: A list of donors or donations to format for output.
+    :type donation_list: list
+    :param currency_symbol: The currency symbol for the output.
+    :param donors_to_display: How many donors or donations to display
+    :param team: If true, this is creating output for a team. Otherwise, for the participant.
+    :returns: A dictionary with the output text formatted correctly.
+    """
     donation_formatted_output: dict = {}
     if team:
         prefix = "Team_"
     else:
         prefix = ''
+    if donation:
+        middle_text = "Donation"
+    else:
+        middle_text = "Donor"
 
-    donation_formatted_output[f'{prefix}LastDonationNameAmnt'] = single_format(donation_list[0],
+    donation_formatted_output[f'{prefix}Last{middle_text}NameAmnt'] = single_format(donation_list[0],
                                                                                False, currency_symbol)
-    donation_formatted_output[f'{prefix}lastNDonationNameAmts'] = \
+    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmts'] = \
         multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
-    donation_formatted_output[f'{prefix}lastNDonationNameAmtsMessage'] = \
+    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessage'] = \
         multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
-    donation_formatted_output[f'{prefix}lastNDonationNameAmtsMessageHorizontal'] = \
+    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessageHorizontal'] = \
         multiple_format(donation_list, True, True, currency_symbol, int(donors_to_display))
-    donation_formatted_output[f'{prefix}lastNDonationNameAmtsHorizontal'] = \
+    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsHorizontal'] = \
         multiple_format(donation_list, False, True, currency_symbol, int(donors_to_display))
     return donation_formatted_output
 
