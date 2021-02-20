@@ -276,20 +276,20 @@ class Participant:
         except ZeroDivisionError:
             return 0
 
-    def _get_top_donations(self):
+    def _get_top_donations(self):  # pragma: no cover
         """Return top donations from server.
 
         Uses donor drive's sorting to get the top donation."""
         return extralife_io.get_donations(self._ordered_donation_list, self.donation_url, True, True)
 
-    def _get_top_donors(self):
+    def _get_top_donors(self):  # pragma: no cover
         """Return Top Donors from server.
 
         Uses donor drive's sorting to get the top guy or gal.
         """
         return extralife_io.get_donations(self._ordered_donor_list, self.participant_donor_url, False, True)
 
-    def _get_donors(self):
+    def _get_donors(self):  # pragma: no cover
         """Return Donors from server."""
         return extralife_io.get_donations(self._ordered_donor_list, self.participant_donor_url, False, False)
 
@@ -332,17 +332,14 @@ class Participant:
         extralife_io.write_html_files(participant_avatar_for_html, 'Participant_Avatar', self.text_folder)
 
     def update_donation_data(self) -> None:
-        """Update donation data.
-
-        As of 5.0 it just updates the list of donations. There may be more donation-related updating in future versions.
-        """
+        """Update donation data."""
         if self.number_of_donations > 0:
             self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
                                                                                      self.donation_url)
             self._ordered_donation_list = self._get_top_donations()
             try:
                 self._top_donation = self._ordered_donation_list[0]
-            except IndexError:
+            except IndexError:  # pragma: no cover
                 pass
 
     def update_donor_data(self) -> None:
@@ -398,7 +395,11 @@ class Participant:
         """Run to get participant, donation, donor, and team data and output to text files."""
         number_of_donations = self.number_of_donations
         self.update_participant_attributes()
-        self.output_participant_data()
+        # Below is protection against a situation where the API is unavailable.
+        # Prevents bad data being written to the participant output. Based on the assumption that it would
+        # absurd to have a goal of $0.
+        if self.goal != 0:
+            self.output_participant_data()
         if self._first_run or self.number_of_donations > number_of_donations:
             if not self._first_run:
                 print("[bold green]A new donation![/bold green]")

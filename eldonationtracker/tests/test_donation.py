@@ -60,43 +60,6 @@ donation_emoji_json = {"displayName": "🍀🍀🍀🍀", "participantID": '4939
                        "donationID": "861A3C59D235B4DA"}
 
 
-fake_extralife_io = mock.Mock()
-fake_extralife_io.get_json.return_value = fake_participant_info
-fake_extralife_io.get_JSON_donations.return_value = fake_donations
-fake_extralife_io.get_JSON_no_json.return_value = {}
-fake_extralife_io.get_JSON_donations_no_json.return_value = {}
-fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
-
-
-@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
-def test_get_donations():
-    """Ensure that JSON is properly parsed to create the donation objects."""
-    donation_list = []
-    donations = eldonationtracker.utils.extralife_io.get_donations(donation_list, "http://fakeurl.com")
-    assert donations[0].name == "Sean Gibson"
-    assert donations[0].donor_id == "54483486D840B7EA"
-    assert donations[0].avatar_url == "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif"
-    assert donations[0].donation_date == "2020-02-11T17:22:23.963+0000"
-    assert donations[1].name == "Eric Mesa"
-
-
-@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
-def test_get_donations_no_json():
-    """Test to make sure nothing goes wrong if the JSON endpoint can't be reached."""
-    donation_list = []
-    donations = eldonationtracker.utils.extralife_io.get_donations(donation_list, "http://fakeurl.com")
-    assert donations == []
-
-
-@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
-def test_get_donations_already_a_donation_present():
-    donation_list = [donation1]
-    donation_list = eldonationtracker.utils.extralife_io.get_donations(donation_list, "http://fakeurl.com")
-    assert donation_list[0].name == "Sean Gibson"
-    assert donation_list[1].name == "Eric Mesa"
-    assert donation_list[2].name == "Donor 1"
-
-
 def test_donation_attributes_no_blanks():
     """Test to make sure attributes are properly assigned."""
     assert donation1.name == "Donor 1"

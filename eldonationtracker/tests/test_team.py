@@ -5,38 +5,52 @@ from unittest import mock
 from eldonationtracker.api import team as team
 
 
-def test_team_url():
+def test_team_urls():
+    """Test that URL construction is correct."""
     my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_url == "https://www.extra-life.org/api/teams/12345"
-
-
-def test_team_participant_url():
-    my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_participant_url == "https://www.extra-life.org/api/teams/12345/participants"
+    assert my_team.team_donation_url == "https://www.extra-life.org/api/teams/12345/donations"
+
+
+def test_output_folder():
+    """Test that the program correctly parses the output folder."""
+    my_team = team.Team("12345", "folder", "$", "5")
+    assert my_team.output_folder == "folder"
+
+
+def test_donors_to_display():
+    """Test that the program correct parses the number of donors to display."""
+    my_team = team.Team("12345", "folder", "$", "5")
+    assert my_team.donors_to_display == "5"
 
 
 def test_get_team_json():
+    """Test that the JSON we get back is correctly interpreted."""
     with mock.patch("eldonationtracker.api.team.extralife_io.get_json",
                     return_value={"fundraisingGoal": 500, "captainDisplayName": "Captain Awesome",
-                                  "sumDonations": 400, "numDonations": 300}):
+                                  "sumDonations": 400, "numDonations": 300,
+                                  "avatarImageURL": "//assets.donordrive.com/…avatar-team-default.gif"}):
         my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
-        assert team_json == (500, 'Captain Awesome', 400, 300)
+        assert team_json == (500, 'Captain Awesome', 400, 300, "//assets.donordrive.com/…avatar-team-default.gif")
 
 
 def test_get_team_json_no_json():
+    """Test to make sure if no JSON is returned from the endpoint, the program responds correcty."""
     with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value={}):
         my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
-        assert team_json == (0, '', 0, 0)
+        assert team_json == (0, '', 0, 0, '')
         # let's pretend that at some point values were added
         # but now the API can't be reached. Let's make sure it doesn't over-write the good data.
         my_team._team_goal = 500
         my_team._team_captain = 'Captain Awesome'
         my_team._total_raised = 400
         my_team._num_donations = 300
+        my_team._team_avatar_image = "//assets.donordrive.com/…avatar-team-default.gif"
         team_json = my_team._get_team_json()
-        assert team_json == (500, 'Captain Awesome', 400, 300)
+        assert team_json == (500, 'Captain Awesome', 400, 300, "//assets.donordrive.com/…avatar-team-default.gif")
 
 
 def test_update_team_dictionary():
@@ -221,7 +235,7 @@ def test_participant_calculations():
 
 
 fake_get_team_json = mock.Mock()
-fake_get_team_json.return_value = 400, "Captain", 401, 3
+fake_get_team_json.return_value = 400, "Captain", 401, 3, "//assets.donordrive.com/…avatar-team-default.gif"
 fake_participant_run = mock.Mock()
 fake_write_text_files = mock.Mock()
 fake_donation_run = mock.Mock()
@@ -237,13 +251,13 @@ def test_team_run():
     assert fake_participant_run.call_count == 1
     my_team.team_run()
     assert fake_participant_run.call_count == 1
-    fake_get_team_json.return_value = 400, "Captain", 402, 4
+    fake_get_team_json.return_value = 400, "Captain", 402, 4, "//assets.donordrive.com/…avatar-team-default.gif"
     my_team.team_run()
     assert fake_participant_run.call_count == 2
 
 
 fake_get_team_json2 = mock.Mock()
-fake_get_team_json2.return_value = 400, "Captain", 401, 3
+fake_get_team_json2.return_value = 400, "Captain", 401, 3, "//assets.donordrive.com/…avatar-team-default.gif"
 
 
 @mock.patch.object(team.Team, "_get_team_json", fake_get_team_json2)

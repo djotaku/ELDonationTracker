@@ -23,6 +23,19 @@ fake_participant_info = {"displayName": "Eric Mesa", "fundraisingGoal": 600.00, 
                                   "https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263"},
                          "createdDateUTC": "2021-01-03T21:45:29.523+0000", "eventID": 550.0, "sumDonations": 75.00,
                          "sumPledges": 0.00, "numDonations": 2.0}
+fake_participant_info_no_team = {"displayName": "Eric Mesa", "fundraisingGoal": 600.00, "participantID": 449263.0,
+                                 "eventName": "Extra Life 2021",
+                                 "avatarImageURL": "//assets.donordrive.com/extralife/images/$avatars$/constituent_D4DC394A-C293-34EB-4162ECD2B8BF4C17.jpg",
+                                 "streamIsLive": False,
+                                 "links":
+                                 {"donate":
+                                  "https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263#donate",
+                                  "stream": "https://player.twitch.tv/?channel=djotaku",
+                                  "page":
+                                   "https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263"},
+                                 "createdDateUTC": "2021-01-03T21:45:29.523+0000", "eventID": 550.0,
+                                 "sumDonations": 75.00, "sumPledges": 0.00, "numDonations": 2.0}
+
 fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID": "54483486D840B7EA",
                   "avatarImageURL": "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif",
                   "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
@@ -36,7 +49,10 @@ fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount
 
 donor1_json = {"displayName": "donor1", "sumDonations": "45", "donorID": 1000111,
                'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
+donor2_json = {"displayName": "donor2", "sumDonations": "20", "donorID": 1000112,
+               'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 3}
 donor1 = eldonationtracker.api.donor.Donor(donor1_json)
+donor2 = eldonationtracker.api.donor.Donor(donor2_json)
 fake_top_donor_json = [{"displayName": "Top Donor", "sumDonations": "100", "donorID": 1000111,
                        'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}]
 
@@ -61,6 +77,7 @@ fake_extralife_io.get_JSON_donations.return_value = fake_donations
 fake_extralife_io.get_JSON_no_json.return_value = {}
 fake_extralife_io.get_JSON_donations_no_json.return_value = {}
 fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
+fake_extralife_io.get_json_no_team.return_value = fake_participant_info_no_team
 
 magic_fake_extralife_io = mock.MagicMock()
 magic_fake_extralife_io.get_JSON_top_donor.return_value = fake_top_donor_json
@@ -110,6 +127,14 @@ def test_str_without_a_team():
     assert str(my_participant) == "A participant with Extra Life ID 12345."
 
 
+def test_new_donation_property():
+    """Test that new donation property and setter are working correctly."""
+    my_participant = Participant(fake_participant_conf_no_team)
+    assert my_participant.new_donation is False
+    my_participant.new_donation = True
+    assert my_participant.new_donation
+
+
 @mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_json)
 def test_get_participant_info():
     """Make sure the API info for the participant is properly assigned."""
@@ -119,6 +144,19 @@ def test_get_participant_info():
                                                       'https://player.twitch.tv/?channel=djotaku',
                                                       'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263',
                                                       '2021-01-03T21:45:29.523+0000', False, 0, 'Twitchclub', False,
+                                                      'Eric Mesa')
+
+
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", fake_extralife_io.get_json_no_team)
+def test_get_participant_info_no_team():
+    """Make sure the API info for the participant is properly assigned."""
+    my_participant = Participant(fake_participant_conf)
+    my_participant._my_team = None
+    assert my_participant._get_participant_info() == (75.0, 2, 600, "//assets.donordrive.com/extralife/images/$avatars$/constituent_D4DC394A-C293-34EB-4162ECD2B8BF4C17.jpg",
+                                                      'Extra Life 2021', 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263#donate',
+                                                      'https://player.twitch.tv/?channel=djotaku',
+                                                      'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=449263',
+                                                      '2021-01-03T21:45:29.523+0000', False, 0, '', False,
                                                       'Eric Mesa')
 
 
@@ -177,22 +215,15 @@ def test_get_top_donor_no_json():
     assert my_participant._top_donor == donor1
 
 
-# Needs to be redone because the top_donor was changed when I added the ability to get all the donors
-#@mock.patch.object(eldonationtracker.utils.extralife_io, "get_json", magic_fake_extralife_io.get_JSON_top_donor)
-#def test_get_top_donor():
-#    """Make sure we get the correct top donor."""
-#    my_participant = Participant(fake_participant_conf)
-#    my_participant._top_donor = donor1
-#    my_participant.update_donor_data()
-#    assert my_participant._top_donor.name == "Top Donor"
-
-
-#def test_format_donor_information_for_output():
-#    """Make sure the donor information is properly formatted for the users."""
-#    my_participant = Participant(fake_participant_conf)
-#    my_participant._top_donor = donor1
-#    my_participant._format_donor_information_for_output()
-#    assert my_participant._top_donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
+def test_format_donor_information_for_output():
+    """Make sure the donor information is properly formatted for the users."""
+    my_participant = Participant(fake_participant_conf)
+    my_participant._top_donor = donor1
+    my_participant._donor_list = [donor2, donor1]
+    my_participant._format_donor_information_for_output()
+    assert my_participant._top_donor_formatted_output['TopDonorNameAmnt'] == "donor1 - $45.00"
+    assert my_participant._donor_formatted_output['LastDonorNameAmnt'] == "donor2 - $20.00"
+    assert my_participant._donor_formatted_output['lastNDonorNameAmts'] == "donor2 - $20.00\ndonor1 - $45.00\n"
 
 
 def test_format_donation_information_for_output():
@@ -244,17 +275,16 @@ def test_update_donor_data_no_donations():
     assert my_participant._top_donor is None
 
 
-# this needs to be redone now that we're getting both donors and donations
-# top_donors_json = {"displayName": "Top Donor", "sumDonations": "100", "donorID": 1000111,
-#                    'avatarImageURL': "http://someplace.com/image.jpg", "numDonations": 2}
-# magic_fake_extralife_io_donor = mock.MagicMock()
-# magic_fake_extralife_io_donor.get_donor_json.return_value = top_donors_json
-# @mock.patch.object(eldonationtracker.utils.extralife_io, "get_donations", magic_fake_extralife_io_donor.get_donor_json)
-# def test_update_donor_data():
-#     my_participant = Participant(fake_participant_conf)
-#     my_participant._number_of_donations = 2
-#     my_participant.update_donor_data()
-#    assert my_participant._top_donor.name == "Top Donor"
+magic_fake_extralife_io_donor = mock.MagicMock()
+magic_fake_extralife_io_donor.get_donors.return_value = [donor1]
+
+
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_donations", magic_fake_extralife_io_donor.get_donors)
+def test_update_donor_data():
+    my_participant = Participant(fake_participant_conf)
+    my_participant._number_of_donations = 2
+    my_participant.update_donor_data()
+    assert my_participant._top_donor.name == "donor1"
 
 
 # note: order matters - this one needs to go before the one where _format_donation...output is called or the not called
@@ -270,10 +300,31 @@ def test_output_donation_data_no_donations():
     fake_participant.write_text_files.assert_called()
 
 
+donation_for_output_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.51,
+                            "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png", "message": "Good job!",
+                            "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                            "donationID": "861A3C59D235B4DB"}
+donation_for_output = eldonationtracker.api.donation.Donation(donation1_json)
+
+
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
 @mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donation_information_for_output',
                    fake_participant._format_donation_information_for_output)
 def test_output_donation_data():
+    """Test which functions are called if there is donation data to ouput."""
+    my_participant = Participant(fake_participant_conf)
+    my_participant._donation_list = ["a donor", "another_donor"]
+    my_participant._top_donation = donation_for_output
+    my_participant.output_donation_data()
+    fake_participant._format_donation_information_for_output.assert_called()
+    fake_participant.write_text_files.assert_called()
+
+
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donation_information_for_output',
+                   fake_participant._format_donation_information_for_output)
+def test_output_donation_data_no_top_donation():
+    """Test which functions are called if there is donation data to ouput."""
     my_participant = Participant(fake_participant_conf)
     my_participant._donation_list = ["a donor", "another_donor"]
     my_participant.output_donation_data()
@@ -303,6 +354,17 @@ def test_output_donor_data():
     assert fake_participant.write_text_files.called
 
 
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donor_information_for_output',
+                   fake_participant._format_donor_information_for_output)
+def test_output_donor_data_no_top_donor():
+    my_participant = Participant(fake_participant_conf)
+    my_participant._donation_list = ["a donor", "another_donor"]
+    my_participant.output_donor_data()
+    assert fake_participant._format_donor_information_for_output.called
+    assert fake_participant.write_text_files.called
+
+
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'update_participant_attributes',
                    fake_participant_for_run.update_participant_attributes)
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'output_participant_data',
@@ -322,6 +384,7 @@ def test_run():
     my_participant = Participant(fake_participant_conf)
     assert my_participant.number_of_donations == 0
     assert my_participant._first_run
+    my_participant._goal = 500  # needed to make below run - will probably be fixed with better tests in future
     my_participant.run()
     fake_participant_for_run.update_participant_attributes.assert_called_once()
     fake_participant_for_run.output_participant_data.assert_called_once()
@@ -375,6 +438,28 @@ def test_run_get_a_donation():
     fake_participant_for_run.my_team.team_run.assert_called_once()
 
 
-def test_participant_properties():
-    """Check that the properties are all properly set."""
-    pass
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.api.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
+@mock.patch.object(eldonationtracker.api.team.Team, 'participant_run',
+                   fake_participant_for_run.my_team.participant_run)
+def test_run_no_api_hit():
+    """Making sure that output data is not hit if API wasn't hit."""
+    fake_participant_for_run.output_participant_data.reset_mock()
+    my_participant = Participant(fake_participant_conf)
+    my_participant.run()
+    fake_participant_for_run.output_participant_data.assert_not_called()
+
+
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
+@mock.patch.object(eldonationtracker.api.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
+@mock.patch.object(eldonationtracker.api.team.Team, 'participant_run',
+                   fake_participant_for_run.my_team.participant_run)
+def test_run_no_api_hit_no_team():
+    """Making sure that output data is not hit if API wasn't hit."""
+    fake_participant_for_run.output_participant_data.reset_mock()
+    fake_participant_for_run.my_team.team_run.reset_mock()
+    fake_participant_for_run.my_team.participant_run.reset_mock()
+    my_participant = Participant(fake_participant_conf_no_team)
+    my_participant.run()
+    fake_participant_for_run.output_participant_data.assert_not_called()
+    fake_participant_for_run.my_team.team_run.assert_not_called()

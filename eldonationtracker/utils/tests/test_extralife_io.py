@@ -4,6 +4,7 @@ from unittest import mock
 
 from eldonationtracker.utils import extralife_io
 from eldonationtracker.api import donation
+from eldonationtracker.api import donor
 
 fields_for_participant_conf = {"extralife_id": "12345",
                                "text_folder": "textfolder",
@@ -77,6 +78,77 @@ def test_get_json_url_works_order_by_donations_true():
     extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", True)
     mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=sumDonations%20DESC",
                                     headers={'User-Agent': 'Extra Life Donation Tracker'})
+
+
+@mock.patch.object(extralife_io, 'Request', mock_request)
+@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
+@mock.patch.object(extralife_io.json, 'load', mock_json_load)
+def test_get_json_url_works_order_by_amount_true():
+    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False, True)
+    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=amount%20DESC",
+                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+
+
+fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID": "54483486D840B7EA",
+                  "avatarImageURL": "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DA"}, {"displayName": "Eric Mesa", "participantID": 401280,
+                                                      "amount": 25.00, "donorID": "4162ECD2B8BF4C17",
+                                                      "avatarImageURL": "//assets.donordrive.com/extralife/images/$avat"
+                                                                        "ars$/constituent_D4DC394A-C293-34EB-4162ECD2B"
+                                                                        "8BF4C17.jpg",
+                                                      "createdDateUTC": "2020-01-05T20:35:28.897+0000",
+                                                      "eventID": 547, "teamID": 50394, "donationID": "7D430E9E9AF79686"}
+donation1_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.51, "donorID": "FAKE3C59D235B4DA",
+                  "avatarImageURL": "//image.png", "message": "Good job!",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DB"}
+donation1 = donation.Donation(donation1_json)
+fake_donor = {"sumDonations": "45", "donorID": 1000111, "avatarImageURL": "//someplace.com/image.jpg",
+              "numDonations": 2}
+donor1 = donor.Donor(fake_donor)
+fake_extralife_io = mock.Mock()
+fake_extralife_io.get_JSON_donations.return_value = fake_donations
+fake_extralife_io.get_JSON_donors.return_value = fake_donor
+fake_extralife_io.get_JSON_no_json.return_value = {}
+fake_extralife_io.get_JSON_donations_no_json.return_value = {}
+fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
+def test_get_donations():
+    """Ensure that JSON is properly parsed to create the donation objects."""
+    donation_list = []
+    donations = extralife_io.get_donations(donation_list, "http://fakeurl.com")
+    assert donations[0].name == "Sean Gibson"
+    assert donations[0].donor_id == "54483486D840B7EA"
+    assert donations[0].avatar_url == "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif"
+    assert donations[0].donation_date == "2020-02-11T17:22:23.963+0000"
+    assert donations[1].name == "Eric Mesa"
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donors)
+def test_get_donors():
+    donor_list = []
+    donors = extralife_io.get_donations(donor_list, "http://fakeurl.com", False)
+    assert donors[0].donor_id == 1000111
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
+def test_get_donations_no_json():
+    """Test to make sure nothing goes wrong if the JSON endpoint can't be reached."""
+    donation_list = []
+    donations = extralife_io.get_donations(donation_list, "http://fakeurl.com")
+    assert donations == []
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
+def test_get_donations_already_a_donation_present():
+    donation_list = [donation1]
+    donation_list = extralife_io.get_donations(donation_list, "http://fakeurl.com")
+    assert donation_list[0].name == "Sean Gibson"
+    assert donation_list[1].name == "Eric Mesa"
+    assert donation_list[2].name == "Donor 1"
 
 
 # ParticipantConf class - will need to figure out how to over-ride conf file

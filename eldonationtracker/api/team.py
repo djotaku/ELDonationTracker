@@ -89,7 +89,7 @@ class Team:
         return self._currency_symbol
 
     @property
-    def donors_to_display(self):
+    def donors_to_display(self) -> str:
         """The number of donors to write out to the output file."""
         return self._donors_to_display
 
@@ -126,10 +126,10 @@ class Team:
         team_json = extralife_io.get_json(self.team_url)
         if not team_json:
             print("[bold magenta]Could not get team JSON[/bold magenta]")
-            return self.team_goal, self.team_captain, self.total_raised, self.num_donations
+            return self.team_goal, self.team_captain, self.total_raised, self.num_donations, self.team_avatar_image
         else:
             return team_json.get("fundraisingGoal"), team_json.get("captainDisplayName"), \
-                   team_json.get("sumDonations"), team_json.get("numDonations")
+                   team_json.get("sumDonations"), team_json.get("numDonations"), team_json.get("avatarImageURL")
 
     def _update_team_dictionary(self) -> None:
         self._team_info["Team_goal"] = f"{self.currency_symbol}{self.team_goal:,.2f}"
@@ -193,7 +193,8 @@ class Team:
 
     def team_api_info(self) -> None:
         """Get team info from API."""
-        self._team_goal, self._team_captain, self._total_raised, self._num_donations = self._get_team_json()
+        self._team_goal, self._team_captain, self._total_raised, self._num_donations,\
+            self._team_avatar_image = self._get_team_json()
         self._update_team_dictionary()
         self.write_text_files(self._team_info)
 
@@ -204,7 +205,7 @@ class Team:
         self._participant_calculations()
         self.write_text_files(self._participant_calculation_dict)
 
-    def donation_run(self) -> None:
+    def donation_run(self) -> None:  # pragma: no cover
         """Get and calculate donation information."""
         self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
                                                                                  self.team_donation_url)
