@@ -74,6 +74,9 @@ def test_get_donations():
     donation_list = []
     donations = eldonationtracker.utils.extralife_io.get_donations(donation_list, "http://fakeurl.com")
     assert donations[0].name == "Sean Gibson"
+    assert donations[0].donor_id == "54483486D840B7EA"
+    assert donations[0].avatar_url == "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif"
+    assert donations[0].donation_date == "2020-02-11T17:22:23.963+0000"
     assert donations[1].name == "Eric Mesa"
 
 

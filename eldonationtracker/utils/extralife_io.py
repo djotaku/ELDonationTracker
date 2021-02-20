@@ -53,14 +53,14 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
         payload = urlopen(request, timeout=5, context=context)
         #  print(f"trying URL: {url}")
         return json.load(payload)  # type: ignore
-    except HTTPError:  # pragma no cover
+    except HTTPError:  # pragma: no cover
         print(f"""[bold red]Could not get to {url}.
                 Check ExtraLifeID.Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")
         return {}
-    except URLError:  # pragma no cover
+    except URLError:  # pragma: no cover
         print(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
         print(""" [bold red]Timed out while getting JSON. [/bold red]""")
         return {}
@@ -134,7 +134,7 @@ class ParticipantConf:
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
 
-    def load_json(self) -> dict:  # pragma no cover
+    def load_json(self) -> dict:  # pragma: no cover
         """Load in the config file.
 
         Checks in a variety of locations for the participant.conf file.\
@@ -173,7 +173,7 @@ class ParticipantConf:
             self.get_github_config()
             return self.load_json()
 
-    def get_github_config(self):  # pragma no cover
+    def get_github_config(self):  # pragma: no cover
         print("[bold blue]Attempting to grab a config file from GitHub.[/bold blue]")
         print(f"[bold blue]Config will be placed at {self.xdg.XDG_CONFIG_HOME}.[/bold blue]")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
@@ -184,7 +184,7 @@ class ParticipantConf:
             print("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
                   "[bold magenta]Please manually create or download from Github.[/bold magenta]")
 
-    def get_tracker_assets(self, asset: str):  # pragma no cover
+    def get_tracker_assets(self, asset: str):  # pragma: no cover
         print(f"[bold blue] Attempting to grab {asset} from Github.[/bold blue] ")
         print(f"[bold blue] {asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}[/bold blue] ")
         if asset == "image":
@@ -210,7 +210,7 @@ class ParticipantConf:
             # debug
             # print(f"{field}:{self.fields[field]}")
 
-    def write_config(self, config: dict, default: bool):  # pragma no cover
+    def write_config(self, config: dict, default: bool):  # pragma: no cover
         """Write config to file.
 
         Only called from GUI. Commandline user is expected to edit\
