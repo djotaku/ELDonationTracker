@@ -311,7 +311,7 @@ donation_for_output = eldonationtracker.api.donation.Donation(donation1_json)
 @mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donation_information_for_output',
                    fake_participant._format_donation_information_for_output)
 def test_output_donation_data():
-    """Test which functions are called if there is donation data to ouput."""
+    """Test which functions are called if there is donation data to output."""
     my_participant = Participant(fake_participant_conf)
     my_participant._donation_list = ["a donor", "another_donor"]
     my_participant._top_donation = donation_for_output

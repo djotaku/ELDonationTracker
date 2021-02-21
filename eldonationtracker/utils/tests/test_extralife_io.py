@@ -1,4 +1,5 @@
 # This unit test test uses the following encoding: utf-8
+# type: ignore
 
 from unittest import mock
 
