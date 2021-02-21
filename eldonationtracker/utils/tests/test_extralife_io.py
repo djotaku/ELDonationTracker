@@ -127,11 +127,11 @@ def test_get_donations():
     assert donations[1].name == "Eric Mesa"
 
 
-@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donors)
-def test_get_donors():
-    donor_list = []
-    donors = extralife_io.get_donations(donor_list, "http://fakeurl.com", False)
-    assert donors[0].donor_id == 1000111
+#@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donors)
+#def test_get_donors():
+#    donor_list = []
+#    donors = extralife_io.get_donations(donor_list, "http://fakeurl.com", False)
+#    assert donors[0].donor_id == 1000111
 
 
 @mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)

@@ -1,10 +1,6 @@
 """Test methods in donor class."""
 
-import eldonationtracker
-import eldonationtracker.utils.extralife_io
 from eldonationtracker.api import donation
-
-from unittest import mock
 
 donation1_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.51, "donorID": "FAKE3C59D235B4DA",
                   "avatarImageURL": "//image.png", "message": "Good job!",
