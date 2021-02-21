@@ -18,7 +18,7 @@ These also replace any "getter" methods that had been in place.
   
 - re-organized files into sub-modules to better encapsulate which part of the program they are for.  All the Donor Drive API compoments are now found in eldonationtracker.api.
 
-- Now getting all the attributes for the Participant. We aren't currently pushing all of these out to text files for the user, but can be used if you want to use this package as a Python API for your own programs.
+- Now getting all the attributes for the Participant, Team, Donor, and Donation. We aren't currently pushing all of these out to text files for the user, but can be used if you want to use this package as a Python API for your own programs.
 
 
 #v5.3.0
