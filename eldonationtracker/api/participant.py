@@ -149,7 +149,10 @@ class Participant:
     @property
     def avatar_image_url(self) -> str:
         """The user's avatar image on the website."""
-        return self._avatar_image_url
+        if self._avatar_image_url:
+            return self._avatar_image_url
+        else:
+            return ""
 
     @property
     def event_name(self) -> str:
