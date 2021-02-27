@@ -116,7 +116,10 @@ class Team:
     @property
     def team_avatar_image(self) -> str:
         """The team's avatar image."""
-        return self._team_avatar_image
+        if self._team_avatar_image:
+            return self._team_avatar_image
+        else:
+            return ""
 
     def _get_team_json(self) -> Tuple:
         """Get team info from JSON api.
