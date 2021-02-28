@@ -1,14 +1,14 @@
-Latest release: [v5.3.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v5.3.0): 
-[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v5.3.0/eldonationtracker.for.Windows.v5.3.0.exe) |
+Latest release: [v6.0.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v6.0): 
+[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v6.0/eldonationtracker.v6.0.exe) |
 Linux, see videos below for PyPi or git clone instructions.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
 
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
 
-![Updates while in-game](https://github.com/djotaku/ELDonationTracker/raw/devel/screenshots/IngameUpdates.png)
+![Updates while in-game](https://github.com/djotaku/ELDonationTracker/raw/master/screenshots/IngameUpdates.png)
 
-![Updates while the webcam is the main focus](https://github.com/djotaku/ELDonationTracker/raw/devel/screenshots/RecentDonations.png)
+![Updates while the webcam is the main focus](https://github.com/djotaku/ELDonationTracker/raw/master/screenshots/RecentDonations.png)
 
 # How to use the Extra Life Donation Tracker:
 
