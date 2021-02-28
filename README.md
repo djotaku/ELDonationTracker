@@ -12,7 +12,7 @@ If you find this useful, please consider donating to my [Extra Life campagin](ht
 
 # Users
 
-visit: http://djotaku.github.io/ELDonationTracker/ for instructions on how to use the program.
+visit: http://djotaku.github.io/ELDonationTracker/ for video instructions on how to use the program.
 
 If you prefer text instructions, read the documentation at: https://eldonationtracker.readthedocs.io/en/latest/index.html
 
