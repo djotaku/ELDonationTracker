@@ -2,59 +2,73 @@
 
 from unittest import mock
 
-from eldonationtracker import team as team
+from eldonationtracker.api import team as team
 
 
-def test_team_url():
+def test_team_urls():
+    """Test that URL construction is correct."""
     my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_url == "https://www.extra-life.org/api/teams/12345"
-
-
-def test_team_participant_url():
-    my_team = team.Team("12345", "folder", "$", "5")
     assert my_team.team_participant_url == "https://www.extra-life.org/api/teams/12345/participants"
+    assert my_team.team_donation_url == "https://www.extra-life.org/api/teams/12345/donations"
+
+
+def test_output_folder():
+    """Test that the program correctly parses the output folder."""
+    my_team = team.Team("12345", "folder", "$", "5")
+    assert my_team.output_folder == "folder"
+
+
+def test_donors_to_display():
+    """Test that the program correct parses the number of donors to display."""
+    my_team = team.Team("12345", "folder", "$", "5")
+    assert my_team.donors_to_display == "5"
 
 
 def test_get_team_json():
-    with mock.patch("eldonationtracker.team.extralife_io.get_json",
+    """Test that the JSON we get back is correctly interpreted."""
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json",
                     return_value={"fundraisingGoal": 500, "captainDisplayName": "Captain Awesome",
-                                  "sumDonations": 400, "numDonations": 300}):
+                                  "sumDonations": 400, "numDonations": 300,
+                                  "avatarImageURL": "//assets.donordrive.com/…avatar-team-default.gif"}):
         my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
-        assert team_json == (500, 'Captain Awesome', 400, 300)
+        assert team_json == (500, 'Captain Awesome', 400, 300, "//assets.donordrive.com/…avatar-team-default.gif")
 
 
 def test_get_team_json_no_json():
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
+    """Test to make sure if no JSON is returned from the endpoint, the program responds correcty."""
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value={}):
         my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
-        assert team_json == (0, '', 0, 0)
+        assert team_json == (0, '', 0, 0, '')
         # let's pretend that at some point values were added
         # but now the API can't be reached. Let's make sure it doesn't over-write the good data.
-        my_team.team_goal = 500
-        my_team.team_captain = 'Captain Awesome'
-        my_team.total_raised = 400
-        my_team.num_donations = 300
+        my_team._team_goal = 500
+        my_team._team_captain = 'Captain Awesome'
+        my_team._total_raised = 400
+        my_team._num_donations = 300
+        my_team._team_avatar_image = "//assets.donordrive.com/…avatar-team-default.gif"
         team_json = my_team._get_team_json()
-        assert team_json == (500, 'Captain Awesome', 400, 300)
+        assert team_json == (500, 'Captain Awesome', 400, 300, "//assets.donordrive.com/…avatar-team-default.gif")
 
 
 def test_update_team_dictionary():
     my_team = team.Team("12345", "folder", "$", "5")
-    my_team.team_goal = 500
-    my_team.team_captain = 'Captain Awesome'
-    my_team.total_raised = 400
-    my_team.num_donations = 300
+    my_team._team_goal = 500
+    my_team._team_captain = 'Captain Awesome'
+    my_team._total_raised = 400
+    my_team._num_donations = 300
     my_team._update_team_dictionary()
-    assert list(my_team.team_info.values()) == ['$500.00', 'Captain Awesome', '$400.00', '300']
+    assert list(my_team._team_info.values()) == ['$500.00', 'Captain Awesome', '$400.00', '300']
 
 
 def test_get_participants_no_participants():
     my_team = team.Team("12345", "folder", "$", "5")
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value={}):
         participants = my_team._get_participants(False)
         assert participants == []
-        assert my_team.participant_list == []
+        assert my_team._participant_list == []
 
 
 def test_get_participants():
@@ -84,7 +98,7 @@ def test_get_participants():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
         participants = my_team._get_participants(False)
         assert participants[0].name == "Karl Abraham"
         assert participants[1].name == "Ben Tolmachoff"
@@ -92,10 +106,10 @@ def test_get_participants():
 
 def test_get_participants_no_participants_top_5():
     my_team = team.Team("12345", "folder", "$", "5")
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value={}):
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value={}):
         participants = my_team._get_participants(True)
         assert participants == []
-        assert my_team.top_5_participant_list == []
+        assert my_team._top_5_participant_list == []
 
 
 def test_get_participants_top_5():
@@ -131,7 +145,7 @@ def test_get_participants_top_5():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
         participants = my_team._get_participants(True)
         assert participants[0].name == "Karl Abraham"
         assert participants[1].name == "Ben Tolmachoff"
@@ -170,8 +184,8 @@ def test_top_participant():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
-        my_team.top_5_participant_list = my_team._get_participants(True)
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
+        my_team._top_5_participant_list = my_team._get_participants(True)
         top_participant = my_team._top_participant()
         assert top_participant == "Karl Abraham - $0.00"
 
@@ -180,9 +194,9 @@ def test_participant_calculations_no_data():
     """What if the API comes back empty? Maybe a team just formed without any members?"""
     my_team = team.Team("12345", "folder", "$", "5")
     my_team._participant_calculations()
-    assert my_team.participant_calculation_dict['Team_TopParticipantNameAmnt'] == "No participants."
-    assert my_team.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == ""
-    assert my_team.participant_calculation_dict['Team_Top5Participants'] == ""
+    assert my_team._participant_calculation_dict['Team_TopParticipantNameAmnt'] == "No participants."
+    assert my_team._participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == ""
+    assert my_team._participant_calculation_dict['Team_Top5Participants'] == ""
 
 
 def test_participant_calculations():
@@ -212,16 +226,16 @@ def test_participant_calculations():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.team.extralife_io.get_json", return_value=team_participants):
-        my_team.top_5_participant_list = my_team._get_participants(True)
+    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
+        my_team._top_5_participant_list = my_team._get_participants(True)
         my_team._participant_calculations()
-        assert my_team.participant_calculation_dict['Team_TopParticipantNameAmnt'] == "Karl Abraham - $0.00"
-        assert my_team.participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == "Karl Abraham - $0.00 | Ben Tolmachoff - $0.00 | Michael Bataligin - $5.00 | "
-        assert my_team.participant_calculation_dict['Team_Top5Participants'] == "Karl Abraham - $0.00\nBen Tolmachoff - $0.00\nMichael Bataligin - $5.00\n"
+        assert my_team._participant_calculation_dict['Team_TopParticipantNameAmnt'] == "Karl Abraham - $0.00"
+        assert my_team._participant_calculation_dict['Team_Top5ParticipantsHorizontal'] == "Karl Abraham - $0.00 | Ben Tolmachoff - $0.00 | Michael Bataligin - $5.00 | "
+        assert my_team._participant_calculation_dict['Team_Top5Participants'] == "Karl Abraham - $0.00\nBen Tolmachoff - $0.00\nMichael Bataligin - $5.00\n"
 
 
 fake_get_team_json = mock.Mock()
-fake_get_team_json.return_value = 400, "Captain", 401, 3
+fake_get_team_json.return_value = 400, "Captain", 401, 3, "//assets.donordrive.com/…avatar-team-default.gif"
 fake_participant_run = mock.Mock()
 fake_write_text_files = mock.Mock()
 fake_donation_run = mock.Mock()
@@ -237,13 +251,13 @@ def test_team_run():
     assert fake_participant_run.call_count == 1
     my_team.team_run()
     assert fake_participant_run.call_count == 1
-    fake_get_team_json.return_value = 400, "Captain", 402, 4
+    fake_get_team_json.return_value = 400, "Captain", 402, 4, "//assets.donordrive.com/…avatar-team-default.gif"
     my_team.team_run()
     assert fake_participant_run.call_count == 2
 
 
 fake_get_team_json2 = mock.Mock()
-fake_get_team_json2.return_value = 400, "Captain", 401, 3
+fake_get_team_json2.return_value = 400, "Captain", 401, 3, "//assets.donordrive.com/…avatar-team-default.gif"
 
 
 @mock.patch.object(team.Team, "_get_team_json", fake_get_team_json2)
@@ -257,10 +271,10 @@ def test_team_api_info():
     assert my_team.team_captain == "Captain"
     assert my_team.total_raised == 401
     assert my_team.num_donations == 3
-    assert my_team.team_info["Team_goal"] == '$400.00'
-    assert my_team.team_info["Team_captain"] == "Captain"
-    assert my_team.team_info["Team_totalRaised"] == "$401.00"
-    assert my_team.team_info["Team_numDonations"] == '3'
+    assert my_team._team_info["Team_goal"] == '$400.00'
+    assert my_team._team_info["Team_captain"] == "Captain"
+    assert my_team._team_info["Team_totalRaised"] == "$401.00"
+    assert my_team._team_info["Team_numDonations"] == '3'
 
 
 def test_str_no_json_data():
@@ -272,7 +286,7 @@ def test_str_no_json_data():
 def test_str():
     """Test what str will produce after team_info has been filled out."""
     my_team = team.Team("12345", "folder", "$", "5")
-    my_team.team_info["Team_goal"] = '$400.00'
+    my_team._team_info["Team_goal"] = '$400.00'
     assert str(my_team) == "A team found at https://www.extra-life.org/api/teams/12345. Team goal is $400.00."
 
 

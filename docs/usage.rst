@@ -21,7 +21,7 @@ Version 5.0 adds the use of the rich module which uses different font colors on 
 GUI Windows Executable users (Microsoft Windows Users)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This refers to you if you downloaded a file like "Extra Life Donation Tracker for Windows v5.0.zip" or "eldonationtracker for Windows v5.0.ext". You may wish to watch a video on how to use the GUI at http://djotaku.github.io/ELDonationTracker/ . But if you prefer to read, continue below.
+This refers to you if you downloaded a file like "Extra Life Donation Tracker for Windows vX.X.zip" or "eldonationtracker for Windows vX.X.exe". You may wish to watch a video on how to use the GUI at http://djotaku.github.io/ELDonationTracker/ . But if you prefer to read, continue below.
 
 Launching
 ---------
@@ -158,13 +158,16 @@ Make sure you have the :doc:`participant_conf` in the persistent location. You c
 
 .. code-block:: Bash
 
-   python -m eldonationtracker.participant
+   python -m eldonationtracker.cli
 
 
 Of course, you can import the modules into your own scripts and modify how you use the code I've written. In that case, you may be interested in the module index to get a good look at the API available to your program.
 
+.. versionchanged:: 6.0.0
+    Command changed from python -m eldonationtracker.participant to python -m eldonationtracker.cli
+
 .. versionchanged:: 5.0.0
-    Command changed from from python -m eldonationtracker.extralifedonations to python -m eldonationtracker.participant
+    Command changed from python -m eldonationtracker.extralifedonations to python -m eldonationtracker.participant
    
 Commandline users (git)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -184,7 +187,7 @@ If you downloaded a zip or tar file, unzip it first, then cd into that directory
     # for the GUI:
     python gui.py
     # for the commandline only
-    python participant.py
+    python cli.py
 
 The benefit you get from using the GUI is that once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered. For text instructions on how to use the GUI, go to :ref:`gui-usage` or watch the video at http://djotaku.github.io/ELDonationTracker/
 
@@ -193,6 +196,9 @@ eg:
 .. image :: /images/tracker.gif
 
 You can also edit the settings in a GUI rather than on the commandline. Once the settings are configured, hit the run button. You should get the same output on the commandline as you would if you weren't running the GUI. Check there for any errors or messages from the program.
+
+.. versionchanged:: 6.0.0
+    Command changed from from python participant.py to python cli.py
 
 Docker or Podman users
 ^^^^^^^^^^^^^^^^^^^^^^^

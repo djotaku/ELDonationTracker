@@ -1,14 +1,13 @@
 """Contains the programming logic for the settings window in the GUI."""
 
-import sys
 from rich import print
 
-from PyQt5.QtWidgets import QDialog, QApplication, QFileDialog, QFontDialog, QColorDialog, QMessageBox
+from PyQt5.QtWidgets import QDialog, QFileDialog, QFontDialog, QColorDialog, QMessageBox
 from PyQt5.QtGui import QFont, QColor
 
-from eldonationtracker.settings import *
+from eldonationtracker.ui.settings import *
 from eldonationtracker import base_api_url
-from eldonationtracker import extralife_io
+from eldonationtracker.utils import extralife_io
 
 
 class MyForm(QDialog):
@@ -20,6 +19,10 @@ class MyForm(QDialog):
         Grabs the data from the participant.conf file and
         uses that to pre-populate the fields in the settings
         window.
+
+        :param participant_conf: The participant configuration values.
+        :type participant_conf: extralife_io.ParticipantConf
+        :param tracker: A reference to the tracker.
         """
         super().__init__()
         self.ui = Ui_Dialog()
@@ -71,7 +74,7 @@ class MyForm(QDialog):
     def reload_config(self):
         """Reload the values from the config file.
 
-        Called by gui.py before loading the settings window.
+        Called by ui.py before loading the settings window.
         """
         (self.ExtraLifeID, self.textFolder,
          self.CurrencySymbol, self.TeamID, self.TrackerImage,

@@ -12,19 +12,19 @@ from urllib.error import HTTPError, URLError
 
 import xdgenvpy  # type: ignore
 
+from eldonationtracker.api.donation import Donation
+from eldonationtracker.api.donor import Donor
+
 
 def validate_url(url: str):
     print(f"[bold blue]Checking: {url}[/bold blue]")
     response = requests.get(url)
     print(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
-    if response.status_code == 200:
-        return True
-    else:
-        return False
+    return response.status_code == 200
 
 
 # JSON/URL
-def get_json(url: str, order_by_donations: bool = False) -> dict:
+def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool = False) -> dict:
     """Grab JSON from server.
 
     Connects to server and grabs JSON data from the specified URL. The API server should return JSON with the donation \
@@ -33,6 +33,8 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
     :param url: API URL for the specific json API point.
     :param order_by_donations: If true, the url param has data appended that will cause the API to return the\
     data in descending order of the sum of donations.
+    :param order_by_amount: If true, the url param has data appended that will cause the API to return the\
+    data in descending order of the sum of amounts.
 
     :return: JSON as dictionary with API data.
 
@@ -42,29 +44,62 @@ def get_json(url: str, order_by_donations: bool = False) -> dict:
     # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
-    if order_by_donations:
-        url = url+"?orderBy=sumDonations%20DESC"
+    if order_by_donations and not order_by_amount:
+        url += "?orderBy=sumDonations%20DESC"
+    elif order_by_amount:
+        url += "?orderBy=amount%20DESC"
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
         #  print(f"trying URL: {url}")
         return json.load(payload)  # type: ignore
-    except HTTPError:  # pragma no cover
+    except HTTPError:  # pragma: no cover
         print(f"""[bold red]Could not get to {url}.
                 Check ExtraLifeID.Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")
         return {}
-    except URLError:  # pragma no cover
+    except URLError:  # pragma: no cover
         print(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
         print(""" [bold red]Timed out while getting JSON. [/bold red]""")
         return {}
 
+
+def get_donations(donations_or_donors: list, api_url: str, is_donation=True, largest_first=False) -> list:
+    """Get the donations from the JSON and create the donation objects.
+
+    If the API can't be reached, the same list is returned. Only new donations are added to the list at the end.
+
+    :param is_donation: True if we are getting data for donations. False if we are getting data for donors.
+    :param largest_first: True if we want to sort by largest. False if sort by latest donors or donations.
+    :param donations_or_donors: A list consisting of donation.Donation or donor.Donor objects.
+    :param api_url: The URL to go to for donations.
+    :returns: A list of donation.Donation objects.
+    """
+    if largest_first and is_donation:
+        json_response = get_json(api_url, largest_first, is_donation)
+    else:
+        json_response = get_json(api_url, largest_first)
+    if not json_response:
+        print("[bold red]Couldn't access JSON endpoint./bold red]")
+        return donations_or_donors
+    else:
+        if is_donation:
+            donor_or_donation_list = [Donation(this_donation) for this_donation in json_response]
+        else:
+            donor_or_donation_list = [Donor(this_donor) for this_donor in json_response]  # type: ignore
+        if len(donations_or_donors) == 0:  # if I didn't already have donations....
+            return donor_or_donation_list
+        else:  # add in only the new donations
+            for a_donation in reversed(donor_or_donation_list):
+                if a_donation not in donations_or_donors:
+                    donations_or_donors.insert(0, a_donation)
+            return donations_or_donors
+
+
 # File Input and Output
 # input
-
-
 class ParticipantConf:
     """Holds Participant Configuration info.
 
@@ -99,7 +134,7 @@ class ParticipantConf:
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
 
-    def load_json(self) -> dict:  # pragma no cover
+    def load_json(self) -> dict:  # pragma: no cover
         """Load in the config file.
 
         Checks in a variety of locations for the participant.conf file.\
@@ -138,7 +173,7 @@ class ParticipantConf:
             self.get_github_config()
             return self.load_json()
 
-    def get_github_config(self):  # pragma no cover
+    def get_github_config(self):  # pragma: no cover
         print("[bold blue]Attempting to grab a config file from GitHub.[/bold blue]")
         print(f"[bold blue]Config will be placed at {self.xdg.XDG_CONFIG_HOME}.[/bold blue]")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
@@ -149,7 +184,7 @@ class ParticipantConf:
             print("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
                   "[bold magenta]Please manually create or download from Github.[/bold magenta]")
 
-    def get_tracker_assets(self, asset: str):  # pragma no cover
+    def get_tracker_assets(self, asset: str):  # pragma: no cover
         print(f"[bold blue] Attempting to grab {asset} from Github.[/bold blue] ")
         print(f"[bold blue] {asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}[/bold blue] ")
         if asset == "image":
@@ -175,7 +210,7 @@ class ParticipantConf:
             # debug
             # print(f"{field}:{self.fields[field]}")
 
-    def write_config(self, config: dict, default: bool):  # pragma no cover
+    def write_config(self, config: dict, default: bool):  # pragma: no cover
         """Write config to file.
 
         Only called from GUI. Commandline user is expected to edit\
@@ -253,10 +288,7 @@ class ParticipantConf:
         """
         # debug
         # print(self.fields["team_id"])
-        if self.fields["team_id"] is None:
-            return False
-        else:
-            return True
+        return self.fields["team_id"] is not None
 
     def get_version_mismatch(self) -> bool:
         """Return bool of whether there is a version mismatch.
@@ -326,22 +358,47 @@ def multiple_format(donors, message: bool, horizontal: bool,
     Jane Doe - $75.00 - another message
     """
     text = ""
-    if horizontal:
-        for donor in range(0, len(donors)):
+    for donor in range(len(donors)):
+        if horizontal:
             text = text+single_format(donors[donor],
                                       message,
                                       currency_symbol)+" | "
-            if donor == how_many - 1:
-                break
-        return text
-    else:
-        for donor in range(0, len(donors)):
+        else:
             text = text+single_format(donors[donor],
                                       message,
                                       currency_symbol)+"\n"
-            if donor == how_many - 1:
-                break
-        return text
+        if donor == how_many - 1:
+            break
+    return text
+
+
+def format_information_for_output(donation_list: list, currency_symbol: str, donors_to_display: str, team: bool,
+                                  donation=True) -> dict:
+    """Format the donation attributes for the output files.
+
+    :param donation:
+    :param donation_list: A list of donors or donations to format for output.
+    :type donation_list: list
+    :param currency_symbol: The currency symbol for the output.
+    :param donors_to_display: How many donors or donations to display
+    :param team: If true, this is creating output for a team. Otherwise, for the participant.
+    :returns: A dictionary with the output text formatted correctly.
+    """
+    donation_formatted_output: dict = {}
+    prefix = "Team_" if team else ''
+    middle_text = "Donation" if donation else "Donor"
+    donation_formatted_output[f'{prefix}Last{middle_text}NameAmnt'] = single_format(donation_list[0],
+                                                                               False, currency_symbol)
+    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmts'] = \
+        multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
+    if donation:
+        donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessage'] = \
+            multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
+        donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessageHorizontal'] = \
+            multiple_format(donation_list, True, True, currency_symbol, int(donors_to_display))
+    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsHorizontal'] = \
+        multiple_format(donation_list, False, True, currency_symbol, int(donors_to_display))
+    return donation_formatted_output
 
 
 # Output
@@ -369,3 +426,4 @@ def write_html_files(data: str, filename: str, text_folder: str):
     html_to_write = "<HTML><body>" + data + "</body></HTML>"
     with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
         html_file.write(html_to_write)
+

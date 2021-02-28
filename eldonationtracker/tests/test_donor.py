@@ -1,6 +1,6 @@
 """Test methods in donor class."""
 
-from eldonationtracker import donor
+from eldonationtracker.api import donor
 
 
 def test_donor_attributes_none_missing():

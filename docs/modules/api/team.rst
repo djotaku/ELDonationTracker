@@ -1,8 +1,8 @@
 ==============
-donation
+team
 ==============
 
-.. automodule:: eldonationtracker.donation
-      :members:
+.. automodule:: eldonationtracker.api.team
+      :members: 
       :undoc-members:
       :show-inheritance:

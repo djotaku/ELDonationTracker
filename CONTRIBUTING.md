@@ -8,17 +8,13 @@ If you wish to contribute, please do and file a pull request with your changes. 
 
 I strive for the code to be PEP8 compliant. Run the following against your fork:
 
-flake8 eldonationtracker/extralifedonations.py eldonationtracker/ipc.py eldonationtracker/readparticipantconf.py eldonationtracker/team.py eldonationtracker/donation.py eldonationtracker/donor.py eldonationtracker/extralife_IO.py  --count --select=E9,F63,F7,F82 --show-source --statistics
+flake8 eldonationtracker/api eldonationtracker/utils  --count --select=E9,F63,F7,F82 --show-source --statistics
 
-If it fails, the CI will fail and the pull request will not be merged until it is fixed. 
+If it fails, the CI will fail, and the pull request will not be merged until it is fixed. 
 
 The next line will report warnings, but as long as it's only warnings and not errors, it will not stop the CI. That said, my preference is for the following to be error free (don't worry about line-length errors):
 
-flake8 extralifedonations.py IPC.py readparticipantconf.py team.py donation.py donor.py extralife_IO.py --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics 
-
-But even my code isn't (as of 26 Jan 2020) 100% perfect against that flake8 run, yet.
-
-If that list above becomes out of date, the canonical list of files that need to pass flake8 can be found in the repo under .github/workflows/linttest.yml.
+flake8 eldonationtracker/api eldonationtracker/utils --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
 ## About line-length
 
@@ -37,6 +33,8 @@ Should pass without errors.
 # Testing
 
 All the unit tests should pass. Run: pytest -v --pyargs eldonationtracker
+
+Coverage:  coverage run -m pytest --pyargs eldonationtracker
 
 # Documentation
 

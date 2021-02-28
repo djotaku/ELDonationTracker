@@ -1,10 +1,11 @@
 # This unit test test uses the following encoding: utf-8
+# type: ignore
 
 from unittest import mock
 
-from eldonationtracker import extralife_io
-from eldonationtracker import donation
-
+from eldonationtracker.utils import extralife_io
+from eldonationtracker.api import donation
+from eldonationtracker.api import donor
 
 fields_for_participant_conf = {"extralife_id": "12345",
                                "text_folder": "textfolder",
@@ -80,14 +81,75 @@ def test_get_json_url_works_order_by_donations_true():
                                     headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
-#@mock.patch.object(extralife_io, 'Request', mock_request)
-#@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
-#@mock.patch.object(extralife_io.json, 'load', mock_json_load)
-#def test_get_json_http_error_order_by_donations_false():
-#    mock_request.side_effect = Exception(extralife_io.HTTPError)
-#    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
-#    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
-#                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+@mock.patch.object(extralife_io, 'Request', mock_request)
+@mock.patch.object(extralife_io, 'urlopen', mock_url_open)
+@mock.patch.object(extralife_io.json, 'load', mock_json_load)
+def test_get_json_url_works_order_by_amount_true():
+    extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False, True)
+    mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=amount%20DESC",
+                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+
+
+fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID": "54483486D840B7EA",
+                  "avatarImageURL": "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DA"}, {"displayName": "Eric Mesa", "participantID": 401280,
+                                                      "amount": 25.00, "donorID": "4162ECD2B8BF4C17",
+                                                      "avatarImageURL": "//assets.donordrive.com/extralife/images/$avat"
+                                                                        "ars$/constituent_D4DC394A-C293-34EB-4162ECD2B"
+                                                                        "8BF4C17.jpg",
+                                                      "createdDateUTC": "2020-01-05T20:35:28.897+0000",
+                                                      "eventID": 547, "teamID": 50394, "donationID": "7D430E9E9AF79686"}
+donation1_json = {"displayName": "Donor 1", "participantID": '4939d', "amount": 34.51, "donorID": "FAKE3C59D235B4DA",
+                  "avatarImageURL": "//image.png", "message": "Good job!",
+                  "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                  "donationID": "861A3C59D235B4DB"}
+donation1 = donation.Donation(donation1_json)
+fake_donor = {"sumDonations": "45", "donorID": 1000111, "avatarImageURL": "//someplace.com/image.jpg",
+              "numDonations": 2}
+donor1 = donor.Donor(fake_donor)
+fake_extralife_io = mock.Mock()
+fake_extralife_io.get_JSON_donations.return_value = fake_donations
+fake_extralife_io.get_JSON_donors.return_value = fake_donor
+fake_extralife_io.get_JSON_no_json.return_value = {}
+fake_extralife_io.get_JSON_donations_no_json.return_value = {}
+fake_extralife_io.get_JSON_top_donor_no_json.return_value = {}
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
+def test_get_donations():
+    """Ensure that JSON is properly parsed to create the donation objects."""
+    donation_list = []
+    donations = extralife_io.get_donations(donation_list, "http://fakeurl.com")
+    assert donations[0].name == "Sean Gibson"
+    assert donations[0].donor_id == "54483486D840B7EA"
+    assert donations[0].avatar_url == "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif"
+    assert donations[0].donation_date == "2020-02-11T17:22:23.963+0000"
+    assert donations[1].name == "Eric Mesa"
+
+
+#@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donors)
+#def test_get_donors():
+#    donor_list = []
+#    donors = extralife_io.get_donations(donor_list, "http://fakeurl.com", False)
+#    assert donors[0].donor_id == 1000111
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)
+def test_get_donations_no_json():
+    """Test to make sure nothing goes wrong if the JSON endpoint can't be reached."""
+    donation_list = []
+    donations = extralife_io.get_donations(donation_list, "http://fakeurl.com")
+    assert donations == []
+
+
+@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations)
+def test_get_donations_already_a_donation_present():
+    donation_list = [donation1]
+    donation_list = extralife_io.get_donations(donation_list, "http://fakeurl.com")
+    assert donation_list[0].name == "Sean Gibson"
+    assert donation_list[1].name == "Eric Mesa"
+    assert donation_list[2].name == "Donor 1"
 
 
 # ParticipantConf class - will need to figure out how to over-ride conf file
@@ -112,15 +174,15 @@ def test_reload_json():
                            "load_json",
                            return_value={'Version': '2.0', 'extralife_id': '12345', 'text_folder': 'textfolder'}):
         participant_conf = extralife_io.ParticipantConf()
-        assert participant_conf.fields['extralife_id'] is "12345"
-        assert participant_conf.fields['text_folder'] is "textfolder"
+        assert participant_conf.fields['extralife_id'] == "12345"
+        assert participant_conf.fields['text_folder'] == "textfolder"
         # now let's change them.
         participant_conf.fields['extralife_id'] = "78900"
         participant_conf.fields['text_folder'] = "nottextfolder"
         # now reload and it should be back to where it was.
         participant_conf.reload_json()
-        assert participant_conf.fields['extralife_id'] is "12345"
-        assert participant_conf.fields['text_folder'] is "textfolder"
+        assert participant_conf.fields['extralife_id'] == "12345"
+        assert participant_conf.fields['text_folder'] == "textfolder"
 
 
 def test_participantconf_get_cli_values():
@@ -205,20 +267,18 @@ def test_get_tracker_sound():
 
 def test_single_format_message_true():
     """ Make sure the formatting works correctly."""
-    donor1 = donation.Donation("donor1", "message", 45, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                               "861A3C59D235B4DA")
+    donor1 = donation.Donation(donation1_json)
     currency_symbol = "$"
     formatted_message = extralife_io.single_format(donor1, True, currency_symbol)
-    assert formatted_message == "donor1 - $45.00 - message"
+    assert formatted_message == "donor1 - $10.00 - message1"
 
 
 def test_donor_formatting_message_false():
     """ Make sure the formatting works correctly without a message."""
-    donor1 = donation.Donation("donor1", "message", 45, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                               "861A3C59D235B4DA")
+    donor1 = donation.Donation(donation1_json)
     currency_symbol = "$"
     formatted_message = extralife_io.single_format(donor1, False, currency_symbol)
-    assert formatted_message == "donor1 - $45.00"
+    assert formatted_message == "donor1 - $10.00"
 
 
 def test_participant_conf_str():
@@ -227,20 +287,40 @@ def test_participant_conf_str():
     assert str(participant_conf) == """A configuration version 2.0 with the following data: {'extralife_id': '12345', 'text_folder': 'textfolder', 'currency_symbol': '$', 'team_id': '45678', 'tracker_image': 'imagefolder', 'donation_sound': 'mp3', 'donors_to_display': '5', 'font_family': 'Liberation Sans', 'font_size': 52, 'font_italic': True, 'font_bold': 25, 'font_color': [255, 255, 255, 255], 'tracker_background_color': [38, 255, 0, 255]}"""
 
 
-donor1 = donation.Donation("donor1", "message1", 10, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor2 = donation.Donation("donor2", "message2", 20, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor3 = donation.Donation("donor3", "message3", 30, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor4 = donation.Donation("donor4", "message4", 40, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor5 = donation.Donation("donor5", "message5", 50, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
-donor6 = donation.Donation("donor6", "message6", 60, "4939d", "http://image.png", "2020-02-11T17:22:23.963+0000",
-                           "861A3C59D235B4DA")
+donation1_json = {"displayName": "donor1", "participantID": '4939d', "amount": 10, "message": "message1",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation2_json = {"displayName": "donor2", "participantID": '4939d', "amount": 20, "message": "message2",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation3_json = {"displayName": "donor3", "participantID": '4939d', "amount": 30, "message": "message3",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation4_json = {"displayName": "donor4", "participantID": '4939d', "amount": 40, "message": "message4",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation5_json = {"displayName": "donor5", "participantID": '4939d', "amount": 50, "message": "message5",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
+donation6_json = {"displayName": "donor6", "participantID": '4939d', "amount": 60, "message": "message6",
+                               "donorID": "FAKE3C59D235B4DA", "avatarImageURL": "//image.png",
+                               "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
+                               "donationID": "861A3C59D235B4DA"}
 
-def test_multiple_format_Horizontal():
+donor1 = donation.Donation(donation1_json)
+donor2 = donation.Donation(donation2_json)
+donor3 = donation.Donation(donation3_json)
+donor4 = donation.Donation(donation4_json)
+donor5 = donation.Donation(donation5_json)
+donor6 = donation.Donation(donation6_json)
+
+
+def test_multiple_format_horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
@@ -262,7 +342,7 @@ def test_multiple_format_Horizontal():
                         "donor1 - $10.00 | donor2 - $20.00 | donor3 - $30.00 | donor4 - $40.00 | donor5 - $50.00 | "]
 
 
-def test_multiple_format_Message_Horizontal():
+def test_multiple_format_message_horizontal():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file.
 
@@ -279,15 +359,15 @@ def test_multiple_format_Message_Horizontal():
                                          currency_symbol, 4)
     text5 = extralife_io.multiple_format(donor_list, True, True,
                                          currency_symbol, 5)
-    textlist = [text1, text2, text3, text4, text5]
-    assert textlist == ["donor1 - $10.00 - message1 | ",
+    text_list = [text1, text2, text3, text4, text5]
+    assert text_list == ["donor1 - $10.00 - message1 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | donor3 - $30.00 - message3 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | donor3 - $30.00 - message3 | donor4 - $40.00 - message4 | ",
                         "donor1 - $10.00 - message1 | donor2 - $20.00 - message2 | donor3 - $30.00 - message3 | donor4 - $40.00 - message4 | donor5 - $50.00 - message5 | "]
 
 
-def test_multiple_format_Vertical():
+def test_multiple_format_vertical():
     """Test formatting with multiple donations with increasing amounts\
     of donors to ensure the right string would be written to the file."""
     donor_list = [donor1, donor2, donor3, donor4, donor5, donor6]
@@ -334,45 +414,38 @@ def test_multiple_format_message_vertical():
                         "donor1 - $10.00 - message1\ndonor2 - $20.00 - message2\ndonor3 - $30.00 - message3\ndonor4 - $40.00 - message4\ndonor5 - $50.00 - message5\n"]
 
 
-def test_write_text_files():
+def test_write_text_files(tmpdir):
     """ Test that data gets written to the text files correctly. """
-    fileinput = ""
-    dictionary = {"testfilename": "test output"}
-    text_folder = "testOutput"
-    extralife_io.write_text_files(dictionary, text_folder)
-    with open(f"testOutput/testfilename.txt") as file:
-        fileinput = file.read()
-    assert fileinput == "test output"
+    dictionary = {"test_filename": "test output"}
+    extralife_io.write_text_files(dictionary, tmpdir)
+    with open(f"{tmpdir}/test_filename.txt") as file:
+        file_input = file.read()
+    assert file_input == "test output"
 
 
-def test_write_text_files_unicode():
+def test_write_text_files_unicode(tmpdir):
     """ Test that unicode gets written to the text files correctly. """
-    fileinput = ""
-    dictionary = {"testfilename": "áéíóúñ"}
-    text_folder = "testOutput"
-    extralife_io.write_text_files(dictionary, text_folder)
-    with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
-        fileinput = file.read()
-    assert fileinput == "áéíóúñ"
+    dictionary = {"test_filename": "áéíóúñ"}
+    extralife_io.write_text_files(dictionary, tmpdir)
+    with open(f"{tmpdir}/test_filename.txt", 'r', encoding='utf8') as file:
+        file_input = file.read()
+    assert file_input == "áéíóúñ"
 
 
-def test_write_text_files_emoji():
+def test_write_text_files_emoji(tmpdir):
     """ Test that emojis get written to the text files correctly. """
-    fileinput = ""
-    dictionary = {"testfilename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
-    text_folder = "testOutput"
-    extralife_io.write_text_files(dictionary, text_folder)
-    with open(f"testOutput/testfilename.txt", 'r', encoding='utf8') as file:
-        fileinput = file.read()
-    assert fileinput == "😁😂🧐🙏🚣🌸🦞🏰💌"
+    dictionary = {"test_filename": "😁😂🧐🙏🚣🌸🦞🏰💌"}
+    extralife_io.write_text_files(dictionary, tmpdir)
+    with open(f"{tmpdir}/test_filename.txt", 'r', encoding='utf8') as file:
+        file_input = file.read()
+    assert file_input == "😁😂🧐🙏🚣🌸🦞🏰💌"
 
 
-def test_write_html_files():
+def test_write_html_files(tmpdir):
     """Test that the HTML files are writen correctly."""
     data = "data for HTML file"
     filename = "test_HTML"
-    text_folder = "testOutput"
-    extralife_io.write_html_files(data, filename, text_folder)
-    with open(f"testOutput/{filename}.html", 'r', encoding='utf8') as file:
+    extralife_io.write_html_files(data, filename, tmpdir)
+    with open(f"{tmpdir}/{filename}.html", 'r', encoding='utf8') as file:
         html_input = file.read()
     assert html_input == f"<HTML><body>{data}</body></HTML>"

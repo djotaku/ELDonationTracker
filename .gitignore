@@ -20,3 +20,6 @@ dist
 htmlcov
 .mypy_cache
 tests/testOutput/
+testOutput/
+/good_gui.spec
+/gui.spec

@@ -1,7 +1,4 @@
-import json
-
 from unittest import mock
-from urllib.error import HTTPError
 
 from eldonationtracker.utils import update_available
 

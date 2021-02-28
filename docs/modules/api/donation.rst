@@ -1,8 +1,8 @@
 ==============
-extralife_io
+donation
 ==============
 
-.. automodule:: eldonationtracker.extralife_io
-      :members: 
+.. automodule:: eldonationtracker.api.donation
+      :members:
       :undoc-members:
       :show-inheritance:
