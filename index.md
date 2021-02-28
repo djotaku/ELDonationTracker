@@ -25,11 +25,10 @@ Would you like to be able to update your donations in real-time during a Live St
 ## GUI on Linux or Windows with Commandline startup
 
 ### PyPi and OBS
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/6gcecdX9KuM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7uy44Vnos30" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### git clone and OBS
-<iframe width="560" height="315" src="https://www.youtube.com/embed/A1IQd1GmpK8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/M3ofE2V_D8g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Documentation
 
