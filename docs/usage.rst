@@ -214,11 +214,11 @@ other fields - like your participant ID - as necessary)
 
 Let's say that you have a folder called extralifedonationtracker where you have  and a folder called testoutput where you want the OBS/XSplit output to go. Then you would run:
 
-docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:5.3
+docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:6.0
 
 if using docker or
 
-podman run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker:Z -v ./testoutput:/root/output:Z djotaku/eldonationtracker:5.3
+podman run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker:Z -v ./testoutput:/root/output:Z djotaku/eldonationtracker:6.0
 
 if using Podman
 
