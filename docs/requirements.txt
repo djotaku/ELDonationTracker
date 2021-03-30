@@ -18,7 +18,7 @@ packaging==19.2
 pluggy==0.13.0
 pprintpp==0.4.0
 py~=1.10.0
-Pygments==2.6.1
+Pygments==2.7.4
 PyInstaller~=4.2
 pyparsing==2.4.4
 PyQt5==5.15.2
