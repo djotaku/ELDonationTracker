@@ -23,7 +23,7 @@ packaging==19.2
 pluggy==0.13.0
 pprintpp==0.4.0
 py==1.10.0
-Pygments==2.6.1
+Pygments==2.7.4
 pyinstaller==4.2
 pyinstaller-hooks-contrib==2020.11
 pyparsing==2.4.4
