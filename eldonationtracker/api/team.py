@@ -216,7 +216,7 @@ class Team:
             self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
                 self._donation_list, self.currency_symbol, self.donors_to_display, team=True)
             self.write_text_files(self._donation_formatted_output)
-            team_avatar_for_html = "<img src=http:" + self.team_avatar_image + ">"
+            team_avatar_for_html = "<img src=" + self.team_avatar_image + ">"
             extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)
 
     def __str__(self):

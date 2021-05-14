@@ -331,7 +331,7 @@ class Participant:
         """
         self._fill_participant_dictionary()
         self.write_text_files(self._participant_formatted_output)
-        participant_avatar_for_html = "<img src=http:" + self.avatar_image_url + ">"
+        participant_avatar_for_html = "<img src=" + self.avatar_image_url + ">"
         extralife_io.write_html_files(participant_avatar_for_html, 'Participant_Avatar', self.text_folder)
 
     def update_donation_data(self) -> None:
