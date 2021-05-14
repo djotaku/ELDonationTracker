@@ -1,6 +1,5 @@
 #v6.0.2
 ## Release Notes
-The API changed and Donor Direct now provides the "http:" part of the Particpant and Team Avatars.
 ### User-Facing Changes
 None
 
