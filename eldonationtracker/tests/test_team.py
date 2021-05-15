@@ -258,12 +258,13 @@ def test_team_run():
 
 fake_get_team_json2 = mock.Mock()
 fake_get_team_json2.return_value = 400, "Captain", 401, 3, "//assets.donordrive.com/…avatar-team-default.gif"
-
+fake_output_badge_data = mock.Mock()
 
 @mock.patch.object(team.Team, "_get_team_json", fake_get_team_json2)
 @mock.patch.object(team.Team, "participant_run", fake_participant_run)
 @mock.patch.object(team.Team, "write_text_files", fake_write_text_files)
 @mock.patch.object(team.Team, "donation_run", fake_donation_run)
+@mock.patch.object(team.extralife_io, "output_badge_data", fake_output_badge_data)
 def test_team_api_info():
     my_team = team.Team("12345", "folder", "$", "5")
     my_team.team_api_info()

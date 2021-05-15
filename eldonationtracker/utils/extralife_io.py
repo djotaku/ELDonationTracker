@@ -411,6 +411,24 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     return donation_formatted_output
 
 
+def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:    # pragma: no cover
+    """Write out text files for badge data."""
+    prefix = ''
+    if team:
+        prefix = "team_"
+    if badge_list:
+        badge_text_output = {}
+        badge_url_output = {}
+        for a_badge in badge_list:
+            badge_text_output[f"{prefix}{a_badge.badge_code}"] = f"{a_badge.title}: {a_badge.description}"
+            badge_url_output[f"{prefix}{a_badge.badge_code}"] = f"<img src='{a_badge.badge_image_url}'"
+        badge_text_folder = f"{text_folder}badges/text/"
+        write_text_files(badge_text_output, badge_text_folder)
+        badge_image_folder = f"{text_folder}badges/images/"
+        for badge_image_filename, badge_image_url in badge_url_output.items():
+            write_html_files(badge_image_url, badge_image_filename, badge_image_folder)
+
+
 # Output
 def write_text_files(dictionary: dict, text_folder: str):
     """Write info to text files.

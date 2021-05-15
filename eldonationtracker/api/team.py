@@ -54,7 +54,7 @@ class Team:
                                                  'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
                                                  'Team_lastNDonationNameAmtsHorizontal': "No Donations Yet"}
         # other API endpoints
-        self._badge_url: str
+        self._badge_url: str = f"{self.team_url}/badges"
         self._badges: list[Badge] = []
 
     @property
@@ -193,6 +193,10 @@ class Team:
         self._participant_calculation_dict['Team_Top5Participants'] = \
             extralife_io.multiple_format(self._top_5_participant_list, False, False, self.currency_symbol, 5)
 
+    def _update_badges(self) -> None:
+        """Add all our badges to the list."""
+        self._badges = extralife_io.get_badges(self.badge_url)
+
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write info to text files.
 
@@ -213,7 +217,9 @@ class Team:
         self._team_goal, self._team_captain, self._total_raised, self._num_donations,\
             self._team_avatar_image = self._get_team_json()
         self._update_team_dictionary()
+        self._update_badges()
         self.write_text_files(self._team_info)
+        extralife_io.output_badge_data(self.badges, self.output_folder, team=True)
 
     def participant_run(self) -> None:  # pragma: no cover
         """Get and calculate team participant info."""

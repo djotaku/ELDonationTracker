@@ -70,7 +70,7 @@ mock_json_load = mock.Mock()
 def test_get_json_url_works_order_by_donations_false():
     extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False)
     mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker",
-                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+                                    headers={'User-Agent': 'Extra Life Donation Tracker 6.2'})
 
 
 @mock.patch.object(extralife_io, 'Request', mock_request)
@@ -79,7 +79,7 @@ def test_get_json_url_works_order_by_donations_false():
 def test_get_json_url_works_order_by_donations_true():
     extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", True)
     mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=sumDonations%20DESC",
-                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+                                    headers={'User-Agent': 'Extra Life Donation Tracker 6.2'})
 
 
 @mock.patch.object(extralife_io, 'Request', mock_request)
@@ -88,7 +88,7 @@ def test_get_json_url_works_order_by_donations_true():
 def test_get_json_url_works_order_by_amount_true():
     extralife_io.get_json("https://github.com/djotaku/ELDonationTracker", False, True)
     mock_request.assert_called_with(url="https://github.com/djotaku/ELDonationTracker?orderBy=amount%20DESC",
-                                    headers={'User-Agent': 'Extra Life Donation Tracker'})
+                                    headers={'User-Agent': 'Extra Life Donation Tracker 6.2'})
 
 
 badge_example_json = """[
