@@ -5,7 +5,7 @@ from rich import print  # type ignore
 import time
 
 import eldonationtracker.utils.extralife_io
-from eldonationtracker.api import donor as donor, team as team, donation as donation
+from eldonationtracker.api import donor as donor, team as team, donation as donation, badge
 from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 
@@ -55,8 +55,8 @@ class Participant:
                                               'goal': f"{self.currency_symbol}0.00"}
 
         # donation information
-        self._donation_list: list = []
-        self._ordered_donation_list: list = []
+        self._donation_list: list[donation] = []
+        self._ordered_donation_list: list[donation] = []
         self._top_donation = None
         self._top_donation_formatted_output: dict = {'TopDonationNameAmnt': "No Donations Yet"}
         self._donation_formatted_output: dict = {'LastDonationNameAmnt': "No Donations Yet",
@@ -67,13 +67,17 @@ class Participant:
         # donor information
         self._top_donor = None
         self._top_donor_formatted_output: dict = {'TopDonorNameAmnt': "No Donors Yet"}
-        self._donor_list: list = []
-        self._ordered_donor_list: list = []
+        self._donor_list: list[donor] = []
+        self._ordered_donor_list: list[donor] = []
         self._donor_formatted_output: dict = {'LastDonorNameAmnt': "No Donations Yet",
                                               'lastNDonorNameAmts': "No Donations Yet",
                                               'lastNDonorNameAmtsMessage': "No Donations Yet",
                                               'lastNDonorNameAmtsMessageHorizontal': "No Donations Yet",
                                               'lastNDonorNameAmtsHorizontal': "No Donations Yet"}
+
+        # other API endpoints
+        self._badge_url: str
+        self._badges: list[badge.Badge] = []
 
         # misc
         self._first_run: bool = True
@@ -214,6 +218,16 @@ class Participant:
         """Return the participant's display name."""
         return self._display_name
 
+    @property
+    def badge_url(self) -> str:
+        """Return the particpant's badge URL"""
+        return self._badge_url
+
+    @property
+    def badges(self) -> list[badge.Badge]:
+        """Return the list of particpant badges."""
+        return self._badges
+
     def set_config_values(self) -> None:
         """Set participant values, create URLs, and create Team."""
         (self._extralife_id, self._text_folder,
@@ -223,6 +237,7 @@ class Participant:
         self._participant_url = f"{base_api_url}/participants/{self.extralife_id}"
         self._donation_url = f"{self.participant_url}/donations"
         self._participant_donor_url = f"{self.participant_url}/donors"
+        self._badge_url = f"{self.participant_url}/badges"
 
         if self.team_id:
             self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
@@ -352,6 +367,10 @@ class Participant:
             self._ordered_donor_list = self._get_top_donors()
             self._top_donor = self._ordered_donor_list[0]
 
+    def _update_badges(self) -> None:
+        """Add all our badges to the list."""
+        self._badges = extralife_io.get_badges(self.badge_url)
+
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
@@ -411,6 +430,7 @@ class Participant:
             self.output_donation_data()
             self.update_donor_data()
             self.output_donor_data()
+            self._update_badges()
         # TEAM BLOCK ############################################
         if self.team_id:
             self.my_team.team_run()

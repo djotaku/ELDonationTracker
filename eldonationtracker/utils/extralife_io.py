@@ -14,6 +14,7 @@ import xdgenvpy  # type: ignore
 
 from eldonationtracker.api.donation import Donation
 from eldonationtracker.api.donor import Donor
+from eldonationtracker.api.badge import Badge
 
 
 def validate_url(url: str):
@@ -96,6 +97,16 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
                 if a_donation not in donations_or_donors:
                     donations_or_donors.insert(0, a_donation)
             return donations_or_donors
+
+
+def get_badges(api_url: str) -> list[Badge]:
+    """Get badges from the API endpoint and create a list to return.
+
+    :param api_url: The URL for the API endpoint.
+    :returns: A list of badges.
+    """
+    json_response = get_json(api_url)
+    return [Badge.create_badge(badge_item) for badge_item in json_response]
 
 
 # File Input and Output
