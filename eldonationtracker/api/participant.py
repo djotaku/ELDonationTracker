@@ -225,7 +225,7 @@ class Participant:
 
     @property
     def badges(self) -> list[badge.Badge]:
-        """Return the list of particpant badges."""
+        """Return the list of participant badges."""
         return self._badges
 
     def set_config_values(self) -> None:
@@ -405,12 +405,12 @@ class Participant:
         """Write out text files for badge data."""
         badge_text_output = {}
         badge_url_output = {}
-        badge_text_folder = f"{self.text_folder}/badges/text"
-        badge_image_folder = f"{self.text_folder}/badges/images"
+        badge_text_folder = f"{self.text_folder}badges/text/"
+        badge_image_folder = f"{self.text_folder}badges/images/"
         if len(self._badges) > 0:
             for a_badge in self.badges:
                 badge_text_output[a_badge.badge_code] = f"{a_badge.title}: {a_badge.description}"
-                badge_url_output[a_badge.badge_code] = a_badge.badge_image_url
+                badge_url_output[a_badge.badge_code] = f"<img src='{a_badge.badge_image_url}'"
         extralife_io.write_text_files(badge_text_output, badge_text_folder)
         for badge_image_filename, badge_image_url in badge_url_output.items():
             extralife_io.write_html_files(badge_image_url, badge_image_filename, badge_image_folder)

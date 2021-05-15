@@ -5,6 +5,7 @@ from typing import Tuple, List
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
+from eldonationtracker.api.badge import Badge
 from eldonationtracker.api.team_participant import TeamParticipant
 from eldonationtracker.api import donation as donation
 
@@ -52,6 +53,9 @@ class Team:
                                                  'Team_lastNDonationNameAmtsMessage': "No Donations Yet",
                                                  'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
                                                  'Team_lastNDonationNameAmtsHorizontal': "No Donations Yet"}
+        # other API endpoints
+        self._badge_url: str
+        self._badges: list[Badge] = []
 
     @property
     def team_id(self) -> str:
@@ -120,6 +124,16 @@ class Team:
             return self._team_avatar_image
         else:
             return ""
+
+    @property
+    def badge_url(self) -> str:
+        """Return the team's badge URL"""
+        return self._badge_url
+
+    @property
+    def badges(self) -> list[Badge]:
+        """Return the list of Team's badges."""
+        return self._badges
 
     def _get_team_json(self) -> Tuple:
         """Get team info from JSON api.

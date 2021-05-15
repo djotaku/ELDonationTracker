@@ -421,6 +421,10 @@ def write_text_files(dictionary: dict, text_folder: str):
     :param dictionary: The dictionary with items to output.
     :param text_folder: The directory to write the text files.
     """
+    try:
+        os.makedirs(text_folder)
+    except FileExistsError:
+        pass
     for filename, text in dictionary.items():
         with open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8') as file:
             file.write(text)
@@ -433,6 +437,10 @@ def write_html_files(data: str, filename: str, text_folder: str):
     :param filename: The filename for the HTML file.
     :param text_folder: The directory to write the HTML files to.
     """
+    try:
+        os.mkdir(text_folder)
+    except FileExistsError:
+        pass
     html_to_write = "<HTML><body>" + data + "</body></HTML>"
     with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
         html_file.write(html_to_write)
