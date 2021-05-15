@@ -43,7 +43,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     """
     payload = ""
     context = ssl._create_unverified_context()
-    header = {'User-Agent': 'Extra Life Donation Tracker 6.2'}
+    header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations and not order_by_amount:
         url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
