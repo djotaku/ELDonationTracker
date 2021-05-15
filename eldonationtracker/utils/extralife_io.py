@@ -42,9 +42,8 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     :raises: HTTPError, URLError
     """
     payload = ""
-    # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
-    header = {'User-Agent': 'Extra Life Donation Tracker'}
+    header = {'User-Agent': 'Extra Life Donation Tracker 6.2'}
     if order_by_donations and not order_by_amount:
         url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
@@ -52,11 +51,11 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
-        #  print(f"trying URL: {url}")
         return json.load(payload)  # type: ignore
-    except HTTPError:  # pragma: no cover
+    except HTTPError as this_error:  # pragma: no cover
         print(f"""[bold red]Could not get to {url}.
-                Check ExtraLifeID.Or server may be unavailable.
+                Exact error was: {this_error}.
+                Check ExtraLifeID. Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")

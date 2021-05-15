@@ -401,6 +401,20 @@ class Participant:
             print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
             self.write_text_files(self._top_donor_formatted_output)
 
+    def output_badge_data(self) -> None:  # pragma: no cover
+        """Write out text files for badge data."""
+        badge_text_output = {}
+        badge_url_output = {}
+        badge_text_folder = f"{self.text_folder}/badges/text"
+        badge_image_folder = f"{self.text_folder}/badges/images"
+        if len(self._badges) > 0:
+            for a_badge in self.badges:
+                badge_text_output[a_badge.badge_code] = f"{a_badge.title}: {a_badge.description}"
+                badge_url_output[a_badge.badge_code] = a_badge.badge_image_url
+        extralife_io.write_text_files(badge_text_output, badge_text_folder)
+        for badge_image_filename, badge_image_url in badge_url_output.items():
+            extralife_io.write_html_files(badge_image_url, badge_image_filename, badge_image_folder)
+
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write OBS/XSplit display info to text files.
 
@@ -431,6 +445,7 @@ class Participant:
             self.update_donor_data()
             self.output_donor_data()
             self._update_badges()
+            self.output_badge_data()
         # TEAM BLOCK ############################################
         if self.team_id:
             self.my_team.team_run()
