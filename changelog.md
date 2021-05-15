@@ -1,3 +1,12 @@
+#v6.1.2
+## Release Notes
+### User-Facing Changes
+- Badge Output files:
+
+### Developer-Facing or API Changes
+- Badge API endpoint for both teams and participants now available
+
+
 #v6.0.2
 ## Release Notes
 ### User-Facing Changes
