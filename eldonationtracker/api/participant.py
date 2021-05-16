@@ -421,7 +421,7 @@ class Participant:
             print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
             self.write_text_files(self._top_donor_formatted_output)
 
-    def output_milestone_data(self, text_folder: str) -> None:  # pragma: no cover
+    def output_milestone_data(self) -> None:  # pragma: no cover
         """Write out text files for Milestone data."""
         if self.milestones:
             milestone_output = {
@@ -463,7 +463,7 @@ class Participant:
             self._update_badges()
             extralife_io.output_badge_data(self.badges, self.text_folder)
             self._update_milestones()
-            self.output_milestone_data(self.milestones)
+            self.output_milestone_data()
         # TEAM BLOCK ############################################
         if self.team_id:
             self.my_team.team_run()
