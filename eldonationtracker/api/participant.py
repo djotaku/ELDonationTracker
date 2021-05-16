@@ -454,10 +454,10 @@ class Participant:
             for incentive in self.incentives:
                 incentive_dictionary = {}
                 incentive_folder = f"{self.text_folder}incentives/{incentive.incentive_id}"
-                incentive_dictionary["amount"] = incentive.amount
+                incentive_dictionary["amount"] = str(incentive.amount)
                 incentive_dictionary["description"] = incentive.description
-                incentive_dictionary["quantity"] = incentive.quantity
-                incentive_dictionary["quantity_claimed"] = incentive.quantity_claimed
+                incentive_dictionary["quantity"] = str(incentive.quantity)
+                incentive_dictionary["quantity_claimed"] = str(incentive.quantity_claimed)
                 extralife_io.write_text_files(incentive_dictionary, incentive_folder)
                 if incentive.incentive_image_url:
                     html = f"<img src='{incentive.incentive_image_url}'>"
@@ -541,9 +541,9 @@ class Milestone:  # type: ignore
         is_complete = (
             json_data.get('isComplete') if 'isComplete' in json_data else False
         )
-        links = (json_data.get('links') if 'links' in json_data else {})
-        end_date_utc = (json_data.get('endDateUTC') if 'endDateUTC' in json_data else '')
-        start_date_utc = (json_data.get('startDateUTC') if 'startDateUTC' in json_data else '')
+        links = json_data.get('links') if 'links' in json_data else {}
+        end_date_utc = json_data.get('endDateUTC') if 'endDateUTC' in json_data else ''
+        start_date_utc = json_data.get('startDateUTC') if 'startDateUTC' in json_data else ''
         return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links, end_date_utc,
                          start_date_utc)
 
@@ -561,7 +561,7 @@ class Incentive:  # type: ignore
     incentive_id: str
     is_active: str
     end_date_utc: str = ''
-    incentive_image_url = ''
+    incentive_image_url: str = ''
     links: dict = field(default_factory=dict)
     start_date_utc: str = ''
     quantity: int = 0
@@ -576,12 +576,12 @@ class Incentive:  # type: ignore
         incentive_id = json_data.get('incentiveID')
         is_active = json_data.get("isActive")
         # optional data
-        end_data_utc = (json_data.get("endDateUTC") if "endDateUTC" in json_data else '')
-        incentive_image_url = (json_data.get("incentiveImageURL") if "incentiveImageURL" in json_data else '')
-        links = (json_data.get("links") if "links" in json_data else {})
-        start_date_utc = (json_data.get("startDateUTC") if "startDateUTC" in json_data else '')
-        quantity = (json_data.get("quantity") if "quantity" in json_data else 0)
-        quantity_claimed = (json_data.get("quantityClaimed") if "quantityClaimed" in json_data else 0)
+        end_data_utc = json_data.get("endDateUTC") if "endDateUTC" in json_data else ''
+        incentive_image_url = json_data.get("incentiveImageURL") if "incentiveImageURL" in json_data else ''
+        links = json_data.get("links") if "links" in json_data else {}
+        start_date_utc = json_data.get("startDateUTC") if "startDateUTC" in json_data else ''
+        quantity = json_data.get("quantity") if "quantity" in json_data else 0
+        quantity_claimed = json_data.get("quantityClaimed") if "quantityClaimed" in json_data else 0
         return Incentive(amount, description, incentive_id, is_active, end_data_utc, incentive_image_url, links,
                          start_date_utc, quantity, quantity_claimed)
 
