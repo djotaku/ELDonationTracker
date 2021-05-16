@@ -544,8 +544,8 @@ class Milestone:  # type: ignore
         links = json_data.get('links') if 'links' in json_data else {}
         end_date_utc = json_data.get('endDateUTC') if 'endDateUTC' in json_data else ''
         start_date_utc = json_data.get('startDateUTC') if 'startDateUTC' in json_data else ''
-        return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links, end_date_utc,
-                         start_date_utc)  # type: ignore
+        return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links,  # type: ignore
+                         end_date_utc, start_date_utc)  # type: ignore
 
 
 @dataclass
@@ -582,8 +582,8 @@ class Incentive:  # type: ignore
         start_date_utc = json_data.get("startDateUTC") if "startDateUTC" in json_data else ''
         quantity = json_data.get("quantity") if "quantity" in json_data else 0
         quantity_claimed = json_data.get("quantityClaimed") if "quantityClaimed" in json_data else 0
-        return Incentive(amount, description, incentive_id, is_active, end_data_utc, incentive_image_url, links,
-                         start_date_utc, quantity, quantity_claimed)  # type: ignore
+        return Incentive(amount, description, incentive_id, is_active, end_data_utc,  # type: ignore
+                         incentive_image_url, links, start_date_utc, quantity, quantity_claimed)  # type: ignore
 
 
 if __name__ == "__main__":  # pragma: no cover
