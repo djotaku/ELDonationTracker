@@ -545,7 +545,7 @@ class Milestone:  # type: ignore
         end_date_utc = json_data.get('endDateUTC') if 'endDateUTC' in json_data else ''
         start_date_utc = json_data.get('startDateUTC') if 'startDateUTC' in json_data else ''
         return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links, end_date_utc,
-                         start_date_utc)
+                         start_date_utc)  # type: ignore
 
 
 @dataclass
@@ -568,7 +568,7 @@ class Incentive:  # type: ignore
     quantity_claimed: int = 0
 
     @staticmethod
-    def create_incentive(json_data: dict):  # type: ignore
+    def create_incentive(json_data: dict):
         """Uses the provided JSON data to create an Incentive object."""
         # guaranteed data from the API endpoint
         amount = json_data.get("amount")
@@ -583,7 +583,7 @@ class Incentive:  # type: ignore
         quantity = json_data.get("quantity") if "quantity" in json_data else 0
         quantity_claimed = json_data.get("quantityClaimed") if "quantityClaimed" in json_data else 0
         return Incentive(amount, description, incentive_id, is_active, end_data_utc, incentive_image_url, links,
-                         start_date_utc, quantity, quantity_claimed)
+                         start_date_utc, quantity, quantity_claimed)  # type: ignore
 
 
 if __name__ == "__main__":  # pragma: no cover
