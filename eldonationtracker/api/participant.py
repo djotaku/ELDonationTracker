@@ -80,6 +80,8 @@ class Participant:
         self._badges: list[badge.Badge] = []
         self._milestone_url: str = ''
         self._milestones: list[Milestone] = []
+        self._incentive_url: str = ''
+        self._incentives: list[Incentive] = []
 
         # misc
         self._first_run: bool = True
@@ -242,6 +244,16 @@ class Participant:
         """Return a list of Milestones"""
         return self._milestones
 
+    @property
+    def incentive_url(self) -> str:
+        """Return the Incentive URL"""
+        return self._incentive_url
+
+    @property
+    def incentives(self):
+        """Return a list of Incentives"""
+        return self._incentives
+
     def set_config_values(self) -> None:
         """Set participant values, create URLs, and create Team."""
         (self._extralife_id, self._text_folder,
@@ -253,6 +265,7 @@ class Participant:
         self._participant_donor_url = f"{self.participant_url}/donors"
         self._badge_url = f"{self.participant_url}/badges"
         self._milestone_url = f"{self.participant_url}/milestones"
+        self._incentive_url = f"{self.participant_url}/incentives"
 
         if self.team_id:
             self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
@@ -391,6 +404,11 @@ class Participant:
         json_response = extralife_io.get_json(self.milestone_url)
         self._milestones = [Milestone.create_milestone(milestone_item) for milestone_item in json_response]
 
+    def _update_incentives(self) -> None:
+        """Add all incentives to list"""
+        json_response = extralife_io.get_json(self.incentive_url)
+        self._incentives = [Incentive.create_incentive(incentive) for incentive in json_response]
+
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
@@ -431,6 +449,20 @@ class Participant:
             }
             self.write_text_files(milestone_output)
 
+    def output_incentive_data(self) -> None:  # pragma: no cover
+        if self.incentives:
+            for incentive in self.incentives:
+                incentive_dictionary = {}
+                incentive_folder = f"{self.text_folder}incentives/{incentive.incentive_id}"
+                incentive_dictionary["amount"] = incentive.amount
+                incentive_dictionary["description"] = incentive.description
+                incentive_dictionary["quantity"] = incentive.quantity
+                incentive_dictionary["quantity_claimed"] = incentive.quantity_claimed
+                extralife_io.write_text_files(incentive_dictionary, incentive_folder)
+                if incentive.incentive_image_url:
+                    html = f"<img src='{incentive.incentive_image_url}'>"
+                    extralife_io.write_html_files(html, "incentive_image", incentive_folder)
+
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write OBS/XSplit display info to text files.
 
@@ -447,6 +479,8 @@ class Participant:
         """Run to get participant, donation, donor, and team data and output to text files."""
         number_of_donations = self.number_of_donations
         self.update_participant_attributes()
+        self._update_incentives()
+        self.output_incentive_data()
         # Below is protection against a situation where the API is unavailable.
         # Prevents bad data being written to the participant output. Based on the assumption that it would
         # absurd to have a goal of $0.
@@ -479,7 +513,7 @@ class Participant:
 
 
 @dataclass
-class Milestone:
+class Milestone:  # type: ignore
     """Fundraiser milestones associated with a Participant.
 
     May not be available for all instances of Donor Drive.
@@ -512,6 +546,44 @@ class Milestone:
         start_date_utc = (json_data.get('startDateUTC') if 'startDateUTC' in json_data else '')
         return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links, end_date_utc,
                          start_date_utc)
+
+
+@dataclass
+class Incentive:  # type: ignore
+    """Fundraiser incentives associated with a Participant.
+
+    May not be available for all instances of Donor Drive.
+
+    More information at:https://github.com/DonorDrive/PublicAPI/blob/master/resources/incentives.md
+    """
+    amount: float
+    description: str
+    incentive_id: str
+    is_active: str
+    end_date_utc: str = ''
+    incentive_image_url = ''
+    links: dict = field(default_factory=dict)
+    start_date_utc: str = ''
+    quantity: int = 0
+    quantity_claimed: int = 0
+
+    @staticmethod
+    def create_incentive(json_data: dict):
+        """Uses the provided JSON data to create an Incentive object."""
+        # guaranteed data from the API endpoint
+        amount = json_data.get("amount")
+        description = json_data.get("description")
+        incentive_id = json_data.get('incentiveID')
+        is_active = json_data.get("isActive")
+        # optional data
+        end_data_utc = (json_data.get("endDateUTC") if "endDateUTC" in json_data else '')
+        incentive_image_url = (json_data.get("incentiveImageURL") if "incentiveImageURL" in json_data else '')
+        links = (json_data.get("links") if "links" in json_data else {})
+        start_date_utc = (json_data.get("startDateUTC") if "startDateUTC" in json_data else '')
+        quantity = (json_data.get("quantity") if "quantity" in json_data else 0)
+        quantity_claimed = (json_data.get("quantityClaimed") if "quantityClaimed" in json_data else 0)
+        return Incentive(amount, description, incentive_id, is_active, end_data_utc, incentive_image_url, links,
+                         start_date_utc, quantity, quantity_claimed)
 
 
 if __name__ == "__main__":  # pragma: no cover

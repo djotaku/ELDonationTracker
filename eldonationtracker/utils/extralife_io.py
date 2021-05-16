@@ -421,7 +421,7 @@ def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> 
         badge_url_output = {}
         for a_badge in badge_list:
             badge_text_output[f"{prefix}{a_badge.badge_code}"] = f"{a_badge.title}: {a_badge.description}"
-            badge_url_output[f"{prefix}{a_badge.badge_code}"] = f"<img src='{a_badge.badge_image_url}'"
+            badge_url_output[f"{prefix}{a_badge.badge_code}"] = f"<img src='{a_badge.badge_image_url}'>"
         badge_text_folder = f"{text_folder}badges/text/"
         write_text_files(badge_text_output, badge_text_folder)
         badge_image_folder = f"{text_folder}badges/images/"
