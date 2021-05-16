@@ -14,7 +14,7 @@ import xdgenvpy  # type: ignore
 
 from eldonationtracker.api.donation import Donation
 from eldonationtracker.api.donor import Donor
-from eldonationtracker.api.badge import Badge
+from eldonationtracker.api.badge import Badge  # type: ignore
 
 
 def validate_url(url: str):

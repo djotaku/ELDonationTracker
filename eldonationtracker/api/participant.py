@@ -230,7 +230,7 @@ class Participant:
         return self._badge_url
 
     @property
-    def badges(self) -> list[badge.Badge]:
+    def badges(self) -> list[badge.Badge]:  # type: ignore
         """Return the list of participant badges."""
         return self._badges
 
@@ -530,7 +530,7 @@ class Milestone:  # type: ignore
     start_date_utc: str = ""
 
     @staticmethod
-    def create_milestone(json_data: dict):
+    def create_milestone(json_data: dict):  # type: ignore
         """Uses the provided JSON data to create a Milestone object."""
         # let's start with the data guaranteed to be returned
         description = json_data.get("description")

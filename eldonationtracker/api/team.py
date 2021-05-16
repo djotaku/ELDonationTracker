@@ -5,7 +5,7 @@ from typing import Tuple, List
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
-from eldonationtracker.api.badge import Badge
+from eldonationtracker.api.badge import Badge  # type: ignore
 from eldonationtracker.api.team_participant import TeamParticipant
 from eldonationtracker.api import donation as donation
 
