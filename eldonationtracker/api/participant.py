@@ -1,5 +1,6 @@
 """Grabs Participant JSON data and outputs to files."""
 
+from dataclasses import dataclass, field
 from rich import print  # type ignore
 
 import time
@@ -31,7 +32,6 @@ class Participant:
         self._donation_url: str = ""
         self._participant_donor_url: str = ""
         self._my_team: team.Team = None
-        self.set_config_values()
 
         # Participant Information
         self._total_raised: int = 0
@@ -76,12 +76,16 @@ class Participant:
                                               'lastNDonorNameAmtsHorizontal': "No Donations Yet"}
 
         # other API endpoints
-        self._badge_url: str
+        self._badge_url: str = ''
         self._badges: list[badge.Badge] = []
+        self._milestone_url: str = ''
+        self._milestones: list[Milestone] = []
 
         # misc
         self._first_run: bool = True
         self._new_donation: bool = False
+
+        self.set_config_values()
 
     @property
     def extralife_id(self) -> str:
@@ -220,13 +224,23 @@ class Participant:
 
     @property
     def badge_url(self) -> str:
-        """Return the particpant's badge URL"""
+        """Return the participant's badge URL"""
         return self._badge_url
 
     @property
     def badges(self) -> list[badge.Badge]:
         """Return the list of participant badges."""
         return self._badges
+
+    @property
+    def milestone_url(self) -> str:
+        """Return the Milestone URL"""
+        return self._milestone_url
+
+    @property
+    def milestones(self):
+        """Return a list of Milestones"""
+        return self._milestones
 
     def set_config_values(self) -> None:
         """Set participant values, create URLs, and create Team."""
@@ -238,6 +252,7 @@ class Participant:
         self._donation_url = f"{self.participant_url}/donations"
         self._participant_donor_url = f"{self.participant_url}/donors"
         self._badge_url = f"{self.participant_url}/badges"
+        self._milestone_url = f"{self.participant_url}/milestones"
 
         if self.team_id:
             self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display)
@@ -371,6 +386,11 @@ class Participant:
         """Add all our badges to the list."""
         self._badges = extralife_io.get_badges(self.badge_url)
 
+    def _update_milestones(self) -> None:
+        """Add all milestones to the list"""
+        json_response = extralife_io.get_json(self.milestone_url)
+        self._milestones = [Milestone.create_milestone(milestone_item) for milestone_item in json_response]
+
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
@@ -400,6 +420,16 @@ class Participant:
         else:
             print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
             self.write_text_files(self._top_donor_formatted_output)
+
+    def output_milestone_data(self, text_folder: str) -> None:  # pragma: no cover
+        """Write out text files for Milestone data."""
+        if self.milestones:
+            milestone_output = {
+                f"milestone_{milestone.fundraising_goal}": f"Achievement Unlocked: {milestone.description}"
+                for milestone in self.milestones
+                if milestone.is_complete
+            }
+            self.write_text_files(milestone_output)
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write OBS/XSplit display info to text files.
@@ -432,6 +462,8 @@ class Participant:
             self.output_donor_data()
             self._update_badges()
             extralife_io.output_badge_data(self.badges, self.text_folder)
+            self._update_milestones()
+            self.output_milestone_data(self.milestones)
         # TEAM BLOCK ############################################
         if self.team_id:
             self.my_team.team_run()
@@ -444,6 +476,42 @@ class Participant:
             return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
         else:
             return f"A participant with Extra Life ID {self.extralife_id}."
+
+
+@dataclass
+class Milestone:
+    """Fundraiser milestones associated with a Participant.
+
+    May not be available for all instances of Donor Drive.
+
+    More information at: https://github.com/DonorDrive/PublicAPI/blob/master/resources/milestones.md
+    """
+    description: str
+    fundraising_goal: float
+    is_active: bool
+    milestone_id: str
+    is_complete: bool = False
+    links: dict = field(default_factory=dict)
+    end_date_utc: str = ""
+    start_date_utc: str = ""
+
+    @staticmethod
+    def create_milestone(json_data: dict):
+        """Uses the provided JSON data to create a Milestone object."""
+        # let's start with the data guaranteed to be returned
+        description = json_data.get("description")
+        fundraising_goal = json_data.get('fundraisingGoal')
+        is_active = json_data.get('isActive')
+        milestone_id = json_data.get('milestoneID')
+        # now the ones that may not be there
+        is_complete = (
+            json_data.get('isComplete') if 'isComplete' in json_data else False
+        )
+        links = (json_data.get('links') if 'links' in json_data else {})
+        end_date_utc = (json_data.get('endDateUTC') if 'endDateUTC' in json_data else '')
+        start_date_utc = (json_data.get('startDateUTC') if 'startDateUTC' in json_data else '')
+        return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links, end_date_utc,
+                         start_date_utc)
 
 
 if __name__ == "__main__":  # pragma: no cover

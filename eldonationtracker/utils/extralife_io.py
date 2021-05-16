@@ -412,7 +412,7 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
 
 
 def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:    # pragma: no cover
-    """Write out text files for badge data."""
+    """Write out text and HTML files for badge data."""
     prefix = ''
     if team:
         prefix = "team_"

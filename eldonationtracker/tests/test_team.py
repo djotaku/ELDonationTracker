@@ -260,6 +260,7 @@ fake_get_team_json2 = mock.Mock()
 fake_get_team_json2.return_value = 400, "Captain", 401, 3, "//assets.donordrive.com/…avatar-team-default.gif"
 fake_output_badge_data = mock.Mock()
 
+
 @mock.patch.object(team.Team, "_get_team_json", fake_get_team_json2)
 @mock.patch.object(team.Team, "participant_run", fake_participant_run)
 @mock.patch.object(team.Team, "write_text_files", fake_write_text_files)

@@ -1,7 +1,7 @@
 import json
 from unittest import mock
 
-from eldonationtracker.api.participant import Participant
+from eldonationtracker.api.participant import Participant, Milestone
 import eldonationtracker.api.participant
 from eldonationtracker.api.badge import Badge
 
@@ -320,6 +320,9 @@ def test_update_badges():
     assert my_participant.badges[0].badge_code == "100-club-badge"
 
 
+magic_fake_milestones = mock.MagicMock()
+magic_fake_milestones.get_milestones.return_value = "something"
+
 # note: order matters - this one needs to go before the one where _format_donation...output is called or the not called
 # fails.
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
@@ -399,7 +402,9 @@ def test_output_donor_data_no_top_donor():
 
 
 fake_output_badge_data = mock.Mock()
+fake_output_milestone_data = mock.Mock()
 
+#continuing here - need mocks for _update_milestones and output_milestone_data
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'update_participant_attributes',
                    fake_participant_for_run.update_participant_attributes)
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'output_participant_data',
