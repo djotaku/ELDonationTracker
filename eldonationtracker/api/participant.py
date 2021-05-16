@@ -568,7 +568,7 @@ class Incentive:  # type: ignore
     quantity_claimed: int = 0
 
     @staticmethod
-    def create_incentive(json_data: dict):
+    def create_incentive(json_data: dict):  # type: ignore
         """Uses the provided JSON data to create an Incentive object."""
         # guaranteed data from the API endpoint
         amount = json_data.get("amount")
