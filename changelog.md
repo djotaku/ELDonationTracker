@@ -1,4 +1,4 @@
-#v6.1.2
+#v6.1.0
 ## Release Notes
 ### User-Facing Changes
 - Badge Output files: See the subfolder badges within your output folder. There is an images folder with HTML so you can display the images.
