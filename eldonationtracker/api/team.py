@@ -5,6 +5,7 @@ from typing import Tuple, List
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
+from eldonationtracker.api.badge import Badge  # type: ignore
 from eldonationtracker.api.team_participant import TeamParticipant
 from eldonationtracker.api import donation as donation
 
@@ -52,6 +53,9 @@ class Team:
                                                  'Team_lastNDonationNameAmtsMessage': "No Donations Yet",
                                                  'Team_lastNDonationNameAmtsMessageHorizontal': "No Donations Yet",
                                                  'Team_lastNDonationNameAmtsHorizontal': "No Donations Yet"}
+        # other API endpoints
+        self._badge_url: str = f"{self.team_url}/badges"
+        self._badges: list[Badge] = []
 
     @property
     def team_id(self) -> str:
@@ -121,6 +125,16 @@ class Team:
         else:
             return ""
 
+    @property
+    def badge_url(self) -> str:
+        """Return the team's badge URL"""
+        return self._badge_url
+
+    @property
+    def badges(self) -> list[Badge]:
+        """Return the list of Team's badges."""
+        return self._badges
+
     def _get_team_json(self) -> Tuple:
         """Get team info from JSON api.
 
@@ -179,6 +193,10 @@ class Team:
         self._participant_calculation_dict['Team_Top5Participants'] = \
             extralife_io.multiple_format(self._top_5_participant_list, False, False, self.currency_symbol, 5)
 
+    def _update_badges(self) -> None:
+        """Add all our badges to the list."""
+        self._badges = extralife_io.get_badges(self.badge_url)
+
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write info to text files.
 
@@ -199,7 +217,9 @@ class Team:
         self._team_goal, self._team_captain, self._total_raised, self._num_donations,\
             self._team_avatar_image = self._get_team_json()
         self._update_team_dictionary()
+        self._update_badges()
         self.write_text_files(self._team_info)
+        extralife_io.output_badge_data(self.badges, self.output_folder, team=True)
 
     def participant_run(self) -> None:  # pragma: no cover
         """Get and calculate team participant info."""

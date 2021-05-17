@@ -14,6 +14,7 @@ import xdgenvpy  # type: ignore
 
 from eldonationtracker.api.donation import Donation
 from eldonationtracker.api.donor import Donor
+from eldonationtracker.api.badge import Badge  # type: ignore
 
 
 def validate_url(url: str):
@@ -41,7 +42,6 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     :raises: HTTPError, URLError
     """
     payload = ""
-    # context = ssl._create_default_https_context()
     context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     if order_by_donations and not order_by_amount:
@@ -51,11 +51,11 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     try:
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
-        #  print(f"trying URL: {url}")
         return json.load(payload)  # type: ignore
-    except HTTPError:  # pragma: no cover
+    except HTTPError as this_error:  # pragma: no cover
         print(f"""[bold red]Could not get to {url}.
-                Check ExtraLifeID.Or server may be unavailable.
+                Exact error was: {this_error}.
+                Check ExtraLifeID. Or server may be unavailable.
                 If you can reach that URL from your browser
                 and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")
@@ -96,6 +96,16 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
                 if a_donation not in donations_or_donors:
                     donations_or_donors.insert(0, a_donation)
             return donations_or_donors
+
+
+def get_badges(api_url: str) -> list[Badge]:
+    """Get badges from the API endpoint and create a list to return.
+
+    :param api_url: The URL for the API endpoint.
+    :returns: A list of badges.
+    """
+    json_response = get_json(api_url)
+    return [Badge.create_badge(badge_item) for badge_item in json_response]
 
 
 # File Input and Output
@@ -401,6 +411,24 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     return donation_formatted_output
 
 
+def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:    # pragma: no cover
+    """Write out text and HTML files for badge data."""
+    prefix = ''
+    if team:
+        prefix = "team_"
+    if badge_list:
+        badge_text_output = {}
+        badge_url_output = {}
+        for a_badge in badge_list:
+            badge_text_output[f"{prefix}{a_badge.badge_code}"] = f"{a_badge.title}: {a_badge.description}"
+            badge_url_output[f"{prefix}{a_badge.badge_code}"] = f"<img src='{a_badge.badge_image_url}'>"
+        badge_text_folder = f"{text_folder}badges/text/"
+        write_text_files(badge_text_output, badge_text_folder)
+        badge_image_folder = f"{text_folder}badges/images/"
+        for badge_image_filename, badge_image_url in badge_url_output.items():
+            write_html_files(badge_image_url, badge_image_filename, badge_image_folder)
+
+
 # Output
 def write_text_files(dictionary: dict, text_folder: str):
     """Write info to text files.
@@ -411,6 +439,10 @@ def write_text_files(dictionary: dict, text_folder: str):
     :param dictionary: The dictionary with items to output.
     :param text_folder: The directory to write the text files.
     """
+    try:
+        os.makedirs(text_folder)
+    except FileExistsError:
+        pass
     for filename, text in dictionary.items():
         with open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8') as file:
             file.write(text)
@@ -423,6 +455,10 @@ def write_html_files(data: str, filename: str, text_folder: str):
     :param filename: The filename for the HTML file.
     :param text_folder: The directory to write the HTML files to.
     """
+    try:
+        os.mkdir(text_folder)
+    except FileExistsError:
+        pass
     html_to_write = "<HTML><body>" + data + "</body></HTML>"
     with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
         html_file.write(html_to_write)

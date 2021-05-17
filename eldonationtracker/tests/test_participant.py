@@ -1,7 +1,11 @@
+# type: ignore
+
+import json
 from unittest import mock
 
-from eldonationtracker.api.participant import Participant
+from eldonationtracker.api.participant import Participant, Milestone
 import eldonationtracker.api.participant
+from eldonationtracker.api.badge import Badge
 
 config = ("12345", "textfolder", "$", "45678", "5")
 fake_participant_conf = mock.Mock()
@@ -95,8 +99,12 @@ fake_participant_for_run.update_donation_data.return_value = None
 fake_participant_for_run.output_donation_data.return_value = None
 fake_participant_for_run.update_donor_data.return_value = None
 fake_participant_for_run.output_donor_data.return_value = None
+fake_participant_for_run._update_milestones.return_value = None
+fake_participant_for_run.output_milestone_data.return_value = None
 fake_participant_for_run.my_team.team_run.return_value = None
 fake_participant_for_run.my_team.participant_run.return_value = None
+fake_participant_for_run._update_incentives.return_value = None
+fake_participant_for_run.output_incentive_data.return_value = None
 
 
 def test_api_variables():
@@ -287,6 +295,40 @@ def test_update_donor_data():
     assert my_participant._top_donor.name == "donor1"
 
 
+example_json = """[
+    {
+        "description": "Raised 100 dollars!",
+        "title": "100 Club Badge",
+        "unlockedDateUTC": "2019-10-30T18:01:23.430+0000",
+        "badgeImageURL": "http://assets.donordrive.com/try/images/$event508$/badge_2F7819D3_C019_3C7D_B9D716687CEEC0A5.png",
+        "badgeCode": "100-club-badge"
+      },
+      {
+        "description": "Sent 25 donation invite emails!",
+        "title": "Enthusiastic Participant Badge",
+        "unlockedDateUTC": "2019-09-18T15:47:39.107+0000",
+        "badgeImageURL": "https://assets.donordrive.com/try/images/$event508$/badge_DCB0A883_BC0A_97DB_639B4D7BFDEC638E.png",
+        "badgeCode": "enthusiastic-participant-badge"
+      }
+    ]"""
+example_json_as_json = json.loads(example_json)
+test_badges = [Badge.create_badge(a_badge) for a_badge in example_json_as_json]
+magic_fake_badges = mock.MagicMock()
+magic_fake_badges.get_badges.return_value = test_badges
+
+
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_badges", magic_fake_badges.get_badges)
+def test_update_badges():
+    """Test to make sure that badges are updated."""
+    my_participant = Participant(fake_participant_conf)
+    assert my_participant.badges == []
+    my_participant._update_badges()
+    assert my_participant.badges[0].badge_code == "100-club-badge"
+
+
+magic_fake_milestones = mock.MagicMock()
+magic_fake_milestones.get_milestones.return_value = "something"
+
 # note: order matters - this one needs to go before the one where _format_donation...output is called or the not called
 # fails.
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
@@ -365,6 +407,10 @@ def test_output_donor_data_no_top_donor():
     assert fake_participant.write_text_files.called
 
 
+fake_output_badge_data = mock.Mock()
+fake_output_milestone_data = mock.Mock()
+
+
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'update_participant_attributes',
                    fake_participant_for_run.update_participant_attributes)
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'output_participant_data',
@@ -380,6 +426,16 @@ def test_output_donor_data_no_top_donor():
 @mock.patch.object(eldonationtracker.api.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
 @mock.patch.object(eldonationtracker.api.team.Team, 'participant_run',
                    fake_participant_for_run.my_team.participant_run)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_badges", magic_fake_badges.get_badges)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "output_badge_data", fake_output_badge_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_milestones',
+                   fake_participant_for_run._update_milestones)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_milestone_data',
+                   fake_participant_for_run.output_milestone_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_incentives',
+                   fake_participant_for_run.fake_participant_for_run._update_incentives)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_incentive_data',
+                   fake_participant_for_run.output_incentive_data)
 def test_run():
     my_participant = Participant(fake_participant_conf)
     assert my_participant.number_of_donations == 0
@@ -418,6 +474,16 @@ def test_run():
 @mock.patch.object(eldonationtracker.api.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
 @mock.patch.object(eldonationtracker.api.team.Team, 'participant_run',
                    fake_participant_for_run.my_team.participant_run)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_badges", magic_fake_badges.get_badges)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "output_badge_data", fake_output_badge_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_milestones',
+                   fake_participant_for_run._update_milestones)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_milestone_data',
+                   fake_participant_for_run.output_milestone_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_incentives',
+                   fake_participant_for_run.fake_participant_for_run._update_incentives)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_incentive_data',
+                   fake_participant_for_run.output_incentive_data)
 def test_run_get_a_donation():
     fake_participant_for_run.output_participant_data.reset_mock()
     fake_participant_for_run.update_donation_data.reset_mock()
@@ -442,6 +508,16 @@ def test_run_get_a_donation():
 @mock.patch.object(eldonationtracker.api.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
 @mock.patch.object(eldonationtracker.api.team.Team, 'participant_run',
                    fake_participant_for_run.my_team.participant_run)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_badges", magic_fake_badges.get_badges)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "output_badge_data", fake_output_badge_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_milestones',
+                   fake_participant_for_run._update_milestones)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_milestone_data',
+                   fake_participant_for_run.output_milestone_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_incentives',
+                   fake_participant_for_run.fake_participant_for_run._update_incentives)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_incentive_data',
+                   fake_participant_for_run.output_incentive_data)
 def test_run_no_api_hit():
     """Making sure that output data is not hit if API wasn't hit."""
     fake_participant_for_run.output_participant_data.reset_mock()
@@ -454,6 +530,16 @@ def test_run_no_api_hit():
 @mock.patch.object(eldonationtracker.api.team.Team, 'team_run', fake_participant_for_run.my_team.team_run)
 @mock.patch.object(eldonationtracker.api.team.Team, 'participant_run',
                    fake_participant_for_run.my_team.participant_run)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "get_badges", magic_fake_badges.get_badges)
+@mock.patch.object(eldonationtracker.utils.extralife_io, "output_badge_data", fake_output_badge_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_milestones',
+                   fake_participant_for_run._update_milestones)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_milestone_data',
+                   fake_participant_for_run.output_milestone_data)
+@mock.patch.object(eldonationtracker.api.participant.Participant, '_update_incentives',
+                   fake_participant_for_run.fake_participant_for_run._update_incentives)
+@mock.patch.object(eldonationtracker.api.participant.Participant, 'output_incentive_data',
+                   fake_participant_for_run.output_incentive_data)
 def test_run_no_api_hit_no_team():
     """Making sure that output data is not hit if API wasn't hit."""
     fake_participant_for_run.output_participant_data.reset_mock()

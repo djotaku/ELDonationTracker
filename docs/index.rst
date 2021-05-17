@@ -30,6 +30,7 @@ ELDonation Tracker is both a Python interface to the `Extra Life Charity`_ API a
    installation
    usage
    participant_conf
+   modules/api/badge
    modules/api/donation
    modules/api/donor
    modules/api/team

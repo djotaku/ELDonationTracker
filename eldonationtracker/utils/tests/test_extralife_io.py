@@ -1,6 +1,7 @@
 # This unit test test uses the following encoding: utf-8
 # type: ignore
 
+import json
 from unittest import mock
 
 from eldonationtracker.utils import extralife_io
@@ -90,12 +91,46 @@ def test_get_json_url_works_order_by_amount_true():
                                     headers={'User-Agent': 'Extra Life Donation Tracker'})
 
 
+badge_example_json = """[
+{
+    "description": "Raised 100 dollars!",
+    "title": "100 Club Badge",
+    "unlockedDateUTC": "2019-10-30T18:01:23.430+0000",
+    "badgeImageURL": "http://assets.donordrive.com/try/images/$event508$/badge_2F7819D3_C019_3C7D_B9D716687CEEC0A5.png",
+    "badgeCode": "100-club-badge"
+  },
+  {
+    "description": "Sent 25 donation invite emails!",
+    "title": "Enthusiastic Participant Badge",
+    "unlockedDateUTC": "2019-09-18T15:47:39.107+0000",
+    "badgeImageURL": "https://assets.donordrive.com/try/images/$event508$/badge_DCB0A883_BC0A_97DB_639B4D7BFDEC638E.png",
+    "badgeCode": "enthusiastic-participant-badge"
+  }
+]"""
+
+
+@mock.patch.object(extralife_io, "get_json", return_value=json.loads(badge_example_json))
+def test_get_badges(something):
+    """Test that badges are retrieved and returned as a list."""
+    test_badges = extralife_io.get_badges("fake_url")
+    print(test_badges)
+    assert test_badges[0].badge_code == "100-club-badge"
+    assert test_badges[1].badge_code == "enthusiastic-participant-badge"
+
+
+@mock.patch.object(extralife_io, 'get_json', return_value=json.loads('[]'))
+def test_get_badges_no_badges(something):
+    """Test that badges are retrieved and returned as a list."""
+    test_badges = extralife_io.get_badges("fake_url")
+    assert test_badges == []
+
+
 fake_donations = {"displayName": "Sean Gibson", "participantID": 401280, "amount": 25.00, "donorID": "54483486D840B7EA",
                   "avatarImageURL": "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif",
                   "createdDateUTC": "2020-02-11T17:22:23.963+0000", "eventID": 547, "teamID": 50394,
                   "donationID": "861A3C59D235B4DA"}, {"displayName": "Eric Mesa", "participantID": 401280,
                                                       "amount": 25.00, "donorID": "4162ECD2B8BF4C17",
-                                                      "avatarImageURL": "//assets.donordrive.com/extralife/images/$avat"
+                                                      "avatarImageURL": "//assets.overdrive.com/extralife/images/$avat"
                                                                         "ars$/constituent_D4DC394A-C293-34EB-4162ECD2B"
                                                                         "8BF4C17.jpg",
                                                       "createdDateUTC": "2020-01-05T20:35:28.897+0000",
@@ -126,13 +161,6 @@ def test_get_donations():
     assert donations[0].avatar_url == "//assets.donordrive.com/clients/extralife/img/avatar-constituent-default.gif"
     assert donations[0].donation_date == "2020-02-11T17:22:23.963+0000"
     assert donations[1].name == "Eric Mesa"
-
-
-#@mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donors)
-#def test_get_donors():
-#    donor_list = []
-#    donors = extralife_io.get_donations(donor_list, "http://fakeurl.com", False)
-#    assert donors[0].donor_id == 1000111
 
 
 @mock.patch.object(extralife_io, "get_json", fake_extralife_io.get_JSON_donations_no_json)

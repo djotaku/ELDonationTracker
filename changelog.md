@@ -1,3 +1,16 @@
+#v6.1.2
+## Release Notes
+### User-Facing Changes
+- Badge Output files: See the subfolder badges within your output folder. There is an images folder with HTML so you can display the images.
+- Milestone Output files: In your output folder look for text files that start with milestone
+- Incentive Output files: In your output folder there will be a subfolder called invencitves. Within there is a folder per incentive you have. There you will find text files and, if you have images, HTML files.
+
+
+### Developer-Facing or API Changes
+- Badge API endpoint for both teams and participants now available
+- Milestone API now available for participants
+- Incentive API now available for participants
+
 #v6.0.2
 ## Release Notes
 ### User-Facing Changes
