@@ -447,7 +447,6 @@ def test_run():
     fake_participant_for_run.update_donation_data.assert_called_once()
     fake_participant_for_run.output_donation_data.assert_called_once()
     fake_participant_for_run.update_donor_data.assert_called_once()
-    fake_participant_for_run.output_donor_data.assert_called_once()
     fake_participant_for_run.my_team.team_run.assert_called_once()
     assert my_participant._first_run is False
     my_participant.run()
@@ -456,7 +455,6 @@ def test_run():
     fake_participant_for_run.update_donation_data.assert_called_once()
     fake_participant_for_run.output_donation_data.assert_called_once()
     fake_participant_for_run.update_donor_data.assert_called_once()
-    fake_participant_for_run.output_donor_data.assert_called_once()
     assert fake_participant_for_run.my_team.team_run.call_count == 2
 
 
@@ -495,6 +493,7 @@ def test_run_get_a_donation():
     my_participant = Participant(fake_participant_conf)
     assert my_participant.number_of_donations == 0
     my_participant._first_run = False  # to simulate that this is after one run already
+    my_participant._donor_list = ['this is fake mocked and does not matter']
     my_participant.run()
     fake_participant_for_run.output_participant_data.assert_called_once()
     fake_participant_for_run.update_donation_data.assert_called_once()

@@ -392,8 +392,11 @@ class Participant:
         """Update donor data."""
         if self.number_of_donations > 0:
             self._donor_list = self._get_donors()
-            self._ordered_donor_list = self._get_top_donors()
-            self._top_donor = self._ordered_donor_list[0]
+            # anonymous donors mess things up because they don't populate the donor API endpoint.
+            # So this check prevents a crash.
+            if self._donor_list:
+                self._ordered_donor_list = self._get_top_donors()
+                self._top_donor = self._ordered_donor_list[0]
 
     def _update_badges(self) -> None:
         """Add all our badges to the list."""
@@ -493,7 +496,9 @@ class Participant:
             self.update_donation_data()
             self.output_donation_data()
             self.update_donor_data()
-            self.output_donor_data()
+            # again, below is necessary because anonymous donors don't appear on the donor API endpoint.
+            if self._donor_list:
+                self.output_donor_data()
             self._update_badges()
             extralife_io.output_badge_data(self.badges, self.text_folder)
             self._update_milestones()

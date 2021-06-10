@@ -1,3 +1,11 @@
+#v6.1.1
+## Release Notes
+### User-Facing Changes
+- None
+
+### Developer-Facing or API Changes
+- Because Donor API is empty if user only has Anonymous donors, changed handling of Donors slightly
+
 #v6.1.0
 ## Release Notes
 ### User-Facing Changes
