@@ -82,7 +82,7 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
     else:
         json_response = get_json(api_url, largest_first)
     if not json_response:
-        print("[bold red]Couldn't access JSON endpoint./bold red]")
+        print(f"[bold red]Couldn't access JSON endpoint at {api_url}.[/bold red]")
         return donations_or_donors
     else:
         if is_donation:
