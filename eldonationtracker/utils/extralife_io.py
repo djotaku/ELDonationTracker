@@ -25,9 +25,9 @@ el_io_log = logging.getLogger("ExtraLife IO")
 
 
 def validate_url(url: str):
-    el_io_log.info(f"[bold blue]Checking: {url}[/bold blue]")
+    el_io_log.debug(f"[bold blue]Checking: {url}[/bold blue]")
     response = requests.get(url)
-    el_io_log.info(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
+    el_io_log.debug(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
     return response.status_code == 200
 
 

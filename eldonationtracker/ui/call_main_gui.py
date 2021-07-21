@@ -183,7 +183,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         except webbrowser.Error:
             print("[bold red]Couldn't open documentation[/bold red]")
             message_box = QMessageBox.warning(self, "Documentation",
-                                              "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
+                                              "Could not load documentation. You may access in your browser at "
+                                              "https://eldonationtracker.readthedocs.io/en/latest/index.html")
 
     def check_for_update(self):
         if eldonationtracker.utils.update_available.main():
