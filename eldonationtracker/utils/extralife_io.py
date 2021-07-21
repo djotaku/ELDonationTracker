@@ -429,6 +429,16 @@ def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> 
             write_html_files(badge_image_url, badge_image_filename, badge_image_folder)
 
 
+def read_in_total_raised(text_folder: str) -> str:
+    """This is a temporary hack until I resolve Github issue #162"""
+    try:
+        with open(f'{text_folder}/totalRaised.txt', 'r', encoding='utf8') as total_raised:
+            return total_raised.readline()
+    except FileExistsError:
+        print("[bold blue] totalRaised.txt doesn't exist. This is OK if this is your first run. [/bold blue]")
+        return ""
+
+
 # Output
 def write_text_files(dictionary: dict, text_folder: str):
     """Write info to text files.

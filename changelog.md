@@ -1,3 +1,10 @@
+#v6.1.2
+## Release Notes
+### User-Facing Changes
+- None
+
+### Developer-Facing or API Changes
+
 #v6.1.1
 ## Release Notes
 ### User-Facing Changes

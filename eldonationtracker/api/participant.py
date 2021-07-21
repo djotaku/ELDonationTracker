@@ -86,6 +86,7 @@ class Participant:
         # misc
         self._first_run: bool = True
         self._new_donation: bool = False
+        self._text_files_exist: bool = False
 
         self.set_config_values()
 
@@ -412,18 +413,29 @@ class Participant:
         json_response = extralife_io.get_json(self.incentive_url)
         self._incentives = [Incentive.create_incentive(incentive) for incentive in json_response]
 
+    def _check_existence_of_text_files(self) -> bool:
+        """This is a temporary hack until I resolve Github issue #162"""
+        value_in_total_raised = extralife_io.read_in_total_raised(self.text_folder)
+        if value_in_total_raised is "":
+            return False
+        # strip off the currency symbol
+        value_in_total_raised = value_in_total_raised.lstrip("$")
+        if float(value_in_total_raised) > 0:
+            return True
+
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
+        self._text_files_exist = self._check_existence_of_text_files()
         if len(self._donation_list) > 0:
             self._format_donation_information_for_output()
             self.write_text_files(self._donation_formatted_output)
             if self._top_donation is not None:
                 self.write_text_files(self._top_donation_formatted_output)
-        else:
+        elif not self._text_files_exist:
             print("[bold blue]No donations, writing default data to files.[/bold blue]")
             self.write_text_files(self._donation_formatted_output)
 
@@ -433,12 +445,13 @@ class Participant:
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
+        self._text_files_exist = self._check_existence_of_text_files()
         if len(self._donation_list) > 0:
             self._format_donor_information_for_output()
             self.write_text_files(self._donor_formatted_output)
             if self._top_donor is not None:
                 self.write_text_files(self._top_donor_formatted_output)
-        else:
+        elif not self._text_files_exist:
             print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
             self.write_text_files(self._top_donor_formatted_output)
 
