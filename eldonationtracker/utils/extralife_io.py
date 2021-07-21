@@ -1,10 +1,12 @@
 """Holds all the file and internet input and output."""
 
 import json
+import logging
 import os
 import pathlib
 import requests
 from rich import print
+from rich.logging import RichHandler
 import ssl
 from typing import Tuple, Any
 from urllib.request import Request, urlopen
@@ -15,6 +17,11 @@ import xdgenvpy  # type: ignore
 from eldonationtracker.api.donation import Donation
 from eldonationtracker.api.donor import Donor
 from eldonationtracker.api.badge import Badge  # type: ignore
+
+# logging
+LOG_FORMAT = '%(message)s'
+logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+el_io_log = logging.getLogger("ExtraLife IO")
 
 
 def validate_url(url: str):
@@ -53,7 +60,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
         payload = urlopen(request, timeout=5, context=context)
         return json.load(payload)  # type: ignore
     except HTTPError as this_error:  # pragma: no cover
-        print(f"""[bold red]Could not get to {url}.
+        el_io_log.error(f"""[bold red]Could not get to {url}.
                 Exact error was: {this_error}.
                 Check ExtraLifeID. Or server may be unavailable.
                 If you can reach that URL from your browser
@@ -157,12 +164,11 @@ class ParticipantConf:
         """
 
         try:
-            print("[bold blue]Looking for persistent settings at "
-                  f"{self.xdg.XDG_CONFIG_HOME}[/bold blue]")
+            el_io_log.info(f"[bold blue]Looking for persistent settings at {self.xdg.XDG_CONFIG_HOME}[/bold blue]")
             with open(f'{self.xdg.XDG_CONFIG_HOME}/participant.conf') as file:
                 config = json.load(file)
                 file.close()
-                print("[bold green]Persistent settings found.[/bold green]")
+                el_io_log.info("[bold green]Persistent settings found.[/bold green]")
             return config
         except FileNotFoundError:
             print("[bold magenta]Persistent settings not found. Checking current directory"
