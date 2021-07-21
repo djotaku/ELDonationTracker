@@ -434,7 +434,7 @@ def read_in_total_raised(text_folder: str) -> str:
     try:
         with open(f'{text_folder}/totalRaised.txt', 'r', encoding='utf8') as total_raised:
             return total_raised.readline()
-    except FileExistsError:
+    except FileNotFoundError:
         print("[bold blue] totalRaised.txt doesn't exist. This is OK if this is your first run. [/bold blue]")
         return ""
 
