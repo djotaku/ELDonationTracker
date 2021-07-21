@@ -4,12 +4,19 @@ An update is available if the version on PyPi is higher than the version the use
 """
 
 import json
+import logging
+from rich.logging import RichHandler
 import semver  # type: ignore
 import ssl
 from urllib.request import Request, urlopen  # type: ignore
 from urllib.error import HTTPError, URLError  # type: ignore
 
 from eldonationtracker import __version__ as pkg_current_version
+
+# logging
+LOG_FORMAT = '%(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+update_log = logging.getLogger("update available")
 
 
 def get_pypi_version(url: str) -> str:
@@ -24,7 +31,7 @@ def get_pypi_version(url: str) -> str:
         payload = urlopen(request, timeout=5, context=context)
         this_program_json = json.load(payload)
     except (HTTPError, URLError):
-        print("Could not get JSON")
+        update_log.error("Could not get JSON")
         return "Error"
     return this_program_json["info"]["version"]
 
@@ -36,10 +43,10 @@ def update_available(pypi_version: str, current_version: str) -> bool:
     Returns false if the version being compared to PyPi is equal or greater\
     than the PyPi version."""
     if semver.compare(pypi_version, current_version) == 1:
-        print(f"There is an update available. PyPi version: {pypi_version}")
+        update_log.info(f"There is an update available. PyPi version: {pypi_version}")
         return True
     else:
-        print("You have the latest version.")
+        update_log.info("You have the latest version.")
         return False
 
 
