@@ -1,14 +1,20 @@
 """Grabs Participant JSON data and outputs to files."""
 
 from dataclasses import dataclass, field
+import logging
 from rich import print  # type ignore
-
+from rich.logging import RichHandler # type ignore
 import time
 
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.api import donor as donor, team as team, donation as donation, badge
 from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
+
+# logging
+LOG_FORMAT = '%(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+participant_log = logging.getLogger("Participant")
 
 
 class Participant:
@@ -278,7 +284,7 @@ class Participant:
         """
         participant_json = extralife_io.get_json(self.participant_url)
         if not participant_json:
-            print("[bold red]Couldn't access participant JSON.[/bold red]")
+            participant_log.warning("[bold red]Couldn't access participant JSON.[/bold red]")
             return self.total_raised, self.number_of_donations, self.goal, self.avatar_image_url, self.event_name, \
                 self.donation_link_url, self.stream_url, self.extra_life_page_url, self.created_date_utc,\
                 self.stream_is_live, self.sum_pledges, self.team_name, self.is_team_captain, self.display_name
@@ -438,7 +444,7 @@ class Participant:
             if self._top_donation is not None:
                 self.write_text_files(self._top_donation_formatted_output)
         elif not self._text_files_exist:
-            print("[bold blue]No donations, writing default data to files.[/bold blue]")
+            participant_log.info("[bold blue]No donations, writing default data to files.[/bold blue]")
             self.write_text_files(self._donation_formatted_output)
 
     def output_donor_data(self) -> None:
@@ -454,7 +460,8 @@ class Participant:
             if self._top_donor is not None:
                 self.write_text_files(self._top_donor_formatted_output)
         elif not self._text_files_exist:
-            print("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold blue]")
+            participant_log.info("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold "
+                                 "blue]")
             self.write_text_files(self._top_donor_formatted_output)
 
     def output_milestone_data(self) -> None:  # pragma: no cover
@@ -523,7 +530,7 @@ class Participant:
             self.my_team.team_run()
         ##########################################################
         self._first_run = False
-        print(time.strftime("%H:%M:%S"))
+        participant_log.info("Finished checking API and updating text files!")
 
     def __str__(self):
         if self.my_team:

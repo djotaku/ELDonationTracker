@@ -20,14 +20,14 @@ from eldonationtracker.api.badge import Badge  # type: ignore
 
 # logging
 LOG_FORMAT = '%(message)s'
-logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
 el_io_log = logging.getLogger("ExtraLife IO")
 
 
 def validate_url(url: str):
-    print(f"[bold blue]Checking: {url}[/bold blue]")
+    el_io_log.info(f"[bold blue]Checking: {url}[/bold blue]")
     response = requests.get(url)
-    print(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
+    el_io_log.info(f"[bold magenta]Response is: {response.status_code}[/bold magenta]")
     return response.status_code == 200
 
 
@@ -68,8 +68,8 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")
         return {}
     except URLError:  # pragma: no cover
-        print(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
-        print(""" [bold red]Timed out while getting JSON. [/bold red]""")
+        el_io_log.error(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
+        el_io_log.error("[bold red]Timed out while getting JSON. [/bold red]")
         return {}
 
 
@@ -89,7 +89,7 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
     else:
         json_response = get_json(api_url, largest_first)
     if not json_response:
-        print(f"[bold red]Couldn't access JSON endpoint at {api_url}.[/bold red]")
+        el_io_log.error(f"[bold red]Couldn't access JSON endpoint at {api_url}.[/bold red]")
         return donations_or_donors
     else:
         if is_donation:
@@ -139,14 +139,14 @@ class ParticipantConf:
         self.xdg = xdgenvpy.XDGPedanticPackage('extralifedonationtracker')
         self.participantconf = self.load_json()
         if self.participantconf['Version'] != self.participant_conf_version:
-            print(f"You are using an old version of participant.conf.\n"
-                  f"Your version is: {self.participantconf['Version']}\n"
-                  f"Current Version is {self.participant_conf_version}.\n"
-                  f"If you are on the commandline, check to see what"
-                  f" has changed and add it to your configuration file."
-                  f" You will likely have an error later because of this.\n"
-                  f"If you are in the GUI, it should prompt you to"
-                  f" Migrate or start fresh.")
+            el_io_log.warning(f"You are using an old version of participant.conf.\n"
+                              f"Your version is: {self.participantconf['Version']}\n"
+                              f"Current Version is {self.participant_conf_version}.\n"
+                              f"If you are on the commandline, check to see what"
+                              f" has changed and add it to your configuration file."
+                              f" You will likely have an error later because of this.\n"
+                              f"If you are in the GUI, it should prompt you to"
+                              f" Migrate or start fresh.")
             self.version_mismatch = True
         self.xdg.XDG_CONFIG_HOME: str
         self.update_fields()
@@ -171,17 +171,17 @@ class ParticipantConf:
                 el_io_log.info("[bold green]Persistent settings found.[/bold green]")
             return config
         except FileNotFoundError:
-            print("[bold magenta]Persistent settings not found. Checking current directory"
-                  f"({os.getcwd()})[/bold magenta]")
+            el_io_log.warning("[bold magenta]Persistent settings not found. Checking current directory"
+                              f"({os.getcwd()})[/bold magenta]")
         try:
-            with open(pathlib.PurePath(__file__).parent.joinpath('.')/'participant.conf') as file:
+            with open(pathlib.PurePath(__file__).parent.joinpath('.') / 'participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config
         except FileNotFoundError:
-            print("[bold magenta]Settings not found in current dir. Checking up one level.[/bold magenta]")
+            el_io_log.warning("[bold magenta]Settings not found in current dir. Checking up one level.[/bold magenta]")
         try:
-            with open(pathlib.PurePath(__file__).parent.joinpath('..')/'participant.conf') as file:
+            with open(pathlib.PurePath(__file__).parent.joinpath('..') / 'participant.conf') as file:
                 config = json.load(file)
                 file.close()
             return config
@@ -190,19 +190,20 @@ class ParticipantConf:
             return self.load_json()
 
     def get_github_config(self):  # pragma: no cover
-        print("[bold blue]Attempting to grab a config file from GitHub.[/bold blue]")
-        print(f"[bold blue]Config will be placed at {self.xdg.XDG_CONFIG_HOME}.[/bold blue]")
+        el_io_log.info("[bold blue]Attempting to grab a config file from GitHub.[/bold blue]")
+        el_io_log.info(f"[bold blue]Config will be placed at {self.xdg.XDG_CONFIG_HOME}.[/bold blue]")
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
         try:
             config_file = requests.get(url)
             open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
         except HTTPError:
-            print("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
-                  "[bold magenta]Please manually create or download from Github.[/bold magenta]")
+            el_io_log.error("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
+                            "[bold magenta]Please manually create or download from Github.[/bold magenta]")
 
     def get_tracker_assets(self, asset: str):  # pragma: no cover
-        print(f"[bold blue] Attempting to grab {asset} from Github.[/bold blue] ")
-        print(f"[bold blue] {asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}[/bold blue] ")
+        el_io_log.info(f"[bold blue] Attempting to grab {asset} from Github.[/bold blue] ")
+        el_io_log.info(f"[bold blue] {asset} will be placed at the XDG location of: {self.xdg.XDG_DATA_HOME}[/bold "
+                       f"blue] ")
         if asset == "image":
             url = 'https://raw.githubusercontent.com/djotaku/ELDonationTracker/master/tracker%20assets/Engineer.png'
         elif asset == "sound":
@@ -215,16 +216,15 @@ class ParticipantConf:
             elif asset == "sound":
                 open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
-            print("[bold blue]file written.[/bold blue]")
+            el_io_log.info("[bold blue]file written.[/bold blue]")
         except requests.HTTPError:
-            print(f"[bold red]Could not get {asset}.[/bold red]")
+            el_io_log.error(f"[bold red]Could not get {asset}.[/bold red]")
 
     def update_fields(self):
         """Update fields variable with data from JSON."""
         for field in self.fields:
             self.fields[field] = self.participantconf.get(f'{field}')
-            # debug
-            # print(f"{field}:{self.fields[field]}")
+            el_io_log.debug(f"{field}:{self.fields[field]}")
 
     def write_config(self, config: dict, default: bool):  # pragma: no cover
         """Write config to file.
@@ -287,8 +287,8 @@ class ParticipantConf:
 
         :returns: A tuple of strings and a list for the color.
         """
-        return(self.fields["font_family"], self.fields["font_size"], self.fields["font_italic"],
-               self.fields["font_bold"], self.fields["font_color"])
+        return (self.fields["font_family"], self.fields["font_size"], self.fields["font_italic"],
+                self.fields["font_bold"], self.fields["font_color"])
 
     def get_tracker_background_color(self):
         """Return value needed to change the tracker background color
@@ -302,8 +302,7 @@ class ParticipantConf:
 
         :returns: True if the participant is in a team.
         """
-        # debug
-        # print(self.fields["team_id"])
+        el_io_log.debug(self.fields["team_id"])
         return self.fields["team_id"] is not None
 
     def get_version_mismatch(self) -> bool:
@@ -376,13 +375,13 @@ def multiple_format(donors, message: bool, horizontal: bool,
     text = ""
     for donor in range(len(donors)):
         if horizontal:
-            text = text+single_format(donors[donor],
-                                      message,
-                                      currency_symbol)+" | "
+            text = text + single_format(donors[donor],
+                                        message,
+                                        currency_symbol) + " | "
         else:
-            text = text+single_format(donors[donor],
-                                      message,
-                                      currency_symbol)+"\n"
+            text = text + single_format(donors[donor],
+                                        message,
+                                        currency_symbol) + "\n"
         if donor == how_many - 1:
             break
     return text
@@ -404,7 +403,7 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     prefix = "Team_" if team else ''
     middle_text = "Donation" if donation else "Donor"
     donation_formatted_output[f'{prefix}Last{middle_text}NameAmnt'] = single_format(donation_list[0],
-                                                                               False, currency_symbol)
+                                                                                    False, currency_symbol)
     donation_formatted_output[f'{prefix}lastN{middle_text}NameAmts'] = \
         multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
     if donation:
@@ -417,7 +416,7 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     return donation_formatted_output
 
 
-def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:    # pragma: no cover
+def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:  # pragma: no cover
     """Write out text and HTML files for badge data."""
     prefix = ''
     if team:
@@ -441,7 +440,7 @@ def read_in_total_raised(text_folder: str) -> str:
         with open(f'{text_folder}/totalRaised.txt', 'r', encoding='utf8') as total_raised:
             return total_raised.readline()
     except FileNotFoundError:
-        print("[bold blue] totalRaised.txt doesn't exist. This is OK if this is your first run. [/bold blue]")
+        el_io_log.info("[bold blue] totalRaised.txt doesn't exist. This is OK if this is your first run. [/bold blue]")
         return ""
 
 
@@ -478,4 +477,3 @@ def write_html_files(data: str, filename: str, text_folder: str):
     html_to_write = "<HTML><body>" + data + "</body></HTML>"
     with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
         html_file.write(html_to_write)
-

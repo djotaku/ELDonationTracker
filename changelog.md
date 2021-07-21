@@ -1,7 +1,7 @@
 #v6.1.2
 ## Release Notes
 ### User-Facing Changes
-- None
+- Should not overwrite your text files if the API can't be reached
 
 ### Developer-Facing or API Changes
 
