@@ -422,6 +422,8 @@ class Participant:
         value_in_total_raised = value_in_total_raised.lstrip("$")
         if float(value_in_total_raised) > 0:
             return True
+        else:
+            return True
 
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
