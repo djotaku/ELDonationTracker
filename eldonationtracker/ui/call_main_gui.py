@@ -91,7 +91,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             choice, ok = QInputDialog.getItem(self, "Input Dialog",
                                               "You are using an old version of the configuration file.\n Choose "
                                               "what you would like to do.\n If you choose Update on Save, please "
-                                              "click on teh settings button, review the new options, and hit save.",
+                                              "click on the settings button, review the new options, and hit save.",
                                               choices, 0, False)
             if ok and choice:
                 print(f"[bold blue]You have chosen {choice}[/bold blue]")

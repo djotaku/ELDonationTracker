@@ -2,6 +2,7 @@
 ## Release Notes
 ### User-Facing Changes
 - Should not overwrite your text files if the API can't be reached
+- changed many of the print statements to log output using Rich's logging 
 
 ### Developer-Facing or API Changes
 
