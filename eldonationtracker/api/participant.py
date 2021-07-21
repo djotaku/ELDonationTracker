@@ -12,8 +12,8 @@ from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 
 # logging
-LOG_FORMAT = '%(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+LOG_FORMAT = '%(name)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 participant_log = logging.getLogger("Participant")
 
 

@@ -19,8 +19,8 @@ from eldonationtracker.api.donor import Donor
 from eldonationtracker.api.badge import Badge  # type: ignore
 
 # logging
-LOG_FORMAT = '%(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+LOG_FORMAT = '%(name)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 el_io_log = logging.getLogger("ExtraLife IO")
 
 

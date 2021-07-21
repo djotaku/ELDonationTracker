@@ -14,8 +14,8 @@ from urllib.error import HTTPError, URLError  # type: ignore
 from eldonationtracker import __version__ as pkg_current_version
 
 # logging
-LOG_FORMAT = '%(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True)])
+LOG_FORMAT = '%(name)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 update_log = logging.getLogger("update available")
 
 
