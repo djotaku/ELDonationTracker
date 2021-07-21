@@ -1,5 +1,7 @@
 """Contains classes pertaining to teams."""
+import logging
 from rich import print
+from rich.logging import RichHandler
 from typing import Tuple, List
 
 import eldonationtracker.utils.extralife_io
@@ -8,6 +10,11 @@ from eldonationtracker import base_api_url
 from eldonationtracker.api.badge import Badge  # type: ignore
 from eldonationtracker.api.team_participant import TeamParticipant
 from eldonationtracker.api import donation as donation
+
+# logging
+LOG_FORMAT = '%(name)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
+team_log = logging.getLogger("Team:")
 
 
 class Team:
@@ -142,7 +149,7 @@ class Team:
         """
         team_json = extralife_io.get_json(self.team_url)
         if not team_json:
-            print("[bold magenta]Could not get team JSON[/bold magenta]")
+            team_log.warning("[bold magenta]Could not get team JSON[/bold magenta]")
             return self.team_goal, self.team_captain, self.total_raised, self.num_donations, self.team_avatar_image
         else:
             return team_json.get("fundraisingGoal"), team_json.get("captainDisplayName"), \
@@ -164,7 +171,7 @@ class Team:
         """
         team_participant_json = extralife_io.get_json(self.team_participant_url, top5)
         if not team_participant_json:
-            print("[bold magenta]Couldn't get to URL or possibly no participants.[/bold magenta]")
+            team_log.warning("[bold magenta]Couldn't get to URL or possibly no participants.[/bold magenta]")
             if top5:
                 return self._top_5_participant_list
             else:
@@ -180,7 +187,7 @@ class Team:
         :returns: String formatted information about the top participant.
         """
         if len(self._top_5_participant_list) == 0:
-            print("[bold blue] No participants[/bold blue] ")
+            team_log.info("[bold blue] No participants[/bold blue] ")
             return "No participants."
         else:
             return (f"{self._top_5_participant_list[0].name} - $"

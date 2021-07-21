@@ -1,5 +1,7 @@
 """Contains the programming logic for the settings window in the GUI."""
 
+import logging
+from rich.logging import RichHandler
 from rich import print
 
 from PyQt5.QtWidgets import QDialog, QFileDialog, QFontDialog, QColorDialog, QMessageBox
@@ -8,6 +10,11 @@ from PyQt5.QtGui import QFont, QColor
 from eldonationtracker.ui.settings import *
 from eldonationtracker import base_api_url
 from eldonationtracker.utils import extralife_io
+
+# logging
+LOG_FORMAT = '%(name)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
+call_settings_log = logging.getLogger("call settings")
 
 
 class MyForm(QDialog):
@@ -193,7 +200,7 @@ class MyForm(QDialog):
             self.ui.label_sound.setText(file)
 
     def _validate_id(self, id_type: str):
-        print("[bold blue]Validating URL[/bold blue]")
+        call_settings_log.debug("[bold blue]Validating URL[/bold blue]")
         if id_type == "participant":
             url = f"{base_api_url}/participants/{self.ui.lineEditParticipantID.text()}"
             valid_url = extralife_io.validate_url(url)

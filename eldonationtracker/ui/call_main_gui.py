@@ -2,11 +2,14 @@
 
 """The main GUI window."""
 
+import logging
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
 
 from PyQt5 import QtCore
 
 from rich import print
+from rich.logging import RichHandler
 import sys
 import webbrowser
 
@@ -15,6 +18,11 @@ from eldonationtracker.ui import call_about as call_about, call_settings as call
     main_gui as design
 from eldonationtracker.utils import extralife_io as extralife_io
 import eldonationtracker.utils.update_available
+
+# logging
+LOG_FORMAT = '%(name)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
+GUI_log = logging.getLogger("main GUI")
 
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
@@ -84,25 +92,25 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.actionAbout.triggered.connect(self.show_about)
 
     def version_check(self):
-        print("[bold blue]Participant.conf version check![/bold blue]")
+        GUI_log.debug("[bold blue]Participant.conf version check![/bold blue]")
         if self.version_mismatch is True:
-            print("[bold magenta]There is a version mismatch[/bold magenta]")
+            GUI_log.debug("[bold magenta]There is a version mismatch[/bold magenta]")
             choices = ("Replace with Defaults", "Update on Save")
             choice, ok = QInputDialog.getItem(self, "Input Dialog",
                                               "You are using an old version of the configuration file.\n Choose "
                                               "what you would like to do.\n If you choose Update on Save, please "
-                                              "click on teh settings button, review the new options, and hit save.",
+                                              "click on the settings button, review the new options, and hit save.",
                                               choices, 0, False)
             if ok and choice:
-                print(f"[bold blue]You have chosen {choice}[/bold blue]")
+                GUI_log.debug(f"[bold blue]You have chosen {choice}[/bold blue]")
                 if choice == "Replace with Defaults":
                     self.participant_conf.get_github_config()
-                    print("[bold blue]Settings have been replaced with the repo defaults.[/bold blue]")
+                    GUI_log.info("[bold blue]Settings have been replaced with the repo defaults.[/bold blue]")
                     self.participant_conf.reload_json()
                 if choice == "Update on Save":
-                    print("[bold blue]When you save the settings, you will be up to date[/bold blue]")
+                    GUI_log.info("[bold blue]When you save the settings, you will be up to date[/bold blue]")
         else:
-            print("[bold green]Version is correct[/bold green] ")
+            GUI_log.debug("[bold green]Version is correct[/bold green] ")
 
     def test_alert(self):
         self.tracker.load_and_unload_test()
@@ -118,7 +126,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     # this is used for buttons that I haven't yet implemented
     @staticmethod
     def dead_button():
-        print("[bold blue]not working yet[/bold blue]")
+        GUI_log.info("[bold blue]not working yet[/bold blue]")
 
     @staticmethod
     def read_files(folders, files):
@@ -128,7 +136,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             f.close()
             return text
         except FileNotFoundError:
-            print(f"""[bold magenta]GUI Error:
+            GUI_log.error(f"""[bold magenta]GUI Error:
                 {folders}/{files} does not exist.
                 Did you update the settings?
                 Did you hit the 'run' button?[/bold magenta]
@@ -150,7 +158,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             avatar_url = QtCore.QUrl.fromLocalFile(self.folders + '/Participant_Avatar.html')
             self.participant_avatar.setUrl(avatar_url)
         except FileNotFoundError:
-            print("[bold blue] Participant Avatar not found. After running you should have it.[/bold blue]")
+            GUI_log.warning("[bold blue] Participant Avatar not found. After running you should have it.[/bold blue]")
 
         # Team Info
         if self.participant_conf.get_if_in_team():
@@ -162,7 +170,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             self.textBrowser_TeamTop5.setPlainText(self.read_files(self.folders, 'Team_Top5Participants.txt'))
 
     def run_button(self):
-        print(f"[bold blue]Starting the participant run. But first, reloading config file.[/bold blue]")
+        GUI_log.info(f"[bold blue]Starting the participant run. But first, reloading config file.[/bold blue]")
         self.participant_conf.reload_json()
         # reload participant.conf in participant in case the user has changed settings
         self.my_participant.set_config_values()
@@ -181,9 +189,10 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         try:
             webbrowser.open("https://eldonationtracker.readthedocs.io/en/latest/index.html", new=2)
         except webbrowser.Error:
-            print("[bold red]Couldn't open documentation[/bold red]")
+            GUI_log.error("[bold red]Couldn't open documentation[/bold red]")
             message_box = QMessageBox.warning(self, "Documentation",
-                                              "Could not load documentation. You may access in your browser at https://eldonationtracker.readthedocs.io/en/latest/index.html")
+                                              "Could not load documentation. You may access in your browser at "
+                                              "https://eldonationtracker.readthedocs.io/en/latest/index.html")
 
     def check_for_update(self):
         if eldonationtracker.utils.update_available.main():
