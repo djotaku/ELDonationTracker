@@ -47,6 +47,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     :raises: HTTPError, URLError
     """
     header = {'User-Agent': 'Extra Life Donation Tracker'}
+    response = ''
     if order_by_donations and not order_by_amount:
         url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
@@ -64,7 +65,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")
         return {}
     except requests.exceptions.Timeout:  # pragma: no cover
-        el_io_log.error(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
+        el_io_log.error(f"[bold red]HTTP code: {response.status_code}[/bold red]")  # type: ignore
         el_io_log.error("[bold red]Timed out while getting JSON. [/bold red]")
         return {}
 
