@@ -14,6 +14,7 @@ from urllib.error import HTTPError, URLError
 
 import xdgenvpy  # type: ignore
 
+from eldonationtracker import api_version_suffix
 from eldonationtracker.api.donation import Donation
 from eldonationtracker.api.donor import Donor
 from eldonationtracker.api.badge import Badge  # type: ignore
@@ -56,6 +57,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     elif order_by_amount:
         url += "?orderBy=amount%20DESC"
     try:
+        url += api_version_suffix
         request = Request(url=url, headers=header)
         payload = urlopen(request, timeout=5, context=context)
         return json.load(payload)  # type: ignore
