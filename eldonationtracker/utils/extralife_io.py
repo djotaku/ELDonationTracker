@@ -55,7 +55,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
         url += api_version_suffix
         response = requests.get(url=url, headers=header)
         return response.json()  # type: ignore
-    except requests.exceptions.HTTPError as this_error:  # pragma: no cover
+    except requests.exceptions.ConnectionError as this_error:  # pragma: no cover
         el_io_log.error(f"""[bold red]Could not get to {url}.
                 Exact error was: {this_error}.
                 Check ExtraLifeID. Or server may be unavailable.
