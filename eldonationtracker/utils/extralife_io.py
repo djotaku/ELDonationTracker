@@ -44,7 +44,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
 
     :return: JSON as dictionary with API data.
 
-    :raises: HTTPError, URLError
+    :raises: ConnectionError, Timeout
     """
     header = {'User-Agent': 'Extra Life Donation Tracker'}
     response = ''

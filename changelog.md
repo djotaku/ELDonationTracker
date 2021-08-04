@@ -1,3 +1,11 @@
+#v6.w.2
+## Release Notes
+### User-Facing Changes
+
+### Developer-Facing or API Changes
+- Move from urllib to requests
+- Pegged DonorDrive API version
+
 #v6.1.2
 ## Release Notes
 ### User-Facing Changes
