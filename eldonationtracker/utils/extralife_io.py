@@ -47,7 +47,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     :raises: ConnectionError, Timeout
     """
     header = {'User-Agent': 'Extra Life Donation Tracker'}
-    response = ''
+    response = None
     if order_by_donations and not order_by_amount:
         url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
