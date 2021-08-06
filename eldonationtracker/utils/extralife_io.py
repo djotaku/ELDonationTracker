@@ -7,13 +7,11 @@ import pathlib
 import requests
 from rich import print
 from rich.logging import RichHandler
-import ssl
 from typing import Tuple, Any
-from urllib.request import Request, urlopen
-from urllib.error import HTTPError, URLError
 
 import xdgenvpy  # type: ignore
 
+from eldonationtracker import api_version_suffix
 from eldonationtracker.api.donation import Donation
 from eldonationtracker.api.donor import Donor
 from eldonationtracker.api.badge import Badge  # type: ignore
@@ -46,20 +44,19 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
 
     :return: JSON as dictionary with API data.
 
-    :raises: HTTPError, URLError
+    :raises: ConnectionError, Timeout
     """
-    payload = ""
-    context = ssl._create_unverified_context()
     header = {'User-Agent': 'Extra Life Donation Tracker'}
+    response = None
     if order_by_donations and not order_by_amount:
         url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
         url += "?orderBy=amount%20DESC"
     try:
-        request = Request(url=url, headers=header)
-        payload = urlopen(request, timeout=5, context=context)
-        return json.load(payload)  # type: ignore
-    except HTTPError as this_error:  # pragma: no cover
+        url += api_version_suffix
+        response = requests.get(url=url, headers=header)
+        return response.json()  # type: ignore
+    except requests.exceptions.ConnectionError as this_error:  # pragma: no cover
         el_io_log.error(f"""[bold red]Could not get to {url}.
                 Exact error was: {this_error}.
                 Check ExtraLifeID. Or server may be unavailable.
@@ -67,8 +64,8 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
                 and this is not an intermittent problem, please open an issue at:
                 https://github.com/djotaku/ELDonationTracker[/bold red]""")
         return {}
-    except URLError:  # pragma: no cover
-        el_io_log.error(f"[bold red]HTTP code: {payload.getcode()}[/bold red]")  # type: ignore
+    except requests.exceptions.Timeout:  # pragma: no cover
+        el_io_log.error(f"[bold red]HTTP code: {response.status_code}[/bold red]")  # type: ignore
         el_io_log.error("[bold red]Timed out while getting JSON. [/bold red]")
         return {}
 
@@ -196,7 +193,7 @@ class ParticipantConf:
         try:
             config_file = requests.get(url)
             open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
-        except HTTPError:
+        except requests.exceptions.HTTPError:
             el_io_log.error("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
                             "[bold magenta]Please manually create or download from Github.[/bold magenta]")
 
@@ -217,7 +214,7 @@ class ParticipantConf:
                 open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
             el_io_log.info("[bold blue]file written.[/bold blue]")
-        except requests.HTTPError:
+        except requests.exceptions.HTTPError:
             el_io_log.error(f"[bold red]Could not get {asset}.[/bold red]")
 
     def update_fields(self):
