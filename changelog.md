@@ -1,7 +1,7 @@
 #v6.2.1
 ## Release Notes
 ### User-Facing Changes
-- No real changes for teh user.
+- A fix so that the font changes for the tracker window that are saved in preferences are applied upon startup..
 
 ### Developer-Facing or API Changes
 - cleaned up some duplicate code in call_tracker.py
