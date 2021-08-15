@@ -1,4 +1,4 @@
-#v6.w.2
+#v6.2
 ## Release Notes
 ### User-Facing Changes
 

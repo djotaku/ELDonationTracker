@@ -12,9 +12,8 @@ from eldonationtracker.api.team_participant import TeamParticipant
 from eldonationtracker.api import donation as donation
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 team_log = logging.getLogger("Team:")
+team_log.setLevel(logging.INFO)
 
 
 class Team:
