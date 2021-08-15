@@ -1,3 +1,12 @@
+#v6.2.1
+## Release Notes
+### User-Facing Changes
+- No real changes for teh user.
+
+### Developer-Facing or API Changes
+- cleaned up some duplicate code in call_tracker.py
+- cleaned up logging code
+
 #v6.2
 ## Release Notes
 ### User-Facing Changes
