@@ -40,6 +40,7 @@ class MyForm(QDialog):
             self.font.setPointSize(self.font_size)
             self.font.setItalic(self.font_italic)
             self.font.setWeight(self.font_bold)
+            self.ui.Donation_label.setFont(self.font)
         if self.font_color_value:
             self.font_color = QColor()
             self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
