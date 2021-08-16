@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 import logging
 from rich import print  # type ignore
-from rich.logging import RichHandler # type ignore
+from rich.logging import RichHandler  # type ignore
 import time
 
 import eldonationtracker.utils.extralife_io
@@ -12,9 +12,8 @@ from eldonationtracker.utils import extralife_io as extralife_io
 from eldonationtracker import base_api_url
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 participant_log = logging.getLogger("Participant")
+participant_log.setLevel(logging.INFO)
 
 
 class Participant:

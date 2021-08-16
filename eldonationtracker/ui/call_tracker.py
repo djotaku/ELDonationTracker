@@ -1,11 +1,19 @@
 """A window that displays the last donation. Useful during streaming."""
 
+import logging
+from rich.logging import RichHandler  # type ignore
+
 from PyQt5.QtWidgets import QDialog, QGraphicsScene, QGraphicsPixmapItem
 from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent  # type: ignore
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.ui.tracker import *
+
+# logging
+LOG_FORMAT = '%(name)s: %(message)s'
+call_tracker_log = logging.getLogger("Call_Tracker")
+call_tracker_log.setLevel(logging.INFO)
 
 
 class MyForm(QDialog):
@@ -32,6 +40,7 @@ class MyForm(QDialog):
             self.font.setPointSize(self.font_size)
             self.font.setItalic(self.font_italic)
             self.font.setWeight(self.font_bold)
+            self.ui.Donation_label.setFont(self.font)
         if self.font_color_value:
             self.font_color = QColor()
             self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
@@ -54,7 +63,7 @@ class MyForm(QDialog):
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
         self.timer.setSingleShot(False)
-        self.timer.setInterval(20000)  # milliseconds
+        self.timer.setInterval(15000)  # milliseconds
         self.timer.timeout.connect(self._load_and_unload)
         self.timer.start()
 
@@ -68,14 +77,9 @@ class MyForm(QDialog):
         self.donation_sound = QMediaContent(QUrl.fromLocalFile(sound_to_play))
         self.donation_player.setMedia(self.donation_sound)
 
-    def load_and_unload_test(self):
-        """Trigger the tracker functionality.
-
-        This causes the image and sound to load so that the
-        user can test to see how it's going to look on their OBS
-        or XSplit screen as well as to make sure they can hear
-        the sound. Called by ui.py.
-        """
+    def _load_and_unload_helper(self):
+        """Used both by the test code and the actual load and unload code."""
+        call_tracker_log.debug("The load and unload helper was called.")
         self._load_image()
         self._load_elements()
         self._load_sound()
@@ -86,18 +90,22 @@ class MyForm(QDialog):
         unload_timer.timeout.connect(self._unload_elements)
         unload_timer.start()
 
+    def load_and_unload_test(self):
+        """Trigger the tracker functionality.
+
+        This causes the image and sound to load so that the
+        user can test to see how it's going to look on their OBS
+        or XSplit screen as well as to make sure they can hear
+        the sound. Called by ui.py.
+        """
+        self._load_and_unload_helper()
+
     def _load_and_unload(self):
         self.folders = self.participant_conf.get_text_folder_only()
+        call_tracker_log.debug("Checking if there are new donations.")
         if self.participant.new_donation:
-            self._load_image()
-            self._load_elements()
-            self._load_sound()
-            self.donation_player.play()
-            unload_timer = QtCore.QTimer(self)
-            unload_timer.setSingleShot(True)
-            unload_timer.setInterval(5000)  # milliseconds
-            unload_timer.timeout.connect(self._unload_elements)
-            unload_timer.start()
+            call_tracker_log.debug("There WAS a new donation!!!")
+            self._load_and_unload_helper()
 
     def _load_elements(self):
         self.scene.addItem(self.item)
