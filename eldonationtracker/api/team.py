@@ -168,7 +168,7 @@ class Team:
         :param top5: If true, get the list sorted by top sum of donations.
         :returns: A list of TeamParticipant objects.
         """
-        team_participant_json = extralife_io.get_json(self.team_participant_url, top5)
+        team_participant_json = extralife_io.get_json(self.team_participant_url, True, False)
         if not team_participant_json:
             team_log.warning("[bold magenta]Couldn't get to URL or possibly no participants.[/bold magenta]")
             if top5:

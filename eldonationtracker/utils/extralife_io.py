@@ -17,9 +17,8 @@ from eldonationtracker.api.donor import Donor
 from eldonationtracker.api.badge import Badge  # type: ignore
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 el_io_log = logging.getLogger("ExtraLife IO")
+el_io_log.setLevel(logging.INFO)
 
 
 def validate_url(url: str):
@@ -52,8 +51,10 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
         url += "?orderBy=sumDonations%20DESC"
     elif order_by_amount:
         url += "?orderBy=amount%20DESC"
-    try:
+    else:
         url += api_version_suffix
+    try:
+        el_io_log.debug(url)
         response = requests.get(url=url, headers=header)
         return response.json()  # type: ignore
     except requests.exceptions.ConnectionError as this_error:  # pragma: no cover
