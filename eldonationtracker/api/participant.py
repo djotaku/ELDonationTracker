@@ -421,14 +421,7 @@ class Participant:
     def _check_existence_of_text_files(self) -> bool:
         """This is a temporary hack until I resolve Github issue #162"""
         value_in_total_raised = extralife_io.read_in_total_raised(self.text_folder)
-        if value_in_total_raised == "":
-            return False
-        # strip off the currency symbol
-        value_in_total_raised = value_in_total_raised.lstrip("$")
-        if float(value_in_total_raised) > 0:
-            return True
-        else:
-            return True
+        return value_in_total_raised != ""
 
     def output_donation_data(self) -> None:
         """Write out text files for donation data.

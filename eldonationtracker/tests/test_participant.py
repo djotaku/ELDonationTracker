@@ -407,6 +407,39 @@ def test_output_donor_data_no_top_donor():
     assert fake_participant.write_text_files.called
 
 
+fake_extralife_io.read_in_total_raised.return_value = ''
+
+
+@mock.patch.object(eldonationtracker.utils.extralife_io, 'read_in_total_raised', fake_extralife_io.read_in_total_raised)
+def test_check_existence_of_text_files_no_value():
+    my_participant = Participant(fake_participant_conf)
+    is_there_a_text_file = my_participant._check_existence_of_text_files()
+    assert is_there_a_text_file is False
+
+
+fake_extralife_io.read_in_total_raised_low.return_value = '500.00'
+
+
+@mock.patch.object(eldonationtracker.utils.extralife_io, 'read_in_total_raised',
+                   fake_extralife_io.read_in_total_raised_low)
+def test_check_existence_of_text_files_low_value():
+    my_participant = Participant(fake_participant_conf)
+    is_there_a_text_file = my_participant._check_existence_of_text_files()
+    assert is_there_a_text_file is True
+
+
+fake_extralife_io.read_in_total_raised_high.return_value = '1,500.00'
+
+
+@mock.patch.object(eldonationtracker.utils.extralife_io, 'read_in_total_raised',
+                   fake_extralife_io.read_in_total_raised_high)
+def test_check_existence_of_text_files_high_value():
+    my_participant = Participant(fake_participant_conf)
+    is_there_a_text_file = my_participant._check_existence_of_text_files()
+    assert is_there_a_text_file is True
+
+
+
 fake_output_badge_data = mock.Mock()
 fake_output_milestone_data = mock.Mock()
 
