@@ -1,3 +1,13 @@
+#v6.2.2
+## Release Notes
+### User-Facing Changes
+- API pegging code had messed up Top Donor code that is now fixed
+- Fix bug upon loading if user has > $999.99 in donations 
+
+### Developer-Facing or API Changes
+- cleaned up logging code in utils.extralifeio
+
+
 #v6.2.1
 ## Release Notes
 ### User-Facing Changes
