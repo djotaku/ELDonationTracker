@@ -1,16 +1,16 @@
 """Grabs Participant JSON data and outputs to files."""
 
-from dataclasses import dataclass, field
 import logging
 from rich import print  # type ignore
 from rich.logging import RichHandler  # type ignore
 import time
 
 from donordrivepython.api import participant as donor_drive_participant
+from donordrivepython.api.participant import Milestone as Milestone
+from donordrivepython.api.participant import Incentive as Incentive
 import eldonationtracker.utils.extralife_io
-from eldonationtracker.api import donor as donor, team as team, donation as donation, badge
+from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io
-from eldonationtracker import base_api_url
 
 # logging
 participant_log = logging.getLogger("Participant")
@@ -32,46 +32,8 @@ class Participant(donor_drive_participant.Participant):
         (self._extralife_id, self._text_folder,
          self._currency_symbol, self._team_id,
          self._donors_to_display) = self.config.get_cli_values()
-        donor_drive_participant.Participant.__init__(self, self._extralife_id, self._text_folder, self._currency_symbol, self._team_id, self._donors_to_display)
-
-    def _get_top_donors(self):  # pragma: no cover
-        """Return Top Donors from server.
-
-        Uses donor drive's sorting to get the top guy or gal.
-        """
-        return extralife_io.get_donations(self._ordered_donor_list, self.participant_donor_url, False, True)
-
-    def _get_donors(self):  # pragma: no cover
-        """Return Donors from server."""
-        return extralife_io.get_donations(self._ordered_donor_list, self.participant_donor_url, False, False)
-
-    def _format_donor_information_for_output(self) -> None:
-        """Format the donor attributes for the output files."""
-        self._top_donor_formatted_output['TopDonorNameAmnt'] = extralife_io.single_format(self._top_donor, False,
-                                                                                          self.currency_symbol)
-        self._donor_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
-            self._donor_list, self.currency_symbol, self.donors_to_display, team=False, donation=False)
-
-    def _format_donation_information_for_output(self) -> None:
-        """Format the donation attributes for the output files."""
-        self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
-            self._donation_list, self.currency_symbol, self.donors_to_display, team=False)
-        self._top_donation_formatted_output['TopDonationNameAmnt'] = extralife_io.single_format(self._top_donation,
-                                                                                                False,
-                                                                                                self.currency_symbol)
-
-    def update_participant_attributes(self) -> None:  # pragma: no cover
-        """Update participant attributes.
-
-         A public method that will update the Participant object with data from self.participant_url.
-
-         Also called from the main loop.
-         """
-        self._total_raised, self._number_of_donations, self._goal, self._avatar_image_url, \
-            self._event_name, self._donation_link_url, self._stream_url, \
-            self._extra_life_page_url, self._created_date_utc, self._stream_is_live, \
-            self._sum_pledges, self._team_name, self._is_team_captain, self._display_name = self._get_participant_info()
-        self._average_donation = self._calculate_average_donation()
+        donor_drive_participant.Participant.__init__(self, self._extralife_id, self._text_folder, self._currency_symbol,
+                                                     self._team_id, self._donors_to_display)
 
     def output_participant_data(self) -> None:  # pragma: no cover
         """Format participant data and write to text files for use by OBS or XSplit.
@@ -82,41 +44,6 @@ class Participant(donor_drive_participant.Participant):
         self.write_text_files(self._participant_formatted_output)
         participant_avatar_for_html = "<img src=" + self.avatar_image_url + ">"
         extralife_io.write_html_files(participant_avatar_for_html, 'Participant_Avatar', self.text_folder)
-
-    def update_donation_data(self) -> None:
-        """Update donation data."""
-        if self.number_of_donations > 0:
-            self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
-                                                                                     self.donation_url)
-            self._ordered_donation_list = self._get_top_donations()
-            try:
-                self._top_donation = self._ordered_donation_list[0]
-            except IndexError:  # pragma: no cover
-                pass
-
-    def update_donor_data(self) -> None:
-        """Update donor data."""
-        if self.number_of_donations > 0:
-            self._donor_list = self._get_donors()
-            # anonymous donors mess things up because they don't populate the donor API endpoint.
-            # So this check prevents a crash.
-            if self._donor_list:
-                self._ordered_donor_list = self._get_top_donors()
-                self._top_donor = self._ordered_donor_list[0]
-
-    def _update_badges(self) -> None:
-        """Add all our badges to the list."""
-        self._badges = extralife_io.get_badges(self.badge_url)
-
-    def _update_milestones(self) -> None:
-        """Add all milestones to the list"""
-        json_response = extralife_io.get_json(self.milestone_url)
-        self._milestones = [Milestone.create_milestone(milestone_item) for milestone_item in json_response]
-
-    def _update_incentives(self) -> None:
-        """Add all incentives to list"""
-        json_response = extralife_io.get_json(self.incentive_url)
-        self._incentives = [Incentive.create_incentive(incentive) for incentive in json_response]
 
     def _check_existence_of_text_files(self) -> bool:
         """This is a temporary hack until I resolve Github issue #162"""
@@ -229,80 +156,6 @@ class Participant(donor_drive_participant.Participant):
             return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
         else:
             return f"A participant with Extra Life ID {self.extralife_id}."
-
-
-@dataclass
-class Milestone:  # type: ignore
-    """Fundraiser milestones associated with a Participant.
-
-    May not be available for all instances of Donor Drive.
-
-    More information at: https://github.com/DonorDrive/PublicAPI/blob/master/resources/milestones.md
-    """
-    description: str
-    fundraising_goal: float
-    is_active: bool
-    milestone_id: str
-    is_complete: bool = False
-    links: dict = field(default_factory=dict)
-    end_date_utc: str = ""
-    start_date_utc: str = ""
-
-    @staticmethod
-    def create_milestone(json_data: dict):  # type: ignore
-        """Uses the provided JSON data to create a Milestone object."""
-        # let's start with the data guaranteed to be returned
-        description = json_data.get("description")
-        fundraising_goal = json_data.get('fundraisingGoal')
-        is_active = json_data.get('isActive')
-        milestone_id = json_data.get('milestoneID')
-        # now the ones that may not be there
-        is_complete = (
-            json_data.get('isComplete') if 'isComplete' in json_data else False
-        )
-        links = json_data.get('links') if 'links' in json_data else {}
-        end_date_utc = json_data.get('endDateUTC') if 'endDateUTC' in json_data else ''
-        start_date_utc = json_data.get('startDateUTC') if 'startDateUTC' in json_data else ''
-        return Milestone(description, fundraising_goal, is_active, milestone_id, is_complete, links,  # type: ignore
-                         end_date_utc, start_date_utc)  # type: ignore
-
-
-@dataclass
-class Incentive:  # type: ignore
-    """Fundraiser incentives associated with a Participant.
-
-    May not be available for all instances of Donor Drive.
-
-    More information at:https://github.com/DonorDrive/PublicAPI/blob/master/resources/incentives.md
-    """
-    amount: float
-    description: str
-    incentive_id: str
-    is_active: str
-    end_date_utc: str = ''
-    incentive_image_url: str = ''
-    links: dict = field(default_factory=dict)
-    start_date_utc: str = ''
-    quantity: int = 0
-    quantity_claimed: int = 0
-
-    @staticmethod
-    def create_incentive(json_data: dict):
-        """Uses the provided JSON data to create an Incentive object."""
-        # guaranteed data from the API endpoint
-        amount = json_data.get("amount")
-        description = json_data.get("description")
-        incentive_id = json_data.get('incentiveID')
-        is_active = json_data.get("isActive")
-        # optional data
-        end_data_utc = json_data.get("endDateUTC") if "endDateUTC" in json_data else ''
-        incentive_image_url = json_data.get("incentiveImageURL") if "incentiveImageURL" in json_data else ''
-        links = json_data.get("links") if "links" in json_data else {}
-        start_date_utc = json_data.get("startDateUTC") if "startDateUTC" in json_data else ''
-        quantity = json_data.get("quantity") if "quantity" in json_data else 0
-        quantity_claimed = json_data.get("quantityClaimed") if "quantityClaimed" in json_data else 0
-        return Incentive(amount, description, incentive_id, is_active, end_data_utc,  # type: ignore
-                         incentive_image_url, links, start_date_utc, quantity, quantity_claimed)  # type: ignore
 
 
 if __name__ == "__main__":  # pragma: no cover
