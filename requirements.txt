@@ -5,11 +5,13 @@ attrs==19.3.0
 Babel==2.8.0
 certifi==2019.11.28
 chardet==3.0.4
+charset-normalizer==2.0.6
 colorama==0.4.3
 commonmark==0.9.1
 coverage==5.4
 dill==0.3.1.1
 docutils==0.16
+donordrivepython==1.0.0
 idna==2.9
 imagesize==1.2.0
 importlib-metadata==0.23
@@ -33,8 +35,8 @@ PyQt5-stubs==5.14.2.2
 PyQtWebEngine==5.15.2
 pytest==6.2.2
 pytz==2020.1
-requests==2.25.1
-rich==9.11.1
+requests==2.26.0
+rich==10.12.0
 semver==2.9.1
 six==1.13.0
 snowballstemmer==2.0.0
@@ -50,5 +52,5 @@ typed-ast==1.4.2
 typing-extensions==3.7.4.3
 urllib3==1.26.4
 wcwidth==0.1.7
-xdgenvpy==2.3.4
+xdgenvpy==2.3.5
 zipp==3.4.0
