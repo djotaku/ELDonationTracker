@@ -3,6 +3,7 @@
 from unittest import mock
 
 from eldonationtracker.api import team as team
+import donordrivepython.api.comms
 
 
 def test_team_urls():
@@ -246,6 +247,7 @@ fake_badge_run = mock.Mock()
 @mock.patch.object(team.Team, "participant_run", fake_participant_run)
 @mock.patch.object(team.Team, "write_text_files", fake_write_text_files)
 @mock.patch.object(team.Team, "donation_run", fake_donation_run)
+@mock.patch.object(team.Team, "_update_badges", fake_badge_run)
 def test_team_run():
     my_team = team.Team("12345", "folder", "$", "5")
     my_team.team_run()

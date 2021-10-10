@@ -151,12 +151,6 @@ class Participant(donor_drive_participant.Participant):
         self._first_run = False
         participant_log.info("Finished checking API and updating text files!")
 
-    def __str__(self):
-        if self.my_team:
-            return f"A participant with Extra Life ID {self.extralife_id}. Team info: {self.my_team}"
-        else:
-            return f"A participant with Extra Life ID {self.extralife_id}."
-
 
 if __name__ == "__main__":  # pragma: no cover
     participant_conf = extralife_io.ParticipantConf()
