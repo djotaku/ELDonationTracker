@@ -5,9 +5,9 @@ from rich import print  # type ignore
 from rich.logging import RichHandler  # type ignore
 import time
 
-from donordrivepython.api import participant as donor_drive_participant
-from donordrivepython.api.participant import Milestone as Milestone
-from donordrivepython.api.participant import Incentive as Incentive
+from donordrivepython.api import participant as donor_drive_participant  # type ignore
+from donordrivepython.api.participant import Milestone as Milestone  # type ignore
+from donordrivepython.api.participant import Incentive as Incentive  # type ignore
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io
@@ -130,8 +130,8 @@ class Participant(donor_drive_participant.Participant):
         # absurd to have a goal of $0.
         if self.goal != 0:
             self.output_participant_data()
-        if self._first_run or self.number_of_donations > number_of_donations:
-            if not self._first_run:
+        if self._first_run or self.number_of_donations > number_of_donations:  # type ignore
+            if not self._first_run:  # type ignore
                 print("[bold green]A new donation![/bold green]")
                 self._new_donation = True
             self.update_donation_data()
