@@ -39,7 +39,7 @@ def test_get_team_json():
 
 def test_get_team_json_no_json():
     """Test to make sure if no JSON is returned from the endpoint, the program responds correcty."""
-    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value={}):
+    with mock.patch("donordrivepython.api.comms.get_json", return_value={}):
         my_team = team.Team("12345", "folder", "$", "5")
         team_json = my_team._get_team_json()
         assert team_json == (0, '', 0, 0, '')

@@ -11,10 +11,10 @@ from typing import Tuple, Any
 
 import xdgenvpy  # type: ignore
 
-from eldonationtracker import api_version_suffix
-from eldonationtracker.api.donation import Donation
-from eldonationtracker.api.donor import Donor
-from eldonationtracker.api.badge import Badge  # type: ignore
+from donordrivepython import api_version_suffix
+from donordrivepython.api.donation import Donation
+from donordrivepython.api.donor import Donor
+from donordrivepython.api.badge import Badge  # type: ignore
 
 # logging
 el_io_log = logging.getLogger("ExtraLife IO")
