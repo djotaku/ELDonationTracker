@@ -1,3 +1,11 @@
+#v7.0.0
+## Release Notes
+### User-Facing Changes
+- Nothing has changed for the user
+
+### Developer-Facing or API Changes
+- moved most of the API code to [DonorDrivePython](https://github.com/djotaku/DonorDrivePython) to abstract it away from Extra Life so it can be used by others using the DonorDrive API. 
+
 #v6.2.2
 ## Release Notes
 ### User-Facing Changes
