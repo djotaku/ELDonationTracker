@@ -28,7 +28,7 @@ def test_donors_to_display():
 
 def test_get_team_json():
     """Test that the JSON we get back is correctly interpreted."""
-    with mock.patch("eldonationtracker.api.team.extralife_io.get_json",
+    with mock.patch("donordrivepython.api.team.donor_drive_comms.get_json",
                     return_value={"fundraisingGoal": 500, "captainDisplayName": "Captain Awesome",
                                   "sumDonations": 400, "numDonations": 300,
                                   "avatarImageURL": "//assets.donordrive.com/…avatar-team-default.gif"}):
@@ -99,7 +99,7 @@ def test_get_participants():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
+    with mock.patch("donordrivepython.api.team.donor_drive_comms.get_json", return_value=team_participants):
         participants = my_team._get_participants(False)
         assert participants[0].name == "Karl Abraham"
         assert participants[1].name == "Ben Tolmachoff"
@@ -146,7 +146,7 @@ def test_get_participants_top_5():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
+    with mock.patch("donordrivepython.api.team.donor_drive_comms.get_json", return_value=team_participants):
         participants = my_team._get_participants(True)
         assert participants[0].name == "Karl Abraham"
         assert participants[1].name == "Ben Tolmachoff"
@@ -185,7 +185,7 @@ def test_top_participant():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
+    with mock.patch("donordrivepython.api.team.donor_drive_comms.get_json", return_value=team_participants):
         my_team._top_5_participant_list = my_team._get_participants(True)
         top_participant = my_team._top_participant()
         assert top_participant == "Karl Abraham - $0.00"
@@ -227,7 +227,7 @@ def test_participant_calculations():
                           "participantID":410654,"teamName":"Giant Bomb",
                           "avatarImageURL":"//assets.donordrive.com/extralife/images/$avatars$/constituent_0AFEA929-C29F-F29A-6B659B3718802B75.jpg",
                           "teamID":50394,"isTeamCaptain":False,"sumPledges":0.00,"numDonations":1}]
-    with mock.patch("eldonationtracker.api.team.extralife_io.get_json", return_value=team_participants):
+    with mock.patch("donordrivepython.api.team.donor_drive_comms.get_json", return_value=team_participants):
         my_team._top_5_participant_list = my_team._get_participants(True)
         my_team._participant_calculations()
         assert my_team._participant_calculation_dict['Team_TopParticipantNameAmnt'] == "Karl Abraham - $0.00"
