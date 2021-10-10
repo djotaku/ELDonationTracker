@@ -11,6 +11,7 @@ from donordrivepython.api.participant import Incentive as Incentive  # type igno
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io
+from eldonationtracker import base_api_url
 
 # logging
 participant_log = logging.getLogger("Participant")
@@ -33,7 +34,22 @@ class Participant(donor_drive_participant.Participant):
          self._currency_symbol, self._team_id,
          self._donors_to_display) = self.config.get_cli_values()
         donor_drive_participant.Participant.__init__(self, self._extralife_id, self._text_folder, self._currency_symbol,
-                                                     self._team_id, self._donors_to_display)
+                                                     self._team_id, self._donors_to_display, base_api_url)
+
+    def set_config_values(self) -> None:
+        """Set participant values, create URLs, and create Team."""
+        # urls
+        self._participant_url = f"{self._base_api_url}/participants/{self.donor_drive_id}"
+        self._donation_url = f"{self.participant_url}/donations"
+        self._participant_donor_url = f"{self.participant_url}/donors"
+        self._badge_url = f"{self.participant_url}/badges"
+        self._milestone_url = f"{self.participant_url}/milestones"
+        self._incentive_url = f"{self.participant_url}/incentives"
+
+        if self.team_id:
+            self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display,
+                                      self._base_api_url)
+
 
     def output_participant_data(self) -> None:  # pragma: no cover
         """Format participant data and write to text files for use by OBS or XSplit.
@@ -157,4 +173,5 @@ if __name__ == "__main__":  # pragma: no cover
     p = Participant(participant_conf)
     while True:
         p.run()
+        print(p)
         time.sleep(15)

@@ -16,8 +16,9 @@ team_log.setLevel(logging.INFO)
 class Team(DonorDriveTeam):
     """Hold Team API Data."""
 
-    def __init__(self, team_id: str, output_folder: str, currency_symbol: str, donors_to_display: str):
-        DonorDriveTeam.__init__(self, team_id, output_folder, currency_symbol, donors_to_display)
+    def __init__(self, team_id: str, output_folder: str, currency_symbol: str, donors_to_display: str,
+                 base_api_url: str):
+        DonorDriveTeam.__init__(self, team_id, output_folder, currency_symbol, donors_to_display, base_api_url)
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write info to text files.
@@ -28,6 +29,7 @@ class Team(DonorDriveTeam):
 
     def team_run(self) -> None:
         """A public method to update and output team and team participant info."""
+        logging.debug("I am in team_run")
         number_of_donations = self.num_donations
         self.team_api_info()
         if self.num_donations > number_of_donations:
