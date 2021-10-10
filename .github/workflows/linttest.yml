@@ -31,10 +31,6 @@ jobs:
         pip install pytest 
         pytest -v --pyargs eldonationtracker
       shell: bash
-    - name: Check with MyPy
-      run: |
-         pip install mypy
-         mypy eldonationtracker
     - name: CodeCov
       run: |
         pip install codecov
