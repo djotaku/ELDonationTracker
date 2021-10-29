@@ -1,3 +1,11 @@
+#v7.0.1
+## Release Notes
+### User-Facing Changes
+- Nothing has changed for the user
+
+### Developer-Facing or API Changes
+- Updated to [DonorDrivePython 1.1.1](https://github.com/djotaku/DonorDrivePython) which should prevent a crash if the JSON comes had a decoder error. 
+
 #v7.0.0
 ## Release Notes
 ### User-Facing Changes
