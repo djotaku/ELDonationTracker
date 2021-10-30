@@ -1,3 +1,11 @@
+#v7.0.2
+## Release Notes
+### User-Facing Changes
+- Nothing has changed for the user
+
+### Developer-Facing or API Changes
+- Updated to [DonorDrivePython 1.2.0](https://github.com/djotaku/DonorDrivePython) which should provide better error reporting. 
+
 #v7.0.1
 ## Release Notes
 ### User-Facing Changes
