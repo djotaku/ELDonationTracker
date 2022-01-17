@@ -61,24 +61,18 @@ class Participant(donor_drive_participant.Participant):
         participant_avatar_for_html = "<img src=" + self.avatar_image_url + ">"
         extralife_io.write_html_files(participant_avatar_for_html, 'Participant_Avatar', self.text_folder)
 
-    def _check_existence_of_text_files(self) -> bool:
-        """This is a temporary hack until I resolve Github issue #162"""
-        value_in_total_raised = extralife_io.read_in_total_raised(self.text_folder)
-        return value_in_total_raised != ""
-
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
-        self._text_files_exist = self._check_existence_of_text_files()
         if len(self._donation_list) > 0:
             self._format_donation_information_for_output()
             self.write_text_files(self._donation_formatted_output)
             if self._top_donation is not None:
                 self.write_text_files(self._top_donation_formatted_output)
-        elif not self._text_files_exist:
+        else:
             participant_log.info("[bold blue]No donations, writing default data to files.[/bold blue]")
             self.write_text_files(self._donation_formatted_output)
 
@@ -88,13 +82,12 @@ class Participant(donor_drive_participant.Participant):
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
-        self._text_files_exist = self._check_existence_of_text_files()
         if len(self._donation_list) > 0:
             self._format_donor_information_for_output()
             self.write_text_files(self._donor_formatted_output)
             if self._top_donor is not None:
                 self.write_text_files(self._top_donor_formatted_output)
-        elif not self._text_files_exist:
+        else:
             participant_log.info("[bold blue]No donors or only anonymous donors, writing default data to files.[/bold "
                                  "blue]")
             self.write_text_files(self._top_donor_formatted_output)
@@ -146,26 +139,29 @@ class Participant(donor_drive_participant.Participant):
         # absurd to have a goal of $0.
         if self.goal != 0:
             self.output_participant_data()
-        if self._first_run or self.number_of_donations > number_of_donations:  # type ignore
-            if not self._first_run:  # type ignore
-                print("[bold green]A new donation![/bold green]")
-                self._new_donation = True
-            self.update_donation_data()
-            self.output_donation_data()
-            self.update_donor_data()
-            # again, below is necessary because anonymous donors don't appear on the donor API endpoint.
-            if self._donor_list:
-                self.output_donor_data()
-            self._update_badges()
-            extralife_io.output_badge_data(self.badges, self.text_folder)
-            self._update_milestones()
-            self.output_milestone_data()
-        # TEAM BLOCK ############################################
-        if self.team_id:
-            self.my_team.team_run()
-        ##########################################################
-        self._first_run = False
-        participant_log.info("Finished checking API and updating text files!")
+            if self._first_run or self.number_of_donations > number_of_donations:  # type ignore
+                if not self._first_run:  # type ignore
+                    print("[bold green]A new donation![/bold green]")
+                    self._new_donation = True
+                self.update_donation_data()
+                self.output_donation_data()
+                self.update_donor_data()
+                # again, below is necessary because anonymous donors don't appear on the donor API endpoint.
+                if self._donor_list:
+                    self.output_donor_data()
+                self._update_badges()
+                extralife_io.output_badge_data(self.badges, self.text_folder)
+                self._update_milestones()
+                self.output_milestone_data()
+            # TEAM BLOCK ############################################
+            if self.team_id:
+                self.my_team.team_run()
+            ##########################################################
+            self._first_run = False
+            participant_log.info("Finished checking API and updating text files!")
+        else:
+            participant_log.info("Goal was $0, most likely API unreachable. Did not update text files.")
+
 
 
 if __name__ == "__main__":  # pragma: no cover
