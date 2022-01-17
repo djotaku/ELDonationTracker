@@ -1,3 +1,12 @@
+#v7.1.0
+## Release Notes
+### User-Facing Changes
+- Text file creation should work better now on a new year where there haven't been any donations yet.
+
+### Developer-Facing or API Changes
+
+
+
 #v7.0.2
 ## Release Notes
 ### User-Facing Changes
