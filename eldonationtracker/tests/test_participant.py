@@ -389,53 +389,23 @@ def test_output_donor_data_no_donations():
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
 @mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donor_information_for_output',
                    fake_participant._format_donor_information_for_output)
-def test_output_donor_data():
+def test_output_donor_data_no_top_donor():
     my_participant = Participant(fake_participant_conf)
     my_participant._donation_list = ["a donor", "another_donor"]
-    my_participant._top_donor = "a top donor"
+    my_participant._donor_list = []
     my_participant.output_donor_data()
-    assert fake_participant._format_donor_information_for_output.called
+    assert fake_participant._format_donor_information_for_output.assert_not_called
     assert fake_participant.write_text_files.called
 
 
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
 @mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donor_information_for_output',
                    fake_participant._format_donor_information_for_output)
-def test_output_donor_data_no_top_donor():
+def test_output_donor_data():
     my_participant = Participant(fake_participant_conf)
-    my_participant._donation_list = ["a donor", "another_donor"]
+    my_participant._donor_list = ["a donor", "another_donor"]
+    my_participant._top_donor = "a top donor"
     my_participant.output_donor_data()
     assert fake_participant._format_donor_information_for_output.called
     assert fake_participant.write_text_files.called
 
-
-fake_extralife_io.read_in_total_raised.return_value = ''
-
-
-@mock.patch.object(eldonationtracker.utils.extralife_io, 'read_in_total_raised', fake_extralife_io.read_in_total_raised)
-def test_check_existence_of_text_files_no_value():
-    my_participant = Participant(fake_participant_conf)
-    is_there_a_text_file = my_participant._check_existence_of_text_files()
-    assert is_there_a_text_file is False
-
-
-fake_extralife_io.read_in_total_raised_low.return_value = '500.00'
-
-
-@mock.patch.object(eldonationtracker.utils.extralife_io, 'read_in_total_raised',
-                   fake_extralife_io.read_in_total_raised_low)
-def test_check_existence_of_text_files_low_value():
-    my_participant = Participant(fake_participant_conf)
-    is_there_a_text_file = my_participant._check_existence_of_text_files()
-    assert is_there_a_text_file is True
-
-
-fake_extralife_io.read_in_total_raised_high.return_value = '1,500.00'
-
-
-@mock.patch.object(eldonationtracker.utils.extralife_io, 'read_in_total_raised',
-                   fake_extralife_io.read_in_total_raised_high)
-def test_check_existence_of_text_files_high_value():
-    my_participant = Participant(fake_participant_conf)
-    is_there_a_text_file = my_participant._check_existence_of_text_files()
-    assert is_there_a_text_file is True

@@ -1,3 +1,12 @@
+#v7.1.0
+## Release Notes
+### User-Facing Changes
+- Text file creation should work better now on a new year where there haven't been any donations yet.
+
+### Developer-Facing or API Changes
+- Updated to [DonorDrivePython 1.3.0](https://github.com/djotaku/DonorDrivePython) which should provide even better error reporting.
+
+
 #v7.0.2
 ## Release Notes
 ### User-Facing Changes
