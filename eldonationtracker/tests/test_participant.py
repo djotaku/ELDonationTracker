@@ -389,21 +389,23 @@ def test_output_donor_data_no_donations():
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
 @mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donor_information_for_output',
                    fake_participant._format_donor_information_for_output)
-def test_output_donor_data():
+def test_output_donor_data_no_top_donor():
     my_participant = Participant(fake_participant_conf)
     my_participant._donation_list = ["a donor", "another_donor"]
-    my_participant._top_donor = "a top donor"
+    my_participant._donor_list = []
     my_participant.output_donor_data()
-    assert fake_participant._format_donor_information_for_output.called
+    assert fake_participant._format_donor_information_for_output.assert_not_called
     assert fake_participant.write_text_files.called
 
 
 @mock.patch.object(eldonationtracker.api.participant.Participant, 'write_text_files', fake_participant.write_text_files)
 @mock.patch.object(eldonationtracker.api.participant.Participant, '_format_donor_information_for_output',
                    fake_participant._format_donor_information_for_output)
-def test_output_donor_data_no_top_donor():
+def test_output_donor_data():
     my_participant = Participant(fake_participant_conf)
-    my_participant._donation_list = ["a donor", "another_donor"]
+    my_participant._donor_list = ["a donor", "another_donor"]
+    my_participant._top_donor = "a top donor"
     my_participant.output_donor_data()
     assert fake_participant._format_donor_information_for_output.called
     assert fake_participant.write_text_files.called
+
