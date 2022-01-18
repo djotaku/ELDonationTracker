@@ -52,7 +52,7 @@ def get_json(url: str, order_by_donations: bool = False, order_by_amount: bool =
     elif order_by_amount:
         url += "?orderBy=amount%20DESC"
     else:
-        url += api_version_suffix
+        url += f"?{api_version_suffix}"
     try:
         el_io_log.debug(url)
         response = requests.get(url=url, headers=header)

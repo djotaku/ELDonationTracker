@@ -82,7 +82,7 @@ class Participant(donor_drive_participant.Participant):
         If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
-        if len(self._donation_list) > 0:
+        if len(self._donor_list) > 0:
             self._format_donor_information_for_output()
             self.write_text_files(self._donor_formatted_output)
             if self._top_donor is not None:
@@ -146,9 +146,7 @@ class Participant(donor_drive_participant.Participant):
                 self.update_donation_data()
                 self.output_donation_data()
                 self.update_donor_data()
-                # again, below is necessary because anonymous donors don't appear on the donor API endpoint.
-                if self._donor_list:
-                    self.output_donor_data()
+                self.output_donor_data()
                 self._update_badges()
                 extralife_io.output_badge_data(self.badges, self.text_folder)
                 self._update_milestones()
