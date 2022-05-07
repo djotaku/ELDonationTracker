@@ -4,12 +4,7 @@
 
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as the embedded Twitch stream?
 
-<iframe
-    src="https://player.twitch.tv/?djotaku&parent=www.github.com"
-    height="<height>"
-    width="<width>"
-    allowfullscreen>
-</iframe>
+![OBSwithExtraLifeRunning](https://github.com/djotaku/ELDonationTracker/blob/5082d36148aa0a9ed850b179ae858d0aa3db8cb4/screenshots/OBS.GIF)
 
 
 Read ahead to find out how!
