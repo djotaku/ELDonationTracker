@@ -4,15 +4,9 @@ Linux, see videos below for PyPi or git clone instructions.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
 
-Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in my Twitch streams?
+Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the animated GIF below?
 
-<iframe
-    src="https://player.twitch.tv/?djotaku&parent=www.github.com"
-    height="<height>"
-    width="<width>"
-    allowfullscreen>
-</iframe>
-
+![OBS with Extra Life Donation Tracker](https://github.com/djotaku/ELDonationTracker/blob/07ccba66ac8c2c28e320509ade30dd38758eefdd/OBS.GIF)
 
 # How to use the Extra Life Donation Tracker:
 
