@@ -4,11 +4,15 @@ Linux, see videos below for PyPi or git clone instructions.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
 
-Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
+Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in my Twitch streams?
 
-![Updates while in-game](https://github.com/djotaku/ELDonationTracker/raw/master/screenshots/IngameUpdates.png)
+<iframe
+    src="https://player.twitch.tv/?<channel, video, or collection>&parent=streamernews.example.com"
+    height="<height>"
+    width="<width>"
+    allowfullscreen>
+</iframe>
 
-![Updates while the webcam is the main focus](https://github.com/djotaku/ELDonationTracker/raw/master/screenshots/RecentDonations.png)
 
 # How to use the Extra Life Donation Tracker:
 
