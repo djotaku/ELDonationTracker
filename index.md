@@ -6,7 +6,7 @@ If you find this useful, please consider donating to my [Extra Life campaign](ht
 
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the animated GIF below?
 
-![OBS with Extra Life Donation Tracker](https://github.com/djotaku/ELDonationTracker/blob/da007bcb8effaad7f1df726127a01763cd4dcae4/OBS.GIF)
+![OBS with Extra Life Donation Tracker](https://github.com/djotaku/ELDonationTracker/blob/a769bcd0c89b3981fb587f28647dfdb902d049b3/OBS.GIF?raw=true)
 
 # How to use the Extra Life Donation Tracker:
 
