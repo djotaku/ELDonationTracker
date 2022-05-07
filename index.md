@@ -7,7 +7,7 @@ If you find this useful, please consider donating to my [Extra Life campaign](ht
 Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in my Twitch streams?
 
 <iframe
-    src="https://player.twitch.tv/?<channel, video, or collection>&parent=streamernews.example.com"
+    src="https://player.twitch.tv/?djotaku&parent=www.github.com"
     height="<height>"
     width="<width>"
     allowfullscreen>
