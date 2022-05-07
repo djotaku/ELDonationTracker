@@ -8,13 +8,12 @@ from PyQt5.QtWidgets import QDialog, QFileDialog, QFontDialog, QColorDialog, QMe
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.ui.settings import *
-from eldonationtracker import base_api_url
+from eldonationtracker import base_api_url, file_logging
 from eldonationtracker.utils import extralife_io
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 call_settings_log = logging.getLogger("call settings")
+call_settings_log.addHandler(file_logging)
 
 
 class MyForm(QDialog):

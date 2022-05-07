@@ -7,10 +7,12 @@ from typing import Tuple, List
 from donordrivepython.api.team import Team as DonorDriveTeam
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.utils import extralife_io as extralife_io
+from eldonationtracker import  file_logging
 
 # logging
 team_log = logging.getLogger("Team:")
 team_log.setLevel(logging.INFO)
+team_log.addHandler(file_logging)
 
 
 class Team(DonorDriveTeam):

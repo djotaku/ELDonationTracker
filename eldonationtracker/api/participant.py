@@ -11,11 +11,12 @@ from donordrivepython.api.participant import Incentive as Incentive  # type igno
 import eldonationtracker.utils.extralife_io
 from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io
-from eldonationtracker import base_api_url
+from eldonationtracker import base_api_url, file_logging
 
 # logging
 participant_log = logging.getLogger("Participant")
 participant_log.setLevel(logging.INFO)
+participant_log.addHandler(file_logging)
 
 
 class Participant(donor_drive_participant.Participant):

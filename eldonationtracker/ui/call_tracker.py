@@ -9,11 +9,12 @@ from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent  # type: ignore
 from PyQt5.QtGui import QFont, QColor
 
 from eldonationtracker.ui.tracker import *
+from eldonationtracker import file_logging
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
 call_tracker_log = logging.getLogger("Call_Tracker")
 call_tracker_log.setLevel(logging.INFO)
+call_tracker_log.addHandler(file_logging)
 
 
 class MyForm(QDialog):

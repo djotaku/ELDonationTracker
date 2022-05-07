@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>788</width>
+    <width>789</width>
     <height>749</height>
    </rect>
   </property>
@@ -551,7 +551,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>© 2015-2021 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
+     <string>© 2015-2022 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -620,14 +620,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>788</width>
-     <height>29</height>
+     <width>789</width>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionShow_Logs"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -665,6 +666,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About ELDonationTracker</string>
+   </property>
+  </action>
+  <action name="actionShow_Logs">
+   <property name="text">
+    <string>Show Logs</string>
    </property>
   </action>
  </widget>
