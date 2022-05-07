@@ -43,6 +43,7 @@ class MyForm(QDialog):
                 self.ui.logs.setText(log)
         except FileNotFoundError:
             call_logs_log.error("Couldn't find log file.")
+            self.ui.logs.setText("Log file not found")
 
     def copy_clipboard(self):
         self.ui.logs.selectAll()
