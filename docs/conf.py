@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('../lib/python3.8/site-packages'))
 from eldonationtracker import __version__ as current_version
 
 project = 'eldonationtracker'
-copyright = '2020, Eric Mesa'
+copyright = '2022, Eric Mesa'
 author = 'Eric Mesa'
 
 # The full version, including alpha/beta/rc tags
