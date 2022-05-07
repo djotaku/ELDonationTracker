@@ -18,12 +18,11 @@ from eldonationtracker.ui import call_about as call_about, call_settings as call
     main_gui as design
 from eldonationtracker.utils import extralife_io as extralife_io
 import eldonationtracker.utils.update_available
+from eldonationtracker import file_logging
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 GUI_log = logging.getLogger("main GUI")
-
+GUI_log.addHandler(file_logging)
 
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     """The main ui Window."""
