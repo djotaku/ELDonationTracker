@@ -2,19 +2,44 @@
 
 
 
-Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as in the following screenshots?
+Would you like to be able to update your donations in real-time during a Live Stream or while recording a Let's Play as the embedded Twitch stream?
 
-![Updates while in-game](https://github.com/djotaku/ELDonationTracker/raw/master/screenshots/IngameUpdates.png)
+<iframe
+    src="https://player.twitch.tv/?<channel, video, or collection>&parent=streamernews.example.com"
+    height="<height>"
+    width="<width>"
+    allowfullscreen>
+</iframe>
+
 
 Read ahead to find out how!
 
 If you find this useful, please consider donating to my [Extra Life campagin](http://extralife.ericmesa.com)
 
-# Users
+# How To for Users
 
 visit: http://djotaku.github.io/ELDonationTracker/ for video instructions on how to use the program.
 
 If you prefer text instructions, read the documentation at: https://eldonationtracker.readthedocs.io/en/latest/index.html
+
+The quickstart instructions are:
+- Go to releases and the most recent release
+- If you're on Windows:
+  - grab the file at the bottom
+  - launch it
+  - Click on the config button to fill out the config
+  - Hit run and it will populate the folder you picked in config with the data you can use in OBS/XSplit for your overlay
+- If you're on Linux:
+  - You can use PyPi to install eldonationtracker
+  - You can git clone this repo, install the requirements and go from there
+  - If you need the GUI you can use Docker or Podman with a command that looks like:
+  ```bash
+  docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:latest
+  
+  # or
+  
+   podman run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker:Z -v ./testoutput:/root/output:Z djotaku/eldonationtracker:latest
+  ```
 
 # How To for developers
 
@@ -22,11 +47,10 @@ Please see [CONTRIBUTING.MD](https://github.com/djotaku/ELDonationTracker/blob/m
 
 Modules are well-documented at: https://eldonationtracker.readthedocs.io/en/latest/py-modindex.html
 
-
-# Web GUI - may return in 7.0
-
-The code was so out of date and probably didn't work any longer with the all the refactoring I've done. I have deleted the file (and it may return in the 7.0 release)  
-
 # Support
 
-If you want support for other configurations, please open an issue.
+If anything goes wrong, please open a Bug Report under issues.
+
+If you want a new type of output data, fill out a Reequest for New Output Data issue
+
+If there's documentation missing, fill out the Missing Documentation issue 
