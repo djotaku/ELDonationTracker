@@ -1,4 +1,13 @@
-#v7.1.0
+# v7.2.0
+## Release Notes
+### User-Facing Changes
+- Added a GUI with log output.
+
+### Developer-Facing or API Changes
+- Nothing, really
+
+
+# v7.1.0
 ## Release Notes
 ### User-Facing Changes
 - Text file creation should work better now on a new year where there haven't been any donations yet.
@@ -7,7 +16,7 @@
 - Updated to [DonorDrivePython 1.3.0](https://github.com/djotaku/DonorDrivePython) which should provide even better error reporting.
 
 
-#v7.0.2
+# v7.0.2
 ## Release Notes
 ### User-Facing Changes
 - Nothing has changed for the user
@@ -15,7 +24,7 @@
 ### Developer-Facing or API Changes
 - Updated to [DonorDrivePython 1.2.0](https://github.com/djotaku/DonorDrivePython) which should provide better error reporting. 
 
-#v7.0.1
+# v7.0.1
 ## Release Notes
 ### User-Facing Changes
 - Nothing has changed for the user
@@ -23,7 +32,7 @@
 ### Developer-Facing or API Changes
 - Updated to [DonorDrivePython 1.1.1](https://github.com/djotaku/DonorDrivePython) which should prevent a crash if the JSON comes had a decoder error. 
 
-#v7.0.0
+# v7.0.0
 ## Release Notes
 ### User-Facing Changes
 - Nothing has changed for the user
@@ -31,7 +40,7 @@
 ### Developer-Facing or API Changes
 - moved most of the API code to [DonorDrivePython](https://github.com/djotaku/DonorDrivePython) to abstract it away from Extra Life so it can be used by others using the DonorDrive API. 
 
-#v6.2.2
+# v6.2.2
 ## Release Notes
 ### User-Facing Changes
 - API pegging code had messed up Top Donor code that is now fixed
@@ -41,7 +50,7 @@
 - cleaned up logging code in utils.extralifeio
 
 
-#v6.2.1
+# v6.2.1
 ## Release Notes
 ### User-Facing Changes
 - A fix so that the font changes for the tracker window that are saved in preferences are applied upon startup..
@@ -50,7 +59,7 @@
 - cleaned up some duplicate code in call_tracker.py
 - cleaned up logging code
 
-#v6.2
+# v6.2
 ## Release Notes
 ### User-Facing Changes
 
@@ -58,7 +67,7 @@
 - Move from urllib to requests
 - Pegged DonorDrive API version
 
-#v6.1.2
+# v6.1.2
 ## Release Notes
 ### User-Facing Changes
 - Should not overwrite your text files if the API can't be reached
@@ -66,7 +75,7 @@
 
 ### Developer-Facing or API Changes
 
-#v6.1.1
+# v6.1.1
 ## Release Notes
 ### User-Facing Changes
 - None
@@ -74,7 +83,7 @@
 ### Developer-Facing or API Changes
 - Because Donor API is empty if user only has Anonymous donors, changed handling of Donors slightly
 
-#v6.1.0
+# v6.1.0
 ## Release Notes
 ### User-Facing Changes
 - Badge Output files: See the subfolder badges within your output folder. There is an images folder with HTML so you can display the images.
@@ -87,7 +96,7 @@
 - Milestone API now available for participants
 - Incentive API now available for participants
 
-#v6.0.2
+# v6.0.2
 ## Release Notes
 ### User-Facing Changes
 None
@@ -95,7 +104,7 @@ None
 ### Developer-Facing or API Changes
 - The string "http:" is no longer prepended to Particpant and Team Avatar URLs.
 
-#v6.0
+# v6.0
 ## Release Notes
 
 ### User-Facing Changes
@@ -118,7 +127,7 @@ These also replace any "getter" methods that had been in place.
 - Now getting all the attributes for the Participant, Team, Donor, and Donation. We aren't currently pushing all of these out to text files for the user, but can be used if you want to use this package as a Python API for your own programs.
 
 
-#v5.3.0
+# v5.3.0
 ## Release Notes
 
 ### User-Facing Changes
@@ -132,7 +141,7 @@ These also replace any "getter" methods that had been in place.
 - Updated the version of PyQt and associated libraries.
 
 
-#v5.2.4
+# v5.2.4
 ## Release Notes
 
 ### User-Facing Changes
