@@ -15,10 +15,12 @@ from donordrivepython import api_version_suffix
 from donordrivepython.api.donation import Donation
 from donordrivepython.api.donor import Donor
 from donordrivepython.api.badge import Badge  # type: ignore
+from eldonationtracker import file_logging
 
 # logging
 el_io_log = logging.getLogger("ExtraLife IO")
 el_io_log.setLevel(logging.INFO)
+el_io_log.addHandler(file_logging)
 
 
 def validate_url(url: str):

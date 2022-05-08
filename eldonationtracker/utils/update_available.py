@@ -12,11 +12,11 @@ from urllib.request import Request, urlopen  # type: ignore
 from urllib.error import HTTPError, URLError  # type: ignore
 
 from eldonationtracker import __version__ as pkg_current_version
+from eldonationtracker import file_logging
 
 # logging
-LOG_FORMAT = '%(name)s: %(message)s'
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[RichHandler(markup=True, show_path=False)])
 update_log = logging.getLogger("update available")
+update_log.addHandler(file_logging)
 
 
 def get_pypi_version(url: str) -> str:

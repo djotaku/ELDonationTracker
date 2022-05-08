@@ -14,8 +14,7 @@ import sys
 import webbrowser
 
 from eldonationtracker.api import participant as participant
-from eldonationtracker.ui import call_about as call_about, call_settings as call_settings, call_tracker as call_tracker, \
-    main_gui as design
+from eldonationtracker.ui import call_about, call_settings, call_tracker, call_logs, main_gui as design
 from eldonationtracker.utils import extralife_io as extralife_io
 import eldonationtracker.utils.update_available
 from eldonationtracker import file_logging
@@ -72,6 +71,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         # instantiate About
         self.call_about = call_about.AboutProgram()
 
+        # instantiate log window
+        self.call_logs = call_logs.MyForm()
+
         # want to make sure file exists on new run
         self.folders = self.participant_conf.get_text_folder_only()
 
@@ -85,6 +87,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.pushButtonStop.clicked.connect(self.stop_button)
 
         # Menu connections
+        self.actionShow_Logs.triggered.connect(self.show_logs)
         self.actionQuit.triggered.connect(self.quit)
         self.actionDocumentation.triggered.connect(self.load_documentation)
         self.actionCheck_for_Update.triggered.connect(self.check_for_update)
@@ -110,6 +113,9 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
                     GUI_log.info("[bold blue]When you save the settings, you will be up to date[/bold blue]")
         else:
             GUI_log.debug("[bold green]Version is correct[/bold green] ")
+
+    def show_logs(self):
+        self.call_logs.show()
 
     def test_alert(self):
         self.tracker.load_and_unload_test()
