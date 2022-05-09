@@ -2,8 +2,9 @@
 
 from unittest import mock
 
-from eldonationtracker.api import team as team
 import donordrivepython.api.comms
+
+from eldonationtracker.api import team as team
 
 
 def test_team_urls():

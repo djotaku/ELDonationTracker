@@ -1,13 +1,14 @@
 """Contains classes pertaining to teams."""
 import logging
-from rich import print
-from rich.logging import RichHandler
-from typing import Tuple, List
+from typing import List, Tuple
 
 from donordrivepython.api.team import Team as DonorDriveTeam
+from rich import print
+from rich.logging import RichHandler
+
 import eldonationtracker.utils.extralife_io
+from eldonationtracker import file_logging
 from eldonationtracker.utils import extralife_io as extralife_io
-from eldonationtracker import  file_logging
 
 # logging
 team_log = logging.getLogger("Team:")

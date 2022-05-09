@@ -2,7 +2,7 @@ description
 
 # Installation/Usage Instructions
 
-## tl;dr: 
+## tl;dr:
 **Windows Users**
 
 Grab the file below.

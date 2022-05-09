@@ -1,17 +1,21 @@
 """Grabs Participant JSON data and outputs to files."""
 
 import logging
-from rich import print  # type ignore
-from rich.logging import RichHandler  # type ignore
 import time
 
-from donordrivepython.api import participant as donor_drive_participant  # type ignore
-from donordrivepython.api.participant import Milestone as Milestone  # type ignore
-from donordrivepython.api.participant import Incentive as Incentive  # type ignore
+from donordrivepython.api import \
+    participant as donor_drive_participant  # type ignore
+from donordrivepython.api.participant import \
+    Incentive as Incentive  # type ignore
+from donordrivepython.api.participant import \
+    Milestone as Milestone  # type ignore
+from rich import print  # type ignore
+from rich.logging import RichHandler  # type ignore
+
 import eldonationtracker.utils.extralife_io
+from eldonationtracker import base_api_url, file_logging
 from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io
-from eldonationtracker import base_api_url, file_logging
 
 # logging
 participant_log = logging.getLogger("Participant")
@@ -37,21 +41,6 @@ class Participant(donor_drive_participant.Participant):
         donor_drive_participant.Participant.__init__(self, self._extralife_id, self._text_folder, self._currency_symbol,
                                                      self._team_id, self._donors_to_display, base_api_url)
 
-    def set_config_values(self) -> None:
-        """Set participant values, create URLs, and create Team."""
-        # urls
-        self._participant_url = f"{self._base_api_url}/participants/{self.donor_drive_id}"
-        self._donation_url = f"{self.participant_url}/donations"
-        self._participant_donor_url = f"{self.participant_url}/donors"
-        self._badge_url = f"{self.participant_url}/badges"
-        self._milestone_url = f"{self.participant_url}/milestones"
-        self._incentive_url = f"{self.participant_url}/incentives"
-
-        if self.team_id:
-            self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display,
-                                      self._base_api_url)
-
-
     def output_participant_data(self) -> None:  # pragma: no cover
         """Format participant data and write to text files for use by OBS or XSplit.
 
@@ -59,7 +48,7 @@ class Participant(donor_drive_participant.Participant):
         """
         self._fill_participant_dictionary()
         self.write_text_files(self._participant_formatted_output)
-        participant_avatar_for_html = "<img src=" + self.avatar_image_url + ">"
+        participant_avatar_for_html = f"<img src={self.avatar_image_url}>"
         extralife_io.write_html_files(participant_avatar_for_html, 'Participant_Avatar', self.text_folder)
 
     def output_donation_data(self) -> None:
@@ -160,7 +149,6 @@ class Participant(donor_drive_participant.Participant):
             participant_log.info("Finished checking API and updating text files!")
         else:
             participant_log.info("Goal was $0, most likely API unreachable. Did not update text files.")
-
 
 
 if __name__ == "__main__":  # pragma: no cover

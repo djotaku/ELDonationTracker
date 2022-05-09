@@ -1,9 +1,10 @@
 """Launch the command line version of the program."""
 
+import logging
 import signal
 import sys
 import time
-import logging
+
 from rich import print  # type ignore
 from rich.logging import RichHandler  # type ignore
 

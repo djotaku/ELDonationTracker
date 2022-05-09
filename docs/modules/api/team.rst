@@ -3,6 +3,6 @@ team
 ==============
 
 .. automodule:: eldonationtracker.api.team
-      :members: 
+      :members:
       :undoc-members:
       :show-inheritance:

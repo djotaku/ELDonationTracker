@@ -6,12 +6,12 @@ Installation
 Via PyPi
 ^^^^^^^^
 
-The first thing to decide is whether you want to install ELDonationTracker to your system packages, user packages, or a virtual environment. 
+The first thing to decide is whether you want to install ELDonationTracker to your system packages, user packages, or a virtual environment.
 
 Virtual Environment (recommended)
 ---------------------------------
 
-Create the folder you want to work in and cd into it. 
+Create the folder you want to work in and cd into it.
 
 .. code-block:: Bash
 
@@ -24,7 +24,7 @@ Create the folder you want to work in and cd into it.
     # on Windows you may need to type python -m pip install eldonationtracker
     # Grab participant.conf from git repo or create based on documentation
     # Place participant.conf in persistent location, see the page in documentation
-    
+
 
 System Packages
 ---------------
@@ -83,16 +83,16 @@ Two options:
 #. Go to the main Github page_ and click on "Clone or Download" and click the button to copy the URL to your clipboard. Then run:
 
 .. code-block:: Bash
-    
+
     git clone https://github.com/djotaku/ELDonationTracker.git
 
-    
+
 And any time you want to get up to the latest version you can just go to that folder and type:
 
 .. code-block:: Bash
-    
+
     git pull
-    
+
 The master branch is always equivalent to the latest release (except maybe with more up-to-date documentation) so you should always end up with a working version of ELDonationTracker if you do a git pull. (As long as you're not changing any files. For that reason you may want to move your participant.conf to the persistent location - see :doc:`participant_conf` for that location) Then proceed to :doc:`usage`.
 
 .. _page: https://github.com/djotaku/ELDonationTracker

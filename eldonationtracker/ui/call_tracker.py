@@ -1,15 +1,15 @@
 """A window that displays the last donation. Useful during streaming."""
 
 import logging
+
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QColor, QFont
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
+from PyQt5.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 from rich.logging import RichHandler  # type ignore
 
-from PyQt5.QtWidgets import QDialog, QGraphicsScene, QGraphicsPixmapItem
-from PyQt5.QtCore import QUrl
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent  # type: ignore
-from PyQt5.QtGui import QFont, QColor
-
-from eldonationtracker.ui.tracker import *
 from eldonationtracker import file_logging
+from eldonationtracker.ui.tracker import *
 
 # logging
 call_tracker_log = logging.getLogger("Call_Tracker")

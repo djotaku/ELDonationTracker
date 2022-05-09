@@ -1,14 +1,15 @@
 """Contains the programming logic for the settings window in the GUI."""
 
 import logging
-from rich.logging import RichHandler
+
+from PyQt5.QtGui import QColor, QFont
+from PyQt5.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
+                             QMessageBox)
 from rich import print
+from rich.logging import RichHandler
 
-from PyQt5.QtWidgets import QDialog, QFileDialog, QFontDialog, QColorDialog, QMessageBox
-from PyQt5.QtGui import QFont, QColor
-
-from eldonationtracker.ui.settings import *
 from eldonationtracker import base_api_url, file_logging
+from eldonationtracker.ui.settings import *
 from eldonationtracker.utils import extralife_io
 
 # logging

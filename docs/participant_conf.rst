@@ -41,19 +41,19 @@ Here's an example from my config file in 2020:
     "tracker_background_color": [0, 255, 0, 255]
 
     }
-    
+
 If you are using the GUI, you can edit the file with the GUI and it should always turn out OK. If you are editing it in a text editor, the important thing to remember is the quotation marks.
 
 Locations
 ^^^^^^^^^
 
-The program will look in 3 locations. 
+The program will look in 3 locations.
 
-First, it will look in the XDG official locations. If you use "save persistent settings" in the GUI, it will save to this location. On Linux this will be in $HOME/.config/extralifedonationtracker. On Windows it will be C:\\Users\\\username\\AppData\\Roaming\\config\\extralifedonationtracker where you replace username with your Windows username. 
+First, it will look in the XDG official locations. If you use "save persistent settings" in the GUI, it will save to this location. On Linux this will be in $HOME/.config/extralifedonationtracker. On Windows it will be C:\\Users\\\username\\AppData\\Roaming\\config\\extralifedonationtracker where you replace username with your Windows username.
 
-Second, it will look up two directory levels. If you cloned from Github or grabbed a Source Code.zip or .tar.gz, this would be in the first directory you cd into - the one that has requirements.txt, README.md, etc. 
+Second, it will look up two directory levels. If you cloned from Github or grabbed a Source Code.zip or .tar.gz, this would be in the first directory you cd into - the one that has requirements.txt, README.md, etc.
 
-Third, it will look in the directory where it is being run. If you are using the GUI single executable, this means the same folder as gui.exe (on Windows) or gui (on Linux). 
+Third, it will look in the directory where it is being run. If you are using the GUI single executable, this means the same folder as gui.exe (on Windows) or gui (on Linux).
 
 As long as it's in one of those directories, it will be fine. Otherwise it will attempt to grab a copy from Github.
 

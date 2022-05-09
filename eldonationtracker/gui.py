@@ -2,10 +2,10 @@
 
 """Launch the GUI."""
 import logging
+
 from rich.logging import RichHandler  # type ignore
 
 import eldonationtracker.ui.call_main_gui as the_gui
-
 
 # logging
 LOG_FORMAT = '%(name)s: %(message)s'

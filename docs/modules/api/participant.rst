@@ -3,6 +3,6 @@ participant
 ===========
 
 .. automodule:: eldonationtracker.api.participant
-      :members: 
+      :members:
       :undoc-members:
       :show-inheritance:
