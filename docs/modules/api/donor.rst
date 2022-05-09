@@ -3,6 +3,6 @@ donor
 ==============
 
 .. automodule:: eldonationtracker.api.donor
-      :members: 
+      :members:
       :undoc-members:
       :show-inheritance:

@@ -23,7 +23,7 @@ jobs:
         pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
-      with: 
+      with:
         name: eldonationtracker for Windows
         path: dist/
     - name: Build Folder with Pyinstaller

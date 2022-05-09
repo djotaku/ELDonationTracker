@@ -8,7 +8,7 @@ assignees: djotaku
 ---
 
 **Extra Life Participant ID and/or Team ID**
-This will help me figure out if I've fixed your issue. 
+This will help me figure out if I've fixed your issue.
 
 **GUI and/or Console**
 Does the bug only happen on the GUI? Console? both?

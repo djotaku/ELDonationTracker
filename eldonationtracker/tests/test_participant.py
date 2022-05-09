@@ -3,11 +3,11 @@
 import json
 from unittest import mock
 
-from eldonationtracker.api.participant import Participant, Milestone
-import eldonationtracker.api.participant
-from eldonationtracker.api.badge import Badge
 import donordrivepython.api.comms
 
+import eldonationtracker.api.participant
+from eldonationtracker.api.badge import Badge
+from eldonationtracker.api.participant import Milestone, Participant
 
 config = ("12345", "textfolder", "$", "45678", "5")
 fake_participant_conf = mock.Mock()
@@ -408,4 +408,3 @@ def test_output_donor_data():
     my_participant.output_donor_data()
     assert fake_participant._format_donor_information_for_output.called
     assert fake_participant.write_text_files.called
-

@@ -5,11 +5,12 @@ An update is available if the version on PyPi is higher than the version the use
 
 import json
 import logging
-from rich.logging import RichHandler
-import semver  # type: ignore
 import ssl
-from urllib.request import Request, urlopen  # type: ignore
 from urllib.error import HTTPError, URLError  # type: ignore
+from urllib.request import Request, urlopen  # type: ignore
+
+import semver  # type: ignore
+from rich.logging import RichHandler
 
 from eldonationtracker import __version__ as pkg_current_version
 from eldonationtracker import file_logging

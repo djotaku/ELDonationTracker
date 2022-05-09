@@ -3,6 +3,6 @@ badge
 ======
 
 .. automodule:: eldonationtracker.api.badge
-      :members: 
+      :members:
       :undoc-members:
       :show-inheritance:

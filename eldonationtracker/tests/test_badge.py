@@ -1,5 +1,6 @@
-from eldonationtracker.api import badge
 import json
+
+from eldonationtracker.api import badge
 
 
 def test_badge_creation():

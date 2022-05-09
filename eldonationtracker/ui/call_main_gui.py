@@ -3,21 +3,22 @@
 """The main GUI window."""
 
 import logging
-
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QInputDialog
-
-from PyQt5 import QtCore
-
-from rich import print
-from rich.logging import RichHandler
 import sys
 import webbrowser
 
-from eldonationtracker.api import participant as participant
-from eldonationtracker.ui import call_about, call_settings, call_tracker, call_logs, main_gui as design
-from eldonationtracker.utils import extralife_io as extralife_io
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import (QApplication, QInputDialog, QMainWindow,
+                             QMessageBox)
+from rich import print
+from rich.logging import RichHandler
+
 import eldonationtracker.utils.update_available
 from eldonationtracker import file_logging
+from eldonationtracker.api import participant as participant
+from eldonationtracker.ui import (call_about, call_logs, call_settings,
+                                  call_tracker)
+from eldonationtracker.ui import main_gui as design
+from eldonationtracker.utils import extralife_io as extralife_io
 
 # logging
 GUI_log = logging.getLogger("main GUI")

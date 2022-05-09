@@ -22,7 +22,7 @@
 - Nothing has changed for the user
 
 ### Developer-Facing or API Changes
-- Updated to [DonorDrivePython 1.2.0](https://github.com/djotaku/DonorDrivePython) which should provide better error reporting. 
+- Updated to [DonorDrivePython 1.2.0](https://github.com/djotaku/DonorDrivePython) which should provide better error reporting.
 
 # v7.0.1
 ## Release Notes
@@ -30,7 +30,7 @@
 - Nothing has changed for the user
 
 ### Developer-Facing or API Changes
-- Updated to [DonorDrivePython 1.1.1](https://github.com/djotaku/DonorDrivePython) which should prevent a crash if the JSON comes had a decoder error. 
+- Updated to [DonorDrivePython 1.1.1](https://github.com/djotaku/DonorDrivePython) which should prevent a crash if the JSON comes had a decoder error.
 
 # v7.0.0
 ## Release Notes
@@ -38,13 +38,13 @@
 - Nothing has changed for the user
 
 ### Developer-Facing or API Changes
-- moved most of the API code to [DonorDrivePython](https://github.com/djotaku/DonorDrivePython) to abstract it away from Extra Life so it can be used by others using the DonorDrive API. 
+- moved most of the API code to [DonorDrivePython](https://github.com/djotaku/DonorDrivePython) to abstract it away from Extra Life so it can be used by others using the DonorDrive API.
 
 # v6.2.2
 ## Release Notes
 ### User-Facing Changes
 - API pegging code had messed up Top Donor code that is now fixed
-- Fix bug upon loading if user has > $999.99 in donations 
+- Fix bug upon loading if user has > $999.99 in donations
 
 ### Developer-Facing or API Changes
 - cleaned up logging code in utils.extralifeio
@@ -71,7 +71,7 @@
 ## Release Notes
 ### User-Facing Changes
 - Should not overwrite your text files if the API can't be reached
-- changed many of the print statements to log output using Rich's logging 
+- changed many of the print statements to log output using Rich's logging
 
 ### Developer-Facing or API Changes
 
@@ -116,12 +116,12 @@ None
 ### Developer-Facing or API Changes
 
 - Created Properties for accessing the variables for the API classes.
-These also replace any "getter" methods that had been in place. 
+These also replace any "getter" methods that had been in place.
   If there are no "setter" methods, it's because that attribute should
-  only be set by internal methods and/or from the Donor Drive API. If you 
-  believe an attribute without a "setter" should have one - 
+  only be set by internal methods and/or from the Donor Drive API. If you
+  believe an attribute without a "setter" should have one -
   file an issue.
-  
+
 - re-organized files into sub-modules to better encapsulate which part of the program they are for.  All the Donor Drive API compoments are now found in eldonationtracker.api.
 
 - Now getting all the attributes for the Participant, Team, Donor, and Donation. We aren't currently pushing all of these out to text files for the user, but can be used if you want to use this package as a Python API for your own programs.

@@ -3,6 +3,6 @@ call_tracker
 ==============
 
 .. automodule:: eldonationtracker.ui.call_tracker
-      :members: 
+      :members:
       :undoc-members:
       :show-inheritance:

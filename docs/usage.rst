@@ -112,7 +112,7 @@ OK, now it's time to hit :guilabel:`Run` and hopefully if all the directions hav
     19:19:10
 
 When you're done, be sure to hit stop. When you exit out, it will take a few seconds until it's done before the GUI will disappear. If you Go :menuselection:`File --> Quit`, that will also trigger it to stop. Again, it'll take a few seconds before it's all cleaned up and ready to disappear from your screen.
-    
+
 Finally, let's quickly go over the help menu items at the top of the GUI.
 
 .. image :: /images/GUI_helpmenu.png
@@ -121,7 +121,7 @@ Finally, let's quickly go over the help menu items at the top of the GUI.
 - :guilabel:`Documentation` will take you to the latest version of this very documentation you're reading now
 - :guilabel:`Check for Update` will check if you have the latest version. It will then pop up a window to let you know.
 - :guilabel:`About ELDonationTracker` will bring up a window with some URLs and copyright data. Eventually if we start getting more contributors, those would be listed there, too.
-    
+
 Commandline users (PyPi)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -142,7 +142,7 @@ Make sure you have the :doc:`participant_conf` in the persistent location. You c
 .. code-block:: Bash
 
    python -m eldonationtracker.gui
-   
+
 That should work just fine. Keep an eye on the commandline for any errors or messages from eldonationtracker. The benefit you get from using the GUI is that once the GUI comes up you can click "tracker" to get a window that will display an image and text when a donation is registered. For text instructions on how to use the GUI, go to :ref:`gui-usage` or watch the video at http://djotaku.github.io/ELDonationTracker/
 
 eg:
@@ -168,7 +168,7 @@ Of course, you can import the modules into your own scripts and modify how you u
 
 .. versionchanged:: 5.0.0
     Command changed from python -m eldonationtracker.extralifedonations to python -m eldonationtracker.participant
-   
+
 Commandline users (git)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -180,9 +180,9 @@ If you downloaded a zip or tar file, unzip it first, then cd into that directory
     source ./bin/activate
     # when you are done using the program you can type deactivate
     pip install --upgrade pip
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
     # on Windows you may need to type python -m pip install -r requirements.txt
-    # edit participant.conf 
+    # edit participant.conf
     cd eldonationtracker
     # for the GUI:
     python gui.py

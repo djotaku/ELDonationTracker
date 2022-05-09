@@ -28,11 +28,11 @@ jobs:
       shell: bash
     - name: Test with pytest
       run: |
-        pip install pytest 
+        pip install pytest
         pytest -v --pyargs eldonationtracker
       shell: bash
     - name: CodeCov
       run: |
         pip install codecov
-        coverage run -m pytest --pyargs eldonationtracker 
+        coverage run -m pytest --pyargs eldonationtracker
         codecov --token=${{ secrets.CODECOV_TOKEN }}

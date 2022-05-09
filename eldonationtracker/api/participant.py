@@ -1,17 +1,21 @@
 """Grabs Participant JSON data and outputs to files."""
 
 import logging
-from rich import print  # type ignore
-from rich.logging import RichHandler  # type ignore
 import time
 
-from donordrivepython.api import participant as donor_drive_participant  # type ignore
-from donordrivepython.api.participant import Milestone as Milestone  # type ignore
-from donordrivepython.api.participant import Incentive as Incentive  # type ignore
+from donordrivepython.api import \
+    participant as donor_drive_participant  # type ignore
+from donordrivepython.api.participant import \
+    Incentive as Incentive  # type ignore
+from donordrivepython.api.participant import \
+    Milestone as Milestone  # type ignore
+from rich import print  # type ignore
+from rich.logging import RichHandler  # type ignore
+
 import eldonationtracker.utils.extralife_io
+from eldonationtracker import base_api_url, file_logging
 from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io
-from eldonationtracker import base_api_url, file_logging
 
 # logging
 participant_log = logging.getLogger("Participant")

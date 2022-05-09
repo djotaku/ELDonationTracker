@@ -4,17 +4,17 @@ import json
 import logging
 import os
 import pathlib
+from typing import Any, Tuple
+
 import requests
-from rich import print
-from rich.logging import RichHandler
-from typing import Tuple, Any
-
 import xdgenvpy  # type: ignore
-
 from donordrivepython import api_version_suffix
+from donordrivepython.api.badge import Badge  # type: ignore
 from donordrivepython.api.donation import Donation
 from donordrivepython.api.donor import Donor
-from donordrivepython.api.badge import Badge  # type: ignore
+from rich import print
+from rich.logging import RichHandler
+
 from eldonationtracker import file_logging
 
 # logging

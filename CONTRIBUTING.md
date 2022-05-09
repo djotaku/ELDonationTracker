@@ -10,7 +10,7 @@ I strive for the code to be PEP8 compliant. Run the following against your fork:
 
 flake8 eldonationtracker/api eldonationtracker/utils  --count --select=E9,F63,F7,F82 --show-source --statistics
 
-If it fails, the CI will fail, and the pull request will not be merged until it is fixed. 
+If it fails, the CI will fail, and the pull request will not be merged until it is fixed.
 
 The next line will report warnings, but as long as it's only warnings and not errors, it will not stop the CI. That said, my preference is for the following to be error free (don't worry about line-length errors):
 

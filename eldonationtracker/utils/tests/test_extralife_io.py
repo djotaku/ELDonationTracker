@@ -4,9 +4,8 @@
 import json
 from unittest import mock
 
+from eldonationtracker.api import donation, donor
 from eldonationtracker.utils import extralife_io
-from eldonationtracker.api import donation
-from eldonationtracker.api import donor
 
 fields_for_participant_conf = {"extralife_id": "12345",
                                "text_folder": "textfolder",
@@ -404,7 +403,7 @@ def test_multiple_format_vertical():
     textlist = [text1, text2, text3, text4, text5]
     assert textlist == ["donor1 - $10.00\n",
                         "donor1 - $10.00\ndonor2 - $20.00\n",
-                        "donor1 - $10.00\ndonor2 - $20.00\ndonor3 - $30.00\n", 
+                        "donor1 - $10.00\ndonor2 - $20.00\ndonor3 - $30.00\n",
                         "donor1 - $10.00\ndonor2 - $20.00\ndonor3 - $30.00\ndonor4 - $40.00\n",
                         "donor1 - $10.00\ndonor2 - $20.00\ndonor3 - $30.00\ndonor4 - $40.00\ndonor5 - $50.00\n"]
 

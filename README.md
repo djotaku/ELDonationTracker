@@ -30,15 +30,15 @@ The quickstart instructions are:
   - If you need the GUI you can use Docker or Podman with a command that looks like:
   ```bash
   docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:latest
-  
+
   # or
-  
+
    podman run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker:Z -v ./testoutput:/root/output:Z djotaku/eldonationtracker:latest
   ```
 
 # How To for developers
 
-Please see [CONTRIBUTING.MD](https://github.com/djotaku/ELDonationTracker/blob/master/CONTRIBUTING.md) if you wish to contribute. 
+Please see [CONTRIBUTING.MD](https://github.com/djotaku/ELDonationTracker/blob/master/CONTRIBUTING.md) if you wish to contribute.
 
 Modules are well-documented at: https://eldonationtracker.readthedocs.io/en/latest/py-modindex.html
 
@@ -48,4 +48,4 @@ If anything goes wrong, please open a Bug Report under issues.
 
 If you want a new type of output data, fill out a Reequest for New Output Data issue
 
-If there's documentation missing, fill out the Missing Documentation issue 
+If there's documentation missing, fill out the Missing Documentation issue
