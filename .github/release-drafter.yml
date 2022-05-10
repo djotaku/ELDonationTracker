@@ -17,7 +17,7 @@ categories:
       - 'mypy'
       - 'Pyinstaller'
       - 'PyPi'
-  - title: 'User Facing'
+  - title: '🧔🏽 User Facing'
     labels:
       - 'GUI'
       - 'TUI'
