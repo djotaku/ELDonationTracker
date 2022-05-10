@@ -11,7 +11,7 @@ categories:
       - 'bugfix'
       - 'bug'
   - title: '🧰 Maintenance'
-    labels: 
+    labels:
       - 'chore'
       - 'refactor'
       - 'mypy'
@@ -63,7 +63,7 @@ template: |
 
   Please file any bug reports. Pull requests welcome on the devel branch.
 
-  
+
   ## Changes
 
   $CHANGES
