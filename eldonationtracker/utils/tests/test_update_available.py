@@ -2,12 +2,18 @@ from unittest import mock
 
 from eldonationtracker.utils import update_available
 
-fake_py_pi_json = {"info": {"version": "4.4.4"}}
+
+class FakeRequestResult:
+    def json(self):
+        return {"info": {"version": "4.4.4"}}
+
+
+fake_py_pi_json = FakeRequestResult()
 fake_url_json_load = mock.Mock()
 fake_url_json_load.return_value = fake_py_pi_json
 
 
-@mock.patch.object(update_available.json, "load", fake_url_json_load)
+@mock.patch.object(update_available.requests, "get", fake_url_json_load)
 def test_get_pypi_version():
     version = update_available.get_pypi_version("https://pypi.org/pypi/eldonationtracker/json")
     assert version == "4.4.4"

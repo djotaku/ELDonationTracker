@@ -1,5 +1,5 @@
 """A utility to determine if there is a newer version available."""
-
+import json
 import logging
 
 import requests
@@ -20,9 +20,13 @@ def get_pypi_version(url: str) -> str:
     """
     try:
         payload = requests.get(url)
+    except requests.Timeout:
+        update_log.error("Timed out trying to get to the PyPi URL")
+        return "Error"
+    try:
         this_program_json = payload.json()
-    except (requests.ConnectionError, requests.HTTPError):
-        update_log.error("Could not get JSON")
+    except json.JSONDecodeError:
+        update_log.error("Could not get JSON. Perhaps, the URL did not return JSON.")
         return "Error"
     return this_program_json.get("info").get("version")
 
