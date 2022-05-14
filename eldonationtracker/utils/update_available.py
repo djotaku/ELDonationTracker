@@ -1,40 +1,34 @@
-"""Return true if there is an update available.
-
-An update is available if the version on PyPi is higher than the version the user has on their machine.
-"""
-
+"""A utility to determine if there is a newer version available."""
 import json
 import logging
-import ssl
-from urllib.error import HTTPError, URLError  # type: ignore
-from urllib.request import Request, urlopen  # type: ignore
 
+import requests
 import semver  # type: ignore
-from rich.logging import RichHandler
 
 from eldonationtracker import __version__ as pkg_current_version
 from eldonationtracker import file_logging
 
 # logging
-update_log = logging.getLogger("update available")
+update_log = logging.getLogger("update checker")
 update_log.addHandler(file_logging)
 
 
 def get_pypi_version(url: str) -> str:
-    """Use PyPi JSON API to get latest version.
+    """Use PyPi JSON API to get the latest version.
 
     :return: A string with the version number.
     """
-    context = ssl._create_unverified_context()
-    this_program_json: dict = {}
     try:
-        request = Request(url=url)
-        payload = urlopen(request, timeout=5, context=context)
-        this_program_json = json.load(payload)
-    except (HTTPError, URLError):
-        update_log.error("Could not get JSON")
+        payload = requests.get(url)
+    except requests.Timeout:
+        update_log.error("Timed out trying to get to the PyPi URL")
         return "Error"
-    return this_program_json["info"]["version"]
+    try:
+        this_program_json = payload.json()
+    except json.JSONDecodeError:
+        update_log.error("Could not get JSON. Perhaps, the URL did not return JSON.")
+        return "Error"
+    return this_program_json.get("info").get("version")
 
 
 def update_available(pypi_version: str, current_version: str) -> bool:
