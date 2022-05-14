@@ -40,5 +40,4 @@ wcwidth==0.2.5
 xdgenvpy==2.3.5
 zipp==3.8.0
 
-pip~=22.0.4
 setuptools~=62.1.0
