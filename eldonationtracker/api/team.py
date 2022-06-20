@@ -30,6 +30,14 @@ class Team(DonorDriveTeam):
         """
         extralife_io.write_text_files(dictionary, self.output_folder)
 
+    def output_activities(self):
+        """Write out the activities to a text file."""
+        if self._activity_list:
+            activity_text = ""
+            for activity in self._activity_list:
+                activity_text = activity_text + str(activity) + "\n"
+            self.write_text_files({'team_activities': activity_text})
+
     def team_run(self) -> None:
         """A public method to update and output team and team participant info."""
         logging.debug("I am in team_run")
@@ -45,6 +53,8 @@ class Team(DonorDriveTeam):
             self._team_avatar_image = self._get_team_json()
         self._update_team_dictionary()
         self._update_badges()
+        self._update_activities()
+        self.output_activities()
         self.write_text_files(self._team_info)
         extralife_io.output_badge_data(self.badges, self.output_folder, team=True)
 
