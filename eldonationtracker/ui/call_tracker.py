@@ -1,12 +1,13 @@
 """A window that displays the last donation. Useful during streaming."""
 
+
 import logging
+import pathlib
 
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
 from PyQt5.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
-from rich.logging import RichHandler  # type ignore
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.tracker import *
@@ -111,8 +112,8 @@ class MyForm(QDialog):
     def _load_elements(self):
         self.scene.addItem(self.item)
         try:
-            with open(f'{self.folders}/LastDonationNameAmnt.txt') as file:
-                donor_and_amt = file.read()
+            donor_and_amt = pathlib.Path(f'{self.folders}/LastDonationNameAmnt.txt').read_text()
+
             self.ui.Donation_label.setText(donor_and_amt)
         except FileNotFoundError:
             self.ui.Donation_label.setText("TEST 1...2...3...")
