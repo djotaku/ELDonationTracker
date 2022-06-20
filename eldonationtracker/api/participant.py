@@ -28,7 +28,7 @@ class Participant(donor_drive_participant.Participant):
 
     Also owns the results of any calculated data.
 
-    Donor Drive API api info at https://github.com/DonorDrive/PublicAPI
+    Donor Drive API info at https://github.com/DonorDrive/PublicAPI
     """
 
     def __init__(self, config):
