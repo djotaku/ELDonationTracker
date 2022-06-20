@@ -24,6 +24,7 @@ from eldonationtracker.utils import extralife_io as extralife_io
 GUI_log = logging.getLogger("main GUI")
 GUI_log.addHandler(file_logging)
 
+
 class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     """The main ui Window."""
 
