@@ -1,4 +1,4 @@
-""" Contains programming logic for the about window in the GUI."""
+""" Contains programming logic for the 'About' window in the GUI."""
 
 from PyQt5.QtWidgets import QDialog
 

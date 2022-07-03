@@ -2,13 +2,9 @@
 
 import logging
 
-from PyQt5.QtGui import QClipboard, QColor, QFont
-from PyQt5.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
-                             QMessageBox)
-from rich import print
-from rich.logging import RichHandler
+from PyQt5.QtWidgets import QDialog
 
-from eldonationtracker import base_api_url, file_logging
+from eldonationtracker import file_logging
 from eldonationtracker.ui.logs import *
 
 # logging
@@ -55,6 +51,7 @@ def main():
     """Launch the window."""
     window = MyForm()
     window.exec()
+
 
 if __name__ == '__main__':  # if we're running file directly and not importing it
     main()  # run the main function

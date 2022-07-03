@@ -10,7 +10,7 @@ commonmark==0.9.1
 coverage==6.3.2
 dill==0.3.4
 docutils==0.17.1
-donordrivepython==1.4.0
+donordrivepython==1.4.1
 idna==3.3
 imagesize==1.3.0
 iniconfig==1.1.1
@@ -25,6 +25,8 @@ Pygments==2.12.0
 pyinstaller==5.0.1
 pyparsing==3.0.8
 PyQt5==5.15.7
+PyQtWebEngine==5.15.6
+PyQtWebEngine-Qt5==5.15.2
 pytest==7.1.2
 pytz==2022.1
 requests==2.27.1

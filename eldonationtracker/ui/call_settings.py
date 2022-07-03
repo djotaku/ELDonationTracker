@@ -5,8 +5,6 @@ import logging
 from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
                              QMessageBox)
-from rich import print
-from rich.logging import RichHandler
 
 from eldonationtracker import base_api_url, file_logging
 from eldonationtracker.ui.settings import *
@@ -141,15 +139,11 @@ class MyForm(QDialog):
             team_id = None
         else:
             team_id = self.ui.lineEditTeamID.text()
-        config = {'Version': version, 'extralife_id': participant_id,
-                  'text_folder': text_folder, 'currency_symbol': currency_symbol,
-                  'team_id': team_id, 'tracker_image': tracker_image,
-                  'donation_sound': sound,
-                  "donors_to_display": donors_to_display,
-                  "font_family": font_family, "font_size": font_size, "font_italic": font_italic,
-                  "font_bold": font_bold, "font_color": font_color,
-                  "tracker_background_color": tracker_background_color}
-        return config
+        return {'Version': version, 'extralife_id': participant_id, 'text_folder': text_folder,
+                'currency_symbol': currency_symbol, 'team_id': team_id, 'tracker_image': tracker_image,
+                'donation_sound': sound, "donors_to_display": donors_to_display, "font_family": font_family,
+                "font_size": font_size, "font_italic": font_italic, "font_bold": font_bold, "font_color": font_color,
+                "tracker_background_color": tracker_background_color}
 
     def persistent_save(self):
         """Use xdg_config, saves a persistent config to the XDG spot."""
@@ -203,22 +197,17 @@ class MyForm(QDialog):
         call_settings_log.debug("[bold blue]Validating URL[/bold blue]")
         if id_type == "participant":
             url = f"{base_api_url}/participants/{self.ui.lineEditParticipantID.text()}"
-            valid_url = extralife_io.validate_url(url)
-            if valid_url:
-                message_box = QMessageBox.information(self, "Participant ID Validation",
-                                                      f"Able to reach {url}. Participant ID is valid.")
-            else:
-                message_box = QMessageBox.warning(self, "Participant ID Validation",
-                                                  f"Could not reach {url}. Participant ID may be invalid.")
+            message_box = QMessageBox.information(self, "Participant ID Validation",
+                                                  f"Able to reach {url}. Participant ID is valid.") if (
+                valid_url := extralife_io.validate_url(url)) else QMessageBox.warning(self, "Participant ID Validation",
+                                                                                      f"Could not reach {url}. Participant ID may be invalid.")
+
         elif id_type == "team":
             url = f"{base_api_url}/teams/{self.ui.lineEditTeamID.text()}"
-            valid_url = extralife_io.validate_url(url)
-            if valid_url:
-                message_box = QMessageBox.information(self, "Team ID Validation",
-                                                      f"Able to reach {url}. Team ID is valid.")
-            else:
-                message_box = QMessageBox.warning(self, "Team ID Validation",
-                                                  f"Could not reach {url}. Team ID may be invalid.")
+            message_box = QMessageBox.information(self, "Team ID Validation",
+                                                  f"Able to reach {url}. Team ID is valid.") if (
+                valid_url := extralife_io.validate_url(url)) else QMessageBox.warning(self, "Team ID Validation",
+                                                                                      f"Could not reach {url}. Team ID may be invalid.")
 
 
 def main(participant_conf):

@@ -25,6 +25,8 @@ def get_pypi_version(url: str) -> str:
         return "Error"
     try:
         this_program_json = payload.json()
+        if this_program_json.get('message') == "Not Found":
+            return "Error"
     except json.JSONDecodeError:
         update_log.error("Could not get JSON. Perhaps, the URL did not return JSON.")
         return "Error"

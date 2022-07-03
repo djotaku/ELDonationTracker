@@ -9,8 +9,6 @@ import webbrowser
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QInputDialog, QMainWindow,
                              QMessageBox)
-from rich import print
-from rich.logging import RichHandler
 
 import eldonationtracker.utils.update_available
 from eldonationtracker import file_logging
@@ -138,9 +136,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     @staticmethod
     def read_files(folders, files):
         try:
-            f = open(f'{folders}/{files}', 'r', encoding='utf8')
-            text = f.read()
-            f.close()
+            with open(f'{folders}/{files}', 'r', encoding='utf8') as f:
+                text = f.read()
             return text
         except FileNotFoundError:
             GUI_log.error(f"""[bold magenta]GUI Error:
@@ -162,7 +159,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.Goal.setPlainText(self.read_files(self.folders, 'goal.txt'))
         self.AvgDonation.setPlainText(self.read_files(self.folders, 'averageDonation.txt'))
         try:
-            avatar_url = QtCore.QUrl.fromLocalFile(self.folders + '/Participant_Avatar.html')
+            avatar_url = QtCore.QUrl.fromLocalFile(f'{self.folders}/Participant_Avatar.html')
+
             self.participant_avatar.setUrl(avatar_url)
         except FileNotFoundError:
             GUI_log.warning("[bold blue] Participant Avatar not found. After running you should have it.[/bold blue]")
@@ -177,7 +175,8 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
             self.textBrowser_TeamTop5.setPlainText(self.read_files(self.folders, 'Team_Top5Participants.txt'))
 
     def run_button(self):
-        GUI_log.info(f"[bold blue]Starting the participant run. But first, reloading config file.[/bold blue]")
+        GUI_log.info("[bold blue]Starting the participant run. But first, reloading config file.[/bold blue]")
+
         self.participant_conf.reload_json()
         # reload participant.conf in participant in case the user has changed settings
         self.my_participant.set_config_values()

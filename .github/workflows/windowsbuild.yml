@@ -9,10 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python 3.9
+    - name: Set up Python 3.10.5
       uses: actions/setup-python@v1
       with:
-        python-version: 3.9
+        python-version: 3.10.5
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -26,15 +26,3 @@ jobs:
       with:
         name: eldonationtracker for Windows
         path: dist/
-    - name: Build Folder with Pyinstaller
-      run: |
-        pip install pyinstaller
-        pyinstaller -p eldonationtracker eldonationtracker/gui.py
-        cp participant.conf dist/gui
-        cp icon.png dist/gui
-        cp dist/gui/Qt5Core.dll dist/gui/PyQt5/Qt/bin
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: Extra Life Donation Tracker for Windows
-        path: dist/gui

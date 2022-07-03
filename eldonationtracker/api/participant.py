@@ -93,6 +93,7 @@ class Participant(donor_drive_participant.Participant):
             self.write_text_files(milestone_output)
 
     def output_incentive_data(self) -> None:  # pragma: no cover
+        """Write out the incentive data to a text file."""
         if self.incentives:
             for incentive in self.incentives:
                 incentive_dictionary = {}
@@ -105,6 +106,14 @@ class Participant(donor_drive_participant.Participant):
                 if incentive.incentive_image_url:
                     html = f"<img src='{incentive.incentive_image_url}'>"
                     extralife_io.write_html_files(html, "incentive_image", incentive_folder)
+
+    def output_activities(self):
+        """Write out the activities to a text file."""
+        if self.activities:
+            activity_text = ""
+            for activity in self.activities:
+                activity_text = activity_text + str(activity) + "\n"
+            self.write_text_files({'activities': activity_text})
 
     def write_text_files(self, dictionary: dict) -> None:  # pragma: no cover
         """Write OBS/XSplit display info to text files.
@@ -124,6 +133,8 @@ class Participant(donor_drive_participant.Participant):
         self.update_participant_attributes()
         self._update_incentives()
         self.output_incentive_data()
+        self._update_activities()
+        self.output_activities()
         # Below is protection against a situation where the API is unavailable.
         # Prevents bad data being written to the participant output. Based on the assumption that it would
         # absurd to have a goal of $0.
