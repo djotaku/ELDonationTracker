@@ -92,20 +92,18 @@ class Participant(donor_drive_participant.Participant):
             }
             self.write_text_files(milestone_output)
 
-    def output_incentive_data(self) -> None:  # pragma: no cover
+    def output_incentive_data(self) -> None:    # pragma: no cover
         """Write out the incentive data to a text file."""
-        if self.incentives:
-            for incentive in self.incentives:
-                incentive_dictionary = {}
-                incentive_folder = f"{self.text_folder}incentives/{incentive.incentive_id}"
-                incentive_dictionary["amount"] = str(incentive.amount)
-                incentive_dictionary["description"] = incentive.description
-                incentive_dictionary["quantity"] = str(incentive.quantity)
-                incentive_dictionary["quantity_claimed"] = str(incentive.quantity_claimed)
-                extralife_io.write_text_files(incentive_dictionary, incentive_folder)
-                if incentive.incentive_image_url:
-                    html = f"<img src='{incentive.incentive_image_url}'>"
-                    extralife_io.write_html_files(html, "incentive_image", incentive_folder)
+        if not self.incentives:
+            return
+        for incentive in self.incentives:
+            incentive_folder = f"{self.text_folder}incentives/{incentive.incentive_id}"
+            incentive_dictionary = {"amount": str(incentive.amount), "description": incentive.description, "quantity": str(incentive.quantity), "quantity_claimed": str(incentive.quantity_claimed)}
+
+            extralife_io.write_text_files(incentive_dictionary, incentive_folder)
+            if incentive.incentive_image_url:
+                html = f"<img src='{incentive.incentive_image_url}'>"
+                extralife_io.write_html_files(html, "incentive_image", incentive_folder)
 
     def output_activities(self):
         """Write out the activities to a text file."""

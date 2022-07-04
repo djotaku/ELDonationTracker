@@ -65,7 +65,7 @@ class Team(DonorDriveTeam):
         self._participant_calculations()
         self.write_text_files(self._participant_calculation_dict)
 
-    def donation_run(self) -> None:  # pragma: no cover
+    def donation_run(self) -> None:    # pragma: no cover
         """Get and calculate donation information."""
         self._donation_list = eldonationtracker.utils.extralife_io.get_donations(self._donation_list,
                                                                                  self.team_donation_url)
@@ -73,7 +73,7 @@ class Team(DonorDriveTeam):
             self._donation_formatted_output = eldonationtracker.utils.extralife_io.format_information_for_output(
                 self._donation_list, self.currency_symbol, self.donors_to_display, team=True)
             self.write_text_files(self._donation_formatted_output)
-            team_avatar_for_html = "<img src=" + self.team_avatar_image + ">"
+            team_avatar_for_html = f"<img src={self.team_avatar_image}>"
             extralife_io.write_html_files(team_avatar_for_html, 'Team_Avatar', self.output_folder)
 
 
