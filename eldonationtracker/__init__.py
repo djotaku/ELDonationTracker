@@ -1,6 +1,6 @@
 import logging
 
-__version__ = "7.4.4"
+__version__ = "7.4.5"
 
 base_api_url: str = "https://www.extra-life.org/api"
 api_version_suffix: str = "?version=1.2"
