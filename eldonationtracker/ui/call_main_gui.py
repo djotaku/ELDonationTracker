@@ -10,9 +10,9 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QInputDialog, QMainWindow,
                              QMessageBox)
 
+import eldonationtracker.api.participant as participant
 import eldonationtracker.utils.update_available
 from eldonationtracker import file_logging
-from eldonationtracker.api import participant as participant
 from eldonationtracker.ui import (call_about, call_logs, call_settings,
                                   call_tracker)
 from eldonationtracker.ui import main_gui as design
@@ -27,7 +27,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     """The main ui Window."""
 
     def __init__(self):
-        """Setup the GUI.
+        """Set up the GUI.
 
         Set up QTimers:
          1) to allow the text on the GUI to update without blocking the user from interacting with the GUI.

@@ -40,6 +40,24 @@ class Participant(donor_drive_participant.Participant):
          self._donors_to_display) = self.config.get_cli_values()
         donor_drive_participant.Participant.__init__(self, self._extralife_id, self._text_folder, self._currency_symbol,
                                                      self._team_id, self._donors_to_display, base_api_url)
+        if self.team_id:
+            self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display,
+                                      self._base_api_url)
+
+    def set_config_values(self) -> None:
+        """Set participant values, create URLs, and create Team."""
+        # urls
+        self._participant_url = f"{self._base_api_url}/participants/{self.donor_drive_id}"
+        self._donation_url = f"{self.participant_url}/donations"
+        self._participant_donor_url = f"{self.participant_url}/donors"
+        self._badge_url = f"{self.participant_url}/badges"
+        self._milestone_url = f"{self.participant_url}/milestones"
+        self._incentive_url = f"{self.participant_url}/incentives"
+        self._activity_url = f"{self.participant_url}/activity"
+
+        if self.team_id:
+            self._my_team = team.Team(self.team_id, self.text_folder, self.currency_symbol, self.donors_to_display,
+                                      self._base_api_url)
 
     def output_participant_data(self) -> None:  # pragma: no cover
         """Format participant data and write to text files for use by OBS or XSplit.
@@ -92,13 +110,15 @@ class Participant(donor_drive_participant.Participant):
             }
             self.write_text_files(milestone_output)
 
-    def output_incentive_data(self) -> None:    # pragma: no cover
+    def output_incentive_data(self) -> None:  # pragma: no cover
         """Write out the incentive data to a text file."""
         if not self.incentives:
             return
         for incentive in self.incentives:
             incentive_folder = f"{self.text_folder}incentives/{incentive.incentive_id}"
-            incentive_dictionary = {"amount": str(incentive.amount), "description": incentive.description, "quantity": str(incentive.quantity), "quantity_claimed": str(incentive.quantity_claimed)}
+            incentive_dictionary = {"amount": str(incentive.amount), "description": incentive.description,
+                                    "quantity": str(incentive.quantity),
+                                    "quantity_claimed": str(incentive.quantity_claimed)}
 
             extralife_io.write_text_files(incentive_dictionary, incentive_folder)
             if incentive.incentive_image_url:
