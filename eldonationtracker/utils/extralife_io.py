@@ -12,8 +12,6 @@ from donordrivepython import api_version_suffix
 from donordrivepython.api.badge import Badge  # type: ignore
 from donordrivepython.api.donation import Donation
 from donordrivepython.api.donor import Donor
-from rich import print
-from rich.logging import RichHandler
 
 from eldonationtracker import file_logging
 
@@ -437,7 +435,7 @@ def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> 
 def read_in_total_raised(text_folder: str) -> str:
     """This is a temporary hack until I resolve Github issue #162"""
     try:
-        with open(f'{text_folder}/totalRaised.txt', 'r', encoding='utf8') as total_raised:
+        with open(f'{text_folder}/totalRaised.txt', encoding='utf8') as total_raised:
             return total_raised.readline()
     except FileNotFoundError:
         el_io_log.info("[bold blue] totalRaised.txt doesn't exist. This is OK if this is your first run. [/bold blue]")
