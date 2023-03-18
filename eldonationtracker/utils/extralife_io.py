@@ -348,7 +348,7 @@ def single_format(donor, message: bool, currency_symbol: str) -> str:
         return f"{donor.name} - {currency_symbol}{donor.amount:.2f}"
 
 
-def multiple_format(donors, message: bool, horizontal: bool,
+def multiple_format(donors: list[Donor], message: bool, horizontal: bool,
                     currency_symbol: str, how_many: int) -> str:
     """Format string for output to text file.
 

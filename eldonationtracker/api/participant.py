@@ -161,7 +161,7 @@ class Participant(donor_drive_participant.Participant):
         self.output_activities()
         # Below is protection against a situation where the API is unavailable.
         # Prevents bad data being written to the participant output. Based on the assumption that it would
-        # absurd to have a goal of $0.
+        # be absurd to have a goal of $0.
         if self.goal != 0:
             self.output_participant_data()
             if self._first_run or self.number_of_donations > number_of_donations:  # type ignore
