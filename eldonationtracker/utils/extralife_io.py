@@ -1,5 +1,7 @@
 """Holds all the file and internet input and output."""
 
+
+import contextlib
 import json
 import logging
 import os
@@ -88,19 +90,17 @@ def get_donations(donations_or_donors: list, api_url: str, is_donation=True, lar
         json_response = get_json(api_url, largest_first)
     if not json_response:
         el_io_log.error(f"[bold red]Couldn't access JSON endpoint at {api_url}.[/bold red]")
-        return donations_or_donors
     else:
         if is_donation:
             donor_or_donation_list = [Donation(this_donation) for this_donation in json_response]
         else:
             donor_or_donation_list = [Donor(this_donor) for this_donor in json_response]  # type: ignore
-        if len(donations_or_donors) == 0:  # if I didn't already have donations....
+        if not donations_or_donors:
             return donor_or_donation_list
-        else:  # add in only the new donations
-            for a_donation in reversed(donor_or_donation_list):
-                if a_donation not in donations_or_donors:
-                    donations_or_donors.insert(0, a_donation)
-            return donations_or_donors
+        for a_donation in reversed(donor_or_donation_list):
+            if a_donation not in donations_or_donors:
+                donations_or_donors.insert(0, a_donation)
+    return donations_or_donors
 
 
 def get_badges(api_url: str) -> list[Badge]:
@@ -397,13 +397,12 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     :param team: If true, this is creating output for a team. Otherwise, for the participant.
     :returns: A dictionary with the output text formatted correctly.
     """
-    donation_formatted_output: dict = {}
     prefix = "Team_" if team else ''
     middle_text = "Donation" if donation else "Donor"
-    donation_formatted_output[f'{prefix}Last{middle_text}NameAmnt'] = single_format(donation_list[0],
-                                                                                    False, currency_symbol)
-    donation_formatted_output[f'{prefix}lastN{middle_text}NameAmts'] = \
-        multiple_format(donation_list, False, False, currency_symbol, int(donors_to_display))
+    donation_formatted_output: dict = {f'{prefix}Last{middle_text}NameAmnt': single_format(
+        donation_list[0], False, currency_symbol
+    ), f'{prefix}lastN{middle_text}NameAmts': multiple_format(donation_list, False, False, currency_symbol,
+                                                              int(donors_to_display))}
     if donation:
         donation_formatted_output[f'{prefix}lastN{middle_text}NameAmtsMessage'] = \
             multiple_format(donation_list, True, False, currency_symbol, int(donors_to_display))
@@ -414,11 +413,9 @@ def format_information_for_output(donation_list: list, currency_symbol: str, don
     return donation_formatted_output
 
 
-def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:  # pragma: no cover
+def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> None:    # pragma: no cover
     """Write out text and HTML files for badge data."""
-    prefix = ''
-    if team:
-        prefix = "team_"
+    prefix = "team_" if team else ''
     if badge_list:
         badge_text_output = {}
         badge_url_output = {}
@@ -433,7 +430,7 @@ def output_badge_data(badge_list: list[Badge], text_folder: str, team=False) -> 
 
 
 def read_in_total_raised(text_folder: str) -> str:
-    """This is a temporary hack until I resolve Github issue #162"""
+    """This is a temporary hack until I resolve GitHub issue #162"""
     try:
         with open(f'{text_folder}/totalRaised.txt', encoding='utf8') as total_raised:
             return total_raised.readline()
@@ -452,10 +449,8 @@ def write_text_files(dictionary: dict, text_folder: str):
     :param dictionary: The dictionary with items to output.
     :param text_folder: The directory to write the text files.
     """
-    try:
+    with contextlib.suppress(FileExistsError):
         os.makedirs(text_folder)
-    except FileExistsError:
-        pass
     for filename, text in dictionary.items():
         with open(f'{text_folder}/{filename}.txt', 'w', encoding='utf8') as file:
             file.write(text)
@@ -468,10 +463,8 @@ def write_html_files(data: str, filename: str, text_folder: str):
     :param filename: The filename for the HTML file.
     :param text_folder: The directory to write the HTML files to.
     """
-    try:
+    with contextlib.suppress(FileExistsError):
         os.mkdir(text_folder)
-    except FileExistsError:
-        pass
-    html_to_write = "<HTML><body>" + data + "</body></HTML>"
+    html_to_write = f"<HTML><body>{data}</body></HTML>"
     with open(f'{text_folder}/{filename}.html', 'w', encoding='utf8') as html_file:
         html_file.write(html_to_write)
