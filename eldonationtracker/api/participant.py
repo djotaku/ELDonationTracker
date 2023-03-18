@@ -108,7 +108,13 @@ class Participant(donor_drive_participant.Participant):
                 for milestone in self.milestones
                 if milestone.is_complete
             }
+            latest_milestone_output = "No Milestones reached yet"
+            # this should end up with the highest milestone that is completed being output to the file.
+            for milestone in self.milestones:
+                if milestone.is_complete:
+                    latest_milestone_output = f"{milestone.fundraising_goal}: Achievement Unlocked: {milestone.description}"
             self.write_text_files(milestone_output)
+            self.write_text_files({"latest_milestone": latest_milestone_output})
 
     def output_incentive_data(self) -> None:  # pragma: no cover
         """Write out the incentive data to a text file."""
