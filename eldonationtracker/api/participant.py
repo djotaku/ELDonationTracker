@@ -108,7 +108,13 @@ class Participant(donor_drive_participant.Participant):
                 for milestone in self.milestones
                 if milestone.is_complete
             }
+            latest_milestone_output = "No Milestones reached yet"
+            # this should end up with the highest milestone that is completed being output to the file.
+            for milestone in self.milestones:
+                if milestone.is_complete:
+                    latest_milestone_output = f"{milestone.fundraising_goal}: Achievement Unlocked: {milestone.description}"
             self.write_text_files(milestone_output)
+            self.write_text_files({"latest_milestone": latest_milestone_output})
 
     def output_incentive_data(self) -> None:  # pragma: no cover
         """Write out the incentive data to a text file."""
@@ -155,7 +161,7 @@ class Participant(donor_drive_participant.Participant):
         self.output_activities()
         # Below is protection against a situation where the API is unavailable.
         # Prevents bad data being written to the participant output. Based on the assumption that it would
-        # absurd to have a goal of $0.
+        # be absurd to have a goal of $0.
         if self.goal != 0:
             self.output_participant_data()
             if self._first_run or self.number_of_donations > number_of_donations:  # type ignore
