@@ -3,9 +3,10 @@
 
 import logging
 import pathlib
+import os
 
 from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QColor, QFont
+from PyQt5.QtGui import QColor, QFont, QMovie
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
 from PyQt5.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
@@ -69,10 +70,16 @@ class MyForm(QDialog):
         self.timer.timeout.connect(self._load_and_unload)
         self.timer.start()
 
+    def image_is_gif(self):
+        return os.path.splitext(self.tracker_image)[1] == '.gif'
+
     def _load_image(self):
         self.tracker_image = self.participant_conf.get_tracker_image()
-        self.pixmap.load(self.tracker_image)
-        self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
+        if self.image_is_gif():
+            self.item = QMovie(self.tracker_image)
+        else:
+            self.pixmap.load(self.tracker_image)
+            self.item = QGraphicsPixmapItem(self.pixmap.scaledToHeight(131))
 
     def _load_sound(self):
         sound_to_play = self.participant_conf.get_tracker_sound()
@@ -110,7 +117,11 @@ class MyForm(QDialog):
             self._load_and_unload_helper()
 
     def _load_elements(self):
-        self.scene.addItem(self.item)
+        if not self.image_is_gif():
+            self.scene.addItem(self.item)
+        else:
+            self.ui.GIF_label.setMovie(self.item)
+            self.item.start()
         try:
             donor_and_amt = pathlib.Path(f'{self.folders}/LastDonationNameAmnt.txt').read_text()
 
@@ -119,7 +130,11 @@ class MyForm(QDialog):
             self.ui.Donation_label.setText("TEST 1...2...3...")
 
     def _unload_elements(self):
-        self.scene.removeItem(self.item)
+        if not self.image_is_gif():
+            self.scene.removeItem(self.item)
+        else:
+            self.item.stop()
+            self.ui.GIF_label.clear()
         self.ui.Donation_label.setText("")
         self.participant.new_donation = False
 
