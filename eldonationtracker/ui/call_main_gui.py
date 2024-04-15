@@ -6,8 +6,8 @@ import logging
 import sys
 import webbrowser
 
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import (QApplication, QInputDialog, QMainWindow,
+from PyQt6 import QtCore
+from PyQt6.QtWidgets import (QApplication, QInputDialog, QMainWindow,
                              QMessageBox)
 
 import eldonationtracker.api.participant as participant
@@ -136,7 +136,7 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
     @staticmethod
     def read_files(folders, files):
         try:
-            with open(f'{folders}/{files}', 'r', encoding='utf8') as f:
+            with open(f'{folders}/{files}', encoding='utf8') as f:
                 text = f.read()
             return text
         except FileNotFoundError:

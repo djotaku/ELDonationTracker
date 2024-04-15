@@ -4,10 +4,10 @@
 import logging
 import pathlib
 
-from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QColor, QFont
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
-from PyQt5.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
+from PyQt6.QtCore import QUrl
+from PyQt6.QtGui import QColor, QFont
+from PyQt6.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
+from PyQt6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.tracker import *

@@ -1,3 +1,11 @@
+# v8.0.0
+## Release Notes
+### User-Facing Changes
+- Changed to PyQt6
+
+### Developer-Facing or API Changes
+- Changed to PyQT6
+
 # v7.2.0
 ## Release Notes
 ### User-Facing Changes
