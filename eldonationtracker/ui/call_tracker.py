@@ -77,7 +77,7 @@ class MyForm(QDialog):
     def _load_sound(self):
         sound_to_play = self.participant_conf.get_tracker_sound()
         self.donation_sound = QUrl.fromLocalFile(sound_to_play)
-        self.donation_player.setMedia(self.donation_sound)
+        self.donation_player.setSource(self.donation_sound)
 
     def _load_and_unload_helper(self):
         """Used both by the test code and the actual load and unload code."""

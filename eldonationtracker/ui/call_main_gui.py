@@ -158,12 +158,12 @@ class ELDonationGUI(QMainWindow, design.Ui_MainWindow):
         self.TotalNumDonations.setPlainText(self.read_files(self.folders, 'numDonations.txt'))
         self.Goal.setPlainText(self.read_files(self.folders, 'goal.txt'))
         self.AvgDonation.setPlainText(self.read_files(self.folders, 'averageDonation.txt'))
-        try:
-            avatar_url = QtCore.QUrl.fromLocalFile(f'{self.folders}/Participant_Avatar.html')
-
-            self.participant_avatar.setUrl(avatar_url)
-        except FileNotFoundError:
-            GUI_log.warning("[bold blue] Participant Avatar not found. After running you should have it.[/bold blue]")
+        # try:
+        #     avatar_url = QtCore.QUrl.fromLocalFile(f'{self.folders}/Participant_Avatar.html')
+        #
+        #     self.participant_avatar.setUrl(avatar_url)
+        # except FileNotFoundError:
+        #     GUI_log.warning("[bold blue] Participant Avatar not found. After running you should have it.[/bold blue]")
 
         # Team Info
         if self.participant_conf.get_if_in_team():
@@ -214,7 +214,7 @@ def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
     form = ELDonationGUI()  # We set the form to be our ELDonationGUI (design)
     form.show()  # Show the form
-    app.exec_()  # and execute the app
+    app.exec()  # and execute the app
 
 
 if __name__ == '__main__':  # if we're running file directly and not importing it

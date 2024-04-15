@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>789</width>
-    <height>749</height>
+    <height>778</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,63 +52,13 @@
       <property name="verticalSpacing">
        <number>6</number>
       </property>
-      <item row="3" column="1">
-       <widget class="QLabel" name="label_avg_donations">
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_total_num_donations">
         <property name="text">
-         <string>Average Donation</string>
+         <string>Total # of Donations</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QTextBrowser" name="TotalRaised">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_totalraised">
-        <property name="text">
-         <string>Total Raised</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QWebEngineView" name="participant_avatar">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="url">
-         <url>
-          <string>about:blank</string>
-         </url>
-        </property>
-        <property name="zoomFactor">
-         <double>0.630000000000000</double>
         </property>
        </widget>
       </item>
@@ -131,30 +81,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="label_total_num_donations">
-        <property name="text">
-         <string>Total # of Donations</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_goal">
-        <property name="text">
-         <string>Goal</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QTextBrowser" name="TotalNumDonations">
+      <item row="4" column="0">
+       <widget class="QTextBrowser" name="TotalRaised">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -167,6 +97,16 @@
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="label_avg_donations">
+        <property name="text">
+         <string>Average Donation</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -213,6 +153,45 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_goal">
+        <property name="text">
+         <string>Goal</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_totalraised">
+        <property name="text">
+         <string>Total Raised</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QTextBrowser" name="TotalNumDonations">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -551,7 +530,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>© 2015-2022 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
+     <string>© 2015-2024 Eric Mesa; Licensed GPLv3; http://extralife.ericmesa.com</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -621,12 +600,12 @@
      <x>0</x>
      <y>0</y>
      <width>789</width>
-     <height>30</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Fi&amp;le</string>
     </property>
     <addaction name="actionShow_Logs"/>
     <addaction name="actionQuit"/>
@@ -644,12 +623,12 @@
   </widget>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
   <action name="actionDocumentation">
    <property name="text">
-    <string>Documentation</string>
+    <string>&amp;Documentation</string>
    </property>
    <property name="toolTip">
     <string>Open Documentation in your default browser</string>
@@ -657,7 +636,7 @@
   </action>
   <action name="actionCheck_for_Update">
    <property name="text">
-    <string>Check for Update</string>
+    <string>&amp;Check for Update</string>
    </property>
    <property name="toolTip">
     <string>Checks for Updates</string>
@@ -665,22 +644,15 @@
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About ELDonationTracker</string>
+    <string>&amp;About ELDonationTracker</string>
    </property>
   </action>
   <action name="actionShow_Logs">
    <property name="text">
-    <string>Show Logs</string>
+    <string>&amp;Show Logs</string>
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
