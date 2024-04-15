@@ -6,7 +6,7 @@ import pathlib
 
 from PyQt6.QtCore import QUrl
 from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
+from PyQt6.QtMultimedia import QMediaPlayer  # type: ignore
 from PyQt6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
@@ -76,7 +76,7 @@ class MyForm(QDialog):
 
     def _load_sound(self):
         sound_to_play = self.participant_conf.get_tracker_sound()
-        self.donation_sound = QMediaContent(QUrl.fromLocalFile(sound_to_play))
+        self.donation_sound = QUrl.fromLocalFile(sound_to_play)
         self.donation_player.setMedia(self.donation_sound)
 
     def _load_and_unload_helper(self):
