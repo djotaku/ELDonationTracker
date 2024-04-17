@@ -64,7 +64,6 @@ class MyForm(QDialog):
         self.donation_player = QMediaPlayer()
         self.audioOutput = QAudioOutput()
         self.donation_player.setAudioOutput(self.audioOutput)
-        #self.donation_player.positionChanged.connect(self.positionChanged)
         self._load_sound()
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
