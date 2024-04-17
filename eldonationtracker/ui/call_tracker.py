@@ -6,7 +6,7 @@ import pathlib
 
 from PyQt6.QtCore import QUrl
 from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtMultimedia import QMediaPlayer  # type: ignore
+from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer  # type: ignore
 from PyQt6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
@@ -60,7 +60,11 @@ class MyForm(QDialog):
         self.pixmap = QtGui.QPixmap()
         self._load_image()
         self.ui.graphicsView.setScene(self.scene)
+        # audio
         self.donation_player = QMediaPlayer()
+        self.audioOutput = QAudioOutput()
+        self.donation_player.setAudioOutput(self.audioOutput)
+        #self.donation_player.positionChanged.connect(self.positionChanged)
         self._load_sound()
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
