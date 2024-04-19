@@ -63,7 +63,9 @@ class MyForm(QDialog):
         # audio
         self.donation_player = QMediaPlayer()
         self.audioOutput = QAudioOutput()
+        print()
         self.donation_player.setAudioOutput(self.audioOutput)
+        self.audioOutput.setVolume(50)
         self._load_sound()
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
