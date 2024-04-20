@@ -17,11 +17,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Set PATH
-      run: |
-        echo "D:\a\ELDonationTracker\ELDonationTracker\ffmpeg" >> $GITHUB_PATH
     - name: Build Single Executable with Pyinstaller
       run: |
+        echo "D:\a\ELDonationTracker\ELDonationTracker\ffmpeg" >> $GITHUB_PATH
+        echo $GITHUB_PATH
         pip install pyinstaller
         pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
