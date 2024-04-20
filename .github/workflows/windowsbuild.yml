@@ -19,7 +19,7 @@ jobs:
         pip install -r requirements.txt
     - name: Set PATH
       run: |
-        echo "D:\a\ELDonationTracker\ELDonationTracker\ffmpeg" >> $GITHUB_PATH
+        echo "D:\\a\\ELDonationTracker\\ELDonationTracker\\ffmpeg" >> $GITHUB_PATH
     - name: Build Single Executable with Pyinstaller
       run: |
         echo "$GITHUB_PATH"
