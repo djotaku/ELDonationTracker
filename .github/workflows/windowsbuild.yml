@@ -23,6 +23,7 @@ jobs:
     - name: Build Single Executable with Pyinstaller
       run: |
         echo "$GITHUB_PATH"
+        cp ffmpeg/avutil-58.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
         pip install pyinstaller
         pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
