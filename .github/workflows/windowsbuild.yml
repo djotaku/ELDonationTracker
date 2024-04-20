@@ -20,7 +20,7 @@ jobs:
     - name: Build Single Executable with Pyinstaller
       run: |
         pip install pyinstaller
-        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." --add-data="ffmpeg/ffmpeg.exe;." eldonationtracker/gui.py
+        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." -p="ffmpeg/" eldonationtracker/gui.py
     - name: Upload artifact
       uses: actions/upload-artifact@v4.0.0
       with:
