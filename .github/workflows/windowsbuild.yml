@@ -24,6 +24,7 @@ jobs:
         cp ffmpeg/swresample-4.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
         cp ffmpeg/swscale-7.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
         cp ffmpeg/avformat-60.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
+        cp ffmpeg/libsoxr.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
         pip install pyinstaller
         pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
