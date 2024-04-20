@@ -4,10 +4,10 @@
 import logging
 import pathlib
 
-from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QColor, QFont
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer  # type: ignore
-from PyQt5.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
+from PyQt6.QtCore import QUrl
+from PyQt6.QtGui import QColor, QFont
+from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer  # type: ignore
+from PyQt6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.tracker import *
@@ -60,7 +60,12 @@ class MyForm(QDialog):
         self.pixmap = QtGui.QPixmap()
         self._load_image()
         self.ui.graphicsView.setScene(self.scene)
+        # audio
         self.donation_player = QMediaPlayer()
+        self.audioOutput = QAudioOutput()
+        print()
+        self.donation_player.setAudioOutput(self.audioOutput)
+        self.audioOutput.setVolume(50)
         self._load_sound()
         # timer to update the main text
         self.timer = QtCore.QTimer(self)
@@ -76,8 +81,8 @@ class MyForm(QDialog):
 
     def _load_sound(self):
         sound_to_play = self.participant_conf.get_tracker_sound()
-        self.donation_sound = QMediaContent(QUrl.fromLocalFile(sound_to_play))
-        self.donation_player.setMedia(self.donation_sound)
+        self.donation_sound = QUrl.fromLocalFile(sound_to_play)
+        self.donation_player.setSource(self.donation_sound)
 
     def _load_and_unload_helper(self):
         """Used both by the test code and the actual load and unload code."""

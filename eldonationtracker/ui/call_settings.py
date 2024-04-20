@@ -2,8 +2,8 @@
 
 import logging
 
-from PyQt5.QtGui import QColor, QFont
-from PyQt5.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
+from PyQt6.QtGui import QColor, QFont
+from PyQt6.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
                              QMessageBox)
 
 from eldonationtracker import base_api_url, file_logging

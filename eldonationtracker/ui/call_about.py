@@ -1,6 +1,6 @@
 """ Contains programming logic for the 'About' window in the GUI."""
 
-from PyQt5.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialog
 
 from eldonationtracker.ui.about import *
 

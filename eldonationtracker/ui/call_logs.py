@@ -2,7 +2,7 @@
 
 import logging
 
-from PyQt5.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialog
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.logs import *
@@ -35,7 +35,7 @@ class MyForm(QDialog):
 
     def update_log(self):
         try:
-            with open("eldonationtracker_log.txt", 'r') as file:
+            with open("eldonationtracker_log.txt") as file:
                 log = file.read()
                 self.ui.logs.setText(log)
         except FileNotFoundError:

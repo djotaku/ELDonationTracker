@@ -1,0 +1,10 @@
+donordrivepython==1.6.0
+mypy
+pre-commit
+pyinstaller
+PyQt6==6.6.1
+pytest
+requests
+rich
+semver
+xdgenvpy

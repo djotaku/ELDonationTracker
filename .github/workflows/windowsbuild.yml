@@ -8,21 +8,27 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.11.2
-      uses: actions/setup-python@v1
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.11.9
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.11.2
+        python-version: 3.11.9
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Build Single Executable with Pyinstaller
       run: |
+        cp ffmpeg/avutil-58.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
+        cp ffmpeg/avcodec-60.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
+        cp ffmpeg/swresample-4.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
+        cp ffmpeg/swscale-7.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
+        cp ffmpeg/avformat-60.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
+        cp ffmpeg/libsoxr.dll C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
         pip install pyinstaller
         pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4.0.0
       with:
         name: eldonationtracker for Windows
         path: dist/
