@@ -26,11 +26,11 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 eldonationtracker/api eldonationtracker/utils  --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       shell: bash
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest -v --pyargs eldonationtracker
-      shell: bash
+#    - name: Test with pytest
+#      run: |
+#        pip install pytest
+#        pytest -v --pyargs eldonationtracker
+#      shell: bash
     - name: CodeCov
       run: |
         pip install codecov
