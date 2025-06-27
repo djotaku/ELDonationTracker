@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools >= 77.0.3"]
+requires = ["setuptools >= 77.0.3", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,13 +8,12 @@ dynamic = ["version", "readme"]
 dependencies = [
     "xdgenvpy == 2.3.5",
     "pyqt6 == 6.6.1",
-    "semver == 3.0.2",
+    "semver == 3.0.4",
+    "donordrivepython == 1.6.0",
     "requests == 2.28.1",
-    "rich == 12.6.0",
-    "donordrivepython == 1.6.0"
+    "rich == 12.4.4",
+    "pyinstaller == 6.14.1"
 ]
-[project.optional-dependencies]
-dev = ["pytest", "setuptools", "mypy"]
 
 authors = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
 maintainers = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
@@ -31,11 +30,12 @@ classifiers = [
 
   # Indicate who your project is intended for
   "Intended Audience :: End Users/Desktop",
-  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-
   # Specify the Python versions you support here.
   "Programming Language :: Python :: 3",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest", "setuptools", "mypy", "pre-commit", "pip-tools"]
 
 [project.urls]
 Homepage = "https://djotaku.github.io/ELDonationTracker/"
@@ -50,12 +50,15 @@ eldonationtracker-cli = "eldonationtracker:cli"
 [project.gui-scripts]
 eldonationtracker-gui = "eldonationtracker:gui"
 
+[tool.setuptools]
+packages = ["eldonationtracker"]
+
 [tool.setuptools.dynamic]
 version = {attr = "eldonationtracker.__init__.__version__"}  # any module attribute compatible with ast.literal_eval
 readme = {file = ["pypi.rst",]}
 
 [tool.pip-tools]
-generate_hashes = true
+generate_hashes = false # if set to true doesn't work
 
 [tool.mypy]
 exclude = ["eldonationtracker/ui"]
