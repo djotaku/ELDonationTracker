@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools >= 77.0.3", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eldonationtracker"
+dynamic = ["version", "readme"]
+dependencies = [
+    "xdgenvpy == 2.3.5",
+    "pyqt6 == 6.6.1",
+    "semver == 3.0.4",
+    "donordrivepython == 1.6.0",
+    "requests == 2.28.1",
+    "rich == 12.4.4",
+    "pyinstaller == 6.14.1"
+]
+
+authors = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
+maintainers = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
+description = "A Python-based donation tracker for Extra Life streams"
+license = "GPL-3.0-or-later"
+keywords = ["extra life", "XSplit", "obs", "livestreaming", "video games"]
+
+classifiers = [
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status ::  5 - Production/Stable",
+
+  # Indicate who your project is intended for
+  "Intended Audience :: End Users/Desktop",
+  # Specify the Python versions you support here.
+  "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "setuptools", "mypy", "pre-commit", "pip-tools"]
+
+[project.urls]
+Homepage = "https://djotaku.github.io/ELDonationTracker/"
+Documentation = "https://eldonationtracker.readthedocs.io/en/latest/index.html"
+Repository = "https://github.com/djotaku/ELDonationTracker"
+Issues = "https://github.com/djotaku/ELDonationTracker/issues"
+
+
+[project.scripts]
+eldonationtracker-cli = "eldonationtracker:cli"
+
+[project.gui-scripts]
+eldonationtracker-gui = "eldonationtracker:gui"
+
+[tool.setuptools]
+packages = ["eldonationtracker"]
+
+[tool.setuptools.dynamic]
+version = {attr = "eldonationtracker.__init__.__version__"}  # any module attribute compatible with ast.literal_eval
+readme = {file = ["pypi.rst",]}
+
+[tool.pip-tools]
+generate_hashes = false # if set to true doesn't work
+
+[tool.mypy]
+exclude = ["eldonationtracker/ui"]
