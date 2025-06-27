@@ -13,6 +13,9 @@ dependencies = [
     "rich == 12.6.0",
     "donordrivepython == 1.6.0"
 ]
+[project.optional-dependencies]
+dev = ["pytest", "setuptools", "mypy"]
+
 authors = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
 maintainers = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
 description = "A Python-based donation tracker for Extra Life streams"
@@ -35,7 +38,7 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "http://djotaku.github.io/ELDonationTracker/"
+Homepage = "https://djotaku.github.io/ELDonationTracker/"
 Documentation = "https://eldonationtracker.readthedocs.io/en/latest/index.html"
 Repository = "https://github.com/djotaku/ELDonationTracker"
 Issues = "https://github.com/djotaku/ELDonationTracker/issues"
@@ -50,3 +53,9 @@ eldonationtracker-gui = "eldonationtracker:gui"
 [tool.setuptools.dynamic]
 version = {attr = "eldonationtracker.__init__.__version__"}  # any module attribute compatible with ast.literal_eval
 readme = {file = ["pypi.rst",]}
+
+[tool.pip-tools]
+generate_hashes = true
+
+[tool.mypy]
+exclude = ["eldonationtracker/ui"]
