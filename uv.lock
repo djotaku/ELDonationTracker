@@ -131,11 +131,6 @@ dev = [
     { name = "setuptools" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "pre-commit" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "donordrivepython", specifier = "==1.6.0" },
@@ -152,9 +147,6 @@ requires-dist = [
     { name = "xdgenvpy", specifier = "==2.3.5" },
 ]
 provides-extras = ["dev"]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pre-commit", specifier = ">=4.6.0" }]
 
 [[package]]
 name = "filelock"

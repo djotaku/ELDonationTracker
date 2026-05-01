@@ -5,7 +5,6 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "eldonationtracker"
 dynamic = ["version", "readme"]
-requires-python = ">=3.14"
 dependencies = [
     "xdgenvpy == 2.3.5",
     "pyqt6 == 6.6.1",
@@ -63,8 +62,3 @@ generate_hashes = false # if set to true doesn't work
 
 [tool.mypy]
 exclude = ["eldonationtracker/ui"]
-
-[dependency-groups]
-dev = [
-    "pre-commit>=4.6.0",
-]
