@@ -2,9 +2,9 @@
 
 import logging
 
-from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
-                             QMessageBox)
+from PySide6.QtGui import QColor, QFont
+from PySide6.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
+                                QMessageBox)
 
 from eldonationtracker import base_api_url, file_logging
 from eldonationtracker.ui.settings import *
@@ -42,7 +42,7 @@ class MyForm(QDialog):
             self.font.setFamily(self.font_family)
             self.font.setPointSize(self.font_size)
             self.font.setItalic(self.font_italic)
-            self.font.setWeight(self.font_bold)
+            self.font.setWeight(QFont.Weight(self.font_bold))
         if self.font_color_value:
             self.font_color = QColor()
             self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
@@ -117,7 +117,7 @@ class MyForm(QDialog):
             font_family = self.font.family()
             font_size = self.font.pointSize()
             font_italic: bool = self.font.italic()
-            font_bold: int = self.font.weight()
+            font_bold: int = int(self.font.weight())
         except AttributeError:
             font_family = None
             font_size = None
