@@ -18,15 +18,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Build Single Executable with Pyinstaller
+      shell: pwsh
       run: |
-        cp ffmpeg/avutil-58.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/avcodec-60.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/swresample-4.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/swscale-7.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/avformat-60.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/libsoxr.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        pip install pyinstaller
-        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
+        $qtBin = (python -c "import PySide6, os; print(os.path.join(os.path.dirname(PySide6.__file__), 'Qt6', 'bin'))").Trim()
+        Copy-Item -Path @(
+          'ffmpeg/avutil-58.dll',
+          'ffmpeg/avcodec-60.dll',
+          'ffmpeg/swresample-4.dll',
+          'ffmpeg/swscale-7.dll',
+          'ffmpeg/avformat-60.dll',
+          'ffmpeg/libsoxr.dll'
+        ) -Destination $qtBin -Force
+        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="icon.png;." eldonationtracker/gui.py
     - name: Upload artifact
       uses: actions/upload-artifact@v4.0.0
       with:
