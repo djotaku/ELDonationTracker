@@ -31,5 +31,5 @@ jobs:
       uses: actions/upload-artifact@v7.0.1
       with:
         name: eldonationtracker for Windows
-        path: build\gui.dist\eldonationtracker.exe
+        path: build\eldonationtracker.exe
         include-hidden-files: true
