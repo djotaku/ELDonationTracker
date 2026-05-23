@@ -8,9 +8,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v4
     - name: Set up Python 3.13.3
-      uses: actions/setup-python@v6.2.0
+      uses: actions/setup-python@v5
       with:
         python-version: 3.13.3
     - name: Install dependencies
@@ -22,13 +22,12 @@ jobs:
       with:
           nuitka-version: main
           script-name: eldonationtracker/gui.py
-          mode: onefile
+          mode: standalone
           output-file: eldonationtracker.exe
           windows-icon-from-ico: icon.ico
           enable-plugins: pyside6
-          # static-libpython: yes # may not need
     - name: Upload artifact
-      uses: actions/upload-artifact@v7.0.1
+      uses: actions/upload-artifact@v4.0.0
       with:
         name: eldonationtracker for Windows
         path: build\gui.dist\eldonationtracker.exe
