@@ -20,7 +20,7 @@ jobs:
         vcvarsall.bat
     - name: Build Single Executable with pyside6-deploy
       uses: Nuitka/Nuitka-Action@main
-        with:
+      with:
           nuitka-version: main
           script-name: eldonationtracker/gui.py
           mode: standalone
