@@ -17,7 +17,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pyside6
+        vcvarsall.bat
     - name: Build Single Executable with pyside6-deploy
       shell: pwsh
       run: |
