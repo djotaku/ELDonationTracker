@@ -28,7 +28,7 @@ jobs:
           enable-plugins: pyside6
           # static-libpython: yes # may not need
     - name: Upload artifact
-      uses: actions/upload-artifact@v
+      uses: actions/upload-artifact@v7.0.1
       with:
         name: eldonationtracker for Windows
         path: build\gui.dist\eldonationtracker.exe
