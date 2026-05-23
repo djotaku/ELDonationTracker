@@ -26,8 +26,9 @@ jobs:
           output-file: eldonationtracker.exe
           windows-icon-from-ico: icon.ico
           enable-plugins: pyside6
+          # static-libpython: yes # may not need
     - name: Upload artifact
-      uses: actions/upload-artifact@v7.1.0
+      uses: actions/upload-artifact@v
       with:
         name: eldonationtracker for Windows
         path: build\gui.dist\eldonationtracker.exe
