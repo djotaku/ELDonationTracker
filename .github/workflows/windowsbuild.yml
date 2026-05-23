@@ -18,10 +18,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pyside6
-    - name: Build Single Executable with Pyinstaller
+    - name: Build Single Executable with pyside6-deploy
       shell: pwsh
       run: |
-        pyside6-deploy --name "eldonationtracker" eldonationtracker/gui.py
+        pyside6-deploy -f --name "eldonationtracker" eldonationtracker/gui.py
     - name: Upload artifact
       uses: actions/upload-artifact@v4.0.0
       with:
