@@ -23,7 +23,6 @@ jobs:
           nuitka-version: main
           script-name: eldonationtracker/gui.py
           mode: standalone
-          onefile: true
           windows-icon-from-ico: icon.ico
           enable-plugins: pyside6
     - name: Upload artifact
