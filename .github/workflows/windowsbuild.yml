@@ -19,11 +19,17 @@ jobs:
         pip install -r requirements.txt
         vcvarsall.bat
     - name: Build Single Executable with pyside6-deploy
-      shell: pwsh
-      run: |
-        pyside6-deploy -f --name "eldonationtracker" eldonationtracker/gui.py
+      uses: Nuitka/Nuitka-Action@main
+        with:
+          nuitka-version: main
+          script-name: eldonationtracker/gui.py
+          mode: standalone
+          onefile: true
+          windows-icon-from-ico: icon.ico
+          enable-plugins: pyside6
     - name: Upload artifact
       uses: actions/upload-artifact@v4.0.0
       with:
         name: eldonationtracker for Windows
-        path: dist/
+        path: build/gui.exe
+        include-hidden-files: true
