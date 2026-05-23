@@ -23,11 +23,12 @@ jobs:
           nuitka-version: main
           script-name: eldonationtracker/gui.py
           mode: standalone
+          output-file: eldonationtracker.exe
           windows-icon-from-ico: icon.ico
           enable-plugins: pyside6
     - name: Upload artifact
       uses: actions/upload-artifact@v4.0.0
       with:
         name: eldonationtracker for Windows
-        path: build/gui.exe
+        path: build\gui.dist\eldonationtracker.exe
         include-hidden-files: true
