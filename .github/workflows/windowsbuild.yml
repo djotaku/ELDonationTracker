@@ -8,9 +8,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6.0.2
     - name: Set up Python 3.13.3
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6.2.0
       with:
         python-version: 3.13.3
     - name: Install dependencies
@@ -27,7 +27,7 @@ jobs:
           windows-icon-from-ico: icon.ico
           enable-plugins: pyside6
     - name: Upload artifact
-      uses: actions/upload-artifact@v4.0.0
+      uses: actions/upload-artifact@v7.1.0
       with:
         name: eldonationtracker for Windows
         path: build\gui.dist\eldonationtracker.exe
