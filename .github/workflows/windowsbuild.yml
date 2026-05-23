@@ -17,7 +17,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        vcvarsall.bat
     - name: Build Single Executable with pyside6-deploy
       uses: Nuitka/Nuitka-Action@main
       with:
