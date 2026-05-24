@@ -61,7 +61,7 @@ typing_extensions==4.3.0
 tzdata==2022.1
 tzlocal==4.2
 urllib3==1.26.9
-virtualenv==20.15.1
+virtualenv==20.36.1
 wcwidth==0.2.5
 xdgenvpy==2.3.5
 zipp==3.8.0
