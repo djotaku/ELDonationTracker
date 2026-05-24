@@ -4,10 +4,9 @@
 import logging
 import pathlib
 
-from PySide6.QtCore import QTimer, QUrl
-from PySide6.QtGui import QColor, QFont, QPixmap
+from PySide6.QtCore import QTimer
 from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.tracker import *
