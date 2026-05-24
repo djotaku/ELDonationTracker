@@ -4,10 +4,9 @@
 import logging
 import pathlib
 
-from PyQt6.QtCore import QUrl
-from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer  # type: ignore
-from PyQt6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
+from PySide6.QtCore import QTimer, QUrl
+from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.tracker import *
@@ -41,7 +40,7 @@ class MyForm(QDialog):
             self.font.setFamily(self.font_family)
             self.font.setPointSize(self.font_size)
             self.font.setItalic(self.font_italic)
-            self.font.setWeight(self.font_bold)
+            self.font.setWeight(QFont.Weight(self.font_bold))
             self.ui.Donation_label.setFont(self.font)
         if self.font_color_value:
             self.font_color = QColor()
@@ -57,18 +56,17 @@ class MyForm(QDialog):
                                                  self.tracker_background_color_value[3])
             self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
         self.scene = QGraphicsScene(self)
-        self.pixmap = QtGui.QPixmap()
+        self.pixmap = QPixmap()
         self._load_image()
         self.ui.graphicsView.setScene(self.scene)
         # audio
-        self.donation_player = QMediaPlayer()
-        self.audioOutput = QAudioOutput()
-        print()
-        self.donation_player.setAudioOutput(self.audioOutput)
-        self.audioOutput.setVolume(50)
+        self.donation_player = QMediaPlayer(self)
+        self.audio_output = QAudioOutput(self)
+        self.donation_player.setAudioOutput(self.audio_output)
+        self.audio_output.setVolume(0.5)
         self._load_sound()
         # timer to update the main text
-        self.timer = QtCore.QTimer(self)
+        self.timer = QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
         self.timer.timeout.connect(self._load_and_unload)
@@ -91,7 +89,7 @@ class MyForm(QDialog):
         self._load_elements()
         self._load_sound()
         self.donation_player.play()
-        unload_timer = QtCore.QTimer(self)
+        unload_timer = QTimer(self)
         unload_timer.setSingleShot(True)
         unload_timer.setInterval(5000)  # milliseconds
         unload_timer.timeout.connect(self._unload_elements)

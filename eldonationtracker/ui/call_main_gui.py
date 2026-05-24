@@ -6,9 +6,9 @@ import logging
 import sys
 import webbrowser
 
-from PyQt6 import QtCore
-from PyQt6.QtWidgets import (QApplication, QInputDialog, QMainWindow,
-                             QMessageBox)
+from PySide6 import QtCore
+from PySide6.QtWidgets import (QApplication, QInputDialog, QMainWindow,
+                               QMessageBox)
 
 import eldonationtracker.api.participant as participant
 import eldonationtracker.utils.update_available

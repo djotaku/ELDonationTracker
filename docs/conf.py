@@ -36,7 +36,13 @@ release = current_version
 # ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo']
 
-autodoc_mock_imports = ["PyQt5"]
+autodoc_mock_imports = [
+    "PySide6",
+    "PySide6.QtCore",
+    "PySide6.QtGui",
+    "PySide6.QtWidgets",
+    "PySide6.QtMultimedia",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

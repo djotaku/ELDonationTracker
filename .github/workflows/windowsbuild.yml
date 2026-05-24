@@ -8,27 +8,29 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6.0.2
     - name: Set up Python 3.13.3
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6.2.0
       with:
         python-version: 3.13.3
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Build Single Executable with Pyinstaller
-      run: |
-        cp ffmpeg/avutil-58.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/avcodec-60.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/swresample-4.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/swscale-7.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/avformat-60.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        cp ffmpeg/libsoxr.dll C:\\hostedtoolcache\\windows\\Python\\3.13.3\\x64\\Lib\\site-packages\\PyQt6\\Qt6\\bin
-        pip install pyinstaller
-        pyinstaller -F -p eldonationtracker -n "eldonationtracker" --icon=icon.ico --add-data="eldonationtracker/icon.png;." eldonationtracker/gui.py
+    - name: Build Single Executable with pyside6-deploy
+      uses: Nuitka/Nuitka-Action@main
+      with:
+          nuitka-version: main
+          script-name: eldonationtracker/gui.py
+          mode: onefile
+          output-file: eldonationtracker.exe
+          windows-icon-from-ico: icon.ico
+          enable-plugins: pyside6
+          include-qt-plugins: multimedia
+          # static-libpython: yes
     - name: Upload artifact
-      uses: actions/upload-artifact@v4.0.0
+      uses: actions/upload-artifact@v7.0.1
       with:
         name: eldonationtracker for Windows
-        path: dist/
+        path: build\eldonationtracker.exe
+        include-hidden-files: true

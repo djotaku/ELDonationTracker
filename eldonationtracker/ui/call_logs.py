@@ -2,7 +2,8 @@
 
 import logging
 
-from PyQt6.QtWidgets import QDialog
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QDialog
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.logs import *
@@ -25,7 +26,7 @@ class MyForm(QDialog):
         self.ui.logs.setText("Within 15 seconds will attempt to set with log content....")
 
         # timer to update the main log
-        self.timer = QtCore.QTimer(self)
+        self.timer = QTimer(self)
         self.timer.setSingleShot(False)
         self.timer.setInterval(15000)  # milliseconds
         self.timer.timeout.connect(self.update_log)
