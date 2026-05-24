@@ -6,7 +6,7 @@ import pathlib
 
 from PySide6.QtCore import QTimer, QUrl
 from PySide6.QtGui import QColor, QFont, QPixmap
-from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PySide6.QtMultimedia import QSoundEffect
 from PySide6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
@@ -61,11 +61,8 @@ class MyForm(QDialog):
         self._load_image()
         self.ui.graphicsView.setScene(self.scene)
         # audio
-        self.donation_player = QMediaPlayer()
-        self.audioOutput = QAudioOutput()
-        print()
-        self.donation_player.setAudioOutput(self.audioOutput)
-        self.audioOutput.setVolume(50)
+        self.donation_player = QSoundEffect(self)
+        self.donation_player.setVolume(0.5)
         self._load_sound()
         # timer to update the main text
         self.timer = QTimer(self)
