@@ -12,7 +12,7 @@ commonmark==0.9.1
     # via rich
 donordrivepython==1.6.0
     # via eldonationtracker
-idna==3.13
+idna==3.15
     # via requests
 macholib==1.16.4 ; sys_platform == 'darwin'
     # via pyinstaller
