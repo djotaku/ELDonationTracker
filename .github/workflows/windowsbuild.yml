@@ -17,7 +17,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Build Single Executable with pyside6-deploy
+    - name: Build Single Executable with nuitka action
       uses: Nuitka/Nuitka-Action@main
       with:
           nuitka-version: main
