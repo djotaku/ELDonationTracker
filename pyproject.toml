@@ -1,10 +1,6 @@
-[build-system]
-requires = ["setuptools >= 77.0.3", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "eldonationtracker"
-dynamic = ["version", "readme"]
+version= "9.0.0"
 requires-python = ">=3.14"
 dependencies = [
     "xdgenvpy >= 2.4.0",
@@ -27,7 +23,7 @@ classifiers = [
   #   3 - Alpha
   #   4 - Beta
   #   5 - Production/Stable
-  "Development Status ::  5 - Production/Stable",
+  "Development Status :: 5 - Production/Stable",
 
   # Indicate who your project is intended for
   "Intended Audience :: End Users/Desktop",
@@ -51,12 +47,9 @@ eldonationtracker-cli = "eldonationtracker:cli"
 [project.gui-scripts]
 eldonationtracker-gui = "eldonationtracker:gui"
 
-[tool.setuptools]
-packages = ["eldonationtracker"]
-
-[tool.setuptools.dynamic]
-version = {attr = "eldonationtracker.__init__.__version__"}  # any module attribute compatible with ast.literal_eval
-readme = {file = ["pypi.rst",]}
+[build-system]
+requires = ["uv_build>=0.11.16,<0.12"]
+build-backend = "uv_build"
 
 [tool.pip-tools]
 generate_hashes = false # if set to true doesn't work
