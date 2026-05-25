@@ -1,4 +1,4 @@
-name: Lint,PyTest, MyPy, and Coverage
+name: Lint,PyTest, and Coverage
 
 on: [push]
 
@@ -28,11 +28,9 @@ jobs:
       shell: bash
     - name: Test with pytest
       run: |
-        pip install pytest
-        pytest -v --pyargs eldonationtracker
+        uv run pytest -v --pyargs eldonationtracker
       shell: bash
     - name: CodeCov
       run: |
-        pip install codecov
-        coverage run -m pytest --pyargs eldonationtracker
+        uv run coverage run -m pytest --pyargs eldonationtracker
         codecov --token=${{ secrets.CODECOV_TOKEN }}
