@@ -31,4 +31,4 @@ jobs:
     - name: CodeCov
       run: |
         uv run coverage run -m pytest --pyargs eldonationtracker
-        codecov --token=${{ secrets.CODECOV_TOKEN }}
+        # codecov --token=${{ secrets.CODECOV_TOKEN }} <- turning off for now
