@@ -4,7 +4,7 @@
 # Import namespace updated to PySide6 for the binding migration; regenerate
 # from Designer with `pyside6-uic` if `about.ui` is added later.
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 
 class Ui_Dialog:

@@ -10,9 +10,7 @@ from donordrivepython.api.participant import \
 from donordrivepython.api.participant import \
     Milestone as Milestone  # type ignore
 from rich import print  # type ignore
-from rich.logging import RichHandler  # type ignore
 
-import eldonationtracker.utils.extralife_io
 from eldonationtracker import base_api_url, file_logging
 from eldonationtracker.api import team as team
 from eldonationtracker.utils import extralife_io as extralife_io

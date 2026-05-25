@@ -2,7 +2,6 @@
 
 from unittest import mock
 
-import donordrivepython.api.comms
 
 from eldonationtracker.api import team as team
 

@@ -7,7 +7,7 @@ import donordrivepython.api.comms
 
 import eldonationtracker.api.participant
 from eldonationtracker.api.badge import Badge
-from eldonationtracker.api.participant import Milestone, Participant
+from eldonationtracker.api.participant import Participant
 
 config = ("12345", "textfolder", "$", "45678", "5")
 fake_participant_conf = mock.Mock()
