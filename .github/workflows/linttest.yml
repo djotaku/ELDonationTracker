@@ -20,9 +20,9 @@ jobs:
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        uvx run ruff check src/eldonationtracker/api src/eldonationtracker/utils
+        uvx ruff check src/eldonationtracker/api src/eldonationtracker/utils
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        uvx run ruff check src/eldonationtracker/api src/eldonationtracker/utils
+        uvx ruff check src/eldonationtracker/api src/eldonationtracker/utils
       shell: bash
     - name: Test with pytest
       run: |
