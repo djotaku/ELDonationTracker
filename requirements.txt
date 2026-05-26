@@ -57,7 +57,7 @@ shiboken6==6.11.0
     #   pyside6
     #   pyside6-addons
     #   pyside6-essentials
-urllib3==1.26.20
+urllib3==2.7.0
     # via requests
 xdgenvpy==2.4.0
     # via
