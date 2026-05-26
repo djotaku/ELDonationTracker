@@ -1,6 +1,6 @@
-Latest release: [v8.0.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v8.0.0): 
-[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v8.0.0/eldonationtracker.8.0.0.exe) |
-Linux, see videos below for PyPi or git clone instructions. For Docker/Podman, see the release notes.
+Latest release: [v9.0.0](https://github.com/djotaku/ELDonationTracker/releases/tag/v9.0.0): 
+[Windows Download](https://github.com/djotaku/ELDonationTracker/releases/download/v9.0.0/eldonationtracker-9.0.0.exe) |
+ Linux, see videos below for PyPi or git clone instructions. For Docker/Podman, see the release notes.
 
 If you find this useful, please consider donating to my [Extra Life campaign](http://extralife.ericmesa.com) 
 
