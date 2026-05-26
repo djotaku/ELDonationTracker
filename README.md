@@ -9,7 +9,7 @@ Would you like to be able to update your donations in real-time during a Live St
 
 Read ahead to find out how!
 
-If you find this useful, please consider donating to my [Extra Life campagin](http://extralife.ericmesa.com)
+If you find this useful, please consider donating to my [Extra Life campagin](http://extralife.ericmesa.com) to raise money for the Johns Hopkins Children's Center.
 
 # How To for Users
 
@@ -27,7 +27,7 @@ The quickstart instructions are:
 - If you're on Linux:
   - You can use PyPi to install eldonationtracker
   - You can git clone this repo, install the requirements and go from there
-  - If you need the GUI you can use Docker or Podman with a command that looks like:
+  - If you don't need the GUI you can use Docker or Podman with a command that looks like: (check version as there may be a delay between newest version and creation of a container)
   ```bash
   docker run -it -v ./extralifedonationtracker:/root/.config/extralifedonationtracker -v ./testoutput:/root/output djotaku/eldonationtracker:latest
 
@@ -49,3 +49,9 @@ If anything goes wrong, please open a Bug Report under issues.
 If you want a new type of output data, fill out a Reequest for New Output Data issue
 
 If there's documentation missing, fill out the Missing Documentation issue
+
+# AI Usage
+
+In the 15 or so years (since at least 2019) I've been working on this code, I've written nearly all the code on my own. The only AI I've used was:
+
+- [recently](https://github.com/djotaku/ELDonationTracker/commit/1b95f17ae4ffa3e3ce2c65e8377be9706d8af897) to move the code from PyQT for the GUI to using Pyside6 - which was mostly about figuring out which function signatures had changed - the functionality was identical. 
