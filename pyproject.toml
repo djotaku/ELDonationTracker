@@ -9,7 +9,6 @@ dependencies = [
     "donordrivepython >= 1.6.0",
     "requests >= 2.28.1",
     "rich >= 12.6.0",
-    "pyinstaller >= 6.20.0",
 ]
 
 authors = [{name = "Eric Mesa", email ="eric@ericmesa.com"}]
