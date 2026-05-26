@@ -39,7 +39,7 @@ PyQt5-Qt5==5.15.2
 PyQt5-sip==12.11.0
 PyQtWebEngine==5.15.6
 PyQtWebEngine-Qt5==5.15.2
-pytest==7.1.2
+pytest==9.0.3
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0
