@@ -6,7 +6,8 @@ import pathlib
 
 from PySide6.QtCore import QTimer, QUrl
 from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
-from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene
+from PySide6.QtGui import QColor, QFont, QPixmap
+from PySide6.QtWidgets import QDialog, QGraphicsPixmapItem, QGraphicsScene
 
 from eldonationtracker import file_logging
 from eldonationtracker.ui.tracker import *
@@ -134,6 +135,34 @@ class MyForm(QDialog):
 
     def set_background_color(self, color):
         self.ui.graphicsView.setBackgroundBrush(color)
+
+    def reload_settings(self):
+        """Reload the settings for the tracker."""
+        self.folders = self.participant_conf.get_text_folder_only()
+        (self.font_family, self.font_size, self.font_italic, self.font_bold,
+         self.font_color_value) = self.participant_conf.get_font_info()
+        if self.font_family:
+            self.font = QFont()
+            self.font.setFamily(self.font_family)
+            self.font.setPointSize(self.font_size)
+            self.font.setItalic(self.font_italic)
+            self.font.setWeight(QFont.Weight(self.font_bold))
+            self.ui.Donation_label.setFont(self.font)
+        if self.font_color_value:
+            self.font_color = QColor()
+            self.font_color.setRgb(self.font_color_value[0], self.font_color_value[1], self.font_color_value[2],
+                                   self.font_color_value[3])
+            self.ui.Donation_label.setTextColor(self.font_color)
+        self.tracker_background_color_value = self.participant_conf.get_tracker_background_color()
+        if self.tracker_background_color_value:
+            self.tracker_background_color = QColor()
+            self.tracker_background_color.setRgb(self.tracker_background_color_value[0],
+                                                 self.tracker_background_color_value[1],
+                                                 self.tracker_background_color_value[2],
+                                                 self.tracker_background_color_value[3])
+            self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
+        self._load_image()
+        self._load_sound()
 
 
 def main(participant_conf):

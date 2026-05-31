@@ -44,6 +44,10 @@ class Participant(donor_drive_participant.Participant):
 
     def set_config_values(self) -> None:
         """Set participant values, create URLs, and create Team."""
+        (self._extralife_id, self._text_folder,
+         self._currency_symbol, self._team_id,
+         self._donors_to_display) = self.config.get_cli_values()
+        self._donor_drive_id = self._extralife_id
         # urls
         self._participant_url = f"{self._base_api_url}/participants/{self.donor_drive_id}"
         self._donation_url = f"{self.participant_url}/donations"
