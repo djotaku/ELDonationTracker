@@ -48,7 +48,7 @@ rich==12.6.0
     #   eldonationtracker
 semver==3.0.4
     # via eldonationtracker
-setuptools==82.0.1
+setuptools==83.0.0
     # via
     #   pyinstaller
     #   pyinstaller-hooks-contrib
