@@ -6,7 +6,7 @@ import json
 import logging
 import os
 import pathlib
-from typing import Any, Tuple
+from typing import Any
 
 import requests
 import xdgenvpy  # type: ignore
@@ -251,7 +251,7 @@ class ParticipantConf:
         self.participantconf = self.load_json()
         self.update_fields()
 
-    def get_cli_values(self) -> Tuple[Any, Any, Any, Any, Any]:
+    def get_cli_values(self) -> tuple[Any, Any, Any, Any, Any]:
         """Return data required for a CLI-only run.
 
         :returns: A tuple of strings with config values needed if only\
@@ -267,7 +267,7 @@ class ParticipantConf:
         :returns: A string with the text folder location."""
         return self.fields["text_folder"]
 
-    def get_gui_values(self) -> Tuple[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]:
+    def get_gui_values(self) -> tuple[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]:
         """Return values needed for the GUI.
 
         :returns: A tuple of strings with config values needed if only\

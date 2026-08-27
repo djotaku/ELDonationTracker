@@ -3,17 +3,12 @@
 import logging
 import time
 
-from donordrivepython.api import \
-    participant as donor_drive_participant  # type ignore
-from donordrivepython.api.participant import \
-    Incentive as Incentive  # type ignore
-from donordrivepython.api.participant import \
-    Milestone as Milestone  # type ignore
+from donordrivepython.api import participant as donor_drive_participant  # type ignore
 from rich import print  # type ignore
 
 from eldonationtracker import base_api_url, file_logging
-from eldonationtracker.api import team as team
-from eldonationtracker.utils import extralife_io as extralife_io
+from eldonationtracker.api import team
+from eldonationtracker.utils import extralife_io
 
 # logging
 participant_log = logging.getLogger("Participant")
