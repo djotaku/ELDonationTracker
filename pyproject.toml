@@ -56,6 +56,9 @@ generate_hashes = false # if set to true doesn't work
 [tool.mypy]
 exclude = ["eldonationtracker/ui"]
 
+[tool.ruff.lint]
+ignore = ["RUF012"]
+
 [dependency-groups]
 dev = [
     "pre-commit>=4.6.0",
