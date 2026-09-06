@@ -161,6 +161,7 @@ class MyForm(QDialog):
                                                  self.tracker_background_color_value[2],
                                                  self.tracker_background_color_value[3])
             self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
+        self.participant._first_run = True # if redo Donor Drive - will want a getter/setter for this
         self._load_image()
         self._load_sound()
 
