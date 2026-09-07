@@ -20,4 +20,4 @@ jobs:
       run: uv sync --all-extras --dev
     - name: Build and publish
       run: |
-        uv build
+        uv build && uv publish
