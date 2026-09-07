@@ -54,4 +54,5 @@ If there's documentation missing, fill out the Missing Documentation issue
 
 In the 11 or so years (since at least 2015) I've been working on this code, I've written nearly all the code on my own. The only AI I've used was:
 
-- [recently](https://github.com/djotaku/ELDonationTracker/commit/1b95f17ae4ffa3e3ce2c65e8377be9706d8af897) to move the code from PyQT for the GUI to using Pyside6 - which was mostly about figuring out which function signatures had changed - the functionality was identical. 
+- [recently](https://github.com/djotaku/ELDonationTracker/commit/1b95f17ae4ffa3e3ce2c65e8377be9706d8af897) to move the code from PyQT for the GUI to using Pyside6 - which was mostly about figuring out which function signatures had changed - the functionality was identical.
+- [Part of the 9.1.0 release](https://github.com/djotaku/ELDonationTracker/releases/tag/v9.1.0) to find a bug I was having trouble finding on my own. I still did quite a bit of heavy lifting on those changes. 
