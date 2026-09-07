@@ -1,6 +1,6 @@
 [project]
 name = "eldonationtracker"
-version= "9.0.0"
+version= "9.1.0"
 requires-python = ">=3.14"
 dependencies = [
     "xdgenvpy >= 2.4.0",
@@ -55,6 +55,9 @@ generate_hashes = false # if set to true doesn't work
 
 [tool.mypy]
 exclude = ["eldonationtracker/ui"]
+
+[tool.ruff.lint]
+ignore = ["RUF012"]
 
 [dependency-groups]
 dev = [

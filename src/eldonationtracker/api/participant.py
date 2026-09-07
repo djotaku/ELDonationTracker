@@ -3,17 +3,12 @@
 import logging
 import time
 
-from donordrivepython.api import \
-    participant as donor_drive_participant  # type ignore
-from donordrivepython.api.participant import \
-    Incentive as Incentive  # type ignore
-from donordrivepython.api.participant import \
-    Milestone as Milestone  # type ignore
+from donordrivepython.api import participant as donor_drive_participant  # type ignore
 from rich import print  # type ignore
 
 from eldonationtracker import base_api_url, file_logging
-from eldonationtracker.api import team as team
-from eldonationtracker.utils import extralife_io as extralife_io
+from eldonationtracker.api import team
+from eldonationtracker.utils import extralife_io
 
 # logging
 participant_log = logging.getLogger("Participant")
@@ -44,6 +39,10 @@ class Participant(donor_drive_participant.Participant):
 
     def set_config_values(self) -> None:
         """Set participant values, create URLs, and create Team."""
+        (self._extralife_id, self._text_folder,
+         self._currency_symbol, self._team_id,
+         self._donors_to_display) = self.config.get_cli_values()
+        self._donor_drive_id = self._extralife_id
         # urls
         self._participant_url = f"{self._base_api_url}/participants/{self.donor_drive_id}"
         self._donation_url = f"{self.participant_url}/donations"
@@ -70,7 +69,7 @@ class Participant(donor_drive_participant.Participant):
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
-        If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
+        If there have been donations, format the data (eg horizontally, vertically, etc.) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
         if len(self._donation_list) > 0:

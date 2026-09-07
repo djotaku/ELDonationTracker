@@ -5,7 +5,7 @@ from donordrivepython.api.team import Team as DonorDriveTeam
 
 import eldonationtracker.utils.extralife_io
 from eldonationtracker import file_logging
-from eldonationtracker.utils import extralife_io as extralife_io
+from eldonationtracker.utils import extralife_io
 
 # logging
 team_log = logging.getLogger("Team:")
@@ -37,7 +37,6 @@ class Team(DonorDriveTeam):
 
     def team_run(self) -> None:
         """A public method to update and output team and team participant info."""
-        logging.debug("I am in team_run")
         number_of_donations = self.num_donations
         self.team_api_info()
         if self.num_donations > number_of_donations:

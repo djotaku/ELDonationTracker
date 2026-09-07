@@ -2,7 +2,8 @@
 
 import logging
 
-from PySide6.QtWidgets import (QColorDialog, QFileDialog, QFontDialog,
+from PySide6.QtGui import QColor, QFont
+from PySide6.QtWidgets import (QColorDialog, QDialog, QFileDialog, QFontDialog,
                                 QMessageBox)
 
 from eldonationtracker import base_api_url, file_logging
@@ -148,6 +149,8 @@ class MyForm(QDialog):
         """Use xdg_config, saves a persistent config to the XDG spot."""
         config = self._elements_to_save()
         self.participant_conf.write_config(config, False)
+        self.tracker.participant.set_config_values()
+        self.tracker.reload_settings()
 
     def _select_folder(self):
         directory = QFileDialog.getExistingDirectory(self, "Get Folder")

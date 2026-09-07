@@ -6,7 +6,7 @@ import json
 import logging
 import os
 import pathlib
-from typing import Any, Tuple
+from typing import Any
 
 import requests
 import xdgenvpy  # type: ignore
@@ -193,7 +193,8 @@ class ParticipantConf:
         url = 'https://github.com/djotaku/ELDonationTracker/raw/master/participant.conf'
         try:
             config_file = requests.get(url)
-            open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb").write(config_file.content)
+            with open(f"{self.xdg.XDG_CONFIG_HOME}/participant.conf", "wb") as file:
+                file.write(config_file.content)
         except requests.exceptions.HTTPError:
             el_io_log.error("[bold magenta] Could not find participant.conf on Github. [/bold magenta]"
                             "[bold magenta]Please manually create or download from Github.[/bold magenta]")
@@ -209,10 +210,12 @@ class ParticipantConf:
         try:
             file = requests.get(url)
             if asset == "image":
-                open(f"{self.xdg.XDG_DATA_HOME}/{asset}.png", "wb").write(file.content)
+                with open(f"{self.xdg.XDG_DATA_HOME}/{asset}.png", "wb") as asset_content:
+                    asset_content.write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.png"
             elif asset == "sound":
-                open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb").write(file.content)
+                with open(f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3", "wb") as sound_file:
+                    sound_file.write(file.content)
                 return f"{self.xdg.XDG_DATA_HOME}/{asset}.mp3"
             el_io_log.info("[bold blue]file written.[/bold blue]")
         except requests.exceptions.HTTPError:
@@ -251,7 +254,7 @@ class ParticipantConf:
         self.participantconf = self.load_json()
         self.update_fields()
 
-    def get_cli_values(self) -> Tuple[Any, Any, Any, Any, Any]:
+    def get_cli_values(self) -> tuple[Any, Any, Any, Any, Any]:
         """Return data required for a CLI-only run.
 
         :returns: A tuple of strings with config values needed if only\
@@ -267,7 +270,7 @@ class ParticipantConf:
         :returns: A string with the text folder location."""
         return self.fields["text_folder"]
 
-    def get_gui_values(self) -> Tuple[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]:
+    def get_gui_values(self) -> tuple[Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any, Any]:
         """Return values needed for the GUI.
 
         :returns: A tuple of strings with config values needed if only\

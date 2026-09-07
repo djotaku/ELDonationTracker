@@ -8,20 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6.0.2
+    - uses: actions/checkout@v7.0.1
     - name: Set up Python with UV
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v7.0.0
       with:
             python-version-file: "pyproject.toml"
     - name: Install uv
       uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
     - name: Install the project
       run: uv sync --all-extras --dev
-    - name: Lint with flake8
+    - name: Lint with ruff
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        uvx ruff check src/eldonationtracker/api src/eldonationtracker/utils
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         uvx ruff check src/eldonationtracker/api src/eldonationtracker/utils
       shell: bash
     - name: Test with pytest
