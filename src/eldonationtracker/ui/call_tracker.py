@@ -161,7 +161,13 @@ class MyForm(QDialog):
                                                  self.tracker_background_color_value[2],
                                                  self.tracker_background_color_value[3])
             self.ui.graphicsView.setBackgroundBrush(self.tracker_background_color)
-        self.participant._first_run = True # if redo Donor Drive - will want a getter/setter for this
+        #### These are a hack. There should be a method in the Donor Drive library to handle this
+        self.participant._first_run = True
+        self.participant._donor_list = []
+        self.participant._ordered_donor_list = []
+        self.participant._donation_list = []
+        self.participant._ordered_donation_list = []
+        #### End of hack
         self._load_image()
         self._load_sound()
 

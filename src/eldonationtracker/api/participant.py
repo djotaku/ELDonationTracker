@@ -69,7 +69,7 @@ class Participant(donor_drive_participant.Participant):
     def output_donation_data(self) -> None:
         """Write out text files for donation data.
 
-        If there have been donations, format the data (eg horizontally, vertically, etc) and output to text files.
+        If there have been donations, format the data (eg horizontally, vertically, etc.) and output to text files.
         If there have not yet been donations, write default data to the files.
         """
         if len(self._donation_list) > 0:
