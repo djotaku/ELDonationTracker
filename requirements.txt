@@ -4,7 +4,7 @@ altgraph==0.17.5
     # via
     #   macholib
     #   pyinstaller
-certifi==2026.4.22
+certifi==2026.10.19
     # via requests
 charset-normalizer==2.1.1
     # via requests
