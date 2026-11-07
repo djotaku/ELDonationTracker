@@ -1,8 +1,8 @@
 import logging
 
-__version__ = "9.1.0"
+__version__ = "9.2.0"
 
-base_api_url: str = "https://www.extra-life.org/api"
+base_api_url: str = "https://dd.extra-life.org/api"
 api_version_suffix: str = "?version=1.2"
 file_logging = logging.FileHandler('eldonationtracker_log.txt', 'w')
 file_logging.setLevel(logging.DEBUG)
